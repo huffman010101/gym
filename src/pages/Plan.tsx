@@ -161,6 +161,13 @@ export default function Plan() {
 
   if (!quiz) return null;
 
+  const macroItems = macros ? [
+    { name: 'Calories', val: macros.calories, unit: 'kcal', tc: 'text-orange-400', bg: 'bg-orange-500/10' },
+    { name: 'Protein',  val: macros.protein,  unit: 'g',    tc: 'text-blue-400',   bg: 'bg-blue-500/10'  },
+    { name: 'Carbs',    val: macros.carbs,    unit: 'g',    tc: 'text-green-400',  bg: 'bg-green-500/10' },
+    { name: 'Fat',      val: macros.fat,      unit: 'g',    tc: 'text-yellow-400', bg: 'bg-yellow-500/10'},
+  ] : [];
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white pb-32">
       <div className="sticky top-0 z-40 flex items-center justify-between px-6 py-4 border-b border-white/5 bg-[#0a0a0a]/90 backdrop-blur-sm">
@@ -179,12 +186,7 @@ export default function Plan() {
           <section>
             <h2 className="text-xl font-black mb-4">Daily Targets</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {([
-                ['Calories', macros.calories, 'kcal', 'text-orange-400', 'bg-orange-500/10'],
-                ['Protein',  macros.protein,  'g',    'text-blue-400',   'bg-blue-500/10'  ],
-                ['Carbs',    macros.carbs,    'g',    'text-green-400',  'bg-green-500/10' ],
-                ['Fat',      macros.fat,      'g',    'text-yellow-400', 'bg-yellow-500/10'],
-              ] as [string, number, string, string, string][]).map(([name, val, unit, tc, bg]) => (
+              {macroItems.map(({ name, val, unit, tc, bg }) => (
                 <div key={name} className={`${bg} rounded-2xl p-4 border border-white/5`}>
                   <p className={`text-3xl font-black ${tc}`}>{val}</p>
                   <p className="text-xs text-gray-600 mt-1">{unit} · {name}</p>
