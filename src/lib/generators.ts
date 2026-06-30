@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { getApiKey } from './anthropic';
-import type { WorkoutPlan, Meal, Macros } from './types';
+import type { WorkoutPlan, Meal, Macros, FoodAnalysis } from './types';
 
 export function makeClient(): Anthropic {
   const key = getApiKey();
@@ -148,4 +148,37 @@ If you changed the plan, include the full updated plan object in updatedPlan. Ot
   });
   const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
   return parse(text) as { message: string; updatedPlan: WorkoutPlan | null };
+}
+
+export async function analyzeFoodLog(
+  foodText: string,
+  targets: Macros
+): Promise<FoodAnalysis> {
+  const client = makeClient();
+  const msg = await client.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 2048,
+    messages: [{
+      role: 'user',
+      content: `Sports nutritionist. Analyse this food intake with precision.
+
+FOOD EATEN: "${foodText}"
+
+DAILY TARGETS: ${targets.calories} kcal | ${targets.protein}g protein | ${targets.carbs}g carbs | ${targets.fat}g fat
+
+Break every food item down individually with accurate macro estimates. Then calculate totals, state exactly what's missing vs targets, and give 2-3 specific tips to hit remaining targets today.
+
+Return ONLY valid JSON, no markdown:
+{
+  "items": [
+    { "name": "Chicken breast", "quantity": "200g grilled", "calories": 330, "protein": 62, "carbs": 0, "fat": 7 }
+  ],
+  "totals": { "calories": 330, "protein": 62, "carbs": 0, "fat": 7 },
+  "missing": ["78g protein still needed — add whey shake + cottage cheese", "450 kcal short — rice or oats would fill this cleanly"],
+  "tips": ["40g whey in 350ml whole milk = ~60g protein, 380 kcal", "250g cooked basmati rice adds 215 kcal with minimal fat"]
+}`,
+    }],
+  });
+  const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
+  return parse(text) as FoodAnalysis;
 }
