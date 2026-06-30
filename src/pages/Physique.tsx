@@ -47,6 +47,8 @@ async function compressImage(file: File): Promise<string> {
   });
 }
 
+type MetricKey = 'weight' | 'waist' | 'shoulders' | 'arms';
+
 export default function Physique() {
   const [tab, setTab] = useState<Tab>('metrics');
 
@@ -104,6 +106,11 @@ export default function Physique() {
   const prev = sortedMetrics[1];
   const vtaper = latest ? (latest.shoulders / latest.waist).toFixed(2) : null;
   const prevVtaper = prev ? (prev.shoulders / prev.waist).toFixed(2) : null;
+
+  // Lookup map so we avoid unsafe index casts
+  const prevNumMap: Record<MetricKey, number> | null = prev
+    ? { weight: prev.weight, waist: prev.waist, shoulders: prev.shoulders, arms: prev.arms }
+    : null;
 
   // --- PHOTOS ---
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -181,6 +188,13 @@ export default function Physique() {
     </button>
   );
 
+  const METRIC_ROWS: { label: string; key: MetricKey; unit: string; color: string }[] = [
+    { label: 'Weight', key: 'weight', unit: 'kg', color: 'text-white' },
+    { label: 'Waist', key: 'waist', unit: 'cm', color: 'text-red-400' },
+    { label: 'Shoulders', key: 'shoulders', unit: 'cm', color: 'text-blue-400' },
+    { label: 'Arms', key: 'arms', unit: 'cm', color: 'text-orange-400' },
+  ];
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white pb-24">
       <div className="px-4 pt-12 pb-4 bg-gradient-to-b from-purple-950/30 to-transparent">
@@ -209,27 +223,23 @@ export default function Physique() {
         {/* ===== METRICS TAB ===== */}
         {tab === 'metrics' && (
           <>
-            {/* V-taper summary */}
             {latest && (
               <div className="bg-[#111] rounded-2xl border border-white/10 p-4">
                 <h2 className="font-bold text-base mb-3">Current Measurements</h2>
                 <div className="grid grid-cols-2 gap-3 mb-3">
-                  {[
-                    { label: 'Weight', val: latest.weight, unit: 'kg', color: 'text-white' },
-                    { label: 'Waist', val: latest.waist, unit: 'cm', color: 'text-red-400' },
-                    { label: 'Shoulders', val: latest.shoulders, unit: 'cm', color: 'text-blue-400' },
-                    { label: 'Arms', val: latest.arms, unit: 'cm', color: 'text-orange-400' },
-                  ].map(({ label, val, unit, color }) => {
-                    const prevVal = prev ? (prev as Record<string, number>)[label.toLowerCase()] : null;
+                  {METRIC_ROWS.map(({ label, key, unit, color }) => {
+                    const val = latest[key];
+                    const prevVal = prevNumMap ? prevNumMap[key] : null;
                     const diff = prevVal !== null ? val - prevVal : null;
+                    const isWaist = key === 'waist';
                     return (
-                      <div key={label} className="bg-white/5 rounded-xl p-3">
+                      <div key={key} className="bg-white/5 rounded-xl p-3">
                         <p className="text-gray-500 text-xs">{label}</p>
                         <p className={`text-xl font-black ${color}`}>{val}<span className="text-xs text-gray-500 ml-0.5">{unit}</span></p>
                         {diff !== null && diff !== 0 && (
                           <p className={`text-xs flex items-center gap-0.5 mt-0.5 ${
-                            label === 'Waist' ? (diff < 0 ? 'text-green-400' : 'text-red-400')
-                            : label === 'Weight' ? (diff < 0 ? 'text-blue-400' : 'text-orange-400')
+                            isWaist ? (diff < 0 ? 'text-green-400' : 'text-red-400')
+                            : key === 'weight' ? (diff < 0 ? 'text-blue-400' : 'text-orange-400')
                             : 'text-green-400'
                           }`}>
                             {diff > 0 ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
@@ -250,7 +260,7 @@ export default function Physique() {
                     {prevVtaper && (
                       <div className="text-right">
                         <p className={`text-sm font-bold flex items-center gap-1 justify-end ${
-                          parseFloat(vtaper) > parseFloat(prevVtaper) ? 'text-green-400' : 'text-red-400'
+                          parseFloat(vtaper) > parseFloat(prevVtaper) ? 'text-green-400' : parseFloat(vtaper) < parseFloat(prevVtaper) ? 'text-red-400' : 'text-gray-400'
                         }`}>
                           {parseFloat(vtaper) > parseFloat(prevVtaper)
                             ? <TrendingUp size={14} /> : parseFloat(vtaper) < parseFloat(prevVtaper)
@@ -282,7 +292,7 @@ export default function Physique() {
                     { key: 'waist', label: 'Waist', unit: 'cm', placeholder: '82' },
                     { key: 'shoulders', label: 'Shoulders', unit: 'cm', placeholder: '120' },
                     { key: 'arms', label: 'Arms', unit: 'cm', placeholder: '36' },
-                  ] as const).map(({ key, label, unit, placeholder }) => (
+                  ] as { key: keyof typeof metricForm; label: string; unit: string; placeholder: string }[]).map(({ key, label, unit, placeholder }) => (
                     <div key={key}>
                       <label className="text-xs text-gray-400 mb-1 block">{label} ({unit})</label>
                       <input type="number" step="0.1" placeholder={placeholder}
@@ -361,7 +371,6 @@ export default function Physique() {
               {uploadError && <p className="text-red-400 text-xs mt-2">{uploadError}</p>}
             </div>
 
-            {/* Side-by-side comparison */}
             {photos.length >= 2 && (
               <div className="bg-[#111] rounded-2xl border border-white/10 p-4">
                 <h2 className="font-bold text-base mb-3">Side-by-Side Comparison</h2>
@@ -398,7 +407,6 @@ export default function Physique() {
               </div>
             )}
 
-            {/* Gallery */}
             {photos.length > 0 && (
               <div>
                 <h3 className="font-semibold text-gray-400 text-sm px-1 mb-2">Gallery</h3>
@@ -427,7 +435,6 @@ export default function Physique() {
         {/* ===== SKINCARE TAB ===== */}
         {tab === 'skincare' && (
           <>
-            {/* Last used summary */}
             <div className="bg-[#111] rounded-2xl border border-white/10 p-4">
               <h2 className="font-bold text-base mb-3">Active Status</h2>
               <div className="space-y-2">
@@ -492,7 +499,6 @@ export default function Physique() {
               </div>
             )}
 
-            {/* Skincare history — last 14 nights */}
             {sortedSkin.length > 0 && (
               <div>
                 <h3 className="font-semibold text-gray-400 text-sm px-1 mb-2">Last 14 Nights</h3>
