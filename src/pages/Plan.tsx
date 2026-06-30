@@ -11,7 +11,12 @@ const GOAL_LABEL: Record<string, string> = {
 };
 
 function Chip({ label, val, unit = '', cls }: { label: string; val: number; unit?: string; cls: string }) {
-  return <span className="text-xs"><span className={`font-bold ${cls}`}>{val}</span><span className="text-gray-600"> {unit}{unit ? ' ' : ''}{label}</span></span>;
+  return (
+    <span className="text-xs">
+      <span className={`font-bold ${cls}`}>{val}</span>
+      <span className="text-gray-600"> {unit}{unit ? ' ' : ''}{label}</span>
+    </span>
+  );
 }
 
 function PlanLoader({ msg }: { msg: string }) {
@@ -39,7 +44,13 @@ function DayView({ day, expEx, setExpEx }: { day: WorkoutDay; expEx: number | nu
       {day.warmup?.length > 0 && (
         <div className="px-5 py-3 border-b border-white/5" style={{ background: 'rgba(255,255,255,0.02)' }}>
           <p className="text-xs text-gray-600 uppercase tracking-wide font-medium mb-2">Warmup</p>
-          <ul className="space-y-1">{day.warmup.map((w, i) => <li key={i} className="text-sm text-gray-400 flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-orange-500/50 inline-block" />{w}</li>)}</ul>
+          <ul className="space-y-1">
+            {day.warmup.map((w, i) => (
+              <li key={i} className="text-sm text-gray-400 flex items-center gap-2">
+                <span className="w-1 h-1 rounded-full bg-orange-500/50 inline-block" />{w}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
       <div className="divide-y divide-white/5">
@@ -52,7 +63,7 @@ function DayView({ day, expEx, setExpEx }: { day: WorkoutDay; expEx: number | nu
               </div>
               <div className="flex items-center gap-3 flex-shrink-0">
                 <div className="text-right">
-                  <p className="text-sm font-bold text-orange-400">{ex.sets} × {ex.reps}</p>
+                  <p className="text-sm font-bold text-orange-400">{ex.sets} &times; {ex.reps}</p>
                   <p className="text-xs text-gray-600">{ex.rest} rest</p>
                 </div>
                 {ex.notes && (expEx === ei ? <ChevronUp size={14} className="text-gray-500" /> : <ChevronDown size={14} className="text-gray-500" />)}
@@ -67,7 +78,13 @@ function DayView({ day, expEx, setExpEx }: { day: WorkoutDay; expEx: number | nu
       {day.cooldown?.length > 0 && (
         <div className="px-5 py-3 border-t border-white/5" style={{ background: 'rgba(255,255,255,0.02)' }}>
           <p className="text-xs text-gray-600 uppercase tracking-wide font-medium mb-2">Cooldown</p>
-          <ul className="space-y-1">{day.cooldown.map((c, i) => <li key={i} className="text-sm text-gray-400 flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-blue-500/50 inline-block" />{c}</li>)}</ul>
+          <ul className="space-y-1">
+            {day.cooldown.map((c, i) => (
+              <li key={i} className="text-sm text-gray-400 flex items-center gap-2">
+                <span className="w-1 h-1 rounded-full bg-blue-500/50 inline-block" />{c}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
@@ -154,12 +171,19 @@ export default function Plan() {
   const doVoice = async (cmd: string) => {
     if (!quiz) return;
     setProcVoice(true);
-    try { const d = await runVoiceCommand(cmd, workout, quiz); setVoiceResp(d.message || ''); if (d.updatedPlan) setWorkout(d.updatedPlan); }
+    try {
+      const d = await runVoiceCommand(cmd, workout, quiz);
+      setVoiceResp(d.message || '');
+      if (d.updatedPlan) setWorkout(d.updatedPlan);
+    }
     catch { setVoiceResp('Could not process. Please try again.'); }
     finally { setProcVoice(false); }
   };
 
   if (!quiz) return null;
+
+  // Cast typed values up front to avoid TS2322 unknown-in-JSX errors
+  const primaryGoal = quiz.primaryGoal as string | undefined;
 
   const macroItems = macros ? [
     { name: 'Calories', val: macros.calories, unit: 'kcal', tc: 'text-orange-400', bg: 'bg-orange-500/10' },
@@ -171,9 +195,16 @@ export default function Plan() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white pb-32">
       <div className="sticky top-0 z-40 flex items-center justify-between px-6 py-4 border-b border-white/5 bg-[#0a0a0a]/90 backdrop-blur-sm">
-        <div className="flex items-center gap-2"><Dumbbell className="text-orange-500" size={22} /><span className="font-black">GymForge</span></div>
+        <div className="flex items-center gap-2">
+          <Dumbbell className="text-orange-500" size={22} />
+          <span className="font-black">GymForge</span>
+        </div>
         <div className="flex items-center gap-3">
-          {quiz.primaryGoal && <span className="text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full">{GOAL_LABEL[quiz.primaryGoal as string]}</span>}
+          {primaryGoal && (
+            <span className="text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full">
+              {GOAL_LABEL[primaryGoal] ?? primaryGoal}
+            </span>
+          )}
           <button onClick={() => nav('/quiz')} className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-white transition-all">
             <RotateCcw size={12} /> New quiz
           </button>
@@ -189,7 +220,7 @@ export default function Plan() {
               {macroItems.map(({ name, val, unit, tc, bg }) => (
                 <div key={name} className={`${bg} rounded-2xl p-4 border border-white/5`}>
                   <p className={`text-3xl font-black ${tc}`}>{val}</p>
-                  <p className="text-xs text-gray-600 mt-1">{unit} · {name}</p>
+                  <p className="text-xs text-gray-600 mt-1">{unit} &middot; {name}</p>
                 </div>
               ))}
             </div>
@@ -199,13 +230,13 @@ export default function Plan() {
         <section>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-black">Workout Plan</h2>
-            <button onClick={() => quiz && fetchWorkout(quiz)} disabled={loadW}
+            <button onClick={() => fetchWorkout(quiz)} disabled={loadW}
               className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-white disabled:opacity-40 transition-all">
               <RefreshCw size={12} className={loadW ? 'animate-spin' : ''} /> Regenerate
             </button>
           </div>
           {loadW && <PlanLoader msg="Building your personalised program…" />}
-          {!loadW && errW && <ErrBox msg={errW} retry={() => quiz && fetchWorkout(quiz)} />}
+          {!loadW && errW && <ErrBox msg={errW} retry={() => fetchWorkout(quiz)} />}
           {!loadW && !errW && workout && (
             <div>
               <div className="bg-[#111] border border-white/5 rounded-2xl p-5 mb-4">
@@ -235,14 +266,14 @@ export default function Plan() {
         <section>
           <div className="flex items-center justify-between mb-1">
             <h2 className="text-xl font-black">Meal Plan</h2>
-            <button onClick={() => quiz && macros && fetchMeals(quiz, macros)} disabled={loadM}
+            <button onClick={() => macros && fetchMeals(quiz, macros)} disabled={loadM}
               className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-white disabled:opacity-40 transition-all">
               <RefreshCw size={12} className={loadM ? 'animate-spin' : ''} /> Refresh
             </button>
           </div>
-          <p className="text-sm text-gray-600 mb-5">Tap <X size={10} className="inline mx-0.5" /> on a meal to swap it for an alternative</p>
+          <p className="text-sm text-gray-600 mb-5">Tap the <X size={10} className="inline mx-0.5" /> on a meal to swap it for an alternative</p>
           {loadM && <PlanLoader msg="Crafting your meal rotation…" />}
-          {!loadM && errM && <ErrBox msg={errM} retry={() => quiz && macros && fetchMeals(quiz, macros)} />}
+          {!loadM && errM && <ErrBox msg={errM} retry={() => macros && fetchMeals(quiz, macros)} />}
           {!loadM && !errM && (
             <div className="space-y-4">
               {meals.map((meal, mi) => (
@@ -263,13 +294,13 @@ export default function Plan() {
                         </div>
                       </div>
                       <button onClick={() => setAltsFor(altsFor === mi ? null : mi)}
-                        className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center bg-white/5 hover:bg-red-500/20 hover:text-red-400 transition-all mt-1" title="Swap">
+                        className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center bg-white/5 hover:bg-red-500/20 hover:text-red-400 transition-all mt-1" title="Swap meal">
                         <X size={15} />
                       </button>
                     </div>
                     <button onClick={() => setExpMeal(expMeal === mi ? null : mi)}
                       className="w-full flex items-center justify-between px-5 py-3 border-t border-white/5 text-sm text-gray-500 hover:text-gray-300 transition-all">
-                      <span>Ingredients & Instructions</span>
+                      <span>Ingredients &amp; Instructions</span>
                       {expMeal === mi ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                     </button>
                     {expMeal === mi && (
@@ -314,7 +345,7 @@ export default function Plan() {
                       ) : (
                         <div className="px-5 py-6 text-center">
                           <p className="text-gray-500 text-sm mb-3">No more alternatives saved.</p>
-                          <button onClick={() => { setAltsFor(null); quiz && macros && fetchMeals(quiz, macros); }}
+                          <button onClick={() => { setAltsFor(null); macros && fetchMeals(quiz, macros); }}
                             className="text-orange-400 hover:text-orange-300 text-sm transition-all">Refresh all meals</button>
                         </div>
                       )}
@@ -327,13 +358,22 @@ export default function Plan() {
         </section>
       </div>
 
-      {/* Voice */}
       <div className="fixed bottom-6 right-5 flex flex-col items-end gap-3 z-50">
         {(transcript || voiceResp || procVoice) && (
           <div className="bg-[#1c1c1c] border border-white/10 rounded-2xl p-4 w-72 shadow-2xl text-sm">
-            {transcript && <div className="mb-3"><p className="text-xs text-gray-600 mb-1">You said</p><p className="text-gray-300">&ldquo;{transcript}&rdquo;</p></div>}
-            {procVoice && <div className="flex items-center gap-2 text-gray-500"><Loader2 size={13} className="animate-spin" /> Processing…</div>}
-            {voiceResp && !procVoice && <div><p className="text-xs text-green-500 mb-1">Coach</p><p className="text-gray-300 leading-relaxed">{voiceResp}</p></div>}
+            {transcript && (
+              <div className="mb-3">
+                <p className="text-xs text-gray-600 mb-1">You said</p>
+                <p className="text-gray-300">&ldquo;{transcript}&rdquo;</p>
+              </div>
+            )}
+            {procVoice && <div className="flex items-center gap-2 text-gray-500"><Loader2 size={13} className="animate-spin" /> Processing&hellip;</div>}
+            {voiceResp && !procVoice && (
+              <div>
+                <p className="text-xs text-green-500 mb-1">Coach</p>
+                <p className="text-gray-300 leading-relaxed">{voiceResp}</p>
+              </div>
+            )}
           </div>
         )}
         <div className="flex flex-col items-center gap-1">
