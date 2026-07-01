@@ -218,3 +218,70 @@ Return ONLY valid JSON, no markdown:
   const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
   return parse(text) as FoodAnalysis;
 }
+
+export interface FaceAnalysisResult {
+  faceShape: string;
+  faceShapeReasoning: string;
+  haircuts: { name: string; why: string }[];
+  facialHair: { style: string; why: string }[];
+  eyebrows: string;
+  eyes: string;
+  lips: string;
+  skinObservations: string;
+  tips: string[];
+}
+
+export async function analyseFace(photoDataUrl: string): Promise<FaceAnalysisResult> {
+  const client = makeClient();
+  const base64 = photoDataUrl.split(',')[1];
+  const mediaType = photoDataUrl.startsWith('data:image/png') ? 'image/png' as const : 'image/jpeg' as const;
+
+  const msg = await client.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 1500,
+    messages: [{
+      role: 'user',
+      content: [
+        {
+          type: 'image',
+          source: { type: 'base64', media_type: mediaType, data: base64 },
+        },
+        {
+          type: 'text',
+          text: `You are an expert aesthetic consultant, master barber, and image analyst. Analyse this face photo in detail.
+
+Return ONLY valid JSON (no markdown fences):
+{
+  "faceShape": "oval|round|square|heart|diamond|oblong|triangle",
+  "faceShapeReasoning": "1-2 sentence explanation of what facial proportions led to this conclusion",
+  "haircuts": [
+    { "name": "Haircut name (e.g. Textured Crop)", "why": "Why this suits the face shape and features — be specific" },
+    { "name": "Second option", "why": "..." },
+    { "name": "Third option", "why": "..." }
+  ],
+  "facialHair": [
+    { "style": "Style name (e.g. Clean shaven / Short stubble / Goatee)", "why": "Why this suits the face shape" },
+    { "style": "Alternative", "why": "..." }
+  ],
+  "eyebrows": "Specific eyebrow shape recommendation (arch position, thickness, tail length) that would best frame this face",
+  "eyes": "Observations on the eye area and how to enhance them (lash density, contrast, reducing dark circles if visible, etc.)",
+  "lips": "Observations about lip proportions and any care/enhancement tips",
+  "skinObservations": "Brief, kind observations about skin clarity, tone, and suggestions",
+  "tips": [
+    "Specific actionable tip 1 — be concrete and personal to what you see",
+    "Specific actionable tip 2",
+    "Specific actionable tip 3",
+    "Specific actionable tip 4",
+    "Specific actionable tip 5"
+  ]
+}`,
+        },
+      ],
+    }],
+  });
+
+  const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
+  const clean = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+  const match = clean.match(/\{[\s\S]*\}/);
+  return JSON.parse(match ? match[0] : clean) as FaceAnalysisResult;
+}
