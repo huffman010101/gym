@@ -150,6 +150,42 @@ If you changed the plan, include the full updated plan object in updatedPlan. Ot
   return parse(text) as { message: string; updatedPlan: WorkoutPlan | null };
 }
 
+export async function reviewPhoto(
+  currentDataUrl: string,
+  previousDataUrl: string | null,
+  type: 'physique' | 'skin'
+): Promise<string> {
+  const client = makeClient();
+  const toBase64 = (url: string) => url.split(',')[1];
+  const toMediaType = (url: string): 'image/jpeg' | 'image/png' | 'image/webp' =>
+    url.startsWith('data:image/png') ? 'image/png' : url.startsWith('data:image/webp') ? 'image/webp' : 'image/jpeg';
+
+  type ContentBlock = Anthropic.ImageBlockParam | Anthropic.TextBlockParam;
+  const content: ContentBlock[] = [];
+
+  if (previousDataUrl) {
+    content.push({ type: 'text', text: 'PREVIOUS photo (before):' });
+    content.push({ type: 'image', source: { type: 'base64', media_type: toMediaType(previousDataUrl), data: toBase64(previousDataUrl) } });
+    content.push({ type: 'text', text: 'CURRENT photo (after / most recent):' });
+  } else {
+    content.push({ type: 'text', text: 'Analyse this single photo (no previous for comparison):' });
+  }
+  content.push({ type: 'image', source: { type: 'base64', media_type: toMediaType(currentDataUrl), data: toBase64(currentDataUrl) } });
+
+  const systemPrompt = type === 'physique'
+    ? `You are an elite physique coach. Analyse the physique photo(s) provided. If two photos are given, compare them and note specific changes in muscle definition, body composition, V-taper, shoulder width vs waist, arm size, and overall conditioning. Be specific and honest — mention both improvements and areas to focus on. Keep the tone motivating. Format as clear sections with headings.`
+    : `You are an expert dermatologist and aesthetician. Analyse the skin photo(s). If two photos are given, compare them and note changes in clarity, texture, pore appearance, pigmentation, brightness, and overall skin health. Flag any concerns. Be specific and practical. Format as clear sections with headings.`;
+
+  content.push({ type: 'text', text: systemPrompt });
+
+  const msg = await client.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 1024,
+    messages: [{ role: 'user', content }],
+  });
+  return msg.content[0].type === 'text' ? msg.content[0].text : 'Analysis unavailable.';
+}
+
 export async function analyzeFoodLog(
   foodText: string,
   targets: Macros

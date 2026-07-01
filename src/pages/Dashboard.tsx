@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
 import type { GymSession, CombatSession, FootballSession, ConditioningEntry, BodyMetric, SkinEntry, CalendarEvent, Macros } from '../lib/types';
 import { calcMacros } from '../lib/calculations';
-import { Dumbbell, Activity, Zap, Trophy, Plus, X, ChevronRight, Utensils, Flame } from 'lucide-react';
+import { Dumbbell, Activity, Zap, Trophy, Plus, X, ChevronRight, Utensils, Flame, Sparkles } from 'lucide-react';
 
 function load<T>(key: string): T[] {
   try { return JSON.parse(localStorage.getItem(key) || '[]') as T[]; }
@@ -364,6 +364,13 @@ export default function Dashboard() {
             <div>
               <p className="font-bold text-sm">View Plan</p>
               <p className="text-gray-500 text-xs">AI workout plan</p>
+            </div>
+          </Link>
+          <Link to="/looksmax" className="bg-[#111] border border-white/10 hover:border-purple-500/30 rounded-2xl p-4 flex items-center gap-3 transition-colors col-span-2">
+            <Sparkles size={22} className="text-purple-400" />
+            <div>
+              <p className="font-bold text-sm">Looksmax Hub</p>
+              <p className="text-gray-500 text-xs">Hair · Face · Grooming · Tracker</p>
             </div>
           </Link>
         </div>

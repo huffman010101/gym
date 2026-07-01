@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
 import type { BodyMetric, SkinEntry, ProgressPhoto } from '../lib/types';
-import { ArrowLeft, Plus, Trash2, Camera, TrendingUp, TrendingDown, Minus, Check, Upload, X } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, Camera, TrendingUp, TrendingDown, Minus, Check, Upload, X, Sparkles, Loader } from 'lucide-react';
+import { reviewPhoto } from '../lib/generators';
 
 type Tab = 'metrics' | 'photos' | 'skincare';
 
@@ -70,6 +71,14 @@ export default function Physique() {
   const [compareB, setCompareB] = useState('');
   const [uploadError, setUploadError] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
+
+  // AI Review
+  const [reviewCurrent, setReviewCurrent] = useState('');
+  const [reviewPrevious, setReviewPrevious] = useState('');
+  const [reviewType, setReviewType] = useState<'physique' | 'skin'>('physique');
+  const [reviewing, setReviewing] = useState(false);
+  const [reviewResult, setReviewResult] = useState('');
+  const [reviewError, setReviewError] = useState('');
 
   // Skincare
   const [skinEntries, setSkinEntries] = useState<SkinEntry[]>([]);
@@ -147,6 +156,28 @@ export default function Physique() {
 
   const photoA = photos.find(p => p.id === compareA);
   const photoB = photos.find(p => p.id === compareB);
+
+  const handleAiReview = async () => {
+    if (!reviewCurrent) return;
+    const currentPhoto = photos.find(p => p.id === reviewCurrent);
+    const previousPhoto = reviewPrevious ? photos.find(p => p.id === reviewPrevious) : null;
+    if (!currentPhoto) return;
+    setReviewing(true);
+    setReviewResult('');
+    setReviewError('');
+    try {
+      const result = await reviewPhoto(
+        currentPhoto.dataUrl,
+        previousPhoto ? previousPhoto.dataUrl : null,
+        reviewType
+      );
+      setReviewResult(result);
+    } catch (err) {
+      setReviewError(err instanceof Error ? err.message : 'Review failed. Check your API key and try again.');
+    } finally {
+      setReviewing(false);
+    }
+  };
 
   // --- SKINCARE ---
   const saveSkin = () => {
@@ -434,6 +465,91 @@ export default function Physique() {
 
             {photos.length === 0 && (
               <p className="text-center text-gray-600 text-sm py-4">No photos yet — upload your first progress photo above</p>
+            )}
+
+            {photos.length > 0 && (
+              <div className="bg-[#111] rounded-2xl border border-purple-500/20 p-4">
+                <h2 className="font-bold text-base mb-1 flex items-center gap-2">
+                  <Sparkles size={16} className="text-purple-400" /> AI Photo Review
+                </h2>
+                <p className="text-gray-500 text-xs mb-3">Select a photo for Claude to analyse. Optionally compare to an earlier photo.</p>
+
+                <div className="space-y-3">
+                  <div>
+                    <label className="text-xs text-gray-400 mb-1 block">Review type</label>
+                    <div className="flex gap-2">
+                      {(['physique', 'skin'] as const).map(t => (
+                        <button
+                          key={t}
+                          onClick={() => setReviewType(t)}
+                          className={`flex-1 py-2 rounded-xl border text-xs font-bold capitalize transition-all ${
+                            reviewType === t ? 'bg-purple-500/20 border-purple-500/50 text-purple-300' : 'bg-white/5 border-white/10 text-gray-500'
+                          }`}
+                        >
+                          {t}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-xs text-gray-400 mb-1 block">Current photo (required)</label>
+                    <select
+                      value={reviewCurrent}
+                      onChange={e => setReviewCurrent(e.target.value)}
+                      className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500/50"
+                    >
+                      <option value="">Select photo to review</option>
+                      {photos.map(p => <option key={p.id} value={p.id}>{fmtDate(p.date)} — {p.angle}</option>)}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-xs text-gray-400 mb-1 block">Compare to (optional — adds before/after analysis)</label>
+                    <select
+                      value={reviewPrevious}
+                      onChange={e => setReviewPrevious(e.target.value)}
+                      className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500/50"
+                    >
+                      <option value="">No comparison (single photo)</option>
+                      {photos.filter(p => p.id !== reviewCurrent).map(p => (
+                        <option key={p.id} value={p.id}>{fmtDate(p.date)} — {p.angle}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <button
+                    onClick={handleAiReview}
+                    disabled={!reviewCurrent || reviewing}
+                    className="w-full bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 disabled:opacity-40 disabled:cursor-not-allowed rounded-xl py-3 font-bold flex items-center justify-center gap-2 transition-all"
+                  >
+                    {reviewing ? (
+                      <>
+                        <Loader size={16} className="animate-spin" /> Analysing...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles size={16} /> Run AI Review
+                      </>
+                    )}
+                  </button>
+
+                  {reviewError && (
+                    <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-3">
+                      <p className="text-red-400 text-sm">{reviewError}</p>
+                    </div>
+                  )}
+
+                  {reviewResult && (
+                    <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                      <p className="text-xs text-gray-500 mb-2 flex items-center gap-1">
+                        <Sparkles size={11} /> Claude&apos;s Analysis
+                      </p>
+                      <div className="text-gray-200 text-sm leading-relaxed whitespace-pre-wrap">{reviewResult}</div>
+                    </div>
+                  )}
+                </div>
+              </div>
             )}
           </>
         )}
