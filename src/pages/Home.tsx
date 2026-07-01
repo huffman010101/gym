@@ -85,6 +85,15 @@ export default function Home() {
         <p className="text-gray-600 text-sm mt-4">Free · No account · Takes 2 minutes</p>
       </section>
 
+      {/* Feature tags */}
+      <div className="px-6 pb-8">
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide justify-center flex-wrap">
+          {['AI Workout Plans', 'Muay Thai & MMA', 'Looksmax Hub', 'Nutrition Tracking', 'Physique AI Review', 'Voice Coach'].map(tag => (
+            <span key={tag} className="flex-shrink-0 text-xs bg-white/5 border border-white/10 text-gray-400 px-3 py-1.5 rounded-full">{tag}</span>
+          ))}
+        </div>
+      </div>
+
       {/* Goals */}
       <section className="px-6 py-16 bg-[#0d0d0d]">
         <div className="max-w-4xl mx-auto">
