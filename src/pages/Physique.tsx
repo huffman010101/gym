@@ -22,6 +22,12 @@ function daysSince(dateStr: string): number {
   now.setHours(0, 0, 0, 0);
   return Math.floor((now.getTime() - then.getTime()) / (1000 * 60 * 60 * 24));
 }
+function fmtDate(dateStr: string): string {
+  const d = daysSince(dateStr);
+  if (d === 0) return 'Today';
+  if (d === 1) return 'Yesterday';
+  return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+}
 
 async function compressImage(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -323,7 +329,7 @@ export default function Physique() {
                   {sortedMetrics.slice(0, 8).map(m => (
                     <div key={m.id} className="bg-[#111] rounded-2xl border border-white/10 p-3 flex items-center justify-between">
                       <div>
-                        <p className="text-gray-500 text-xs mb-1">{m.date}</p>
+                        <p className="text-gray-500 text-xs mb-1">{fmtDate(m.date)}</p>
                         <p className="text-sm">
                           <span className="font-bold text-white">{m.weight}kg</span>
                           <span className="text-gray-500 mx-2">·</span>
@@ -380,7 +386,7 @@ export default function Physique() {
                     <select value={compareA} onChange={e => setCompareA(e.target.value)}
                       className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none">
                       <option value="">Select photo</option>
-                      {photos.map(p => <option key={p.id} value={p.id}>{p.date} — {p.angle}</option>)}
+                      {photos.map(p => <option key={p.id} value={p.id}>{fmtDate(p.date)} — {p.angle}</option>)}
                     </select>
                   </div>
                   <div>
@@ -388,7 +394,7 @@ export default function Physique() {
                     <select value={compareB} onChange={e => setCompareB(e.target.value)}
                       className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none">
                       <option value="">Select photo</option>
-                      {photos.map(p => <option key={p.id} value={p.id}>{p.date} — {p.angle}</option>)}
+                      {photos.map(p => <option key={p.id} value={p.id}>{fmtDate(p.date)} — {p.angle}</option>)}
                     </select>
                   </div>
                 </div>
@@ -396,11 +402,11 @@ export default function Physique() {
                   <div className="grid grid-cols-2 gap-2">
                     <div>
                       <img src={photoA.dataUrl} alt="before" className="w-full rounded-xl object-cover" />
-                      <p className="text-center text-xs text-gray-500 mt-1">{photoA.date} · {photoA.angle}</p>
+                      <p className="text-center text-xs text-gray-500 mt-1">{fmtDate(photoA.date)} · {photoA.angle}</p>
                     </div>
                     <div>
                       <img src={photoB.dataUrl} alt="after" className="w-full rounded-xl object-cover" />
-                      <p className="text-center text-xs text-gray-500 mt-1">{photoB.date} · {photoB.angle}</p>
+                      <p className="text-center text-xs text-gray-500 mt-1">{fmtDate(photoB.date)} · {photoB.angle}</p>
                     </div>
                   </div>
                 )}
@@ -419,7 +425,7 @@ export default function Physique() {
                         className="absolute top-1 right-1 bg-black/60 hover:bg-red-500/80 rounded p-1 text-white transition-colors">
                         <X size={10} />
                       </button>
-                      <p className="text-center text-gray-600 text-[10px] mt-0.5">{p.date}</p>
+                      <p className="text-center text-gray-600 text-[10px] mt-0.5">{fmtDate(p.date)}</p>
                     </div>
                   ))}
                 </div>
@@ -507,7 +513,7 @@ export default function Physique() {
                     <div key={e.id} className={`flex items-center justify-between px-4 py-2.5 ${
                       i < sortedSkin.slice(0, 14).length - 1 ? 'border-b border-white/5' : ''
                     }`}>
-                      <p className="text-gray-400 text-xs">{e.date}</p>
+                      <p className="text-gray-400 text-xs">{fmtDate(e.date)}</p>
                       <div className="flex items-center gap-2">
                         {e.retinol && <span className="text-[10px] bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded font-bold">RTN</span>}
                         {e.bha && <span className="text-[10px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded font-bold">BHA</span>}

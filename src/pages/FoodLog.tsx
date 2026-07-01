@@ -4,7 +4,7 @@ import BottomNav from '../components/BottomNav';
 import { analyzeFoodLog } from '../lib/generators';
 import { calcMacros } from '../lib/calculations';
 import type { FoodAnalysis, Macros } from '../lib/types';
-import { Zap, ArrowLeft, Loader2, ChevronDown, ChevronUp, AlertCircle, Check } from 'lucide-react';
+import { Zap, ArrowLeft, Loader2, ChevronDown, ChevronUp, ChevronRight, AlertCircle, Check } from 'lucide-react';
 
 function todayStr(): string {
   return new Date().toISOString().split('T')[0];
@@ -67,6 +67,15 @@ export default function FoodLog() {
       </div>
 
       <div className="px-4 space-y-4">
+        {!targets && (
+          <Link to="/quiz" className="flex items-center justify-between bg-orange-500/10 border border-orange-500/20 rounded-xl px-4 py-3 hover:bg-orange-500/15 transition-colors">
+            <div>
+              <p className="text-orange-300 font-semibold text-sm">No personalised targets yet</p>
+              <p className="text-orange-400/60 text-xs">Take the quiz to unlock your exact calorie & macro goals</p>
+            </div>
+            <ChevronRight size={16} className="text-orange-400 flex-shrink-0" />
+          </Link>
+        )}
         {targets && (
           <div className="flex gap-2 overflow-x-auto pb-1">
             {[

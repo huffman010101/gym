@@ -81,6 +81,15 @@ function load<T>(key: string): T[] {
 function save<T>(key: string, data: T[]): void {
   localStorage.setItem(key, JSON.stringify(data));
 }
+function fmtDate(dateStr: string): string {
+  const then = new Date(dateStr + 'T00:00:00');
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  const diff = Math.floor((now.getTime() - then.getTime()) / (1000 * 60 * 60 * 24));
+  if (diff === 0) return 'Today';
+  if (diff === 1) return 'Yesterday';
+  return then.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+}
 
 const TABS: { id: Tab; label: string; icon: typeof Dumbbell; color: string }[] = [
   { id: 'gym', label: 'Gym', icon: Dumbbell, color: 'text-orange-400' },
@@ -316,7 +325,7 @@ export default function TrainingLog() {
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
                             <span className={`text-xs px-2 py-0.5 rounded-full font-bold border ${splitColors[s.split]}`}>{s.split}</span>
-                            <span className="text-gray-500 text-xs">{s.date}</span>
+                            <span className="text-gray-500 text-xs">{fmtDate(s.date)}</span>
                           </div>
                           <button onClick={() => deleteGym(s.id)} className="text-gray-600 hover:text-red-400 transition-colors">
                             <Trash2 size={13} />
@@ -584,7 +593,7 @@ export default function TrainingLog() {
                 {condEntries.slice(0, 5).map(e => (
                   <div key={e.id} className="bg-[#111] rounded-2xl border border-white/10 p-4">
                     <div className="flex justify-between items-start">
-                      <p className="text-gray-500 text-xs">{e.date}</p>
+                      <p className="text-gray-500 text-xs">{fmtDate(e.date)}</p>
                       <button onClick={() => deleteCond(e.id)} className="text-gray-600 hover:text-red-400 transition-colors"><Trash2 size={13} /></button>
                     </div>
                     {e.sprintTimes && <p className="text-blue-400 font-bold mt-1">{e.sprintTimes}</p>}

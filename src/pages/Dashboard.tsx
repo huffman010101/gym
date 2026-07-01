@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
-import type { GymSession, CombatSession, FootballSession, ConditioningEntry, BodyMetric, SkinEntry, CalendarEvent } from '../lib/types';
-import { Dumbbell, Activity, Zap, Trophy, Plus, X, ChevronRight, Utensils } from 'lucide-react';
+import type { GymSession, CombatSession, FootballSession, ConditioningEntry, BodyMetric, SkinEntry, CalendarEvent, Macros } from '../lib/types';
+import { calcMacros } from '../lib/calculations';
+import { Dumbbell, Activity, Zap, Trophy, Plus, X, ChevronRight, Utensils, Flame } from 'lucide-react';
 
 function load<T>(key: string): T[] {
   try { return JSON.parse(localStorage.getItem(key) || '[]') as T[]; }
@@ -33,6 +34,16 @@ function greeting(): string {
   return 'Good evening';
 }
 
+function fmtDate(dateStr: string): string {
+  const then = new Date(dateStr + 'T00:00:00');
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  const diff = Math.floor((now.getTime() - then.getTime()) / (1000 * 60 * 60 * 24));
+  if (diff === 0) return 'Today';
+  if (diff === 1) return 'Yesterday';
+  return then.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+}
+
 const EVENT_COLORS: Record<CalendarEvent['type'], string> = {
   sparring: 'text-red-400 bg-red-500/10 border-red-500/20',
   match: 'text-orange-400 bg-orange-500/10 border-orange-500/20',
@@ -50,6 +61,8 @@ export default function Dashboard() {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [showAddEvent, setShowAddEvent] = useState(false);
   const [newEvent, setNewEvent] = useState({ date: '', title: '', type: 'sparring' as CalendarEvent['type'] });
+  const [todayFood, setTodayFood] = useState<{ calories: number; protein: number; carbs: number; fat: number } | null>(null);
+  const [macroTargets, setMacroTargets] = useState<Macros | null>(null);
 
   useEffect(() => {
     setGymSessions(load<GymSession>('gymforge_gym_sessions'));
@@ -59,6 +72,20 @@ export default function Dashboard() {
     setMetrics(load<BodyMetric>('gymforge_body_metrics'));
     setSkinEntries(load<SkinEntry>('gymforge_skin_entries'));
     setEvents(load<CalendarEvent>('gymforge_events'));
+
+    try {
+      const quizRaw = localStorage.getItem('gymforge_quiz');
+      if (quizRaw) setMacroTargets(calcMacros(JSON.parse(quizRaw) as Record<string, unknown>));
+    } catch {}
+
+    try {
+      const todayKey = `gymforge_food_${new Date().toISOString().split('T')[0]}`;
+      const raw = localStorage.getItem(todayKey);
+      if (raw) {
+        const parsed = JSON.parse(raw) as { savedAnalysis?: { totals: { calories: number; protein: number; carbs: number; fat: number } } };
+        if (parsed.savedAnalysis?.totals) setTodayFood(parsed.savedAnalysis.totals);
+      }
+    } catch {}
   }, []);
 
   const weekStart = startOfWeek();
@@ -167,6 +194,54 @@ export default function Dashboard() {
           </Link>
         </div>
 
+        {/* Today's food */}
+        <div className="bg-[#111] rounded-2xl border border-white/10 p-4">
+          <h2 className="font-bold text-base flex items-center gap-2 mb-3">
+            <Flame size={16} className="text-green-400" /> Today's Fuel
+          </h2>
+          {todayFood ? (
+            <>
+              <div className="flex items-end justify-between mb-3">
+                <div>
+                  <p className="text-4xl font-black">{todayFood.calories}<span className="text-base text-gray-400 ml-1">kcal</span></p>
+                  <p className="text-gray-500 text-xs mt-0.5">{todayFood.protein}g P · {todayFood.carbs}g C · {todayFood.fat}g F</p>
+                </div>
+                {macroTargets && (
+                  <div className="text-right text-sm">
+                    <span className={`font-bold ${todayFood.calories >= macroTargets.calories * 0.9 ? 'text-green-400' : 'text-orange-400'}`}>
+                      {Math.round((todayFood.calories / macroTargets.calories) * 100)}%
+                    </span>
+                    <p className="text-gray-500 text-xs">of {macroTargets.calories} kcal target</p>
+                  </div>
+                )}
+              </div>
+              {macroTargets && (
+                <div className="space-y-1.5 mb-3">
+                  {([
+                    { label: 'Protein', val: todayFood.protein, target: macroTargets.protein, color: 'bg-blue-500' },
+                    { label: 'Carbs',   val: todayFood.carbs,   target: macroTargets.carbs,   color: 'bg-green-500' },
+                    { label: 'Fat',     val: todayFood.fat,     target: macroTargets.fat,      color: 'bg-yellow-500' },
+                  ] as const).map(({ label, val, target, color }) => (
+                    <div key={label}>
+                      <div className="flex justify-between text-xs text-gray-500 mb-0.5">
+                        <span>{label}</span><span>{val}g / {target}g</span>
+                      </div>
+                      <div className="bg-white/10 rounded-full h-1.5">
+                        <div className={`${color} h-1.5 rounded-full transition-all`} style={{ width: `${Math.min(100, Math.round((val / target) * 100))}%` }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
+          ) : (
+            <p className="text-gray-500 text-sm mb-3">Nothing logged yet today</p>
+          )}
+          <Link to="/food" className="flex items-center justify-center gap-2 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 rounded-xl py-2.5 text-green-400 text-sm font-semibold transition-colors">
+            {todayFood ? 'Update Food Log' : 'Log Today\'s Food'} <ChevronRight size={15} />
+          </Link>
+        </div>
+
         {/* Skin actives */}
         <div className="bg-[#111] rounded-2xl border border-white/10 p-4">
           <h2 className="font-bold text-base flex items-center gap-2 mb-3">
@@ -256,7 +331,9 @@ export default function Dashboard() {
                   <div key={ev.id} className="flex items-center justify-between bg-white/5 rounded-xl px-3 py-2.5">
                     <div>
                       <p className="font-semibold text-sm">{ev.title}</p>
-                      <p className="text-gray-500 text-xs">{daysUntil === 0 ? 'Today' : daysUntil === 1 ? 'Tomorrow' : `In ${daysUntil} days`}</p>
+                      <p className="text-gray-500 text-xs">
+                        {fmtDate(ev.date)}{daysUntil > 1 ? ` — in ${daysUntil} days` : daysUntil === 1 ? ' — Tomorrow' : ''}
+                      </p>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className={`text-xs px-2 py-0.5 rounded-full font-medium border ${EVENT_COLORS[ev.type]}`}>
@@ -275,15 +352,15 @@ export default function Dashboard() {
 
         {/* Quick links */}
         <div className="grid grid-cols-2 gap-3 pb-2">
-          <Link to="/food" className="bg-[#111] border border-white/10 hover:border-green-500/30 rounded-2xl p-4 flex items-center gap-3 transition-colors">
-            <Utensils size={22} className="text-green-400" />
+          <Link to="/training" className="bg-[#111] border border-white/10 hover:border-orange-500/30 rounded-2xl p-4 flex items-center gap-3 transition-colors">
+            <Dumbbell size={22} className="text-orange-400" />
             <div>
-              <p className="font-bold text-sm">Log Food</p>
-              <p className="text-gray-500 text-xs">Track macros</p>
+              <p className="font-bold text-sm">Training</p>
+              <p className="text-gray-500 text-xs">Log a session</p>
             </div>
           </Link>
-          <Link to="/plan" className="bg-[#111] border border-white/10 hover:border-orange-500/30 rounded-2xl p-4 flex items-center gap-3 transition-colors">
-            <Dumbbell size={22} className="text-orange-400" />
+          <Link to="/plan" className="bg-[#111] border border-white/10 hover:border-blue-500/30 rounded-2xl p-4 flex items-center gap-3 transition-colors">
+            <Utensils size={22} className="text-blue-400" />
             <div>
               <p className="font-bold text-sm">View Plan</p>
               <p className="text-gray-500 text-xs">AI workout plan</p>
