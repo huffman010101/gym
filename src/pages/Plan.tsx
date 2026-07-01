@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Dumbbell, Mic, MicOff, X, ChevronDown, ChevronUp, Loader2, RefreshCw, RotateCcw } from 'lucide-react';
+import BottomNav from '../components/BottomNav';
 import { calcMacros } from '../lib/calculations';
 import { generateWorkoutPlan, generateMeals, runVoiceCommand } from '../lib/generators';
 import type { WorkoutPlan, WorkoutDay, Meal, MealAlt, Macros } from '../lib/types';
@@ -384,6 +385,7 @@ export default function Plan() {
           <p className="text-xs text-gray-600">{listening ? 'Tap to stop' : 'Voice'}</p>
         </div>
       </div>
+      <BottomNav />
     </div>
   );
 }

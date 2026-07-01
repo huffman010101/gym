@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Dumbbell, Target, Utensils, Mic, ChevronRight, Zap, Shield, Flame, Wind, Heart, Trophy } from 'lucide-react';
+import { Dumbbell, Target, Utensils, Mic, ChevronRight, Zap, Shield, Flame, Wind, Heart, Trophy, LayoutDashboard } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 const GOALS = [
   { icon: Trophy, label: 'Powerlifting',   color: 'text-yellow-400' },
@@ -17,6 +18,14 @@ const HOW = [
 ];
 
 export default function Home() {
+  const [hasPlan, setHasPlan] = useState(false);
+
+  useEffect(() => {
+    try {
+      setHasPlan(!!localStorage.getItem('gymforge_quiz'));
+    } catch {}
+  }, []);
+
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white">
       {/* Nav */}
@@ -25,11 +34,36 @@ export default function Home() {
           <Dumbbell className="text-orange-500" size={26} />
           <span className="text-xl font-black tracking-tight">GymForge</span>
         </div>
-        <Link to="/quiz"
-          className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-all hover:scale-105">
-          Start Free
-        </Link>
+        <div className="flex items-center gap-3">
+          {hasPlan && (
+            <Link to="/dashboard"
+              className="flex items-center gap-1.5 text-orange-400 hover:text-orange-300 text-sm font-semibold transition-colors">
+              <LayoutDashboard size={15} /> Dashboard
+            </Link>
+          )}
+          <Link to="/quiz"
+            className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-all hover:scale-105">
+            {hasPlan ? 'Redo Quiz' : 'Start Free'}
+          </Link>
+        </div>
       </nav>
+
+      {/* Return user banner */}
+      {hasPlan && (
+        <div className="mx-6 mt-2 max-w-6xl md:mx-auto">
+          <Link to="/dashboard"
+            className="flex items-center justify-between bg-orange-500/10 border border-orange-500/20 rounded-xl px-5 py-3.5 hover:bg-orange-500/15 transition-all group">
+            <div className="flex items-center gap-3">
+              <LayoutDashboard className="text-orange-400" size={20} />
+              <div>
+                <p className="text-orange-300 font-bold text-sm">Welcome back — your plan is ready</p>
+                <p className="text-orange-400/60 text-xs">Dashboard · Training · Food Log · Physique</p>
+              </div>
+            </div>
+            <ChevronRight className="text-orange-400 group-hover:translate-x-1 transition-transform" size={18} />
+          </Link>
+        </div>
+      )}
 
       {/* Hero */}
       <section className="px-6 pt-16 pb-24 text-center max-w-4xl mx-auto">
