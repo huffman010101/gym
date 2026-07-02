@@ -219,6 +219,57 @@ Return ONLY valid JSON, no markdown:
   return parse(text) as FoodAnalysis;
 }
 
+export interface LayeringCombo {
+  name: string;
+  base: string;
+  top: string;
+  ratio: string;
+  vibe: string;
+  when: string;
+}
+
+export interface LayeringResult {
+  combos: LayeringCombo[];
+  soloAdvice: string;
+  shoppingTip: string;
+}
+
+export async function suggestLayering(fragrances: string): Promise<LayeringResult> {
+  const client = makeClient();
+  const msg = await client.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 1500,
+    messages: [{
+      role: 'user',
+      content: `You are a master perfumer and fragrance layering expert. The user owns these fragrances:
+
+"${fragrances}"
+
+Identify each fragrance's note profile from your knowledge, then design the BEST layering combinations from their collection. Rules of good layering: shared note bridges, one dominant + one accent (not two loud gourmands fighting), fresh over sweet for day, amber/vanilla bases under fresh tops for night.
+
+Return ONLY valid JSON, no markdown fences:
+{
+  "combos": [
+    {
+      "name": "Catchy combo name",
+      "base": "Fragrance to spray first (skin/clothes, how many sprays)",
+      "top": "Fragrance to spray over it (where, how many sprays)",
+      "ratio": "e.g. 3 sprays base : 2 sprays top",
+      "vibe": "What the combination smells like and why it works (note bridge)",
+      "when": "Best occasion/season"
+    }
+  ],
+  "soloAdvice": "Which of their fragrances is best worn alone and why",
+  "shoppingTip": "One fragrance to add that would unlock the most new combos with this collection"
+}
+
+Give 3-5 combos if the collection allows. If a fragrance name is unrecognisable, make a sensible assumption and note it.`,
+    }],
+  });
+  const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
+  return parse(text) as LayeringResult;
+}
+
 export interface FaceAnalysisResult {
   faceShape: string;
   faceShapeReasoning: string;

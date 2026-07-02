@@ -1,15 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
-import { analyseFace } from '../lib/generators';
-import type { FaceAnalysisResult } from '../lib/generators';
+import { analyseFace, suggestLayering } from '../lib/generators';
+import type { FaceAnalysisResult, LayeringResult } from '../lib/generators';
 import {
   ArrowLeft, ChevronDown, ChevronUp, Check, Sparkles, Scissors, Smile, User,
   BarChart2, Camera, Loader2, AlertCircle, Droplets, Wind, Sun, Moon,
   Activity, Eye,
 } from 'lucide-react';
 
-type LooksTab = 'scan' | 'hair' | 'face' | 'grooming' | 'fragrance' | 'tracker';
+type LooksTab = 'scan' | 'hair' | 'face' | 'techniques' | 'style' | 'grooming' | 'fragrance' | 'tracker';
 
 const todayKey = () => `gymforge_looksmax_checklist_${new Date().toISOString().split('T')[0]}`;
 
@@ -124,6 +124,14 @@ export default function LooksMax() {
     if (saved) {
       try { setScanResult(JSON.parse(saved) as FaceAnalysisResult); } catch {}
     }
+    const savedLayering = localStorage.getItem('gymforge_layering');
+    if (savedLayering) {
+      try {
+        const parsed = JSON.parse(savedLayering) as { input: string; result: LayeringResult };
+        setFragInput(parsed.input);
+        setLayering(parsed.result);
+      } catch {}
+    }
   }, []);
 
   const toggle = (id: string) => {
@@ -153,6 +161,26 @@ export default function LooksMax() {
     reader.readAsDataURL(file);
   };
 
+  // Fragrance layering AI state
+  const [fragInput, setFragInput] = useState('');
+  const [layering, setLayering] = useState<LayeringResult | null>(null);
+  const [layeringBusy, setLayeringBusy] = useState(false);
+  const [layeringError, setLayeringError] = useState('');
+
+  const handleLayering = async () => {
+    if (!fragInput.trim()) return;
+    setLayeringBusy(true);
+    setLayeringError('');
+    try {
+      const result = await suggestLayering(fragInput.trim());
+      setLayering(result);
+      localStorage.setItem('gymforge_layering', JSON.stringify({ input: fragInput.trim(), result }));
+    } catch (e) {
+      setLayeringError(e instanceof Error ? e.message : 'Failed. Check your API key.');
+    }
+    setLayeringBusy(false);
+  };
+
   const handleScan = async () => {
     if (!scanPhoto) return;
     setScanning(true);
@@ -175,6 +203,8 @@ export default function LooksMax() {
     { id: 'scan', label: 'AI Scan', icon: Camera },
     { id: 'hair', label: 'Hair', icon: Scissors },
     { id: 'face', label: 'Face', icon: Smile },
+    { id: 'techniques', label: 'Methods', icon: Sparkles },
+    { id: 'style', label: 'Style', icon: Sun },
     { id: 'grooming', label: 'Groom', icon: User },
     { id: 'fragrance', label: 'Scent', icon: Wind },
     { id: 'tracker', label: 'Tracker', icon: BarChart2 },
@@ -187,7 +217,7 @@ export default function LooksMax() {
           <ArrowLeft size={15} className="mr-1" /> Dashboard
         </Link>
         <h1 className="text-3xl font-black tracking-tight gradient-text-purple">Looksmax Hub</h1>
-        <p className="text-gray-500 text-xs mt-1">AI Scan · Hair · Face · Grooming · Scent · Tracker</p>
+        <p className="text-gray-500 text-xs mt-1">AI Scan · Hair · Face · Methods · Style · Grooming · Scent · Tracker</p>
       </div>
 
       {/* Tabs */}
@@ -750,6 +780,219 @@ export default function LooksMax() {
         )}
 
         {/* ===== GROOMING TAB ===== */}
+        {/* ===== METHODS / TECHNIQUES TAB ===== */}
+        {tab === 'techniques' && (
+          <>
+            <div className="bg-gradient-to-br from-purple-950/40 to-pink-950/20 border border-purple-500/20 rounded-2xl p-4">
+              <div className="flex items-center gap-2 mb-1">
+                <Sparkles size={15} className="text-purple-400" />
+                <h2 className="font-bold text-base text-purple-300">The Techniques Encyclopedia</h2>
+              </div>
+              <p className="text-gray-400 text-xs leading-relaxed">
+                Every method the looksmax community actually talks about — with honesty about what works, what's slow, and what's a myth.
+                The big three that dwarf everything else: <span className="text-purple-300 font-semibold">low body fat, good sleep, good posture</span>.
+              </p>
+            </div>
+
+            <ExpandableCard badge="S-TIER" title="Body Fat % — the #1 face changer" accent="text-gray-400" content={[
+              'Nothing reveals cheekbones, jawline and hollow cheeks like dropping from ~20% to 12-15% body fat. Most “bad bone structure” is a fat layer.',
+              'This is why the Gym section IS a looksmax section. Calorie deficit + weight training + steps.',
+              'Face fat is usually the last to go — patience through the final 5kg.',
+              'Warning: below ~10% you start looking gaunt and feeling terrible. Lean, not depleted.',
+            ]} />
+            <ExpandableCard badge="S-TIER" title="Debloating protocol — sharper face in 72h" content={[
+              'Sodium: keep it consistent and moderate — salt binges = moon face for 2 days.',
+              'Water: 3L+ daily. Paradoxically, underdrinking makes you retain more.',
+              'Alcohol: the single biggest face-bloater. Night of drinking = 3 days of puff.',
+              'Sleep 8h with head slightly elevated; sleeping face-down pools fluid in your face.',
+              'Morning: cold water splash 30s + 2 min lymphatic massage (push from centre of face outward and down the neck).',
+              'Cut late-night carbs+salt combos before events and photos.',
+            ]} />
+            <ExpandableCard badge="PROVEN" title="Teeth whitening — full protocol" content={[
+              'Baseline: electric toothbrush 2×2min, floss nightly, tongue scrape. No whitening beats clean.',
+              'Whitening strips (hydrogen peroxide, e.g. Crest 3D): 30 min/day for 2 weeks, then maintenance 1×/week. This is the best value method.',
+              'Whitening toothpaste only removes surface stains — fine for maintenance, won\'t shift shade.',
+              'Sensitivity? Use potassium-nitrate toothpaste (Sensodyne) during the strip weeks and whiten every OTHER day.',
+              'Avoid: charcoal powders (abrasive, erode enamel), lemon/baking-soda hacks (acid = permanent damage).',
+              'Stain control: straw for coffee/coke, rinse water after espresso, cut smoking — it undoes everything.',
+              'Dentist in-office whitening: fastest and safest big jump if you have the budget. Hygienist clean twice a year regardless.',
+            ]} />
+            <ExpandableCard badge="PROVEN" title="Facial symmetry — what actually moves it" content={[
+              'Perfect symmetry doesn\'t exist and isn\'t the goal — reducing obvious imbalance is.',
+              'Chew evenly on BOTH sides. Years of one-sided chewing visibly builds one masseter bigger. Consciously switch sides for months.',
+              'Sleep position: face-down or always-one-side smashing your face into the pillow for years contributes to asymmetry. Back sleeping is the fix.',
+              'Posture: a head that tilts habitually to one side (check selfies) trains asymmetric neck tension. Film yourself, correct the tilt.',
+              'Uneven eyebrows are the most fixable asymmetry — groom to match (see Grooming tab).',
+              'Photos exaggerate asymmetry (lens distortion). Judge in a mirror at arm\'s length, not front camera at 30cm.',
+            ]} />
+            <ExpandableCard badge="HONEST" title="Nose — non-surgical playbook" content={[
+              'The nose itself is bone and cartilage — no exercise changes its structure. Anyone selling “nose slimming exercises” is selling nothing.',
+              'What you CAN change: the frame around it. Stronger brows, defined jaw, fuller hair and beard styling all make the same nose read smaller.',
+              'Debloating helps — the soft tissue over the nose and cheeks puffs like everything else.',
+              'Beard/moustache styling changes perceived nose-to-lip balance dramatically. Test with the AI Scan tab.',
+              'Camera honesty: front cameras at close range enlarge the nose 20-30%. That\'s distortion, not your face. Step back / use the rear lens.',
+              'If it genuinely affects you: rhinoplasty is a real, common option to research with a licensed surgeon — never a decision to rush, never a DIY anything.',
+            ]} />
+            <ExpandableCard badge="LONG GAME" title="Mewing & maxilla — the honest version" content={[
+              'Proper tongue posture: WHOLE tongue (including the back third) pressed to the palate, lips sealed, teeth lightly touching or near, breathe through the nose.',
+              'In adults, dramatic bone remodelling is not realistic — the adult maxilla is fused. What mewing DOES give: better resting face (no mouth-breather slack jaw), improved neck/jaw line via posture, nasal breathing benefits.',
+              'The under-eye support and cheekbone “lift” people report is mostly posture + decreased bloat + lower body fat arriving together.',
+              'Nasal breathing 24/7 is the real win: better sleep quality, less dry mouth, better facial rest tone. Mouth-taping at night (if your nose is clear) trains it.',
+              'Chewing hard gum (mastic, falim) 20-30 min/day grows the MASSETER (jaw corner width) — visible in months. It does not widen zygos. Don\'t overdo it: jaw pain = stop.',
+            ]} />
+            <ExpandableCard badge="LONG GAME" title="Zygos & cheekbones" content={[
+              'Zygomatic bone size is genetic. What makes cheekbones VISIBLE: body fat under ~15%, debloating, and light grooming contrast (see Style tab).',
+              'Gua sha / lymphatic massage: temporary de-puff that makes zygos pop for the day — great before events, not a permanent change.',
+              'Hairstyle leverage: shorter sides + volume on top visually widens the upper face where zygos live.',
+              'Anything claiming to “grow” zygos without surgery is lying to you. Cheekbone implants/fillers exist in the surgical world — research-grade decision, licensed professionals only.',
+            ]} />
+            <ExpandableCard badge="LONG GAME" title="Chin, jawline & hyoid" content={[
+              'Jawline = bone + masseter + LOW BODY FAT + tight submental (under-chin) area. Attack all four.',
+              'Masseter: hard chewing gum protocol (above) adds real corner-of-jaw width.',
+              'Hyoid area (the under-chin/neck angle): this is where the biggest visual wins hide.',
+              'Chin tucks: 3×15 daily. Pull your head straight BACK (make a double chin on purpose), hold 3s. Trains deep neck flexors, sharpens the neck-jaw angle over months.',
+              'Neck curls: lying on a bench face-up, head off the edge, curl chin to chest slowly, 3×15. Builds the neck and lifts the hyoid region. Start with no weight.',
+              'Tongue posture (mewing) keeps the floor of the mouth toned — a dropped tongue = softer under-chin.',
+              'A well-groomed beard fading down the neck (neckline just above Adam\'s apple) is an instant jawline on hard mode days.',
+            ]} />
+            <div className="card-premium p-4">
+              <h2 className="font-bold text-base mb-2 text-purple-300">“Why do I feel it in my neck when I chin tuck — and why do my shoulders round?”</h2>
+              <div className="space-y-2 text-xs text-gray-400 leading-relaxed">
+                <p>
+                  That feeling is <span className="text-gray-200 font-semibold">exactly what's supposed to happen</span> — and it's diagnostic.
+                  Years of forward-head posture (phone, desk) leave the deep neck flexors at the front weak and asleep, while the
+                  suboccipitals and upper traps at the back of your neck become short and tight. When you chin tuck, you're
+                  <span className="text-gray-200 font-semibold"> stretching those chronically tight muscles at the back and firing the weak ones at the front simultaneously</span> —
+                  that pulling/working sensation in the neck into the shoulders is the tissue actually being asked to move for the first time in years.
+                </p>
+                <p>
+                  The rounded shoulders are part of the same pattern (upper crossed syndrome): tight chest + tight upper traps,
+                  weak deep neck flexors + weak mid-back (lower traps, rhomboids). The head drifts forward, the shoulders follow it round.
+                  It's one system — which is good news, because fixing it is one plan:
+                </p>
+                <p className="text-gray-300">
+                  1) Chin tucks 3×15/day (the feeling fades in 2-3 weeks as the muscles wake up) ·
+                  2) Doorway chest stretch 3×30s ·
+                  3) Face pulls or band pull-aparts 3×15 on training days ·
+                  4) Wall slides 3×10 ·
+                  5) Raise your screen to eye level and take a posture reset every 45 min.
+                </p>
+                <p className="text-gray-600">
+                  If you ever get sharp pain, numbness or tingling down the arm (rather than a stretch/work feeling), stop and see a physio — that's a different issue.
+                </p>
+              </div>
+            </div>
+            <ExpandableCard badge="MYTH CHECK" title="Hunter eyes, bone smashing & the dark corners" content={[
+              'Orbital shape (deep-set “hunter” eyes) is overwhelmingly genetic. The look improves at the margins with: low body fat, fixed sleep (less lid puff), brow grooming for a stronger brow ridge line, and no more squint-avoiding posture.',
+              '“Bone smashing” is self-harm dressed as a technique. It does not remodel bone into anything except fracture risk. Hard no.',
+              'Eyelid tape / repeated tugging: damages the thinnest skin on your body. No.',
+              'The pattern to notice: anything promising bone change without a surgeon is either a body-fat effect in disguise or a lie.',
+              'The community\'s real consensus after all the noise: leanness, skin, hair, frame (gym), grooming, style, posture — the “softmaxx” stack — covers 90%+ of achievable change.',
+            ]} />
+          </>
+        )}
+
+        {/* ===== STYLE TAB ===== */}
+        {tab === 'style' && (
+          <>
+            <div className="bg-gradient-to-br from-amber-950/40 to-orange-950/20 border border-amber-500/20 rounded-2xl p-4">
+              <div className="flex items-center gap-2 mb-1">
+                <Sun size={15} className="text-amber-400" />
+                <h2 className="font-bold text-base text-amber-300">Colour & Style Lab</h2>
+              </div>
+              <p className="text-gray-400 text-xs leading-relaxed">Wearing YOUR colours makes skin look clearer and eyes brighter — wearing the wrong ones makes you look tired in the exact same outfit.</p>
+            </div>
+
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-3">Step 1 — Find Your Undertone</h2>
+              <div className="space-y-2">
+                {[
+                  ['Vein test', 'Look at your inner wrist in daylight. Green veins = warm undertone. Blue/purple = cool. Can\'t tell / both = neutral (lucky — most colours work).'],
+                  ['Jewellery test', 'Gold flatters you more = warm. Silver flatters more = cool.'],
+                  ['White test', 'Cream/off-white looks better on warm undertones; pure bright white looks better on cool.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-3">Step 2 — Find Your Contrast Level</h2>
+              <p className="text-gray-500 text-xs mb-3">Contrast = the difference between your hair, skin and eye darkness. It decides how bold your outfits should be.</p>
+              <div className="space-y-2">
+                {[
+                  ['High contrast (dark hair + light skin, or very dark skin)', 'You can wear bold combos: black & white, navy & camel, strong colour blocking. Muted washed-out fits make YOU look washed out.'],
+                  ['Low contrast (hair close to skin tone — blonde/light brown + fair, or dark skin + dark hair)', 'Tonal outfits shine: layers of similar depth (all earth tones, all soft neutrals). Harsh black/white combos overpower your face.'],
+                  ['Medium contrast', 'Most flexible — medium-bold combos, one statement piece at a time.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-3">Colour Cheat Sheet</h2>
+              <div className="space-y-2">
+                {[
+                  ['Warm undertone → wear', 'Olive, cream, camel, rust, burnt orange, warm browns, forest green, gold accents. Avoid: icy pastels, stark white, cool grey near the face.'],
+                  ['Cool undertone → wear', 'Navy, charcoal, pure white, burgundy, emerald, cool blues, silver accents. Avoid: orange, mustard, warm beige near the face.'],
+                  ['Universal bangers', 'Navy and olive flatter nearly everyone. A navy overshirt is the safest style purchase in existence.'],
+                  ['Near-the-face rule', 'Your top/collar colour matters 5× more than trousers or shoes — that\'s the colour bouncing light onto your skin.'],
+                  ['The 3-colour cap', 'Max three colours per outfit, one of them neutral. More = costume.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-3">Pick Your Look (archetypes)</h2>
+              <p className="text-gray-500 text-xs mb-3">Pick ONE lane and go deep — mixed signals read as no signal. Match it to your build and lifestyle.</p>
+              <div className="space-y-3">
+                {[
+                  ['Clean-Cut / Smart Casual', 'Fitted tees & oxfords, tailored chinos/dark denim, white leather sneakers or loafers, one good watch. Works for: everyone, especially lean/athletic builds. The highest-percentage look with women and workplaces.'],
+                  ['Old Money / Quiet Luxury', 'Neutral knits, tailored trousers, quality over logos, loafers, structured coats. Works for: taller/slimmer frames, anyone wanting “put-together and unbothered”.'],
+                  ['Streetwear (done right)', 'Clean silhouettes — relaxed (not swimming) fits, quality basics, one statement piece, fresh sneakers. Works for: younger scenes, creative fields. Fit discipline separates it from sloppy.'],
+                  ['Rugged / Masculine Casual', 'Dark denim, boots, henleys, flannel overshirts, leather jacket. Works for: broader/muscular builds, beard-friendly. Devastating when it matches an actual gym physique.'],
+                  ['Athletic Clean', 'Elevated athleisure — fitted joggers/tech pants, plain quality tees, runners, no gym-branding spam. Works for: muscular builds; the “obviously trains” look without trying.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-amber-300">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-3">Fit Rules That Outrank Everything</h2>
+              <div className="space-y-2">
+                {[
+                  ['Fit > brand > colour > everything', 'A £15 tee that fits your shoulders beats a £90 tee that doesn\'t. Shoulder seam ends AT the shoulder bone.'],
+                  ['Sleeves & length', 'Tee sleeves end mid-bicep. Tee length ends mid-fly. Trousers: no pooling at the ankle — one break max.'],
+                  ['Shoes carry outfits', 'Clean shoes upgrade everything; beat shoes downgrade everything. Two pairs done well (white sneaker + boot or loafer) cover 95% of life.'],
+                  ['Iron/steam', 'Wrinkles read as chaos. A £20 steamer is a cheat code.'],
+                  ['Tailor relationship', '£10 alterations turn high-street into looks-expensive. Taper trousers, shorten sleeves, slim shirt sides.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
         {tab === 'grooming' && (
           <>
             <div className="bg-[#111] border border-green-500/20 rounded-2xl p-4">
@@ -890,6 +1133,97 @@ export default function LooksMax() {
                 <h2 className="font-bold text-base text-indigo-300">Fragrance Masterclass</h2>
               </div>
               <p className="text-gray-400 text-xs leading-relaxed">Scent is the most underrated looksmax tool. The right fragrance is remembered long after you've left the room.</p>
+            </div>
+
+            {/* AI Layering Lab */}
+            <div className="card-premium p-4">
+              <div className="flex items-center gap-2 mb-1">
+                <Sparkles size={15} className="text-indigo-400" />
+                <h2 className="font-bold text-base">AI Layering Lab</h2>
+              </div>
+              <p className="text-gray-500 text-xs mb-3">Type the fragrances you own (one per line or comma-separated) — AI designs your best combos.</p>
+              <textarea
+                value={fragInput}
+                onChange={e => setFragInput(e.target.value)}
+                placeholder={'e.g.\nVersace Eros EDT\nDior Sauvage EDP\nJPG Le Male Le Parfum'}
+                rows={3}
+                className="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-500/50 resize-none"
+              />
+              <button
+                onClick={handleLayering}
+                disabled={layeringBusy || !fragInput.trim()}
+                className="mt-2 w-full bg-indigo-500 hover:bg-indigo-600 disabled:opacity-40 text-white py-2.5 rounded-xl text-sm font-bold transition-colors flex items-center justify-center gap-2"
+              >
+                {layeringBusy ? <><Loader2 size={15} className="animate-spin" /> Mixing…</> : 'Build My Combos'}
+              </button>
+              {layeringError && (
+                <p className="text-red-400 text-xs mt-2 flex items-center gap-1.5"><AlertCircle size={12} /> {layeringError}</p>
+              )}
+              {layering && (
+                <div className="mt-4 space-y-3">
+                  {layering.combos.map(c => (
+                    <div key={c.name} className="bg-black/30 border border-indigo-500/15 rounded-xl p-3.5">
+                      <div className="flex items-center justify-between mb-1.5">
+                        <p className="font-bold text-sm text-indigo-300">{c.name}</p>
+                        <span className="text-[10px] bg-indigo-500/15 text-indigo-400 px-2 py-0.5 rounded-full border border-indigo-500/25">{c.when}</span>
+                      </div>
+                      <p className="text-gray-300 text-xs mb-1"><span className="text-gray-500">Base:</span> {c.base}</p>
+                      <p className="text-gray-300 text-xs mb-1"><span className="text-gray-500">Over it:</span> {c.top}</p>
+                      <p className="text-gray-300 text-xs mb-1.5"><span className="text-gray-500">Ratio:</span> {c.ratio}</p>
+                      <p className="text-gray-500 text-xs leading-relaxed">{c.vibe}</p>
+                    </div>
+                  ))}
+                  <div className="bg-black/30 border border-white/8 rounded-xl p-3.5">
+                    <p className="text-xs text-gray-400 mb-1.5"><span className="font-bold text-gray-200">Best worn solo:</span> {layering.soloAdvice}</p>
+                    <p className="text-xs text-gray-400"><span className="font-bold text-gray-200">Next bottle to unlock combos:</span> {layering.shoppingTip}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Layering rules */}
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-3">Layering Rules</h2>
+              <div className="space-y-2">
+                {[
+                  ['Share a bridge note', 'Two fragrances layer well when they share a note (vanilla, iris, bergamot…). No bridge = two songs playing at once.'],
+                  ['Heavy first, fresh on top', 'Spray the denser/sweeter scent on skin first, the fresher one over it. Fresh over sweet lifts; sweet over fresh smothers.'],
+                  ['One loud voice max', 'Never layer two beast-mode gourmands. Pair a statement scent with a quieter partner (musk, iris, clean woods).'],
+                  ['Split locations', 'Base on chest/torso, top scent on neck/wrists — they blend in your scent cloud instead of fighting on the same skin.'],
+                  ['Test at home first', 'Every combo gets a home-day trial before a date-day debut.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Most complimented */}
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-1">Most Complimented Men's Fragrances</h2>
+              <p className="text-gray-600 text-xs mb-3">The compliment-magnet tier, based on years of community consensus. Test before you buy.</p>
+              <div className="space-y-2">
+                {[
+                  ['Jean Paul Gaultier Le Male Le Parfum', 'Vanilla-iris-lavender. Possibly the highest compliment rate in the game. Date-night nuke.'],
+                  ['Versace Eros EDP', 'Mint, vanilla, tonka. Young, sweet, loud — a club classic for a reason.'],
+                  ['Dior Sauvage Elixir', 'Spicy-woody powerhouse. 2 sprays last all day. The safest blind buy in masculine perfumery.'],
+                  ['Yves Saint Laurent Y EDP', 'Apple, sage, amberwood. Clean “successful guy” smell — office through evening.'],
+                  ['Emporio Armani Stronger With You Intensely', 'Toffee, vanilla, chestnut. Cosy-sweet compliment machine for autumn/winter.'],
+                  ['Azzaro The Most Wanted EDP', 'Cardamom over bourbon-vanilla amber. Nightlife specialist.'],
+                  ['Bleu de Chanel EDP', 'Citrus-woody perfection. Zero occasions where it\'s wrong.'],
+                  ['Valentino Uomo Born In Roma Intense', 'Vanilla-lavender-leather. Smooth, modern, extremely date-friendly.'],
+                ].map(([name, note]) => (
+                  <div key={name} className="flex items-start gap-2.5">
+                    <Check size={13} className="text-indigo-400 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-semibold text-xs text-gray-200">{name}</p>
+                      <p className="text-gray-500 text-xs">{note}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Concentrations */}

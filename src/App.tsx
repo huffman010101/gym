@@ -8,6 +8,8 @@ import TrainingLog from './pages/TrainingLog';
 import Physique from './pages/Physique';
 import Dashboard from './pages/Dashboard';
 import LooksMax from './pages/LooksMax';
+import Combat from './pages/Combat';
+import Mind from './pages/Mind';
 import ApiKeySetup from './components/ApiKeySetup';
 import { getApiKey } from './lib/anthropic';
 
@@ -30,6 +32,8 @@ export default function App() {
         <Route path="/physique" element={<Physique />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/looksmax" element={<LooksMax />} />
+        <Route path="/combat" element={<Combat />} />
+        <Route path="/mind" element={<Mind />} />
       </Routes>
     </HashRouter>
   );

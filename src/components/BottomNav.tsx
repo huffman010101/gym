@@ -1,12 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Dumbbell, Utensils, Camera, ClipboardList } from 'lucide-react';
+import { LayoutDashboard, Dumbbell, Swords, Sparkles, Brain } from 'lucide-react';
 
 const TABS = [
   { path: '/dashboard', icon: LayoutDashboard, label: 'Home' },
-  { path: '/training', icon: Dumbbell, label: 'Train' },
-  { path: '/food', icon: Utensils, label: 'Fuel' },
-  { path: '/physique', icon: Camera, label: 'Body' },
-  { path: '/plan', icon: ClipboardList, label: 'Plan' },
+  { path: '/training', icon: Dumbbell, label: 'Gym' },
+  { path: '/combat', icon: Swords, label: 'Combat' },
+  { path: '/looksmax', icon: Sparkles, label: 'Looks' },
+  { path: '/mind', icon: Brain, label: 'Mind' },
 ];
 
 export default function BottomNav() {

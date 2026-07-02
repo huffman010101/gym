@@ -1,0 +1,273 @@
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, Eye, ChevronDown, Heart } from 'lucide-react';
+import BottomNav from '../components/BottomNav';
+
+type Tab = 'charisma' | 'confidence' | 'selftalk' | 'secret';
+
+const TABS: { id: Tab; label: string }[] = [
+  { id: 'charisma', label: 'Charisma' },
+  { id: 'confidence', label: 'Confidence' },
+  { id: 'selftalk', label: 'Self-Talk' },
+  { id: 'secret', label: '🔒 Secret' },
+];
+
+function Card({ title, items, icon: Icon }: { title: string; items: [string, string][]; icon: typeof Brain }) {
+  return (
+    <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
+      <div className="flex items-center gap-2 mb-4">
+        <Icon size={16} className="text-pink-400" />
+        <h3 className="font-bold">{title}</h3>
+      </div>
+      <div className="space-y-3">
+        {items.map(([t, d]) => (
+          <div key={t}>
+            <p className="font-semibold text-sm text-gray-200">{t}</p>
+            <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Collapsible({ title, tag, children }: { title: string; tag?: string; children: React.ReactNode }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="bg-[#111] border border-white/8 rounded-2xl overflow-hidden">
+      <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between px-5 py-4 text-left">
+        <div>
+          <p className="font-bold text-gray-100">{title}</p>
+          {tag && <p className="text-xs text-pink-400/70 mt-0.5">{tag}</p>}
+        </div>
+        <ChevronDown size={18} className={`text-gray-600 transition-transform ${open ? 'rotate-180' : ''}`} />
+      </button>
+      {open && <div className="px-5 pb-5">{children}</div>}
+    </div>
+  );
+}
+
+export default function Mind() {
+  const [tab, setTab] = useState<Tab>('charisma');
+  const [pw, setPw] = useState('');
+  const [unlocked, setUnlocked] = useState(false);
+
+  useEffect(() => {
+    try { setUnlocked(localStorage.getItem('gymforge_secret_unlocked') === '1'); } catch {}
+  }, []);
+
+  const tryUnlock = () => {
+    if (pw.trim().toLowerCase() === 'roy') {
+      setUnlocked(true);
+      try { localStorage.setItem('gymforge_secret_unlocked', '1'); } catch {}
+    } else {
+      setPw('');
+    }
+  };
+
+  return (
+    <main className="min-h-screen bg-[#0a0a0a] text-white pb-24">
+      <div className="max-w-2xl mx-auto px-5 pt-6">
+        <Link to="/" className="inline-flex items-center gap-1.5 text-gray-500 hover:text-gray-300 text-sm mb-5">
+          <ArrowLeft size={15} /> Home
+        </Link>
+
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-11 h-11 bg-pink-500/10 rounded-xl flex items-center justify-center">
+            <Brain className="text-pink-500" size={22} />
+          </div>
+          <div>
+            <h1 className="text-2xl font-black">Mind</h1>
+            <p className="text-gray-500 text-sm">Charisma · Confidence · Self-Belief · Social Skill</p>
+          </div>
+        </div>
+
+        <div className="flex gap-1.5 overflow-x-auto scrollbar-hide mb-6 -mx-5 px-5">
+          {TABS.map(t => (
+            <button key={t.id} onClick={() => setTab(t.id)}
+              className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+                tab === t.id ? 'bg-pink-500 text-white' : 'bg-white/5 text-gray-400 hover:bg-white/10'
+              }`}>
+              {t.label}
+            </button>
+          ))}
+        </div>
+
+        {/* ============ CHARISMA ============ */}
+        {tab === 'charisma' && (
+          <div className="fade-up space-y-4">
+            <Card icon={Sparkles} title="The Charisma Formula" items={[
+              ['Presence', 'Charisma is 90% making people feel like the only person in the room. Phone away, full eye contact, react to what they actually said — not what you were waiting to say.'],
+              ['Warmth + Power', 'Warmth alone = nice but forgettable. Power alone = intimidating. Both together = magnetic. Smile easily AND hold your ground on opinions.'],
+              ['Slow down everything', 'Charismatic people move, speak and turn their head unhurried. Rushed movement broadcasts nervousness. Pause before you answer — it reads as thoughtful, not slow.'],
+              ['Expressiveness', 'Monotone kills. Let your face and voice actually show amusement, curiosity, surprise. People mirror the energy you bring.'],
+            ]} />
+            <Card icon={Mic2} title="Voice" items={[
+              ['Speak from the chest', 'Breathe into your belly and let the voice resonate low. Higher, throaty voice = nerves. Practice reading aloud 5 min/day at the bottom of your comfortable range.'],
+              ['End statements DOWN', 'Upward inflection turns statements into questions and leaks approval-seeking. Drop the pitch at the end of sentences.'],
+              ['Volume slightly above comfortable', 'Quiet talkers get talked over. You should never be asked to repeat yourself twice in one conversation.'],
+              ['Silence is a power tool', 'Comfort with pauses signals status. Don\'t fill every gap — let a beat land after you make a point.'],
+            ]} />
+            <Card icon={Eye} title="Body Language" items={[
+              ['Take up space calmly', 'Shoulders back and down, chest open, arms uncrossed, feet planted shoulder-width. Shrinking postures read as apologising for existing.'],
+              ['Eye contact rhythm', 'Hold while THEY speak (shows engagement), break naturally to the side (not down — down reads submissive) while you think.'],
+              ['Slow nod, real smile', 'A slow triple-nod while listening makes people open up. A smile that reaches the eyes beats a held grin.'],
+              ['Walk like you own the route', 'Head level, pace unhurried, no darting eyes. Practice literally: walk through busy places holding your line politely.'],
+            ]} />
+            <Card icon={MessageCircle} title="Conversation Skill" items={[
+              ['Statements > questions', 'Interviews are boring. Instead of "Where are you from?" try "You\'ve got a London accent — I\'m guessing south." Assumptions invite play; interrogations invite one-word answers.'],
+              ['Thread, don\'t topic-hop', 'Every sentence someone says contains 3 threads. "I just got back from Spain with my sister" = Spain, travel, family. Pick one and pull.'],
+              ['Give real reactions', '"No way — that changes everything, what did you do?" beats "oh nice". Being easily delighted is charisma fuel.'],
+              ['Exit on a high', 'Leave conversations at the peak, not the fizzle. "I need to head off — this was the best chat I\'ve had all week." People remember endings.'],
+            ]} />
+          </div>
+        )}
+
+        {/* ============ CONFIDENCE ============ */}
+        {tab === 'confidence' && (
+          <div className="fade-up space-y-4">
+            <Card icon={Flame} title="Where Real Confidence Comes From" items={[
+              ['Evidence, not affirmations alone', 'Confidence = a stack of kept promises to yourself. Every workout finished, every cold shower, every scary conversation had — that\'s a deposit. The account balance is self-belief.'],
+              ['Competence loop', 'Pick skills and actually get good: lifting, fighting, talking, a craft. Confidence without competence collapses under pressure; competence makes it unshakeable.'],
+              ['Do the thing scared', 'Courage precedes confidence, never the reverse. The rep is: feel the fear, act anyway, survive, update your identity. Repeat until fear becomes fuel.'],
+              ['Stop outsourcing your worth', 'If a like, a text-back or someone\'s mood can move your state, they own your state. Self-validation is a practice: judge YOUR day by YOUR standards each night.'],
+            ]} />
+            <Card icon={Flame} title="Daily Confidence Protocol" items={[
+              ['Morning: win the first hour', 'Make the bed, train or move, cold exposure, no phone for 30 min. Starting with discipline colours the whole day\'s self-image.'],
+              ['One rejection or discomfort daily', 'Ask for a discount, give a stranger a compliment, take the front seat in class. Deliberately touching discomfort daily shrinks its power everywhere.'],
+              ['Posture audit x3', 'Three times a day: shoulders down-and-back, spine tall, slow exhale. State follows body.'],
+              ['Night: log 3 wins', 'Write three things you did right today, however small. Your brain keeps score of whatever you count — count wins.'],
+            ]} />
+            <Collapsible title="Handling Nerves in the Moment" tag="Pre-approach, pre-talk, pre-fight">
+              <div className="space-y-3 text-sm">
+                <p className="text-gray-400"><span className="font-bold text-gray-200">Physiological sigh:</span> double inhale through the nose, long exhale through the mouth, x3. Fastest known way to drop acute stress.</p>
+                <p className="text-gray-400"><span className="font-bold text-gray-200">Rename it:</span> anxiety and excitement are the same chemistry. Say "I'm excited" — performance measurably improves versus trying to calm down.</p>
+                <p className="text-gray-400"><span className="font-bold text-gray-200">3-second rule:</span> when you notice the urge to act (approach, speak up, raise your hand), move within 3 seconds. Hesitation compounds; action interrupts it.</p>
+                <p className="text-gray-400"><span className="font-bold text-gray-200">Focus outward:</span> nerves come from self-monitoring. Put 100% attention on the other person or the task — self-consciousness needs an audience of you.</p>
+              </div>
+            </Collapsible>
+          </div>
+        )}
+
+        {/* ============ SELF-TALK ============ */}
+        {tab === 'selftalk' && (
+          <div className="fade-up space-y-4">
+            <div className="card-premium p-5">
+              <h3 className="font-bold mb-2 flex items-center gap-2"><Brain size={16} className="text-pink-400" /> How Self-Talk Actually Works</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Your brain treats your own voice as the most credible source it knows. Repeated statements become the default
+                filter you see yourself through — this is trainable. Rules: present tense, personal, and either believable
+                or phrased as becoming ("I'm becoming…"). Say them in the mirror, out loud, morning and night. Cringe fades;
+                the wiring stays.
+              </p>
+            </div>
+            {[
+              ['Identity', ['I keep the promises I make to myself.', 'I am the kind of man who does hard things first.', 'I don\'t need the room\'s approval — I bring my own.', 'Discipline is my default, not my exception.']],
+              ['Before social situations', ['People are lucky to talk to me — I bring energy others don\'t.', 'I\'m curious about everyone and intimidated by no one.', 'My presence is enough. I don\'t perform, I connect.', 'Whatever happens, I handle it. I always handle it.']],
+              ['Before training / competing', ['My body does what my mind commands.', 'Fatigue is information, not an instruction.', 'I\'ve done the work. Now I collect.', 'Pressure is a privilege — it means I\'m in the arena.']],
+              ['After setbacks', ['This is data, not a verdict.', 'I judge myself on response, not results.', 'Losing a rep doesn\'t make me a loser. Quitting would.', 'Six months from now this is a story I tell, not a wound I carry.']],
+            ].map(([title, lines]) => (
+              <div key={title as string} className="bg-[#111] border border-white/8 rounded-2xl p-5">
+                <h3 className="font-bold mb-3 text-pink-300">{title as string}</h3>
+                <div className="space-y-2">
+                  {(lines as string[]).map(l => (
+                    <p key={l} className="text-gray-300 text-sm bg-white/3 border border-white/5 rounded-lg px-3 py-2">“{l}”</p>
+                  ))}
+                </div>
+              </div>
+            ))}
+            <Card icon={Brain} title="Kill the Inner Critic" items={[
+              ['Catch → Name → Reframe', 'Notice the thought ("I\'ll embarrass myself"), label it ("that\'s the fear talking"), replace with a coach\'s line ("worst case, I learn something").'],
+              ['Talk to yourself in second person', '"You\'ve got this, Roy" outperforms "I\'ve got this" in studies — it creates coach-distance from the emotion.'],
+              ['Never narrate a miss with identity', '"I missed the lift" ✅. "I\'m weak" ❌. Behaviour language is fixable; identity language sticks.'],
+            ]} />
+          </div>
+        )}
+
+        {/* ============ SECRET ============ */}
+        {tab === 'secret' && !unlocked && (
+          <div className="fade-up">
+            <div className="card-premium p-8 text-center">
+              <Lock size={28} className="text-pink-400 mx-auto mb-4" />
+              <h3 className="font-black text-lg mb-1">Members Only</h3>
+              <p className="text-gray-500 text-sm mb-6">This section is password-protected.</p>
+              <div className="flex gap-2 max-w-xs mx-auto">
+                <input
+                  type="password"
+                  value={pw}
+                  onChange={e => setPw(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && tryUnlock()}
+                  placeholder="Password"
+                  className="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-pink-500/50"
+                />
+                <button onClick={tryUnlock}
+                  className="bg-pink-500 hover:bg-pink-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-colors">
+                  Unlock
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {tab === 'secret' && unlocked && (
+          <div className="fade-up space-y-4">
+            <div className="flex items-center gap-2 text-pink-400 text-xs font-bold uppercase tracking-widest">
+              <Unlock size={13} /> Unlocked — The Social Playbook
+            </div>
+            <div className="card-premium p-5">
+              <h3 className="font-bold mb-2 flex items-center gap-2"><Heart size={16} className="text-pink-400" /> Ground Rules First</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                None of this works as a trick, and all of it works as a skill. You're not extracting anything from anyone —
+                you're becoming someone women genuinely enjoy being around, and being direct about your interest.
+                Read her signals honestly: if she's engaged, continue; if she's polite-but-flat, wish her a good day and exit
+                gracefully. Grace in rejection is the single most attractive trait you can build, because it means you were never desperate.
+              </p>
+            </div>
+            <Collapsible title="The Approach" tag="First 10 seconds">
+              <div className="space-y-3 text-sm text-gray-400">
+                <p><span className="font-bold text-gray-200">Within 3 seconds of noticing her</span> — hesitation builds a story in your head and weirdness in your walk-up. See, decide, go.</p>
+                <p><span className="font-bold text-gray-200">Front or side, never behind.</span> Approach from an angle she can see, comfortable distance, relaxed pace. In daytime, a slight pause + "excuse me" is perfect.</p>
+                <p><span className="font-bold text-gray-200">Be direct and own it:</span> "This is random, but I saw you and thought you looked interesting — I had to say hi. I'm Roy." Direct beats routines because it demonstrates the scarcest asset: nerve.</p>
+                <p><span className="font-bold text-gray-200">Voice slow, volume up, smile real.</span> Nerves make guys rush and mumble. If you feel shaky, slow down 20% more.</p>
+                <p><span className="font-bold text-gray-200">Situational openers work too:</span> comment on the thing you're both experiencing (the queue, the playlist, her book) then transition: "I'm Roy, by the way."</p>
+              </div>
+            </Collapsible>
+            <Collapsible title="How to Speak to Her" tag="Conversation that creates attraction">
+              <div className="space-y-3 text-sm text-gray-400">
+                <p><span className="font-bold text-gray-200">Statements and assumptions, not interviews.</span> "You seem like the friend who plans the whole trip" invites her to play. "What do you do?" invites autopilot.</p>
+                <p><span className="font-bold text-gray-200">Tease lightly, warmly.</span> Playful disagreement and gentle teasing ("you're trouble, I can tell") signals confidence — always with a smile, never at her insecurities.</p>
+                <p><span className="font-bold text-gray-200">Push-pull rhythm.</span> Show interest, then playfully withdraw it: "You're actually funny… this might be a terrible idea." Tension is what separates flirting from friendliness.</p>
+                <p><span className="font-bold text-gray-200">Hold eye contact a beat longer</span> than friendly, with a slight smile. Most attraction is communicated in the look, not the words.</p>
+                <p><span className="font-bold text-gray-200">Don't hide your intent.</span> You're not her buddy. Flirting = your interest is visible AND you're unbothered about the outcome.</p>
+              </div>
+            </Collapsible>
+            <Collapsible title="Building Comfort" tag="From stranger to 'I feel like I've known you ages'">
+              <div className="space-y-3 text-sm text-gray-400">
+                <p><span className="font-bold text-gray-200">Trade depth gradually.</span> Share something real about yourself first (dreams, family, an embarrassing story) — vulnerability from strength invites hers.</p>
+                <p><span className="font-bold text-gray-200">Listen like it's a skill, because it is.</span> Remember details and call back to them later ("wait — is this the sister from the Spain story?"). Callbacks build an inside world between you two.</p>
+                <p><span className="font-bold text-gray-200">Us-frame.</span> Little conspiracies: "we're definitely judging this DJ together." Shared jokes create "us vs the room."</p>
+                <p><span className="font-bold text-gray-200">Comfort ≠ boring.</span> Keep flirting while going deeper. Deep + zero tension = friend zone; tension + zero depth = forgettable.</p>
+              </div>
+            </Collapsible>
+            <Collapsible title="Making Her Feel Special" tag="The part most guys skip">
+              <div className="space-y-3 text-sm text-gray-400">
+                <p><span className="font-bold text-gray-200">Compliment what she chose, not just what she was born with.</span> Her taste, her humour, her ambition, the way she tells a story. "You light up when you talk about that" lands deeper than "you're pretty."</p>
+                <p><span className="font-bold text-gray-200">Specific beats generic, always.</span> One precise observation about her ("you ask better questions than anyone I've met this month") outweighs ten "you're amazing"s.</p>
+                <p><span className="font-bold text-gray-200">Full presence is the gift.</span> Phone away, body turned to her, unhurried. In a distracted world, undivided attention feels rare because it is.</p>
+                <p><span className="font-bold text-gray-200">Remember and follow through.</span> If she mentions an exam, a trip, a hard week — ask about it next time unprompted. Reliability is romance.</p>
+              </div>
+            </Collapsible>
+            <Collapsible title="Numbers, Dates & Momentum" tag="Closing without weirdness">
+              <div className="space-y-3 text-sm text-gray-400">
+                <p><span className="font-bold text-gray-200">Ask at the peak,</span> not the fizzle: "I need to run — but I want to continue this. What's your number?" Assumptive, warm, simple.</p>
+                <p><span className="font-bold text-gray-200">Text with purpose.</span> Callback to your conversation within a day ("found the song you butchered at karaoke"), then propose something concrete: day, time, place. Endless texting kills momentum.</p>
+                <p><span className="font-bold text-gray-200">Plan dates that create stories.</span> Walk + street food + a view beats a staring contest over dinner. Movement and novelty do the bonding for you.</p>
+                <p><span className="font-bold text-gray-200">If she's hesitant or goes quiet — release gracefully.</span> "No stress at all — enjoy your week." Chasing communicates scarcity; grace communicates options. And it's just the right way to treat people.</p>
+              </div>
+            </Collapsible>
+          </div>
+        )}
+      </div>
+      <BottomNav />
+    </main>
+  );
+}

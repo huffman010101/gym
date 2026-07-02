@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Dumbbell, Target, Utensils, Mic, ChevronRight, Zap, Shield, Flame, Wind, Heart, Trophy, LayoutDashboard } from 'lucide-react';
+import { Dumbbell, Target, Utensils, Mic, ChevronRight, Zap, Shield, Flame, Wind, Heart, Trophy, LayoutDashboard, Swords, Sparkles, Brain } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const GOALS = [
@@ -83,6 +83,28 @@ export default function Home() {
           Build My Plan <ChevronRight size={20} />
         </Link>
         <p className="text-gray-600 text-sm mt-4">Free · No account · Takes 2 minutes</p>
+      </section>
+
+      {/* The four pillars */}
+      <section className="px-6 pb-16 max-w-4xl mx-auto">
+        <p className="text-center text-gray-600 text-xs uppercase tracking-widest font-medium mb-6">The four pillars</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {[
+            { to: '/dashboard', icon: Dumbbell, label: 'Gym',    desc: 'Training · nutrition · physique AI', color: 'text-orange-400', border: 'hover:border-orange-500/40', bg: 'bg-orange-500/10' },
+            { to: '/combat',    icon: Swords,   label: 'Combat', desc: 'Takedowns · grappling · fight IQ',   color: 'text-red-400',    border: 'hover:border-red-500/40',    bg: 'bg-red-500/10' },
+            { to: '/looksmax',  icon: Sparkles, label: 'Looks',  desc: 'AI face scan · style · fragrance',   color: 'text-purple-400', border: 'hover:border-purple-500/40', bg: 'bg-purple-500/10' },
+            { to: '/mind',      icon: Brain,    label: 'Mind',   desc: 'Charisma · confidence · self-talk',  color: 'text-pink-400',   border: 'hover:border-pink-500/40',   bg: 'bg-pink-500/10' },
+          ].map(({ to, icon: Icon, label, desc, color, border, bg }) => (
+            <Link key={to} to={to}
+              className={`bg-[#111] border border-white/8 ${border} rounded-2xl p-4 transition-all hover:-translate-y-0.5 group`}>
+              <div className={`w-9 h-9 ${bg} rounded-xl flex items-center justify-center mb-3`}>
+                <Icon size={18} className={color} />
+              </div>
+              <p className="font-black text-sm mb-0.5">{label}</p>
+              <p className="text-gray-600 text-[11px] leading-snug">{desc}</p>
+            </Link>
+          ))}
+        </div>
       </section>
 
       {/* Feature tags */}
