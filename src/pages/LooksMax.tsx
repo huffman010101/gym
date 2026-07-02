@@ -187,7 +187,7 @@ export default function LooksMax() {
           <ArrowLeft size={15} className="mr-1" /> Dashboard
         </Link>
         <h1 className="text-3xl font-black tracking-tight gradient-text-purple">Looksmax Hub</h1>
-        <p className="text-gray-500 text-xs mt-1">AI Scan · Hair · Face · Grooming · Fragrance · Tracker</p>
+        <p className="text-gray-500 text-xs mt-1">AI Scan · Hair · Face · Grooming · Scent · Tracker</p>
       </div>
 
       {/* Tabs */}
