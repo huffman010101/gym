@@ -990,6 +990,61 @@ export default function LooksMax() {
                 ))}
               </div>
             </div>
+
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-1">Capsule Wardrobe</h2>
+              <p className="text-gray-600 text-xs mb-3">A base rotation that mixes across your archetype — not a pile of one-off fits. Every piece should work with at least three others.</p>
+              <div className="space-y-2">
+                {[
+                  ['The core (buy once, wear everywhere)', '2 fitted plain tees (white, black) · 1 muscle-fit tee in your best colour · dark slim/tapered jeans · neutral chinos or tailored joggers · 1 overshirt (navy or olive) · white leather sneakers · 1 boot or loafer · 1 quality plain hoodie.'],
+                  ['The KERS layer', 'Your KERS muscle-fit cuts ARE the statement tees of this system — colour-blocked joggers pair with the plain tees, muscle-fit tops pair with the neutral bottoms. One KERS statement piece per outfit, everything else from the core. That\'s how brand pieces read as style instead of billboard.'],
+                  ['The mixing rule', 'Statement piece + two neutrals. Colour-blocked joggers → plain white/black tee + clean sneakers. Muscle-fit colour tee → dark jeans + neutral overshirt. Never two statements fighting.'],
+                  ['Buy in outfits, not items', 'Before buying anything new: name three outfits it completes with what you already own. Can\'t name them = don\'t buy it.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-1">Occasion Mapping</h2>
+              <p className="text-gray-600 text-xs mb-3">3-4 pieces per occasion, reusing the core. Decide once, never stand in front of the wardrobe confused again.</p>
+              <div className="space-y-3">
+                {[
+                  ['Gym', 'KERS muscle-fit tee + colour-blocked joggers + clean trainers. The training fit IS the brand showcase — this is where muscle-fit belongs by definition.'],
+                  ['Casual daytime', 'Plain fitted tee + tapered joggers or dark jeans + white sneakers + overshirt if cold. One KERS piece max, rest neutral.'],
+                  ['Night out', 'Best-fitting dark tee or muscle-fit in a deep colour + dark jeans + boots or pristine sneakers + your date fragrance (see Scent tab). Darker palette, sharper lines.'],
+                  ['Smart-casual', 'Oxford or polo + chinos + loafers/clean leather sneakers + watch. This is the occasion the joggers sit out.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-amber-300">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-1">Social Media Presence</h2>
+              <p className="text-gray-600 text-xs mb-3">Your grid is your first impression before you ever speak. Curate it like an outfit.</p>
+              <div className="space-y-2">
+                {[
+                  ['Consistent aesthetic', 'Pick a visual lane that matches the KERS direction — editorial, muscle-fit, colour-blocked — and let every post live in it. Same tones, similar lighting, coherent grid. Random memes + gym pics + night blur = no signal.'],
+                  ['Bio: one clear signal', 'Specific beats vague. What you do or train + one personality note. "Aesthetic lifting · Building KERS" says more than a paragraph of emojis and quotes.'],
+                  ['Posting cadence', 'Training content, style/fit content, the occasional life highlight. Quality over frequency — 1-2 strong posts a week beats daily filler. Never overshare: mystery is content too.'],
+                  ['Photo curation', 'Golden-hour or window light, rear camera, shot from chest height (not below-chin selfies). Outfit coordinated with your archetype and colours from this tab. Delete the bottom 50% of what you shoot — the grid only keeps bangers.'],
+                  ['Stories vs grid', 'Grid = curated highlights that sell the aesthetic. Stories = looser, real-time, personality. Don\'t invert them.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </>
         )}
 

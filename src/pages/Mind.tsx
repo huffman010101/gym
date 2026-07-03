@@ -120,6 +120,14 @@ export default function Mind() {
               ['Give real reactions', '"No way — that changes everything, what did you do?" beats "oh nice". Being easily delighted is charisma fuel.'],
               ['Exit on a high', 'Leave conversations at the peak, not the fizzle. "I need to head off — this was the best chat I\'ve had all week." People remember endings.'],
             ]} />
+            <Card icon={MessageCircle} title="Storytelling & Banter" items={[
+              ['Story structure: setup → tension → payoff', 'Setup: one line of context ("So I\'m at the gym at 6am, dead empty…"). Tension: the thing that went wrong or got weird. Payoff: the punchline or the lesson. Cut everything that isn\'t one of those three.'],
+              ['Tell it for them, not for you', 'Eye contact, act out the voices, pause before the payoff. A mid story told with energy beats a great story mumbled.'],
+              ['Callback humour', 'Reference a joke or moment from earlier in the conversation ("classic — just like your Spain disaster"). Callbacks build an inside world and prove you were listening. The longer the gap, the harder it lands.'],
+              ['Banter = playful disagreement', 'Take the opposite side of something trivial with a grin, exaggerate, never punch at real insecurities. If they escalate the bit, play along — dropping the bit to be literal kills it.'],
+              ['Know when to lead vs follow', 'Lead when energy dips (new topic, suggestion, tease). Follow when they light up about something — feed it with reactions and questions. Charisma is reading which mode the moment needs.'],
+              ['Ask real questions, then actually listen', 'The upgrade from small talk isn\'t better questions, it\'s using their ANSWER. If you\'re queueing your next line while they talk, they can feel it.'],
+            ]} />
           </div>
         )}
 
@@ -254,6 +262,23 @@ export default function Mind() {
                 <p><span className="font-bold text-gray-200">Specific beats generic, always.</span> One precise observation about her ("you ask better questions than anyone I've met this month") outweighs ten "you're amazing"s.</p>
                 <p><span className="font-bold text-gray-200">Full presence is the gift.</span> Phone away, body turned to her, unhurried. In a distracted world, undivided attention feels rare because it is.</p>
                 <p><span className="font-bold text-gray-200">Remember and follow through.</span> If she mentions an exam, a trip, a hard week — ask about it next time unprompted. Reliability is romance.</p>
+              </div>
+            </Collapsible>
+            <Collapsible title="Texting Game" tag="Momentum over monologues">
+              <div className="space-y-3 text-sm text-gray-400">
+                <p><span className="font-bold text-gray-200">Match her length and pace, roughly.</span> She sends two lines, you send around two lines. She takes an hour, you don't need to reply in 30 seconds. Mirroring reads as calibrated; triple-texting reads as anxious. One follow-up max, then let it breathe.</p>
+                <p><span className="font-bold text-gray-200">Text with intent.</span> Every text should have a job: a question, a bit, or a plan. "haha yeah" is a dead-end — if you have nothing to add, that's the moment to propose something instead.</p>
+                <p><span className="font-bold text-gray-200">Humour and specificity beat "hey, how's it going".</span> Callback to your conversation ("saw a guy order the thing you swore you'd never admit you like") lands 10× harder than a generic check-in. Specific = you remembered = you care.</p>
+                <p><span className="font-bold text-gray-200">Don't perform interest you don't have.</span> Hot-and-cold reads worse than honest and direct. If you like her, text like it. If you're unsure, don't manufacture daily conversation out of obligation — inconsistency is the real turn-off.</p>
+                <p><span className="font-bold text-gray-200">The plan is the point.</span> Texting exists to get to the date. Two or three good exchanges, then: "Thursday, that ramen place you doubted — 7?" Prolonged pen-pal phases kill more connections than bad openers ever have.</p>
+              </div>
+            </Collapsible>
+            <Collapsible title="Building Genuine Connection" tag="The difference between game and connection">
+              <div className="space-y-3 text-sm text-gray-400">
+                <p><span className="font-bold text-gray-200">Make her feel heard, specifically.</span> Generic compliments bounce off; specific callbacks stick. "You said last week you were dreading that presentation — how did it actually go?" is worth more than a hundred "you're gorgeous" texts.</p>
+                <p><span className="font-bold text-gray-200">Escalate at HER pace, not a script's.</span> Depth, flirting, touch, plans — each step should match the energy she's giving back. If she opens up, meet her there. If she keeps it light, stay light and let it build. Scripted sequences ignore the person in front of you, and it shows.</p>
+                <p><span className="font-bold text-gray-200">Read actual signals, don't project.</span> Interested looks like: she asks questions back, extends conversations, remembers your details, finds reasons to stay near. Polite looks like: short answers, no questions, exits when convenient. Believe the pattern, not the one ambiguous moment — and never argue with a no.</p>
+                <p><span className="font-bold text-gray-200">Let her surprise you.</span> Curiosity about who she actually is — not a category of girl — is rare enough to be magnetic. The guys who connect are the ones who update what they think in real time instead of running a routine.</p>
               </div>
             </Collapsible>
             <Collapsible title="Numbers, Dates & Momentum" tag="Closing without weirdness">
