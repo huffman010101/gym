@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Dumbbell, Target, Utensils, Mic, ChevronRight, Zap, Shield, Flame, Wind, Heart, Trophy, LayoutDashboard, Swords, Sparkles, Brain } from 'lucide-react';
+import { Dumbbell, Target, Utensils, Mic, ChevronRight, Zap, Shield, Flame, Wind, Heart, Trophy, LayoutDashboard, Swords, Sparkles, Brain, GraduationCap } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const GOALS = [
@@ -87,7 +87,8 @@ export default function Home() {
             { to: '/looksmax',  icon: Sparkles, label: 'Looks',    desc: 'AI face scan · style · fragrance',      color: 'text-purple-400',  border: 'hover:border-purple-500/40',  bg: 'bg-purple-500/10' },
             { to: '/mind',      icon: Brain,    label: 'Mind',     desc: 'Charisma · aura · confidence',          color: 'text-pink-400',    border: 'hover:border-pink-500/40',    bg: 'bg-pink-500/10' },
             { to: '/football',  icon: Trophy,   label: 'Football', desc: 'Speed · shooting · position mastery',   color: 'text-emerald-400', border: 'hover:border-emerald-500/40', bg: 'bg-emerald-500/10' },
-            { to: '/money',     icon: Target,   label: 'Money',    desc: 'Skills · online income · investing',    color: 'text-yellow-400',  border: 'hover:border-yellow-500/40',  bg: 'bg-yellow-500/10' },
+            { to: '/money',     icon: Target,   label: 'Money',    desc: 'Skills · business · investing',         color: 'text-yellow-400',  border: 'hover:border-yellow-500/40',  bg: 'bg-yellow-500/10' },
+            { to: '/uni',       icon: GraduationCap, label: 'Uni & Brain', desc: 'AI revision · career · sleep · IQ', color: 'text-sky-400', border: 'hover:border-sky-500/40', bg: 'bg-sky-500/10' },
           ].map(({ to, icon: Icon, label, desc, color, border, bg }) => (
             <Link key={to} to={to}
               className={`bg-[#111] border border-white/8 ${border} rounded-2xl p-4 transition-all hover:-translate-y-0.5 group`}>

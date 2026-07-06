@@ -12,6 +12,7 @@ import Combat from './pages/Combat';
 import Mind from './pages/Mind';
 import Football from './pages/Football';
 import Money from './pages/Money';
+import Uni from './pages/Uni';
 import ApiKeySetup from './components/ApiKeySetup';
 import { getApiKey } from './lib/anthropic';
 
@@ -38,6 +39,7 @@ export default function App() {
         <Route path="/mind" element={<Mind />} />
         <Route path="/football" element={<Football />} />
         <Route path="/money" element={<Money />} />
+        <Route path="/uni" element={<Uni />} />
       </Routes>
     </HashRouter>
   );

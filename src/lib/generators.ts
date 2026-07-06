@@ -278,6 +278,62 @@ Give 3-5 combos if the collection allows. If a fragrance name is unrecognisable,
   return parse(text) as LayeringResult;
 }
 
+export interface StudyPack {
+  timetable: { day: string; focus: string; tasks: string[] }[];
+  prioritySheet: string[];
+  summarySheet: { topic: string; keyPoints: string[] }[];
+  equationSheet: { name: string; formula: string; whenToUse: string }[];
+  denseNotes: string;
+  examTips: string[];
+}
+
+export async function generateStudyPack(
+  course: string,
+  modules: string,
+  examInfo: string,
+  materials: string
+): Promise<StudyPack> {
+  const client = makeClient();
+  const msg = await client.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 8000,
+    messages: [{
+      role: 'user',
+      content: `You are an elite academic coach who has taken hundreds of students to first-class degrees. Build a complete revision pack.
+
+COURSE: ${course}
+MODULES/TOPICS: ${modules}
+EXAM DATES & FORMAT: ${examInfo || 'Not specified — assume exams in ~4 weeks'}
+PASTED LECTURE MATERIAL (slides text, notes — may be partial):
+"""
+${materials.slice(0, 12000)}
+"""
+
+Build from the material provided; where material is thin, use your knowledge of what this course/module standardly covers at university level.
+
+Return ONLY valid JSON, no markdown fences:
+{
+  "timetable": [
+    { "day": "Day 1 (Mon)", "focus": "Module/topic name", "tasks": ["45min: active recall on X — write everything you know, then check", "30min: past paper Qs on Y", "15min: flashcard review"] }
+  ],
+  "prioritySheet": ["The 20% of topics most likely to dominate the exam and why", "..."],
+  "summarySheet": [
+    { "topic": "Topic name", "keyPoints": ["The 3-6 things you MUST know about this topic, stated concretely"] }
+  ],
+  "equationSheet": [
+    { "name": "Equation/formula/framework name", "formula": "The equation or framework stated precisely", "whenToUse": "Trigger words in a question that mean you use this" }
+  ],
+  "denseNotes": "A single dense revision document in markdown covering the material — definitions, mechanisms, examples, common exam traps. Aim for the highest information density per line. Use ## headings per topic.",
+  "examTips": ["Specific technique tips for THIS exam format", "..."]
+}
+
+Timetable: 7-14 days, realistic 2-4h/day, built on active recall + spaced repetition + past papers (never passive rereading). If no equations apply to this course, use equationSheet for key frameworks/definitions instead.`,
+    }],
+  });
+  const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
+  return parse(text) as StudyPack;
+}
+
 export interface FaceAnalysisResult {
   faceShape: string;
   faceShapeReasoning: string;
