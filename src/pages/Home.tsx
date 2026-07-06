@@ -65,47 +65,84 @@ export default function Home() {
         </div>
       )}
 
-      {/* Hero */}
-      <section className="px-6 pt-16 pb-24 text-center max-w-4xl mx-auto">
-        <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 rounded-full px-4 py-1.5 text-sm text-orange-400 mb-8">
-          <Zap size={13} /> AI-Powered. Goal-Specific. Yours.
+      {/* Header */}
+      <section className="px-6 pt-10 pb-6 max-w-4xl mx-auto text-center">
+        <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 rounded-full px-4 py-1.5 text-xs text-orange-400 mb-5">
+          <Zap size={12} /> Every metric of your life, upgraded
         </div>
-        <h1 className="text-5xl md:text-7xl font-black mb-6 leading-[1.05] tracking-tight">
-          The gym plan<br />
-          <span className="gradient-text">built for you.</span>
+        <h1 className="text-3xl md:text-5xl font-black leading-tight tracking-tight mb-2">
+          Become <span className="gradient-text">undeniable.</span>
         </h1>
-        <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-          Answer a short quiz. Get a personalised workout split, daily calorie targets,
-          and a meal rotation — all tuned to your body, your goals, and your lifestyle.
+        <p className="text-gray-500 text-sm md:text-base max-w-xl mx-auto">
+          Training, fighting, looks, mindset, football and money — one system.
         </p>
-        <Link to="/quiz"
-          className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl text-lg font-bold transition-all hover:scale-105 shadow-lg shadow-orange-500/20">
-          Build My Plan <ChevronRight size={20} />
-        </Link>
-        <p className="text-gray-600 text-sm mt-4">Free · No account · Takes 2 minutes</p>
       </section>
 
-      {/* The four pillars */}
-      <section className="px-6 pb-16 max-w-4xl mx-auto">
-        <p className="text-center text-gray-600 text-xs uppercase tracking-widest font-medium mb-6">The four pillars</p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      {/* The sections */}
+      <section className="px-6 pb-10 max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {[
-            { to: '/dashboard', icon: Dumbbell, label: 'Gym',    desc: 'Training · nutrition · physique AI', color: 'text-orange-400', border: 'hover:border-orange-500/40', bg: 'bg-orange-500/10' },
-            { to: '/combat',    icon: Swords,   label: 'Combat', desc: 'Takedowns · grappling · fight IQ',   color: 'text-red-400',    border: 'hover:border-red-500/40',    bg: 'bg-red-500/10' },
-            { to: '/looksmax',  icon: Sparkles, label: 'Looks',  desc: 'AI face scan · style · fragrance',   color: 'text-purple-400', border: 'hover:border-purple-500/40', bg: 'bg-purple-500/10' },
-            { to: '/mind',      icon: Brain,    label: 'Mind',   desc: 'Charisma · confidence · self-talk',  color: 'text-pink-400',   border: 'hover:border-pink-500/40',   bg: 'bg-pink-500/10' },
+            { to: '/dashboard', icon: Dumbbell, label: 'Gym',      desc: 'Training · nutrition · physique AI',    color: 'text-orange-400',  border: 'hover:border-orange-500/40',  bg: 'bg-orange-500/10' },
+            { to: '/combat',    icon: Swords,   label: 'Combat',   desc: 'Takedowns · grappling · fight IQ',      color: 'text-red-400',     border: 'hover:border-red-500/40',     bg: 'bg-red-500/10' },
+            { to: '/looksmax',  icon: Sparkles, label: 'Looks',    desc: 'AI face scan · style · fragrance',      color: 'text-purple-400',  border: 'hover:border-purple-500/40',  bg: 'bg-purple-500/10' },
+            { to: '/mind',      icon: Brain,    label: 'Mind',     desc: 'Charisma · aura · confidence',          color: 'text-pink-400',    border: 'hover:border-pink-500/40',    bg: 'bg-pink-500/10' },
+            { to: '/football',  icon: Trophy,   label: 'Football', desc: 'Speed · shooting · position mastery',   color: 'text-emerald-400', border: 'hover:border-emerald-500/40', bg: 'bg-emerald-500/10' },
+            { to: '/money',     icon: Target,   label: 'Money',    desc: 'Skills · online income · investing',    color: 'text-yellow-400',  border: 'hover:border-yellow-500/40',  bg: 'bg-yellow-500/10' },
           ].map(({ to, icon: Icon, label, desc, color, border, bg }) => (
             <Link key={to} to={to}
               className={`bg-[#111] border border-white/8 ${border} rounded-2xl p-4 transition-all hover:-translate-y-0.5 group`}>
-              <div className={`w-9 h-9 ${bg} rounded-xl flex items-center justify-center mb-3`}>
-                <Icon size={18} className={color} />
+              <div className="flex items-center justify-between mb-3">
+                <div className={`w-9 h-9 ${bg} rounded-xl flex items-center justify-center`}>
+                  <Icon size={18} className={color} />
+                </div>
+                <ChevronRight size={15} className="text-gray-700 group-hover:text-gray-500 group-hover:translate-x-0.5 transition-all" />
               </div>
               <p className="font-black text-sm mb-0.5">{label}</p>
               <p className="text-gray-600 text-[11px] leading-snug">{desc}</p>
             </Link>
           ))}
         </div>
+
+        {/* Quick tools */}
+        <div className="grid grid-cols-2 gap-3 mt-3">
+          <Link to="/looksmax"
+            className="flex items-center gap-3 bg-[#111] border border-white/8 hover:border-purple-500/30 rounded-2xl px-4 py-3 transition-all">
+            <div className="w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Sparkles size={15} className="text-purple-400" />
+            </div>
+            <div>
+              <p className="font-bold text-xs">AI Face Scan</p>
+              <p className="text-gray-600 text-[10px]">Haircut & style for YOUR face</p>
+            </div>
+          </Link>
+          <Link to="/quiz"
+            className="flex items-center gap-3 bg-[#111] border border-white/8 hover:border-orange-500/30 rounded-2xl px-4 py-3 transition-all">
+            <div className="w-8 h-8 bg-orange-500/10 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Target size={15} className="text-orange-400" />
+            </div>
+            <div>
+              <p className="font-bold text-xs">{hasPlan ? 'Redo the Quiz' : 'Build My Plan'}</p>
+              <p className="text-gray-600 text-[10px]">2-min quiz → full AI plan</p>
+            </div>
+          </Link>
+        </div>
       </section>
+
+      {/* Plan CTA card (compact) */}
+      {!hasPlan && (
+        <section className="px-6 pb-12 max-w-4xl mx-auto">
+          <div className="bg-gradient-to-br from-orange-500/10 to-red-500/5 border border-orange-500/20 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div>
+              <h2 className="font-black text-lg mb-1">Start with your AI plan</h2>
+              <p className="text-gray-500 text-sm">Workout split, calories, and a meal rotation tuned to your body and goal. Free, no account, 2 minutes.</p>
+            </div>
+            <Link to="/quiz"
+              className="flex-shrink-0 inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-bold transition-all hover:scale-105">
+              Build My Plan <ChevronRight size={17} />
+            </Link>
+          </div>
+        </section>
+      )}
 
       {/* Feature tags */}
       <div className="px-6 pb-8">

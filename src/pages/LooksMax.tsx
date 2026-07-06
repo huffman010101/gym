@@ -808,6 +808,18 @@ export default function LooksMax() {
               'Morning: cold water splash 30s + 2 min lymphatic massage (push from centre of face outward and down the neck).',
               'Cut late-night carbs+salt combos before events and photos.',
             ]} />
+            <ExpandableCard badge="S-TIER" title="Supplement stack — what's actually worth taking" content={[
+              'Creatine monohydrate 5g daily, any time, forever — the most proven supplement in existence: strength, muscle fullness, even cognitive benefits. No loading phase needed, no cycling.',
+              'Whey protein — food first, whey to fill the gap to your daily protein target. It\'s food, not magic.',
+              'Vitamin D3 (2000-4000 IU with a meal) — most people are deficient, especially in the UK. Mood, testosterone support, immunity, skin. Take with K2 if possible.',
+              'Omega-3 fish oil (1-2g EPA/DHA daily) — skin quality, joint health, recovery, brain. If you don\'t eat oily fish twice a week, take it.',
+              'Magnesium glycinate (200-400mg before bed) — deeper sleep, less muscle cramping, stress regulation. Sleep is your #1 looksmax tool; this feeds it.',
+              'Zinc (only if deficient / heavy sweater) — testosterone and skin. Don\'t megadose; it competes with copper.',
+              'Caffeine (100-200mg pre-training) — the only legal performance enhancer that\'s truly noticeable. Cut off 8+ hours before bed or it eats your sleep.',
+              'Ashwagandha (300-600mg KSM-66) — decent evidence for lowering stress/cortisol; helpful in hard training or stressful periods. Cycle it: 8 weeks on, 2-4 off.',
+              'SKIP: fat burners (caffeine in a costume), test boosters (do nothing your sleep wouldn\'t), BCAAs (pointless if protein is adequate), greens powders (expensive urine — eat vegetables).',
+              'Order of importance so you never forget: sleep > diet > training > creatine + D3 + omega-3 > everything else is optional.',
+            ]} />
             <ExpandableCard badge="PROVEN" title="Teeth whitening — full protocol" content={[
               'Baseline: electric toothbrush 2×2min, floss nightly, tongue scrape. No whitening beats clean.',
               'Whitening strips (hydrogen peroxide, e.g. Crest 3D): 30 min/day for 2 weeks, then maintenance 1×/week. This is the best value method.',
@@ -882,6 +894,27 @@ export default function LooksMax() {
                 </p>
               </div>
             </div>
+            <ExpandableCard badge="FEMALE GAZE" title="What women actually notice — the real ranking" content={[
+              'The looksmax forums rank jaw angles and canthal tilt. Women, when actually surveyed and observed, rank differently. Here\'s the honest list, roughly in order:',
+              '1. Grooming & effort — clean haircut, tidy facial hair, trimmed nails, no unibrow. Signals self-respect, costs nothing, noticed INSTANTLY.',
+              '2. Smell — fragrance + clean clothes + fresh breath. The most memory-linked sense; a great scent gets you described as "that guy who smelled amazing".',
+              '3. Skin & teeth — clear-ish skin and a clean smile read as health. Perfection not required; care is.',
+              '4. Style & fit — clothes that fit properly outrank expensive clothes and even rank above raw physique for most women.',
+              '5. Posture & presence — how you stand, walk and hold eye contact. A 7/10 face with straight posture and calm eyes beats a 9/10 who shuffles and stares at the floor.',
+              '6. Physique silhouette — shoulders wider than waist, not being under- or overweight. The V-shape reads through a t-shirt; abs don\'t.',
+              '7. THEN face structure — and even here, warmth of expression (smile, eye crinkle) moves attractiveness ratings more than bone measurements do.',
+              'The takeaway: the stuff men obsess over ranks LAST, and the stuff that ranks first is all controllable this month. Fix the top 5 before spending one more minute mirror-measuring your jaw.',
+            ]} />
+            <ExpandableCard badge="FEMALE GAZE" title="Facial harmony — improving the whole, not the parts" content={[
+              'Harmony = features working together, and it beats any individual feature. A face is read as a whole in ~100ms; nobody sums up your parts.',
+              'The thirds check: hairline→brows, brows→nose base, nose base→chin. Roughly equal reads as balanced. You can\'t move bone, but you CAN shift the visual: fringe/volume adjusts the top third, beard length adjusts the bottom third.',
+              'Hairstyle is the #1 harmony tool — it literally reframes the face. This is exactly what the AI Scan tab does: upload a photo, it reads your proportions and names the cuts that balance them. Use it after every major haircut decision.',
+              'Beard/facial hair is #2 — a beard can add a chin, slim round cheeks, or balance a strong forehead. Again: AI Scan gives you this personalised.',
+              'Brows frame the eyes — tidy (not sculpted) brows sharpen the whole midface. See Grooming tab.',
+              'Symmetry habits — even chewing, back sleeping, posture (all covered above) protect harmony long-term.',
+              'Expression is part of harmony: a relaxed, slightly amused resting face photographs and reads better than a forced mog stare. Practice in video, not mirrors — mirrors lie, video is how others see you.',
+              'Debloat + body fat (top of this tab) sharpen every ratio at once — the highest-leverage harmony move there is.',
+            ]} />
             <ExpandableCard badge="MYTH CHECK" title="Hunter eyes, bone smashing & the dark corners" content={[
               'Orbital shape (deep-set “hunter” eyes) is overwhelmingly genetic. The look improves at the margins with: low body fat, fixed sleep (less lid puff), brow grooming for a stronger brow ridge line, and no more squint-avoiding posture.',
               '“Bone smashing” is self-harm dressed as a technique. It does not remodel bone into anything except fracture risk. Hard no.',

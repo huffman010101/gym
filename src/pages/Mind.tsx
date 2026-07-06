@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, Eye, ChevronDown, Heart } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 
-type Tab = 'charisma' | 'confidence' | 'selftalk' | 'secret';
+type Tab = 'charisma' | 'aura' | 'confidence' | 'selftalk' | 'secret';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'charisma', label: 'Charisma' },
+  { id: 'aura', label: 'Aura' },
   { id: 'confidence', label: 'Confidence' },
   { id: 'selftalk', label: 'Self-Talk' },
   { id: 'secret', label: '🔒 Secret' },
@@ -127,6 +128,43 @@ export default function Mind() {
               ['Banter = playful disagreement', 'Take the opposite side of something trivial with a grin, exaggerate, never punch at real insecurities. If they escalate the bit, play along — dropping the bit to be literal kills it.'],
               ['Know when to lead vs follow', 'Lead when energy dips (new topic, suggestion, tease). Follow when they light up about something — feed it with reactions and questions. Charisma is reading which mode the moment needs.'],
               ['Ask real questions, then actually listen', 'The upgrade from small talk isn\'t better questions, it\'s using their ANSWER. If you\'re queueing your next line while they talk, they can feel it.'],
+            ]} />
+          </div>
+        )}
+
+        {/* ============ AURA ============ */}
+        {tab === 'aura' && (
+          <div className="fade-up space-y-4">
+            <div className="card-premium p-5">
+              <h3 className="font-bold mb-2 flex items-center gap-2"><Sparkles size={16} className="text-pink-400" /> What "Aura" Actually Is</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                The Bond effect is not mystery for its own sake — it's <span className="text-gray-200 font-semibold">composure plus competence plus restraint</span>.
+                People read hundreds of micro-signals: how you enter a room, how you react to spilled drinks, how much you need
+                to be noticed. High-value reads as "this person is complete without my approval." Every habit below feeds that signal.
+              </p>
+            </div>
+            <Card icon={Sparkles} title="The Bond Habits" items={[
+              ['Unshakeable under small chaos', 'Order is wrong, train\'s cancelled, someone\'s rude — your reaction is a raised eyebrow and a plan, never a flap. Composure in trivial moments is what people extrapolate to everything else.'],
+              ['Decisive by default', 'Order without re-reading the menu three times. Pick the restaurant. Choose the plan. Decisiveness in small things builds the aura of a man who knows what he wants in big things.'],
+              ['Speak less, land more', 'Bond wins conversations with a sentence, not a monologue. Say 70% of what you could; the withheld 30% is the aura. Never narrate your whole life to fill silence.'],
+              ['Immaculate by default', 'Pressed clothes, clean shoes, groomed always — not for events, as baseline. Aura dies the day someone sees you scruffy at the shop.'],
+              ['Unbothered by attention either way', 'Neither seeking the spotlight nor shrinking from it. Enter rooms calmly, greet who you know, settle in — no scanning for validation.'],
+              ['Politeness with edge', 'Courteous to everyone — waiters, bouncers, strangers — but never a pushover. "No" said pleasantly and finally, once, is the most high-status sentence there is.'],
+            ]} />
+            <Card icon={Eye} title="Scarcity & Restraint" items={[
+              ['Don\'t announce plans, reveal results', 'Talking about goals leaks the reward before the work. Show up transformed instead — mystery plus proof beats promises.'],
+              ['Miss occasionally', 'Not every party, not every reply within minutes, not endlessly available. People value what has scarcity. (Genuine busyness building your life — not games.)'],
+              ['Never over-explain', 'Reasons on request, not preemptive essays. Over-explaining signals you expect to be doubted.'],
+              ['Keep confidences like a vault', 'Never gossip. The person hearing your gossip learns you leak. "He never talks about people" is elite reputation.'],
+              ['Compliment rarely, precisely', 'When compliments are scarce and specific, yours mean something. The person who validates everything validates nothing.'],
+            ]} />
+            <Card icon={Brain} title="Psychology of Positivity (the real kind)" items={[
+              ['The no-complaint rule', 'Zero complaining unless paired with an action ("this is broken, here\'s what I\'m doing"). Complainers signal helplessness; problem-solvers signal power. Try 7 days clean.'],
+              ['Reframe on impact', 'First thought after a setback: "good — because…". Missed train = time to make the call. Rejection = data + a story. This is trainable and it\'s the core of resilience psychology.'],
+              ['Gratitude with teeth', 'Nightly: 3 specific things that went right and WHY they happened. Trains your attention to spot opportunity instead of threat — measurable mood and optimism shifts within weeks.'],
+              ['Energy is a choice you make hourly', 'People remember how you made the room feel. Deciding to bring warmth and energy — especially when neutral — is the most underrated social skill on earth.'],
+              ['Abundance beats scarcity in every decision', 'One opportunity/person/chance is never the only one. Scarcity thinking causes clinging, rushing, settling. Abundance thinking is calm — and it\'s self-fulfilling because calm attracts options.'],
+              ['Guard the inputs', 'Doomscrolling, gossip, blackpill content — your mind eats what you feed it. Curate feeds as strictly as your diet. Positivity is an input problem before it\'s a mindset problem.'],
             ]} />
           </div>
         )}
@@ -279,6 +317,39 @@ export default function Mind() {
                 <p><span className="font-bold text-gray-200">Escalate at HER pace, not a script's.</span> Depth, flirting, touch, plans — each step should match the energy she's giving back. If she opens up, meet her there. If she keeps it light, stay light and let it build. Scripted sequences ignore the person in front of you, and it shows.</p>
                 <p><span className="font-bold text-gray-200">Read actual signals, don't project.</span> Interested looks like: she asks questions back, extends conversations, remembers your details, finds reasons to stay near. Polite looks like: short answers, no questions, exits when convenient. Believe the pattern, not the one ambiguous moment — and never argue with a no.</p>
                 <p><span className="font-bold text-gray-200">Let her surprise you.</span> Curiosity about who she actually is — not a category of girl — is rare enough to be magnetic. The guys who connect are the ones who update what they think in real time instead of running a routine.</p>
+              </div>
+            </Collapsible>
+            <Collapsible title="Nights Out — The Full Game Plan" tag="Bars, clubs, and how to actually talk to women out">
+              <div className="space-y-3 text-sm text-gray-400">
+                <p><span className="font-bold text-gray-200">Logistics first.</span> Go earlier than the crowd (11pm energy is friendlier than 1am chaos), small group of 2-3 (big packs are unapproachable and distracting), and stay light on drink — 2 drinks of social lubricant, never sloppy. You cannot run any of this drunk.</p>
+                <p><span className="font-bold text-gray-200">Warm up immediately.</span> Talk to EVERYONE for the first 30 min — bouncers, bartenders, groups of guys, everyone. You\'re not approaching yet; you\'re getting your social engine warm so the first real approach isn\'t cold.</p>
+                <p><span className="font-bold text-gray-200">Positioning beats approaching.</span> Stand where traffic flows — near the bar, not hidden in a booth. Eye contact + smile at girls as they pass; if she holds it or looks back twice, that\'s your green light and half the work is done.</p>
+                <p><span className="font-bold text-gray-200">Loud venue = simple and close.</span> Forget clever openers, they can\'t hear you. Warm smile, lean toward her ear: "I had to come say hi — I\'m Roy." Then physically position side-by-side (easier than shouting face-to-face).</p>
+                <p><span className="font-bold text-gray-200">Handle the group.</span> Her friends decide your fate. Greet them early ("are you looking after her tonight? good"), win a smile from them, then turn back. Ignoring friends = friends extract her in 5 minutes.</p>
+                <p><span className="font-bold text-gray-200">Move it somewhere quieter.</span> "It\'s way too loud here — let\'s grab a drink at the bar / get some air by the smoking area." Venue changes within the night build hours of comfort in minutes. Always an invitation, never a pull.</p>
+                <p><span className="font-bold text-gray-200">Close honestly.</span> Number early once it\'s clearly on ("we\'re getting food this week — what\'s your number?"), because clubs eat conversations. If the vibe is instant, suggest the food spot after. And if she\'s hesitant at ANY step — smile, wish her a good night, exit like a king. The whole room notices how you handle a no.</p>
+              </div>
+            </Collapsible>
+            <Collapsible title="Getting a Girlfriend" tag="From dates to something real">
+              <div className="space-y-3 text-sm text-gray-400">
+                <p><span className="font-bold text-gray-200">Screen, don\'t just chase.</span> You\'re choosing too. Watch for: how she treats waiters, whether she asks about you, reliability (does she flake?), how she talks about exes, whether her life has its own engine. Beauty gets someone dates; character gets them a relationship.</p>
+                <p><span className="font-bold text-gray-200">Consistency is the courtship.</span> One date a week minimum, planned by you, escalating in depth: activity date → dinner → cooking at yours → meeting friends. Momentum with patience — rushing reads as scarcity, drifting reads as indifference.</p>
+                <p><span className="font-bold text-gray-200">Depth trades build the bond.</span> Each date, exchange something realer: fears, family, ambitions, embarrassments. You lead the vulnerability, she matches. That ladder IS falling for each other.</p>
+                <p><span className="font-bold text-gray-200">Be boyfriend material before asking for the title.</span> Emotional steadiness, keeping plans, remembering details, having your own mission (gym, money, football — this whole app). The relationship conversation goes well when it\'s obvious you\'re a catch committing, not a fan hoping.</p>
+                <p><span className="font-bold text-gray-200">The exclusivity talk — direct, relaxed.</span> After 6-10 great dates when it\'s clearly mutual: "I\'m not interested in seeing anyone else — I want this to be us. What do you think?" No ultimatums, no hint-dropping. If she hesitates, don\'t negotiate; take it as information.</p>
+                <p><span className="font-bold text-gray-200">Red flags override chemistry.</span> Contempt, chronic flaking, secret-keeping, punishing you with silence — attraction makes these easy to excuse and they only grow. Walking away early is a skill that saves years.</p>
+              </div>
+            </Collapsible>
+            <Collapsible title="Intimacy — Doing It Right" tag="18+ · what actually matters in bed">
+              <div className="space-y-3 text-sm text-gray-400">
+                <p><span className="font-bold text-gray-200">Consent and communication are the foundation — and they\'re attractive.</span> Enthusiastic yes at every stage, and check-ins that double as dirty talk ("you like that?"). A partner who clearly cares about her experience is rarer and hotter than any technique. If she\'s hesitant or drunk, the move is always to slow down or stop.</p>
+                <p><span className="font-bold text-gray-200">Slow is the cheat code.</span> The #1 mistake is rushing. Kissing, neck, ears, inner thighs — build for far longer than feels necessary. Arousal for her is a slow curve, and the buildup decides everything that follows. Teasing (approaching, retreating) beats grabbing.</p>
+                <p><span className="font-bold text-gray-200">Fingering — technique over enthusiasm.</span> Start outside: the clitoris is the centre of her pleasure, not the inside. Gentle circles over/around it, light pressure first, through underwear before under. Wetness first, always — if she\'s not, more kissing and buildup, never force. Inside: one finger, then two, pads facing upward with a slow "come here" curl toward the front wall (the spongier area a couple of inches in) while your palm or thumb keeps contact with the clit. <span className="text-gray-300">Rhythm and consistency beat speed and force</span> — when something makes her respond, keep doing exactly that; changing it up at the peak is the classic error.</p>
+                <p><span className="font-bold text-gray-200">Read her, not a script.</span> Breathing quickening, hips moving toward you, hands pulling you in = continue. Stillness, tensing up, pulling back = change or pause and check in softly. Her body gives constant feedback; the skill is listening.</p>
+                <p><span className="font-bold text-gray-200">Sex itself — pace and presence.</span> Start slower than you think, full attention on her reactions. Angles matter more than speed: positions where she controls depth (her on top) or where there\'s clitoral contact/access (a hand or hers during) are how most women actually finish — penetration alone often isn\'t. Deep, consistent rhythm when she\'s building; don\'t sprint-finish the moment it feels good for you.</p>
+                <p><span className="font-bold text-gray-200">Lasting longer.</span> Slow your breathing (long exhales), vary pace before you\'re at the edge not after, switch positions to reset, and focus on her. Kegels and less frequent, slower self-pleasure train control. Nerves cause most early finishes — experience and comfort fix more than any trick.</p>
+                <p><span className="font-bold text-gray-200">Aftercare is part of it.</span> The minutes after — staying close, warmth, no phone-grab — are what she remembers and retells. Cold exits undo everything the rest did.</p>
+                <p className="text-gray-600">Protection every time until you\'re exclusive and tested — condoms are non-negotiable with new partners. This is the confident-guy move, not the buzzkill.</p>
               </div>
             </Collapsible>
             <Collapsible title="Numbers, Dates & Momentum" tag="Closing without weirdness">
