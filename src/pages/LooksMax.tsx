@@ -855,6 +855,27 @@ export default function LooksMax() {
               'Stain control: straw for coffee/coke, rinse water after espresso, cut smoking — it undoes everything.',
               'Dentist in-office whitening: fastest and safest big jump if you have the budget. Hygienist clean twice a year regardless.',
             ]} />
+            <ExpandableCard badge="PROVEN" title="Tanning — the safe glow playbook" content={[
+              'The truth first: a light tan reads as healthy and sharpens muscle definition — but UV damage is cumulative and it\'s THE #1 ager of skin. The goal is the glow without the leather-face at 40.',
+              'Gradual sun method: 15-25 min of midday sun on unprotected skin 3-4×/week builds a base tan AND vitamin D, then SPF on after. Never burn — a burn is DNA damage, not "the first step of a tan", and it peels off anyway.',
+              'Face exception: your face gets enough incidental sun through the year — keep daily SPF on it and let the body do the tanning. Faces age publicly; bodies don\'t.',
+              'Self-tanner is the pro move: gradual-tan lotions (or drops mixed into moisturiser) give a controllable colour with ZERO damage. Exfoliate first, moisturise knees/elbows/ankles, wash palms immediately. Once you dial it in, nobody can tell.',
+              'Sunbeds: hard no. Concentrated UVA, massively raised melanoma risk, and premature ageing — the worst looks trade in existence.',
+              'Maximise the tan you have: exfoliate weekly (even tan, no patches), moisturise daily (tans fade via dead skin shedding), and beta-carotene foods (carrots, sweet potato) add a real, studied warmth to skin tone.',
+              'Contrast bonus: a tan makes teeth look whiter and eyes brighter — time the glow-up stack together before events.',
+            ]} />
+            <ExpandableCard badge="S-TIER" title="Lifestyle that silently ruins your looks" content={[
+              'Sleep debt — under 7h visibly causes: darker under-eyes, duller skin, puffier face, lower gym recovery, higher cortisol (belly fat). One week of 8h sleep is a visible glow-up on its own. It\'s the free supplement stack.',
+              'Alcohol — dehydrates skin, bloats the face for 2-3 days, wrecks sleep quality (even 2 drinks), adds empty calories, and lowers test. Nothing on this app out-trains a heavy weekly drinking habit.',
+              'Smoking & vaping — accelerated skin ageing, grey undertone, stained teeth, worse healing, hair thinning. The before/after photos of smoker vs non-smoker twins should be mandatory viewing.',
+              'Mouth breathing — dries the mouth (breath, cavities), pulls the resting face slack, disrupts sleep. Fix: nasal breathing habit + mewing tab.',
+              'Chronic phone posture — forward head + rounded shoulders + downward-tilted face = the posture pattern that ages your silhouette 10 years. Screen to eye level, posture resets (Face tab has the fix).',
+              'Sun without SPF — 80-90% of visible facial ageing is UV. Daily SPF is the single best anti-ageing product ever invented, and it costs £10.',
+              'Sugar & constant snacking — glycation stiffens collagen (dull, saggier skin over time), spikes acne, and grazing all day keeps insulin high (harder to stay lean).',
+              'Doomscrolling before bed — blue light + cortisol spike = worse sleep = everything above. Phone out of the bedroom is a looksmax technique.',
+              'Dehydration — even mild dehydration shows in skin and energy. 3L/day baseline, more on training days.',
+              'The frame: none of these need perfection. 80/20 discipline on sleep, alcohol, SPF and posture beats any product you can buy.',
+            ]} />
             <ExpandableCard badge="PROVEN" title="Facial symmetry — what actually moves it" content={[
               'Perfect symmetry doesn\'t exist and isn\'t the goal — reducing obvious imbalance is.',
               'Chew evenly on BOTH sides. Years of one-sided chewing visibly builds one masseter bigger. Consciously switch sides for months.',

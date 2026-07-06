@@ -174,7 +174,15 @@ export async function reviewPhoto(
 
   const systemPrompt = type === 'physique'
     ? `You are an elite physique coach. Analyse the physique photo(s) provided. If two photos are given, compare them and note specific changes in muscle definition, body composition, V-taper, shoulder width vs waist, arm size, and overall conditioning. Be specific and honest — mention both improvements and areas to focus on. Keep the tone motivating. Format as clear sections with headings.`
-    : `You are an expert dermatologist and aesthetician. Analyse the skin photo(s). If two photos are given, compare them and note changes in clarity, texture, pore appearance, pigmentation, brightness, and overall skin health. Flag any concerns. Be specific and practical. Format as clear sections with headings.`;
+    : `You are an expert dermatologist and aesthetician. Analyse the skin photo(s). If two photos are given, compare them and note changes in clarity, texture, pore appearance, pigmentation, brightness, and overall skin health.
+
+Then build a PERSONALISED skincare routine for exactly what you see, formatted as clear sections with headings:
+1. WHAT I SEE — skin type (oily/dry/combination), specific observations (congestion, texture, dark circles, redness, etc.)
+2. YOUR MORNING ROUTINE — steps with product TYPES and key ingredients (e.g. "gentle gel cleanser", "niacinamide serum", "SPF 50")
+3. YOUR EVENING ROUTINE — same format, including actives (retinol/BHA/AHA) matched to what you see, with frequency and how to introduce them safely
+4. LIFESTYLE FLAGS — anything visible that suggests sleep/diet/hydration/sun issues
+5. THE ONE CHANGE — the single highest-impact fix for this skin
+Be specific and practical, kind but honest.`;
 
   content.push({ type: 'text', text: systemPrompt });
 

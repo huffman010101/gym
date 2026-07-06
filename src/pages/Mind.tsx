@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, Eye, ChevronDown, Heart } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 
-type Tab = 'charisma' | 'aura' | 'confidence' | 'selftalk' | 'secret';
+type Tab = 'charisma' | 'aura' | 'icons' | 'confidence' | 'selftalk' | 'secret';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'charisma', label: 'Charisma' },
   { id: 'aura', label: 'Aura' },
+  { id: 'icons', label: 'Icons' },
   { id: 'confidence', label: 'Confidence' },
   { id: 'selftalk', label: 'Self-Talk' },
   { id: 'secret', label: '🔒 Secret' },
@@ -125,6 +126,22 @@ export default function Mind() {
               ['Give real reactions', '"No way — that changes everything, what did you do?" beats "oh nice". Being easily delighted is charisma fuel.'],
               ['Exit on a high', 'Leave conversations at the peak, not the fizzle. "I need to head off — this was the best chat I\'ve had all week." People remember endings.'],
             ]} />
+            <Card icon={MessageCircle} title="How to Be Funny (it's mechanics, not magic)" items={[
+              ['Funny = truth + exaggeration or truth + unexpected angle', 'Notice the true absurd thing everyone half-sees, then push it further ("this gym playlist was chosen by someone going through something") or flip the frame. Observation is 80% of comedy — train it by narrating life absurdities in your head.'],
+              ['Commit fully or don\'t', 'A bit delivered at 100% conviction lands; the same line mumbled with a pre-apology dies. If you start a joke, ride it to the end — even a miss committed to reads as confidence.'],
+              ['Timing: pause BEFORE the punchline', 'The half-second beat is what makes lines land. Rushing to the punchline because you\'re nervous kills more jokes than bad material.'],
+              ['Callbacks are cheat codes', 'Referencing the group\'s earlier joke ("this is the gym playlist guy all over again") gets bigger laughs than new material — it rewards the group\'s shared history.'],
+              ['Self-deprecation: small doses, from height', 'Mocking your own small flaws from obvious confidence = charming. Constantly putting yourself down = the group\'s designated target. Ratio: 1 self-jab per 5 outward observations, never about things you\'re actually insecure about.'],
+              ['Steal structure, not jokes', 'Watch stand-ups and funny mates for HOW they build (setup economy, act-outs, escalation), not lines to repeat. Repeated jokes land once; mechanics land forever.'],
+            ]} />
+            <Card icon={Eye} title="Group Status — never the punching bag" items={[
+              ['Why groups test you', 'Every group playfully probes for who can be teased hardest. The test isn\'t the joke — it\'s your response. Pass the test and it stops; fail repeatedly and it becomes your role. Roles calcify fast, so respond right EARLY.'],
+              ['The response ladder', 'Level 1 — laugh WITH genuinely and add to it ("mate you\'ve been saving that one all week"). Level 2 — agree and amplify to absurdity ("yeah I sleep in my gym clothes, saves time"). Level 3 — flip it back with a smile, once, clean. Never: visible hurt, over-explaining, or silent sulking — those feed it.'],
+              ['Amused, never wounded', 'The unbotherable guy is untouchable. The moment teasing visibly lands, you\'ve taught the group where the button is. If something genuinely crosses a line, address it once, privately, calm: "the X stuff — done with it." Calm directness ends what reactions escalate.'],
+              ['Give status to get status', 'High-status group members bring others in: set up mates\' stories ("tell them about Saturday"), laugh loudly at others\' jokes, remember details. The guy who makes the group work is above the pecking order, not in it.'],
+              ['Don\'t compete for every laugh', 'Trying to top every joke reads as thirsty. Land your moments, let others have theirs. Scarcity applies to humour too.'],
+              ['Never punch down, rarely punch first', 'Tease the confident mates, never the struggling one. Groups clock cruelty instantly and it costs more status than it wins laughs.'],
+            ]} />
             <Card icon={MessageCircle} title="Storytelling & Banter" items={[
               ['Story structure: setup → tension → payoff', 'Setup: one line of context ("So I\'m at the gym at 6am, dead empty…"). Tension: the thing that went wrong or got weird. Payoff: the punchline or the lesson. Cut everything that isn\'t one of those three.'],
               ['Tell it for them, not for you', 'Eye contact, act out the voices, pause before the payoff. A mid story told with energy beats a great story mumbled.'],
@@ -173,6 +190,43 @@ export default function Mind() {
           </div>
         )}
 
+        {/* ============ ICONS ============ */}
+        {tab === 'icons' && (
+          <div className="fade-up stagger space-y-4">
+            <div className="card-premium p-5">
+              <h3 className="font-bold mb-2 flex items-center gap-2"><Sparkles size={16} className="text-pink-400" /> Steal Like an Artist</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Every man people love has a specific, learnable signature. Don't copy the whole person — extract the ONE
+                trait that makes them magnetic and install it. Below: the icon, why people love them, and the exact thing to take.
+              </p>
+            </div>
+            {[
+              ['David Beckham', 'Beloved for: relentless grooming + soft-spoken humility despite mega-fame.', 'Take: the grooming standard — never once caught scruffy in 30 years — and the trick of letting achievements talk while you stay understated. Quiet + immaculate is a devastating combo.'],
+              ['Cristiano Ronaldo', 'Beloved for: the most public work ethic in sport. Nobody questions whether he earned it.', 'Take: the routine IS the identity — sleep, training, diet, recovery, non-negotiable. And his answer to doubters: no speeches, just scoreboard. Let output be your response to everything.'],
+              ['Ryan Reynolds', 'Beloved for: quick wit that never punches down; self-deprecation from obvious confidence.', 'Take: his humour formula — deadpan delivery, jabs at himself before anyone else can, warmth under every roast. Proof that funny + kind beats funny + cruel every time.'],
+              ['Daniel Craig\'s Bond', 'Beloved for: total composure — economy of words and movement under chaos.', 'Take: the physical stillness. No fidgeting, no rushing, no nervous laughter. Speak 30% less, move 30% slower, react 30% later. (Full breakdown in the Aura tab.)'],
+              ['David Gandy', 'Beloved for: proof that classic beats trendy — the most successful male model ever, mostly in timeless tailoring.', 'Take: find your 3-4 signature looks and repeat them relentlessly. A signature style compounds recognition; chasing trends resets you to zero every season.'],
+              ['Michael B. Jordan', 'Beloved for: physique discipline paired with visible enjoyment of life — intense yet warm.', 'Take: intensity with a smile. Train like it\'s war, carry it like it\'s easy. The lightness AFTER the discipline is what people find magnetic.'],
+              ['Roger Federer', 'Beloved for: grace in victory AND defeat — two decades without a public tantrum.', 'Take: how you lose is your reputation. Losing a point, a match, a girl, a deal with class is remembered longer than most wins. (Pairs with the rejection-grace rule in Secret.)'],
+              ['Keanu Reeves', 'Beloved for: genuine humility and kindness to everyone regardless of status.', 'Take: how you treat waiters, drivers and juniors IS your character in everyone\'s eyes. The quiet-generosity reputation is built in moments nobody\'s supposed to see — which is exactly why everyone hears about it.'],
+            ].map(([name, why, take]) => (
+              <div key={name as string} className="bg-[#111] border border-white/8 rounded-2xl p-5">
+                <h3 className="font-bold text-pink-300 mb-1">{name as string}</h3>
+                <p className="text-gray-400 text-sm mb-2">{why as string}</p>
+                <p className="text-gray-500 text-sm leading-relaxed"><span className="text-gray-300 font-semibold">{(take as string).split(':')[0]}:</span>{(take as string).split(':').slice(1).join(':')}</p>
+              </div>
+            ))}
+            <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
+              <h3 className="font-bold mb-2">How to actually use this</h3>
+              <p className="text-gray-500 text-sm leading-relaxed">
+                Pick ONE icon whose gap matches yours (fidgety? Craig. Scruffy? Beckham. Too harsh? Reynolds. Sore loser? Federer).
+                Study 20 minutes of their interviews watching for the trait, then run it for a month until it\'s yours.
+                One trait at a time — a collage of impressions is a costume; one absorbed trait is character.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* ============ CONFIDENCE ============ */}
         {tab === 'confidence' && (
           <div className="fade-up stagger space-y-4">
@@ -187,6 +241,14 @@ export default function Mind() {
               ['One rejection or discomfort daily', 'Ask for a discount, give a stranger a compliment, take the front seat in class. Deliberately touching discomfort daily shrinks its power everywhere.'],
               ['Posture audit x3', 'Three times a day: shoulders down-and-back, spine tall, slow exhale. State follows body.'],
               ['Night: log 3 wins', 'Write three things you did right today, however small. Your brain keeps score of whatever you count — count wins.'],
+            ]} />
+            <Card icon={Flame} title="Approval-Seeking Detox" items={[
+              ['Spot the leaks first', 'Checking who liked your story, rephrasing opinions mid-sentence when someone frowns, laughing at unfunny jokes, saying "yeah" to plans you hate, posting then monitoring. These are approval leaks — each one trains your brain that other people hold your remote control.'],
+              ['The core reframe', 'People\'s reactions to you are mostly about THEM — their mood, their day, their insecurities. You\'re a background character in everyone else\'s film. This isn\'t sad, it\'s freedom: the audience you\'re performing for isn\'t even watching.'],
+              ['Opinion reps', 'State small preferences plainly, daily, without softening: "I don\'t rate that film." No "haha idk maybe it\'s just me though". Disagreement survived = evidence you don\'t need consensus to be fine.'],
+              ['Do things without broadcasting', 'Train, read, build for a month without posting any of it. Decoupling achievement from announcement rewires WHO the achievement was for.'],
+              ['The 24-hour test', 'Before chasing any validation (rewording a text 5 times, fishing for a compliment), ask: will this person\'s approval matter in 24 hours? A year? Almost nothing passes the test.'],
+              ['Approval comes back inverted', 'The brutal irony: needing approval repels it, indifference attracts it. People sense which one you are within minutes. Fix the need and the approval arrives unrequested — at which point you won\'t need it.'],
             ]} />
             <Collapsible title="Handling Nerves in the Moment" tag="Pre-approach, pre-talk, pre-fight">
               <div className="space-y-3 text-sm">
@@ -355,6 +417,17 @@ export default function Mind() {
                 <p><span className="font-bold text-gray-200">Be visibly desired, quietly.</span> A social life with women friends, group photos, stories of a full life — pre-selection is the strongest attraction trigger there is. Never flaunt it at her or name-drop other girls; the signal works because it's ambient, not performed.</p>
                 <p><span className="font-bold text-gray-200">Warmth when present, gone when gone.</span> The combination that creates chase: fully engaged, magnetic attention when you're with her — then genuinely absorbed in your life when you're not. Hot-present/cold-absent, not lukewarm-always. Constant mediocre contact kills more attraction than distance ever has.</p>
                 <p><span className="font-bold text-gray-200">The line you don't cross:</span> all of this only works from abundance, not strategy-anxiety. If you're staring at your phone calculating minutes, you're chasing — just silently. Go train, go build, and let the fullness be real. And once she IS chasing and you like her — reward it. Punishing interest she shows is how you lose the ones worth keeping.</p>
+              </div>
+            </Collapsible>
+            <Collapsible title="Taking Her Home from the Club" tag="The endgame — done right">
+              <div className="space-y-3 text-sm text-gray-400">
+                <p><span className="font-bold text-gray-200">Prerequisites, honestly.</span> This only happens when the whole night built it: strong connection, escalating vibe, her matching your energy at every step. You can't "technique" someone home who isn't feeling it — and both of you need to be sober enough that it's a real choice. If she's drunk past clear judgement, the strong move is her number and a proper date; that restraint reads as class AND gets the girl more often than the push does.</p>
+                <p><span className="font-bold text-gray-200">Build the bridge early.</span> Mid-conversation, plant seeds naturally: mention your amazing rooftop view, the vinyl collection, that you make the best 2am toastie in the city. Now "coming back" has a story attached that isn't just the obvious — it gives her a comfortable yes to say.</p>
+                <p><span className="font-bold text-gray-200">The invitation: casual, specific, low-pressure.</span> Near the night\'s peak (not closing time desperation): "I\'m heading back to mine — come see the view / for a drink. You can judge my flat." Light tone, direct intent. One ask. If it\'s "I shouldn\'t / not tonight" — "fair, then let me take your number and do this properly." Zero sulk. The graceful reaction converts half of tonight\'s no\'s into next week\'s date.</p>
+                <p><span className="font-bold text-gray-200">Logistics are seduction.</span> Uber ordered in one tap, you know your address flow, place is CLEAN (the state of your room has ended more nights than rejections have — clean sheets, no chaos, decent lighting, phone charger available). Water and snacks in the fridge. The guy whose life is together at 2am is rare.</p>
+                <p><span className="font-bold text-gray-200">Friends checkpoint.</span> She\'ll often check with friends — encourage it, don\'t fight it: "make sure your mates know where you are." Supporting her safety check makes YOU the safe option and defuses friend-blocking.</p>
+                <p><span className="font-bold text-gray-200">Back at yours: no lunging.</span> Keep the night\'s energy — music on, the drink/toastie you promised, show the view. Sit close, keep the flirt running, let it build to a kiss naturally. Escalate step by step with her response as the throttle (Intimacy section covers the rest). The rush communicates "the talking was fake"; the patience communicates the opposite.</p>
+                <p><span className="font-bold text-gray-200">Any no along the way is final and fine.</span> A no to coming back, a no to anything at yours — instant, cheerful acceptance. "All good — the toastie offer stands for another night." Aftercare applies to the whole night: whatever happens, she gets home safe (order the car yourself if needed), and the next-day text isn\'t cold. That\'s the reputation that keeps working long after tonight.</p>
               </div>
             </Collapsible>
             <Collapsible title="Getting a Girlfriend" tag="From dates to something real">
