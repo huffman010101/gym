@@ -32,22 +32,24 @@ function Technique({ name, tag, steps, keyDetail }: {
 }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="bg-[#111] border border-white/8 rounded-2xl overflow-hidden">
+    <div className="bg-[#111] border border-white/8 rounded-2xl overflow-hidden press">
       <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between px-5 py-4 text-left">
         <div>
           <p className="font-bold text-gray-100">{name}</p>
           <p className="text-xs text-red-400/70 mt-0.5">{tag}</p>
         </div>
-        <ChevronDown size={18} className={`text-gray-600 transition-transform ${open ? 'rotate-180' : ''}`} />
+        <ChevronDown size={18} className={`text-gray-600 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
       </button>
-      {open && (
-        <div className="px-5 pb-5 space-y-3">
-          {steps.map((s, i) => <Step key={i} n={i + 1} title={s.title} desc={s.desc} />)}
-          <div className="bg-red-500/5 border border-red-500/15 rounded-xl px-4 py-3 mt-2">
-            <p className="text-xs text-red-300/90"><span className="font-bold">Key detail:</span> {keyDetail}</p>
+      <div className={`collapse-wrap ${open ? 'open' : ''}`}>
+        <div className="collapse-inner">
+          <div className="collapse-content px-5 pb-5 space-y-3">
+            {steps.map((s, i) => <Step key={i} n={i + 1} title={s.title} desc={s.desc} />)}
+            <div className="bg-red-500/5 border border-red-500/15 rounded-xl px-4 py-3 mt-2">
+              <p className="text-xs text-red-300/90"><span className="font-bold">Key detail:</span> {keyDetail}</p>
+            </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -107,7 +109,7 @@ export default function Combat() {
 
         {/* ============ FUNDAMENTALS ============ */}
         {tab === 'fundamentals' && (
-          <div className="fade-up space-y-3">
+          <div className="fade-up stagger space-y-3">
             <SectionTitle icon={Shield} title="Stance & Base" sub="Everything in fighting is built on stance. Get this wrong and nothing else works." />
             <Technique name="Fighting Stance" tag="The foundation of striking and takedown defence"
               steps={[
@@ -146,7 +148,7 @@ export default function Combat() {
 
         {/* ============ TAKEDOWNS ============ */}
         {tab === 'takedowns' && (
-          <div className="fade-up space-y-3">
+          <div className="fade-up stagger space-y-3">
             <SectionTitle icon={Target} title="Takedowns" sub="Level change → penetration step → finish through them, not into them." />
             <Technique name="Double Leg" tag="The highest-percentage takedown in MMA"
               steps={[
@@ -193,7 +195,7 @@ export default function Combat() {
 
         {/* ============ GROUND ============ */}
         {tab === 'ground' && (
-          <div className="fade-up space-y-3">
+          <div className="fade-up stagger space-y-3">
             <SectionTitle icon={Users} title="Positional Hierarchy" sub="Ground fighting is a ladder. Position before submission — always." />
             <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
               <div className="space-y-2 text-sm">
@@ -240,7 +242,7 @@ export default function Combat() {
 
         {/* ============ CHOKES/SUBS ============ */}
         {tab === 'chokes' && (
-          <div className="fade-up space-y-3">
+          <div className="fade-up stagger space-y-3">
             <div className="bg-red-500/5 border border-red-500/20 rounded-xl px-4 py-3 flex items-start gap-2.5">
               <AlertTriangle size={15} className="text-red-400 flex-shrink-0 mt-0.5" />
               <p className="text-xs text-red-200/80 leading-relaxed">
@@ -292,7 +294,7 @@ export default function Combat() {
 
         {/* ============ STRATEGY ============ */}
         {tab === 'strategy' && (
-          <div className="fade-up space-y-3">
+          <div className="fade-up stagger space-y-3">
             <SectionTitle icon={Target} title="Fighting Bigger & Stronger" sub="Size is real — but it's rented, and technique owns the building." />
             <div className="bg-[#111] border border-white/8 rounded-2xl p-5 space-y-3">
               {[

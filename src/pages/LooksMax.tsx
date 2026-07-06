@@ -79,13 +79,15 @@ function ExpandableCard({ title, content, badge, accent = 'text-gray-400' }: Exp
         </div>
         {open ? <ChevronUp size={15} className="text-gray-400 flex-shrink-0" /> : <ChevronDown size={15} className="text-gray-400 flex-shrink-0" />}
       </button>
-      {open && (
-        <div className="px-4 pb-3 space-y-1.5 border-t border-white/5">
-          {content.map((line, i) => (
-            <p key={i} className={`${accent} text-sm leading-relaxed`}>{line}</p>
-          ))}
+      <div className={`collapse-wrap ${open ? 'open' : ''}`}>
+        <div className="collapse-inner">
+          <div className="collapse-content px-4 pb-3 space-y-1.5 border-t border-white/5">
+            {content.map((line, i) => (
+              <p key={i} className={`${accent} text-sm leading-relaxed`}>{line}</p>
+            ))}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -238,7 +240,7 @@ export default function LooksMax() {
         </div>
       </div>
 
-      <div className="px-4 space-y-4">
+      <div className="px-4 space-y-4 stagger" key={tab}>
 
         {/* ===== AI FACE SCAN TAB ===== */}
         {tab === 'scan' && (
@@ -334,6 +336,7 @@ export default function LooksMax() {
 
                 <div className="grid grid-cols-1 gap-3">
                   {[
+                    ...(scanResult.glasses ? [{ label: 'Glasses', icon: Eye, color: 'text-indigo-400', accent: 'border-indigo-500/20', text: scanResult.glasses }] : []),
                     { label: 'Eyebrows', icon: Eye, color: 'text-green-400', accent: 'border-green-500/20', text: scanResult.eyebrows },
                     { label: 'Eye Area', icon: Eye, color: 'text-cyan-400', accent: 'border-cyan-500/20', text: scanResult.eyes },
                     { label: 'Lips', icon: Smile, color: 'text-pink-400', accent: 'border-pink-500/20', text: scanResult.lips },
@@ -820,6 +823,29 @@ export default function LooksMax() {
               'SKIP: fat burners (caffeine in a costume), test boosters (do nothing your sleep wouldn\'t), BCAAs (pointless if protein is adequate), greens powders (expensive urine — eat vegetables).',
               'Order of importance so you never forget: sleep > diet > training > creatine + D3 + omega-3 > everything else is optional.',
             ]} />
+            <ExpandableCard badge="S-TIER" title="Foods that make you better looking" content={[
+              'Skin: oily fish (salmon, mackerel — omega-3s calm inflammation and acne), berries + citrus (vitamin C builds collagen), carrots/sweet potato (beta-carotene gives a healthy glow — proven in studies to make faces rated more attractive), green tea, dark chocolate 85%+.',
+              'Hair: eggs (biotin + protein), red meat and lentils (iron — the #1 nutritional cause of bad hair is low iron), oysters/beef (zinc), nuts and seeds (vitamin E, selenium — 2 brazil nuts a day covers selenium).',
+              'Muscle & leanness: protein at every meal (eggs, chicken, beef, fish, Greek yoghurt, whey) — 1.6-2.2g per kg bodyweight. Protein is also the most satiating macro, so it keeps you lean on autopilot.',
+              'Hormones: whole eggs (cholesterol is the raw material of testosterone), red meat, olive oil, avocado, cruciferous veg (broccoli). Chronically low-fat diets tank test — keep fats at 20-30% of calories.',
+              'Debloat/face definition: potassium foods (bananas, potatoes, spinach) flush sodium retention · consistent salt intake · 3L water · limit alcohol hard — it\'s the single worst looks-food there is.',
+              'Teeth & breath: crunchy raw veg and apples (natural cleaning), cheese after meals (neutralises acid), avoid constant-sipping sugary/acidic drinks — sipping cola for an hour is worse than drinking it in 5 minutes.',
+              'The anti-list: sugar spikes → glycation → duller skin and acne · seed-oil-heavy takeaways → inflammation · late-night salt+carb combos → morning moon face · excess dairy triggers acne in SOME people (test 3 weeks off if you break out).',
+              'The pattern: single-ingredient foods, protein-anchored, colourful plants, water. Every list above is the same list — eat like you train and every metric moves at once.',
+            ]} />
+            <ExpandableCard badge="MASTER" title="The Complete Desirability Audit — every metric in one list" content={[
+              'Run this audit monthly. Score yourself 1-10 on each line, attack the lowest two scores first — the lowest metric drags the whole impression down more than your best one lifts it.',
+              'BODY: body fat 12-15% · visible training consistency · posture (head back, shoulders down) · walk unhurried · grip strength and hands that look capable.',
+              'FACE: skin routine running · teeth white and breath handled · brows tidy · haircut fresh (every 2-4 weeks) and suited to face (AI Scan) · facial hair deliberate, neckline clean · nose/ear hair gone.',
+              'SCENT: fragrance wardrobe (day + night) · clothes actually clean · fresh breath kit on you · room/car smells good too — people notice.',
+              'STYLE: fits your body (tailored) · your colours (undertone + contrast) · one clear archetype · shoes clean · glasses/accessories chosen not accumulated.',
+              'VOICE & PRESENCE: chest voice, downward inflection · comfortable pauses · eye contact steady · phone stays away in company · reactions expressive.',
+              'SOCIAL: can open conversations anywhere · tells stories with structure · remembers details and calls back · handles rejection with grace · has actual friends and a social life running.',
+              'MIND: composure under stress (aura tab) · no complaining · positive energy as default · self-talk trained · sleeps 8h.',
+              'LIFE ENGINE: building something real (money skills, sport, brand) · calendar has things SHE could be added to, not a void she must fill · independent opinions · says no easily.',
+              'DATING SPECIFIC: approaches when he feels the urge (3-second rule) · texts with intent · plans real dates · escalates respectfully · keeps standards (screens, doesn\'t just chase).',
+              'The truth of the audit: "most desirable man ever" isn\'t one metric maxed — it\'s no metric neglected. A 7 in everything beats a 10 in one thing and 3s everywhere else. Every 7 here is achievable in months.',
+            ]} />
             <ExpandableCard badge="PROVEN" title="Teeth whitening — full protocol" content={[
               'Baseline: electric toothbrush 2×2min, floss nightly, tongue scrape. No whitening beats clean.',
               'Whitening strips (hydrogen peroxide, e.g. Crest 3D): 30 min/day for 2 weeks, then maintenance 1×/week. This is the best value method.',
@@ -978,6 +1004,27 @@ export default function LooksMax() {
                   ['Universal bangers', 'Navy and olive flatter nearly everyone. A navy overshirt is the safest style purchase in existence.'],
                   ['Near-the-face rule', 'Your top/collar colour matters 5× more than trousers or shoes — that\'s the colour bouncing light onto your skin.'],
                   ['The 3-colour cap', 'Max three colours per outfit, one of them neutral. More = costume.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-1">Glasses & Sunglasses by Face Shape</h2>
+              <p className="text-gray-600 text-xs mb-3">Rule of opposites: frames should contrast your face shape, not repeat it. (The AI Scan tab tells you yours specifically.)</p>
+              <div className="space-y-2">
+                {[
+                  ['Round face', 'Angular frames: squared/rectangular, wayfarers, clubmasters/browlines. Sharp lines add the definition the face lacks. Avoid small round frames — they double the roundness.'],
+                  ['Square face', 'Softer frames: round, oval, aviators. Curves balance a strong jaw. Avoid boxy rectangular frames that repeat the angles.'],
+                  ['Oval face', 'The cheat code — almost everything works. Wayfarers, aviators, squared: pick by style, keep frame width equal to face width.'],
+                  ['Oblong / long face', 'Taller, deeper lenses (aviators, oversized squares) shorten the face. Avoid narrow rectangular slits — they stretch it.'],
+                  ['Heart face (wide forehead, narrow chin)', 'Bottom-heavy or rimless frames, aviators, clubmasters with a light lower line. Avoid oversized top-heavy frames.'],
+                  ['Diamond face', 'Browline/clubmaster or oval frames — emphasis on the brow balances wide cheekbones. Rimless works well too.'],
+                  ['Universal rules', 'Frame width = face width (eyes centred in the lens) · brow line follows your brow, not crossing it · black/tortoise for high contrast colouring, lighter frames for low contrast · quality matters most in sunglasses, it\'s the first thing people see on you outside.'],
                 ].map(([t, d]) => (
                   <div key={t}>
                     <p className="font-semibold text-sm text-gray-200">{t}</p>

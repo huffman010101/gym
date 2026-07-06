@@ -275,6 +275,7 @@ export interface FaceAnalysisResult {
   faceShapeReasoning: string;
   haircuts: { name: string; why: string }[];
   facialHair: { style: string; why: string }[];
+  glasses?: string;
   eyebrows: string;
   eyes: string;
   lips: string;
@@ -314,6 +315,7 @@ Return ONLY valid JSON (no markdown fences):
     { "style": "Style name (e.g. Clean shaven / Short stubble / Goatee)", "why": "Why this suits the face shape" },
     { "style": "Alternative", "why": "..." }
   ],
+  "glasses": "Which glasses/sunglasses frame shapes suit this face shape and why (e.g. squared frames for round faces, browline, aviators, wayfarers) — 1-2 sentences",
   "eyebrows": "Specific eyebrow shape recommendation (arch position, thickness, tail length) that would best frame this face",
   "eyes": "Observations on the eye area and how to enhance them (lash density, contrast, reducing dark circles if visible, etc.)",
   "lips": "Observations about lip proportions and any care/enhancement tips",

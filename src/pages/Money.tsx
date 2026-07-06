@@ -37,18 +37,20 @@ function Fold({ title, tag, items }: { title: string; tag: string; items: [strin
           <p className="font-bold text-gray-100">{title}</p>
           <p className="text-xs text-yellow-400/70 mt-0.5">{tag}</p>
         </div>
-        <ChevronDown size={18} className={`text-gray-600 transition-transform ${open ? 'rotate-180' : ''}`} />
+        <ChevronDown size={18} className={`text-gray-600 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
       </button>
-      {open && (
-        <div className="px-5 pb-5 space-y-3">
-          {items.map(([t, d]) => (
-            <div key={t}>
-              <p className="font-semibold text-sm text-gray-200">{t}</p>
-              <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
-            </div>
-          ))}
+      <div className={`collapse-wrap ${open ? 'open' : ''}`}>
+        <div className="collapse-inner">
+          <div className="collapse-content px-5 pb-5 space-y-3">
+            {items.map(([t, d]) => (
+              <div key={t}>
+                <p className="font-semibold text-sm text-gray-200">{t}</p>
+                <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -86,7 +88,7 @@ export default function Money() {
 
         {/* ===== SKILLS ===== */}
         {tab === 'skills' && (
-          <div className="fade-up space-y-4">
+          <div className="fade-up stagger space-y-4">
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2 flex items-center gap-2"><Rocket size={16} className="text-yellow-400" /> The Formula</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -130,7 +132,7 @@ export default function Money() {
 
         {/* ===== ONLINE INCOME ===== */}
         {tab === 'online' && (
-          <div className="fade-up space-y-4">
+          <div className="fade-up stagger space-y-4">
             <Block title="Freelancing (the reliable one)" items={[
               ['The platforms are the start, not the end', 'Fiverr/Upwork for first reviews, then move clients off-platform. Real money is in direct outreach: 20 personalised DMs/emails a day to businesses in one niche.'],
               ['Niche down hard', '"Video editor" competes with the planet. "Short-form editor for fitness coaches" owns a lane. Riches are in niches.'],
@@ -158,7 +160,7 @@ export default function Money() {
 
         {/* ===== TRADING ===== */}
         {tab === 'trading' && (
-          <div className="fade-up space-y-4">
+          <div className="fade-up stagger space-y-4">
             <div className="bg-red-500/5 border border-red-500/20 rounded-xl px-4 py-3 flex items-start gap-2.5">
               <AlertTriangle size={15} className="text-red-400 flex-shrink-0 mt-0.5" />
               <p className="text-xs text-red-200/80 leading-relaxed">
@@ -191,7 +193,7 @@ export default function Money() {
 
         {/* ===== MINDSET ===== */}
         {tab === 'mindset' && (
-          <div className="fade-up space-y-4">
+          <div className="fade-up stagger space-y-4">
             <Block title="Money Rules to Live By" items={[
               ['Earn more > save more (at the start)', 'You can\'t frugal your way from £200/month. Early on, 90% of energy goes into raising income; saving optimises what earning creates.'],
               ['Pay yourself first', 'Fixed % of every pound in (start at 20%: 10% invest, 10% save) moves automatically on payday. Budget what remains, never the reverse.'],

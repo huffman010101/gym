@@ -35,15 +35,19 @@ function Card({ title, items, icon: Icon }: { title: string; items: [string, str
 function Collapsible({ title, tag, children }: { title: string; tag?: string; children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="bg-[#111] border border-white/8 rounded-2xl overflow-hidden">
+    <div className="bg-[#111] border border-white/8 rounded-2xl overflow-hidden press">
       <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between px-5 py-4 text-left">
         <div>
           <p className="font-bold text-gray-100">{title}</p>
           {tag && <p className="text-xs text-pink-400/70 mt-0.5">{tag}</p>}
         </div>
-        <ChevronDown size={18} className={`text-gray-600 transition-transform ${open ? 'rotate-180' : ''}`} />
+        <ChevronDown size={18} className={`text-gray-600 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
       </button>
-      {open && <div className="px-5 pb-5">{children}</div>}
+      <div className={`collapse-wrap ${open ? 'open' : ''}`}>
+        <div className="collapse-inner">
+          <div className="collapse-content px-5 pb-5">{children}</div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -96,7 +100,7 @@ export default function Mind() {
 
         {/* ============ CHARISMA ============ */}
         {tab === 'charisma' && (
-          <div className="fade-up space-y-4">
+          <div className="fade-up stagger space-y-4">
             <Card icon={Sparkles} title="The Charisma Formula" items={[
               ['Presence', 'Charisma is 90% making people feel like the only person in the room. Phone away, full eye contact, react to what they actually said — not what you were waiting to say.'],
               ['Warmth + Power', 'Warmth alone = nice but forgettable. Power alone = intimidating. Both together = magnetic. Smile easily AND hold your ground on opinions.'],
@@ -134,7 +138,7 @@ export default function Mind() {
 
         {/* ============ AURA ============ */}
         {tab === 'aura' && (
-          <div className="fade-up space-y-4">
+          <div className="fade-up stagger space-y-4">
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2 flex items-center gap-2"><Sparkles size={16} className="text-pink-400" /> What "Aura" Actually Is</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -171,7 +175,7 @@ export default function Mind() {
 
         {/* ============ CONFIDENCE ============ */}
         {tab === 'confidence' && (
-          <div className="fade-up space-y-4">
+          <div className="fade-up stagger space-y-4">
             <Card icon={Flame} title="Where Real Confidence Comes From" items={[
               ['Evidence, not affirmations alone', 'Confidence = a stack of kept promises to yourself. Every workout finished, every cold shower, every scary conversation had — that\'s a deposit. The account balance is self-belief.'],
               ['Competence loop', 'Pick skills and actually get good: lifting, fighting, talking, a craft. Confidence without competence collapses under pressure; competence makes it unshakeable.'],
@@ -197,7 +201,7 @@ export default function Mind() {
 
         {/* ============ SELF-TALK ============ */}
         {tab === 'selftalk' && (
-          <div className="fade-up space-y-4">
+          <div className="fade-up stagger space-y-4">
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2 flex items-center gap-2"><Brain size={16} className="text-pink-400" /> How Self-Talk Actually Works</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -255,7 +259,7 @@ export default function Mind() {
           </div>
         )}
         {tab === 'secret' && unlocked && (
-          <div className="fade-up space-y-4">
+          <div className="fade-up stagger space-y-4">
             <div className="flex items-center gap-2 text-pink-400 text-xs font-bold uppercase tracking-widest">
               <Unlock size={13} /> Unlocked — The Social Playbook
             </div>
@@ -328,6 +332,17 @@ export default function Mind() {
                 <p><span className="font-bold text-gray-200">Handle the group.</span> Her friends decide your fate. Greet them early ("are you looking after her tonight? good"), win a smile from them, then turn back. Ignoring friends = friends extract her in 5 minutes.</p>
                 <p><span className="font-bold text-gray-200">Move it somewhere quieter.</span> "It\'s way too loud here — let\'s grab a drink at the bar / get some air by the smoking area." Venue changes within the night build hours of comfort in minutes. Always an invitation, never a pull.</p>
                 <p><span className="font-bold text-gray-200">Close honestly.</span> Number early once it\'s clearly on ("we\'re getting food this week — what\'s your number?"), because clubs eat conversations. If the vibe is instant, suggest the food spot after. And if she\'s hesitant at ANY step — smile, wish her a good night, exit like a king. The whole room notices how you handle a no.</p>
+              </div>
+            </Collapsible>
+            <Collapsible title="The Emotional Rollercoaster" tag="Why 'nice and pleasant' gets forgotten">
+              <div className="space-y-3 text-sm text-gray-400">
+                <p><span className="font-bold text-gray-200">The principle: emotion is the memory glue.</span> People remember how you made them FEEL, and a range of feelings beats one pleasant note held for hours. A conversation that goes laughter → mock outrage → genuine depth → back to laughter is an experience; polite agreement is wallpaper. This isn't about hurting anyone — it's about being emotionally alive instead of flat.</p>
+                <p><span className="font-bold text-gray-200">Contrast is the mechanism.</span> Tease her, THEN drop a sincere specific compliment — the sincerity lands 5× harder against the teasing backdrop. Be playfully disagreeable, then genuinely fascinated by her answer. All warmth = friend. All tease = clown. The switch between them = tension.</p>
+                <p><span className="font-bold text-gray-200">Take her through emotional locations.</span> Within one conversation, visit: funny (banter, absurd hypotheticals), competitive ("you'd lose and you know it"), nostalgic ("what did tiny [her name] want to be?"), dreamy (travel, ambitions), conspiratorial (whispered judging of the room), sincere (one real moment). Each shift feels like time passing together — this is why one great conversation can feel like three dates.</p>
+                <p><span className="font-bold text-gray-200">Push-pull, the clean version.</span> "You're actually terrible news… and I kind of like it." Push (playful distance) + pull (real interest) in one line. Use sparingly — one or two per conversation, always with a grin, never targeting real insecurities.</p>
+                <p><span className="font-bold text-gray-200">Plan dates that ARE rollercoasters.</span> Adrenaline transfers: fast rides, scary films, spicy food challenges, competitive games — the arousal of excitement gets attributed to you (misattribution of arousal — real psychology). Structure: activity with energy → wind-down with depth. The date tells the emotional story so you don't have to force it.</p>
+                <p><span className="font-bold text-gray-200">Absence is part of the ride.</span> An intense, brilliant evening followed by a quiet day is the rhythm that creates thinking-about-you. Constant contact flattens the wave (see Making Her Chase below).</p>
+                <p><span className="font-bold text-gray-200">The hard line:</span> variance in FUN and DEPTH, never in respect or reliability. Hot-cold on "do I actually care about you" isn't a rollercoaster, it's manipulation, and it attracts anxious attachment, not love. Be a rollercoaster of experiences and a rock of character — that combination is rare and it's the whole formula.</p>
               </div>
             </Collapsible>
             <Collapsible title="Making Her Chase" tag="Scarcity that's real, not games">

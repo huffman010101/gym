@@ -37,18 +37,20 @@ function Fold({ title, tag, items }: { title: string; tag: string; items: [strin
           <p className="font-bold text-gray-100">{title}</p>
           <p className="text-xs text-emerald-400/70 mt-0.5">{tag}</p>
         </div>
-        <ChevronDown size={18} className={`text-gray-600 transition-transform ${open ? 'rotate-180' : ''}`} />
+        <ChevronDown size={18} className={`text-gray-600 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
       </button>
-      {open && (
-        <div className="px-5 pb-5 space-y-3">
-          {items.map(([t, d]) => (
-            <div key={t}>
-              <p className="font-semibold text-sm text-gray-200">{t}</p>
-              <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
-            </div>
-          ))}
+      <div className={`collapse-wrap ${open ? 'open' : ''}`}>
+        <div className="collapse-inner">
+          <div className="collapse-content px-5 pb-5 space-y-3">
+            {items.map(([t, d]) => (
+              <div key={t}>
+                <p className="font-semibold text-sm text-gray-200">{t}</p>
+                <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -86,7 +88,7 @@ export default function Football() {
 
         {/* ===== SPEED ===== */}
         {tab === 'speed' && (
-          <div className="fade-up space-y-4">
+          <div className="fade-up stagger space-y-4">
             <Block title="Sprint Mechanics — free speed" items={[
               ['Acceleration posture (0-10m)', 'Lean forward 45° from the ankles, drive the ground BACK behind you with big punching steps. Chest over knee. Standing up too early kills acceleration.'],
               ['Arm drive', 'Elbows at ~90°, hands from cheek to back pocket, driven HARD. Arms set the rhythm — sloppy arms = slow legs. Never let hands cross the body\'s midline.'],
@@ -110,7 +112,7 @@ export default function Football() {
 
         {/* ===== SHOOTING ===== */}
         {tab === 'shooting' && (
-          <div className="fade-up space-y-4">
+          <div className="fade-up stagger space-y-4">
             <Block title="Striking Technique — the fundamentals" items={[
               ['Plant foot decides everything', 'Beside the ball (not behind it), pointing at your target, knee slightly bent. Plant foot too far away = slice; too close = scuff. This is 70% of bad shots.'],
               ['Lock the ankle', 'Toes down, ankle rigid as bone at contact. A floppy ankle leaks power. Strike with the hard bone of the instep (laces), not the toes.'],
@@ -135,7 +137,7 @@ export default function Football() {
 
         {/* ===== EVERY METRIC ===== */}
         {tab === 'skills' && (
-          <div className="fade-up space-y-3">
+          <div className="fade-up stagger space-y-3">
             <Fold title="First Touch" tag="The metric that decides your level" items={[
               ['Wall work — 100 touches/day', 'Pass against a wall: control with inside, outside, sole, thigh, chest. Alternate feet. First touch OUT of your feet into space, never dead under you.'],
               ['Cushion vs push', 'Cushion (soft, absorb) when marked tight; push (firm first touch into space) when you have room. Decide before the ball arrives.'],
@@ -175,7 +177,7 @@ export default function Football() {
 
         {/* ===== BY POSITION ===== */}
         {tab === 'position' && (
-          <div className="fade-up space-y-3">
+          <div className="fade-up stagger space-y-3">
             <Fold title="Striker (ST)" tag="Goals are movement + composure" items={[
               ['Master the blind-side run', 'Start your run when the passer\'s head goes down, curve it to stay onside, attack the space BEHIND the centre-back\'s shoulder.'],
               ['Live on the last line', 'Constant small movements — pin, spin, drop short — never static. Defenders switch off after 3 quiet minutes; that\'s when you kill.'],
