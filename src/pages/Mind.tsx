@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, Eye, ChevronDown, Heart } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
+import DailyHabits from '../components/DailyHabits';
 
 type Tab = 'charisma' | 'aura' | 'icons' | 'confidence' | 'selftalk' | 'secret';
 
@@ -91,6 +92,8 @@ export default function Mind() {
             <p className="text-gray-500 text-sm">Charisma · Confidence · Self-Belief · Social Skill</p>
           </div>
         </div>
+
+        <DailyHabits section="mind" />
 
         <div className="flex gap-1.5 overflow-x-auto scrollbar-hide mb-6 -mx-5 px-5">
           {TABS.map(t => (

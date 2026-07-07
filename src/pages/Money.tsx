@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Banknote, TrendingUp, Laptop, Rocket, AlertTriangle, ChevronDown, Brain } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
+import DailyHabits from '../components/DailyHabits';
 
 type Tab = 'skills' | 'online' | 'launch' | 'trading' | 'mindset';
 
@@ -79,6 +80,8 @@ export default function Money() {
             <p className="text-gray-500 text-sm">Skills · Online Income · Trading · Wealth Rules</p>
           </div>
         </div>
+
+        <DailyHabits section="money" />
 
         <div className="flex gap-1.5 overflow-x-auto scrollbar-hide mb-6 -mx-5 px-5">
           {TABS.map(t => (

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Zap, Target, Users, Activity, ChevronDown, Trophy } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
+import DailyHabits from '../components/DailyHabits';
 
 type Tab = 'speed' | 'shooting' | 'skills' | 'position';
 
@@ -78,6 +79,8 @@ export default function Football() {
             <p className="text-gray-500 text-sm">Speed · Shooting · Skills · Position Mastery</p>
           </div>
         </div>
+
+        <DailyHabits section="football" />
 
         <div className="flex gap-1.5 overflow-x-auto scrollbar-hide mb-6 -mx-5 px-5">
           {TABS.map(t => (

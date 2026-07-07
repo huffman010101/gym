@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Shield, Swords, Hand, AlertTriangle, Target, Users, Zap, ChevronDown } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
+import DailyHabits from '../components/DailyHabits';
 
 type Tab = 'fundamentals' | 'takedowns' | 'ground' | 'chokes' | 'strategy';
 
@@ -100,6 +101,8 @@ export default function Combat() {
         </div>
 
         {/* Tabs */}
+        <DailyHabits section="combat" />
+
         <div className="flex gap-1.5 overflow-x-auto scrollbar-hide mt-6 mb-6 -mx-5 px-5">
           {TABS.map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}

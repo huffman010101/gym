@@ -2,15 +2,22 @@ import { Link } from 'react-router-dom';
 import { Dumbbell, Target, ChevronRight, Zap, Trophy, LayoutDashboard, Swords, Sparkles, Brain, GraduationCap, Map } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import SearchBar from '../components/SearchBar';
+import { HABITS, loadHabits } from '../components/DailyHabits';
 
 
 
 export default function Home() {
   const [hasPlan, setHasPlan] = useState(false);
+  const [habitCounts, setHabitCounts] = useState<{ section: string; label: string; done: number; total: number; path: string; color: string }[]>([]);
 
   useEffect(() => {
     try {
       setHasPlan(!!localStorage.getItem('gymforge_quiz'));
+      const paths: Record<string, string> = { mind: '/mind', combat: '/combat', football: '/football', money: '/money', uni: '/uni' };
+      setHabitCounts(Object.entries(HABITS).map(([section, def]) => {
+        const done = def.items.filter(i => loadHabits(section)[i.id]).length;
+        return { section, label: section === 'uni' ? 'Uni' : section[0].toUpperCase() + section.slice(1), done, total: def.items.length, path: paths[section], color: def.color };
+      }));
     } catch {}
   }, []);
 
@@ -85,6 +92,26 @@ export default function Home() {
           <ChevronRight size={17} className="text-orange-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
         </Link>
       </section>
+
+      {/* Today's habits strip */}
+      {habitCounts.length > 0 && (
+        <section className="px-6 pb-5 max-w-4xl mx-auto">
+          <p className="text-gray-600 text-[10px] uppercase tracking-widest font-bold mb-2">Today's reps</p>
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+            {habitCounts.map(h => (
+              <Link key={h.section} to={h.path}
+                className={`flex-shrink-0 flex items-center gap-2 bg-[#111] border rounded-xl px-3.5 py-2 transition-all press ${
+                  h.done === h.total ? 'border-emerald-500/40' : 'border-white/8 hover:border-white/20'
+                }`}>
+                <span className={`text-xs font-bold ${h.color}`}>{h.label}</span>
+                <span className={`text-[11px] font-black ${h.done === h.total ? 'text-emerald-400' : 'text-gray-500'}`}>
+                  {h.done === h.total ? '✓' : `${h.done}/${h.total}`}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* The sections */}
       <section className="px-6 pb-10 max-w-4xl mx-auto">

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, GraduationCap, Brain, Sun, Briefcase, Moon, Loader2, AlertCircle, ChevronDown, Sparkles, Clock } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
+import DailyHabits from '../components/DailyHabits';
 import { generateStudyPack } from '../lib/generators';
 import type { StudyPack } from '../lib/generators';
 
@@ -111,6 +112,8 @@ export default function Uni() {
             <p className="text-gray-500 text-sm">AI Revision · Intelligence · Routine · Career · Sleep</p>
           </div>
         </div>
+
+        <DailyHabits section="uni" />
 
         <div className="flex gap-1.5 overflow-x-auto scrollbar-hide mb-6 -mx-5 px-5">
           {TABS.map(t => (
