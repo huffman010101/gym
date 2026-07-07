@@ -359,6 +359,35 @@ export default function LooksMax() {
                   ))}
                 </div>
 
+                {scanResult.skincareRoutine && (
+                  <div className="card-premium p-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Droplets size={15} className="text-teal-400" />
+                      <h3 className="font-bold text-base text-teal-300">Your Personalised Skincare Routine</h3>
+                    </div>
+                    <div className="space-y-3">
+                      <div>
+                        <p className="text-xs font-bold text-yellow-300 mb-1.5 flex items-center gap-1"><Sun size={12} /> MORNING</p>
+                        {scanResult.skincareRoutine.morning.map((s, i) => (
+                          <p key={i} className="text-gray-300 text-sm leading-relaxed mb-1"><span className="text-gray-600 font-bold">{i + 1}.</span> {s}</p>
+                        ))}
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-indigo-300 mb-1.5 flex items-center gap-1"><Moon size={12} /> EVENING</p>
+                        {scanResult.skincareRoutine.evening.map((s, i) => (
+                          <p key={i} className="text-gray-300 text-sm leading-relaxed mb-1"><span className="text-gray-600 font-bold">{i + 1}.</span> {s}</p>
+                        ))}
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-purple-300 mb-1.5 flex items-center gap-1"><Activity size={12} /> WEEKLY</p>
+                        {scanResult.skincareRoutine.weekly.map((s, i) => (
+                          <p key={i} className="text-gray-300 text-sm leading-relaxed mb-1"><span className="text-gray-600 font-bold">•</span> {s}</p>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <div className="bg-[#111] border border-purple-500/20 rounded-2xl p-4">
                   <div className="flex items-center gap-2 mb-3">
                     <Sparkles size={15} className="text-purple-400" />

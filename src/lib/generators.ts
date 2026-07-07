@@ -378,6 +378,7 @@ export interface FaceAnalysisResult {
   eyes: string;
   lips: string;
   skinObservations: string;
+  skincareRoutine?: { morning: string[]; evening: string[]; weekly: string[] };
   tips: string[];
 }
 
@@ -388,7 +389,7 @@ export async function analyseFace(photoDataUrl: string): Promise<FaceAnalysisRes
 
   const msg = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
-    max_tokens: 1500,
+    max_tokens: 2500,
     messages: [{
       role: 'user',
       content: [
@@ -418,6 +419,11 @@ Return ONLY valid JSON (no markdown fences):
   "eyes": "Observations on the eye area and how to enhance them (lash density, contrast, reducing dark circles if visible, etc.)",
   "lips": "Observations about lip proportions and any care/enhancement tips",
   "skinObservations": "Brief, kind observations about skin clarity, tone, and suggestions",
+  "skincareRoutine": {
+    "morning": ["Step-by-step AM routine personalised to the skin you see — product TYPE + key ingredient per step, e.g. 'Gentle gel cleanser (if skin looks oily) or splash of water'", "..."],
+    "evening": ["Step-by-step PM routine personalised to what you see, including which active (retinol/BHA/AHA/azelaic) suits this skin and how to introduce it", "..."],
+    "weekly": ["1-3 weekly treatments matched to this skin (e.g. clay mask for visible congestion, gentle exfoliation)"]
+  },
   "tips": [
     "Specific actionable tip 1 — be concrete and personal to what you see",
     "Specific actionable tip 2",
