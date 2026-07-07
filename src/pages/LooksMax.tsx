@@ -172,13 +172,16 @@ export default function LooksMax() {
   const [layering, setLayering] = useState<LayeringResult | null>(null);
   const [layeringBusy, setLayeringBusy] = useState(false);
   const [layeringError, setLayeringError] = useState('');
+  const [fragSeason, setFragSeason] = useState('any');
+  const [fragOccasion, setFragOccasion] = useState('any');
 
-  const handleLayering = async () => {
+  const handleLayering = async (remix = false) => {
     if (!fragInput.trim()) return;
     setLayeringBusy(true);
     setLayeringError('');
     try {
-      const result = await suggestLayering(fragInput.trim());
+      const avoid = remix && layering ? layering.combos.map(c => `${c.name} (${c.base} + ${c.top})`) : [];
+      const result = await suggestLayering(fragInput.trim(), { season: fragSeason, occasion: fragOccasion, avoid });
       setLayering(result);
       localStorage.setItem('gymforge_layering', JSON.stringify({ input: fragInput.trim(), result }));
     } catch (e) {
@@ -1331,13 +1334,44 @@ export default function LooksMax() {
                 rows={3}
                 className="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-500/50 resize-none"
               />
-              <button
-                onClick={handleLayering}
-                disabled={layeringBusy || !fragInput.trim()}
-                className="mt-2 w-full bg-indigo-500 hover:bg-indigo-600 disabled:opacity-40 text-white py-2.5 rounded-xl text-sm font-bold transition-colors flex items-center justify-center gap-2"
-              >
-                {layeringBusy ? <><Loader2 size={15} className="animate-spin" /> Mixing…</> : 'Build My Combos'}
-              </button>
+              <div className="flex gap-1.5 mt-2 flex-wrap">
+                {['any', 'summer', 'winter', 'spring', 'autumn'].map(s => (
+                  <button key={s} onClick={() => setFragSeason(s)}
+                    className={`px-3 py-1.5 rounded-full text-[11px] font-semibold capitalize transition-all ${
+                      fragSeason === s ? 'bg-indigo-500 text-white' : 'bg-white/5 text-gray-500 hover:bg-white/10'
+                    }`}>
+                    {s === 'any' ? 'Any season' : s}
+                  </button>
+                ))}
+              </div>
+              <div className="flex gap-1.5 mt-1.5 flex-wrap">
+                {['any', 'day', 'night', 'date', 'gym', 'formal'].map(o => (
+                  <button key={o} onClick={() => setFragOccasion(o)}
+                    className={`px-3 py-1.5 rounded-full text-[11px] font-semibold capitalize transition-all ${
+                      fragOccasion === o ? 'bg-purple-500 text-white' : 'bg-white/5 text-gray-500 hover:bg-white/10'
+                    }`}>
+                    {o === 'any' ? 'Any occasion' : o}
+                  </button>
+                ))}
+              </div>
+              <div className="flex gap-2 mt-2">
+                <button
+                  onClick={() => handleLayering(false)}
+                  disabled={layeringBusy || !fragInput.trim()}
+                  className="flex-1 bg-indigo-500 hover:bg-indigo-600 disabled:opacity-40 text-white py-2.5 rounded-xl text-sm font-bold transition-colors flex items-center justify-center gap-2"
+                >
+                  {layeringBusy ? <><Loader2 size={15} className="animate-spin" /> Mixing…</> : 'Build My Combos'}
+                </button>
+                {layering && (
+                  <button
+                    onClick={() => handleLayering(true)}
+                    disabled={layeringBusy || !fragInput.trim()}
+                    className="bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 disabled:opacity-40 text-purple-300 px-4 py-2.5 rounded-xl text-sm font-bold transition-colors"
+                  >
+                    🎲 Mix
+                  </button>
+                )}
+              </div>
               {layeringError && (
                 <p className="text-red-400 text-xs mt-2 flex items-center gap-1.5"><AlertCircle size={12} /> {layeringError}</p>
               )}

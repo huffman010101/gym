@@ -242,18 +242,33 @@ export interface LayeringResult {
   shoppingTip: string;
 }
 
-export async function suggestLayering(fragrances: string): Promise<LayeringResult> {
+export interface LayeringOptions {
+  season?: string;
+  occasion?: string;
+  avoid?: string[];
+}
+
+export async function suggestLayering(fragrances: string, opts: LayeringOptions = {}): Promise<LayeringResult> {
   const client = makeClient();
+  const constraints = [
+    opts.season && opts.season !== 'any' ? `SEASON FILTER: every combo must suit ${opts.season}.` : '',
+    opts.occasion && opts.occasion !== 'any' ? `OCCASION FILTER: every combo must suit ${opts.occasion} wear.` : '',
+    opts.avoid?.length ? `DO NOT repeat these previous combos — give genuinely different pairings/ratios: ${opts.avoid.join('; ')}` : '',
+  ].filter(Boolean).join('\n');
+
   const msg = await client.messages.create({
     model: 'claude-sonnet-4-6',
-    max_tokens: 1500,
+    max_tokens: 3000,
     messages: [{
       role: 'user',
       content: `You are a master perfumer and fragrance layering expert. The user owns these fragrances:
 
 "${fragrances}"
 
-Identify each fragrance's note profile from your knowledge, then design the BEST layering combinations from their collection. Rules of good layering: shared note bridges, one dominant + one accent (not two loud gourmands fighting), fresh over sweet for day, amber/vanilla bases under fresh tops for night.
+Identify each fragrance's note profile from your knowledge, then design the BEST layering combinations from their collection.
+IMPORTANT: EVERY fragrance the user listed must appear in at least one combo — give the single best pairing for each one (fragrances can repeat across combos). If a fragrance genuinely layers badly with everything they own, still include it in a combo but say so honestly in the vibe field and note it shines solo.
+${constraints}
+Rules of good layering: shared note bridges, one dominant + one accent (not two loud gourmands fighting), fresh over sweet for day, amber/vanilla bases under fresh tops for night.
 
 Return ONLY valid JSON, no markdown fences:
 {
@@ -271,7 +286,7 @@ Return ONLY valid JSON, no markdown fences:
   "shoppingTip": "One fragrance to add that would unlock the most new combos with this collection"
 }
 
-Give 3-5 combos if the collection allows. If a fragrance name is unrecognisable, make a sensible assumption and note it.`,
+Give one combo per fragrance minimum (more if the collection allows great extras). If a fragrance name is unrecognisable, make a sensible assumption and note it.`,
     }],
   });
   const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
