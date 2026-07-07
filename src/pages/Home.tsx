@@ -1,22 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Dumbbell, Target, Utensils, Mic, ChevronRight, Zap, Shield, Flame, Wind, Heart, Trophy, LayoutDashboard, Swords, Sparkles, Brain, GraduationCap, Map } from 'lucide-react';
+import { Dumbbell, Target, ChevronRight, Zap, Trophy, LayoutDashboard, Swords, Sparkles, Brain, GraduationCap, Map } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import SearchBar from '../components/SearchBar';
 
-const GOALS = [
-  { icon: Trophy, label: 'Powerlifting',   color: 'text-yellow-400' },
-  { icon: Zap,    label: 'Aesthetic',       color: 'text-blue-400'   },
-  { icon: Flame,  label: 'Weight Loss',     color: 'text-red-400'    },
-  { icon: Shield, label: 'Combat / Sports', color: 'text-orange-400' },
-  { icon: Wind,   label: 'Endurance',       color: 'text-green-400'  },
-  { icon: Heart,  label: 'General Fitness', color: 'text-pink-400'   },
-];
 
-const HOW = [
-  { n: '1', title: 'Quick quiz',        desc: 'Height, weight, age, and your goal — 2 minutes.' },
-  { n: '2', title: 'Plan is generated', desc: 'AI builds your workout split and meal rotation tailored to your body.' },
-  { n: '3', title: 'Train and eat',     desc: 'Follow your plan. Speak to modify it. Swap meals you don’t like.' },
-];
 
 export default function Home() {
   const [hasPlan, setHasPlan] = useState(false);
@@ -165,79 +152,6 @@ export default function Home() {
           </div>
         </section>
       )}
-
-      {/* Feature tags */}
-      <div className="px-6 pb-8">
-        <div className="flex gap-2 overflow-x-auto scrollbar-hide justify-center flex-wrap">
-          {['AI Workout Plans', 'Muay Thai & MMA', 'Looksmax Hub', 'Nutrition Tracking', 'Physique AI Review', 'Voice Coach'].map(tag => (
-            <span key={tag} className="flex-shrink-0 text-xs bg-white/5 border border-white/10 text-gray-400 px-3 py-1.5 rounded-full">{tag}</span>
-          ))}
-        </div>
-      </div>
-
-      {/* Goals */}
-      <section className="px-6 py-16 bg-[#0d0d0d]">
-        <div className="max-w-4xl mx-auto">
-          <p className="text-center text-gray-600 text-xs uppercase tracking-widest font-medium mb-8">Plans for every goal</p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {GOALS.map(({ icon: Icon, label, color }) => (
-              <div key={label} className="flex items-center gap-3 bg-[#111] border border-white/5 rounded-xl px-4 py-3 card-hover">
-                <Icon size={18} className={color} />
-                <span className="text-sm font-medium text-gray-300">{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="px-6 py-20 max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-3 gap-6">
-          {[
-            { icon: Target,   title: 'Precision Planning', desc: 'Built around your exact metrics, goal, and experience. Not a generic template.' },
-            { icon: Utensils, title: 'Smart Meals',         desc: 'Calorie & macro targets with a rotating meal plan. Tap X on any meal to see alternatives.' },
-            { icon: Mic,      title: 'Voice Control',       desc: 'Speak to swap exercises, change your split, or adjust meals. Real-time AI coach.' },
-          ].map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="bg-[#111] border border-white/5 rounded-2xl p-6 card-hover">
-              <div className="w-11 h-11 bg-orange-500/10 rounded-xl flex items-center justify-center mb-4">
-                <Icon className="text-orange-500" size={22} />
-              </div>
-              <h3 className="text-lg font-bold mb-2">{title}</h3>
-              <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section className="px-6 py-16 bg-[#0d0d0d]">
-        <div className="max-w-xl mx-auto">
-          <h2 className="text-3xl font-black mb-12 text-center">How it works</h2>
-          <div className="space-y-8">
-            {HOW.map(({ n, title, desc }) => (
-              <div key={n} className="flex items-start gap-5">
-                <div className="w-10 h-10 rounded-full bg-orange-500/10 border border-orange-500/20 flex items-center justify-center flex-shrink-0 text-orange-400 font-bold">
-                  {n}
-                </div>
-                <div>
-                  <p className="font-bold text-lg mb-0.5">{title}</p>
-                  <p className="text-gray-500 text-sm">{desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="px-6 py-24 text-center">
-        <h2 className="text-4xl font-black mb-4">Ready to start?</h2>
-        <p className="text-gray-500 mb-8">Takes 2 minutes. No signup required.</p>
-        <Link to="/quiz"
-          className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl text-lg font-bold transition-all hover:scale-105 shadow-lg shadow-orange-500/20">
-          Get My Free Plan <ChevronRight size={20} />
-        </Link>
-      </section>
 
       <footer className="border-t border-white/5 px-6 py-6 text-center text-gray-700 text-sm">
         <div className="flex items-center justify-center gap-2">
