@@ -159,7 +159,7 @@ export default function LooksMax() {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = async ev => {
-      const compressed = await compressImage(ev.target!.result as string);
+      const compressed = await compressImage(ev.target!.result as string, 600);
       setScanPhoto(compressed);
       setScanResult(null);
       setScanError('');

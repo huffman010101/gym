@@ -387,7 +387,7 @@ export async function analyseFace(photoDataUrl: string): Promise<FaceAnalysisRes
   const mediaType = photoDataUrl.startsWith('data:image/png') ? 'image/png' as const : 'image/jpeg' as const;
 
   const msg = await client.messages.create({
-    model: 'claude-sonnet-4-6',
+    model: 'claude-haiku-4-5-20251001',
     max_tokens: 1500,
     messages: [{
       role: 'user',
