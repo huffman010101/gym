@@ -6,6 +6,18 @@ interface Entry { label: string; section: string; path: string; keywords: string
 
 const INDEX: Entry[] = [
   { label: 'The Journey (guided phases + AI advisor)', section: 'Journey', path: '/journey', keywords: 'journey phases guide walkthrough plan roadmap advisor ask ai questions coach interactive start' },
+  { label: 'Blueprint: Skin & Acne Protocol', section: 'Blueprint', path: '/guide?tab=skin', keywords: 'blueprint skin acne routine retinol bha benzoyl niacinamide spf slugging hyperpigmentation marks cerave ordinary' },
+  { label: 'Blueprint: Bone Development & Mewing', section: 'Blueprint', path: '/guide?tab=bone', keywords: 'blueprint bone mewing maxilla masseter mastic gum cheekbone development' },
+  { label: 'Blueprint: Fat Loss & Face Reveal', section: 'Blueprint', path: '/guide?tab=fatloss', keywords: 'blueprint fat loss deficit calories protein face reveal lean cut' },
+  { label: 'Blueprint: Jawline Routine', section: 'Blueprint', path: '/guide?tab=jaw', keywords: 'blueprint jawline jaw routine chin tucks neck curls gua sha' },
+  { label: 'Blueprint: Hair & Scalp', section: 'Blueprint', path: '/guide?tab=hair', keywords: 'blueprint hair scalp rosemary oil wavy waves dermaroller wash haircut french crop verb' },
+  { label: 'Blueprint: Grooming Detail', section: 'Blueprint', path: '/guide?tab=grooming', keywords: 'blueprint grooming eyebrows threading castor oil lips under eyes teeth stubble beard neckline' },
+  { label: 'Blueprint: Posture Routine', section: 'Blueprint', path: '/guide?tab=posture', keywords: 'blueprint posture apt anterior pelvic tilt rib flare stomach vacuum dead hang wall angels neck training' },
+  { label: 'Blueprint: Debloating', section: 'Blueprint', path: '/guide?tab=debloat', keywords: 'blueprint debloat lymph collarbone gua sha ice roller sodium' },
+  { label: 'Blueprint: Supplements & Lifestyle', section: 'Blueprint', path: '/guide?tab=supps', keywords: 'blueprint supplements zinc omega collagen biotin spearmint b6 lifestyle sleep hydration' },
+  { label: 'Blueprint: Execution Order & Timeline', section: 'Blueprint', path: '/guide?tab=execution', keywords: 'blueprint execution week 1 timeline order start plan' },
+  { label: 'Blueprint: Aura 0→100 Roadmap', section: 'Blueprint', path: '/guide?tab=aura', keywords: 'blueprint aura psl levels roadmap presence walk voice high status behaviour tall style fit tailor signature' },
+  { label: 'Blueprint: The Social Edge', section: 'Blueprint', path: '/guide?tab=social', keywords: 'blueprint social edge confidence exposure charisma memorable peak end ford mirror label freelancing copywriting reading list daily stack' },
   { label: 'Fighting as the Taller Man', section: 'Combat', path: '/combat?tab=strategy', keywords: 'tall taller height reach boxing muay thai grappling teep jab range' },
   { label: 'Investing 101 & Financial Freedom', section: 'Money', path: '/money?tab=trading', keywords: 'investing stocks isa index funds financial freedom fire compound passive income' },
   { label: 'Stretching & Posture Routine', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'stretching posture stretch mobility apt anterior pelvic tilt rounded shoulders forward head' },
