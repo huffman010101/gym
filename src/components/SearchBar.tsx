@@ -48,6 +48,7 @@ const INDEX: Entry[] = [
   // Mind
   { label: 'Charisma & Conversation', section: 'Mind', path: '/mind?tab=charisma', keywords: 'charisma conversation voice body language storytelling banter funny humour group status punching bag' },
   { label: 'Aura & High-Value Habits', section: 'Mind', path: '/mind?tab=aura', keywords: 'aura james bond high value habits composure positivity psychology restraint' },
+  { label: 'Stoicism & Emotional Control', section: 'Mind', path: '/mind?tab=stoic', keywords: 'stoic stoicism emotions control anger marcus aurelius seneca epictetus being a man masculinity discipline code' },
   { label: 'Icons (Beckham, Ronaldo…)', section: 'Mind', path: '/mind?tab=icons', keywords: 'icons beckham ronaldo reynolds bond gandy federer keanu inspiration famous role model' },
   { label: 'Confidence', section: 'Mind', path: '/mind?tab=confidence', keywords: 'confidence nerves approval seeking validation self belief courage' },
   { label: 'Self-Talk Scripts', section: 'Mind', path: '/mind?tab=selftalk', keywords: 'self talk affirmations inner critic mindset scripts' },

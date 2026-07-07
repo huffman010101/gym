@@ -4,11 +4,12 @@ import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, E
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 
-type Tab = 'charisma' | 'aura' | 'icons' | 'confidence' | 'selftalk' | 'secret';
+type Tab = 'charisma' | 'aura' | 'stoic' | 'icons' | 'confidence' | 'selftalk' | 'secret';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'charisma', label: 'Charisma' },
   { id: 'aura', label: 'Aura' },
+  { id: 'stoic', label: 'Stoic' },
   { id: 'icons', label: 'Icons' },
   { id: 'confidence', label: 'Confidence' },
   { id: 'selftalk', label: 'Self-Talk' },
@@ -58,7 +59,7 @@ export default function Mind() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['charisma', 'aura', 'icons', 'confidence', 'selftalk', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'charisma';
+    return (['charisma', 'aura', 'stoic', 'icons', 'confidence', 'selftalk', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'charisma';
   });
   const [pw, setPw] = useState('');
   const [unlocked, setUnlocked] = useState(false);
@@ -194,6 +195,66 @@ export default function Mind() {
               ['Abundance beats scarcity in every decision', 'One opportunity/person/chance is never the only one. Scarcity thinking causes clinging, rushing, settling. Abundance thinking is calm — and it\'s self-fulfilling because calm attracts options.'],
               ['Guard the inputs', 'Doomscrolling, gossip, blackpill content — your mind eats what you feed it. Curate feeds as strictly as your diet. Positivity is an input problem before it\'s a mindset problem.'],
             ]} />
+          </div>
+        )}
+
+        {/* ============ STOIC ============ */}
+        {tab === 'stoic' && (
+          <div className="fade-up stagger space-y-4">
+            <div className="card-premium p-5">
+              <h3 className="font-bold mb-2 flex items-center gap-2"><Brain size={16} className="text-pink-400" /> Stoicism — the Operating System</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Marcus Aurelius ran an empire on this. Seneca advised one. Epictetus taught it as a freed slave.
+                It isn't suppressing emotions or being cold — it's <span className="text-gray-200 font-semibold">feeling everything and being commanded by nothing</span>.
+                The core: some things are in your control (your judgements, responses, effort, character), everything else isn't
+                (others' opinions, outcomes, the past, the weather). Spend your energy exclusively on the first list.
+              </p>
+            </div>
+            <Card icon={Flame} title="Controlling Emotions — the actual mechanics" items={[
+              ['Emotions are data, not commands', 'Anger, fear, jealousy, desire — all information about what you value. Feel it fully, read it, THEN decide the response. The untrained man IS his emotions; the trained man HAS them.'],
+              ['The sacred pause', 'Between what happens and how you respond there is a gap — that gap is your whole power. Practice: when triggered, one slow breath before any word or action. The pause is where every regrettable text, punch and outburst dies.'],
+              ['Name it to tame it', 'Literally label the emotion in your head: "this is anger", "this is embarrassment". Naming shifts activity from the amygdala (react) to the prefrontal cortex (choose) — proven in brain imaging. Sounds too simple; works every time.'],
+              ['The body is the volume dial', 'Emotions live in physiology. Slow long exhales (double the inhale), unclench the jaw, drop the shoulders — you cannot stay furious with a slow heart rate. Regulate the body and the mind follows.'],
+              ['It\'s the judgement, not the event', '"Men are disturbed not by things, but by their opinions about things" — Epictetus. Traffic isn\'t stressful; "I must not be late" is. Find the judgement under the emotion and question it — half of them collapse on inspection.'],
+              ['The 10-10-10 test', 'Will this matter in 10 minutes? 10 months? 10 years? Most storms fail the second question. Respond at the scale the thing actually deserves.'],
+              ['Never act at the peak', 'Make no decisions, send no messages, have no confrontations at maximum emotion. The rule: strong feeling = automatic 24h delay on anything irreversible. You\'ll keep the same options with a clearer head.'],
+            ]} />
+            <Card icon={Brain} title="The Great Stoic Lessons" items={[
+              ['Amor fati — love your fate', 'Don\'t just tolerate what happens — use it. Every setback is training material: rejection trains detachment, loss trains gratitude, failure trains humility. "The impediment to action advances action. What stands in the way becomes the way." — Marcus Aurelius.'],
+              ['Memento mori — remember you die', 'Not morbid — clarifying. You have limited days; acting like they\'re infinite is how men waste decades on games, grudges and scrolling. Ask daily: if this were a numbered day, is this how I\'d spend it?'],
+              ['Premeditatio malorum — rehearse the worst', 'Before big things, calmly imagine them going wrong: she says no, you fail the exam, the business flops. Two effects: the fear shrinks when examined, and you\'re prepared instead of shocked. Then the actual outcome is usually better than rehearsed.'],
+              ['Voluntary discomfort', 'Cold showers, fasting till dinner, sleeping on the floor occasionally, hard training. Seneca practised poverty days on purpose: "Is this the condition I so feared?" Comfort is a drug; regular hardship keeps your baseline unbreakable.'],
+              ['The view from above', 'Zoom out: you\'re one man in a city of millions on a rock in space. The embarrassing moment nobody will remember, the argument that means nothing — perspective is instant emotional medicine.'],
+              ['Judge yourself only on what you control', 'Effort, preparation, character, response — yours. Results, opinions, luck — not yours. A man who grades himself on inputs is unshakeable; a man who grades himself on outcomes is a slave to dice.'],
+              ['The evening review', 'Seneca\'s nightly practice: What did I do well? Where did I fail my standards? What will I do differently? Three questions, three minutes, compounding self-command. (Pairs with the 3 wins log in the tracker.)'],
+            ]} />
+            <Card icon={Heart} title="Being a Man — the code" items={[
+              ['Strength exists to protect', 'The whole point of building a dangerous, capable body and mind is having it and choosing gentleness. A strong man is safe to be around — his family relaxes when he enters the room, not tenses.'],
+              ['Your word is the whole currency', 'Say what you\'ll do, do what you said — to others and to yourself. A man whose word is reliable needs no reputation management; his track record IS the reputation.'],
+              ['Take radical responsibility', 'Your body, your money, your reactions, your failures — yours, even when circumstances contributed. "Whose fault is it?" is a boy\'s question. "What do I do now?" is a man\'s.'],
+              ['Handle hard things quietly', 'Do the difficult thing without announcing the difficulty. Complaining recruits an audience for your suffering; acting recruits a solution. People notice the man who just handles it.'],
+              ['Protect the smaller, respect the weaker', 'How you treat waiters, children, animals, and people who can do nothing for you is your actual character. Cruelty-down is the most reliable red flag in men; kindness-down is the most reliable green one.'],
+              ['Emotions felt in private, composure held in public', 'Not suppression — timing. Cry, rage, grieve fully — with people you trust or alone, then return composed. The men people lean on have feelings AND a container for them.'],
+              ['Build more than you consume', 'A man\'s ledger: what did you create, teach, fix, and provide vs what did you take, watch, and scroll? Keep the first column longer, forever.'],
+              ['Standards over moods', 'Train when unmotivated, work when tired, kind when irritated. Moods are weather; standards are climate. The entire difference between men you respect and men you don\'t is which one they obey.'],
+            ]} />
+            <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
+              <h3 className="font-bold mb-3 text-pink-300">Daily Stoic Practice — 10 minutes</h3>
+              <div className="space-y-2">
+                {[
+                  ['Morning (3 min)', 'Read one Stoic passage (Meditations, or the Daily Stoic) + premeditate the day\'s hardest moment and choose your response in advance.'],
+                  ['Midday (1 min)', 'One voluntary discomfort: cold finish to the shower, skip the snack, take the stairs, hold the tongue.'],
+                  ['During the day', 'The sacred pause on every trigger. Name the emotion. Ask: in my control or not? Act only on the first category.'],
+                  ['Evening (3 min)', 'Seneca\'s review: what went well, where did I fail my code, what changes tomorrow. Write it — thinking it doesn\'t count.'],
+                  ['Reading list', 'Meditations (Marcus Aurelius, Gregory Hays translation) · Letters from a Stoic (Seneca) · The Daily Stoic (Holiday) · Discourses (Epictetus). One page a day beats a binge.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 
