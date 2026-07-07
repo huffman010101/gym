@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Shield, Swords, Hand, AlertTriangle, Target, Users, Zap, ChevronDown } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 
@@ -67,7 +67,11 @@ function SectionTitle({ icon: Icon, title, sub }: { icon: typeof Shield; title: 
 }
 
 export default function Combat() {
-  const [tab, setTab] = useState<Tab>('fundamentals');
+  const [params] = useSearchParams();
+  const [tab, setTab] = useState<Tab>(() => {
+    const t = params.get('tab');
+    return (['fundamentals', 'takedowns', 'ground', 'chokes', 'strategy'] as const).includes(t as Tab) ? (t as Tab) : 'fundamentals';
+  });
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white pb-24">
@@ -321,6 +325,53 @@ export default function Combat() {
               ].map(([t, d]) => (
                 <div key={t}>
                   <p className="font-bold text-sm text-gray-200">{t}</p>
+                  <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
+                </div>
+              ))}
+            </div>
+            <SectionTitle icon={Target} title="Fighting AS the Taller Man" sub="Your height is a weapon system — but only if you fight tall. Every metric, every art." />
+            <div className="bg-[#111] border border-white/8 rounded-2xl p-5 space-y-3">
+              <p className="font-bold text-sm text-red-300">Boxing tall</p>
+              {[
+                ['Own the outside — permanently', 'Your jab should be a wall they live behind. Double it, triple it, jab to the chest and shoulder too. If they never get past your jab, the fight is already won.'],
+                ['Never fight at THEIR range', 'Shorter opponents want to crowd your chest where your reach is worthless. The moment they close: pivot out, stiff-arm frame, or tie up — never stand and trade in a phone box.'],
+                ['Punish every entry', 'They must lunge to reach you — that\'s your money moment. Meet entries with the check hook, straight down the pipe, or a step-back counter. Make closing distance expensive.'],
+                ['Uppercuts when they duck in', 'Short fighters enter low. The uppercut is designed for exactly that head position — throw it as they duck, not after they arrive.'],
+                ['Fight tall, literally', 'Stand up in your stance, chin down. Tall fighters who crouch to meet opponents donate their reach. Posture IS your range advantage.'],
+              ].map(([t, d]) => (
+                <div key={t}>
+                  <p className="font-semibold text-sm text-gray-200">{t}</p>
+                  <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
+                </div>
+              ))}
+            </div>
+            <div className="bg-[#111] border border-white/8 rounded-2xl p-5 space-y-3">
+              <p className="font-bold text-sm text-red-300">Muay Thai tall</p>
+              {[
+                ['The teep is your jab for legs', 'Push kick to the belly/hip every time they step in — it\'s a range-resetting weapon shorter fighters have no answer to. Snap it from the lead leg constantly.'],
+                ['Long knees in the clinch', 'Height = knee leverage. Collar tie with your long frame, posture them down (your height makes the snap-down brutal), and drive knees to the body.'],
+                ['Kicks from outside their reach', 'Your round kicks land from distances where their hands can\'t answer. Chop the legs and body from long range; head kicks open up as they slow.'],
+                ['Elbows when they finally close', 'Inside range isn\'t lost for you — short elbows down onto entries use your height as an angle. Frame, elbow, exit.'],
+                ['Don\'t get swept in the clinch', 'Tall = high centre of gravity. In the clinch keep hips back, base wide, and never let them lock your waist with your feet square.'],
+              ].map(([t, d]) => (
+                <div key={t}>
+                  <p className="font-semibold text-sm text-gray-200">{t}</p>
+                  <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
+                </div>
+              ))}
+            </div>
+            <div className="bg-[#111] border border-white/8 rounded-2xl p-5 space-y-3">
+              <p className="font-bold text-sm text-red-300">Grappling & MMA tall</p>
+              {[
+                ['Sprawl early, sprawl heavy', 'Shorter wrestlers shoot on tall guys all day — their level change is naturally deeper. Your keys: distance + jab so they shoot from too far, then hips-back sprawl with your long legs unreachable.'],
+                ['The front headlock is your home', 'Every failed shot under your long frame lands them in your guillotine/anaconda territory. Drill the front headlock series until failed takedowns feel like gifts.'],
+                ['Long limbs = submission reach', 'Triangles, armbars from guard, body triangles from the back — your levers close where others can\'t. If you end up on bottom, your guard is more dangerous than most.'],
+                ['Knees and frames off the fence', 'In MMA, shorter opponents chain-wrestle against the cage. Underhooks + your height for whizzer leverage, frames on the face, and knees as they drop for legs.'],
+                ['Watch the body lock', 'Your long torso is the target — never let them chest-to-chest you with hips connected. Fight the hands BEFORE the lock closes; once it\'s locked, your height works against you.'],
+                ['Top game: long-range pressure', 'Knee cut and over-under passes suit long legs; from top your frames pin from distances they can\'t bridge against. Heavy hips, long arms posting — you\'re hard to sweep if you stay wide.'],
+              ].map(([t, d]) => (
+                <div key={t}>
+                  <p className="font-semibold text-sm text-gray-200">{t}</p>
                   <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
                 </div>
               ))}

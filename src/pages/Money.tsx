@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Banknote, TrendingUp, Laptop, Rocket, AlertTriangle, ChevronDown, Brain } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 
@@ -57,7 +57,11 @@ function Fold({ title, tag, items }: { title: string; tag: string; items: [strin
 }
 
 export default function Money() {
-  const [tab, setTab] = useState<Tab>('skills');
+  const [params] = useSearchParams();
+  const [tab, setTab] = useState<Tab>(() => {
+    const t = params.get('tab');
+    return (['skills', 'online', 'launch', 'trading', 'mindset'] as const).includes(t as Tab) ? (t as Tab) : 'skills';
+  });
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white pb-24">
@@ -256,6 +260,21 @@ export default function Money() {
               ['One setup, mastered', 'Like the football go-to move: trade ONE pattern (e.g. breakout-retest) on ONE market until your journal shows an edge across 100+ trades. Strategy-hopping = account death.'],
               ['Psychology is the boss fight', 'Revenge trading, oversizing after wins, moving stops — the account killers are all emotional. The Mind section\'s composure work applies directly here.'],
               ['Only ever risk money you can burn', 'Trading capital = money whose total loss changes nothing in your life. Rent money on leverage is how disasters happen.'],
+            ]} />
+            <Fold title="Investing 101 — from absolute zero" tag="The full beginner path, UK edition" items={[
+              ['What a stock actually is', 'A share = a slice of a real company\'s profits and assets. You make money two ways: the price rising (growth) and dividends (profit paid out). You\'re buying businesses, not lottery tickets.'],
+              ['What an index fund is and why it wins', 'One purchase = tiny slices of hundreds of companies (S&P 500 = 500 biggest US firms; a global tracker = the world). No picking winners, near-zero fees, and it has beaten ~90% of professional stock-pickers over 15-year periods. This is the vehicle.'],
+              ['The account order (UK)', '1) Stocks & Shares ISA — £20k/year allowance, ALL gains tax-free forever, open with a low-fee broker (Vanguard, Trading 212, InvestEngine). 2) Employer pension with matching when you work — free money. 3) Only then anything else.'],
+              ['Your first investment, concretely', 'Open ISA → pick ONE global index fund or S&P 500 fund (look for "accumulation" version, fees under 0.25%) → set an automatic monthly buy. That\'s genuinely it. Complexity is a fee-generating illusion.'],
+              ['Compounding, with real numbers', '£200/month at ~8% average: 10 years = £36k, 20 years = £118k, 30 years = £298k — of which only £72k was ever deposited. Time in the market is the whole cheat code, which is why starting at your age is a superpower.'],
+              ['Crashes are features, not bugs', 'The market drops 30-50% every decade or so. Sellers lock in the loss; buyers get the discount. Automate the monthly buy and never check during crashes — boring wins.'],
+            ]} />
+            <Fold title="Financial Freedom — the actual maths" tag="FIRE numbers made simple" items={[
+              ['The freedom formula', 'Financial freedom = investments × ~4% ≥ your yearly spending. Spend £24k/year? You need ~£600k invested. That\'s the whole equation behind every "FIRE" video.'],
+              ['Your savings RATE is the dial', 'At a 10% savings rate, freedom takes ~50 years. At 30%, ~28 years. At 50%, ~17. Income raises (Skills/Business tabs) move this dial far more than investment genius does.'],
+              ['The three levers, in order', '1) Raise income (biggest lever at your age), 2) hold lifestyle steady as income grows (the hard one), 3) automate investing the gap. Optimising fund choice is lever #47 — ignore the noise.'],
+              ['Milestones that matter', '£1k emergency buffer → 3-month emergency fund → first £10k invested (the hardest) → £100k (compounding takes over from here — Charlie Munger\'s famous line) → your freedom number.'],
+              ['Freedom is bought monthly', 'Every £100 invested ≈ £4-5/year of permanent passive income. Reframe purchases in those terms and impulse spending gets very honest very fast.'],
             ]} />
             <Block title="Red Flags — Auto-Skip List" items={[
               ['Signals groups & copy-trading gurus', 'If their signals worked, they wouldn\'t need your £50/month. They earn from subscribers, not markets.'],

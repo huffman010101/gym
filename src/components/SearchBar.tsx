@@ -1,0 +1,115 @@
+import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Search, ChevronRight } from 'lucide-react';
+
+interface Entry { label: string; section: string; path: string; keywords: string }
+
+const INDEX: Entry[] = [
+  { label: 'The Journey (guided phases + AI advisor)', section: 'Journey', path: '/journey', keywords: 'journey phases guide walkthrough plan roadmap advisor ask ai questions coach interactive start' },
+  { label: 'Fighting as the Taller Man', section: 'Combat', path: '/combat?tab=strategy', keywords: 'tall taller height reach boxing muay thai grappling teep jab range' },
+  { label: 'Investing 101 & Financial Freedom', section: 'Money', path: '/money?tab=trading', keywords: 'investing stocks isa index funds financial freedom fire compound passive income' },
+  { label: 'Stretching & Posture Routine', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'stretching posture stretch mobility apt anterior pelvic tilt rounded shoulders forward head' },
+  { label: 'Running for Debloat', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'running cardio debloat zone 2 face fat sharp jawline steps' },
+  { label: 'Zygos Pop Protocol', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'zygos cheekbones pop gua sha lymphatic hollow cheeks' },
+  // Gym
+  { label: 'Workout Plan (AI)', section: 'Gym', path: '/plan', keywords: 'training split programme exercises workout plan quiz' },
+  { label: 'Training Log', section: 'Gym', path: '/training', keywords: 'log sets reps sessions train' },
+  { label: 'Food Log & Macros', section: 'Gym', path: '/food', keywords: 'food eat calories macros protein diet nutrition meals fuel' },
+  { label: 'Physique AI Review', section: 'Gym', path: '/physique', keywords: 'physique photos progress body ai review muscle' },
+  { label: 'Skin Photo AI Routine', section: 'Gym', path: '/physique', keywords: 'skin photo analysis personalised skincare routine ai scan' },
+  { label: 'Dashboard', section: 'Gym', path: '/dashboard', keywords: 'dashboard overview home stats' },
+  // Combat
+  { label: 'Striking Fundamentals', section: 'Combat', path: '/combat?tab=fundamentals', keywords: 'stance jab punch boxing defence slip block clinch striking fight' },
+  { label: 'Takedowns', section: 'Combat', path: '/combat?tab=takedowns', keywords: 'takedown double leg single leg body lock trip sweep sprawl wrestle wrestling' },
+  { label: 'Ground Game', section: 'Combat', path: '/combat?tab=ground', keywords: 'ground bjj guard mount side control escape grappling jiu jitsu' },
+  { label: 'Chokes & Submissions', section: 'Combat', path: '/combat?tab=chokes', keywords: 'choke rear naked guillotine triangle armbar kimura submission tap' },
+  { label: 'Fight Strategy (bigger/taller)', section: 'Combat', path: '/combat?tab=strategy', keywords: 'bigger stronger taller opponent strategy fight iq mma' },
+  // Looks
+  { label: 'AI Face Scan', section: 'Looks', path: '/looksmax?tab=scan', keywords: 'face scan haircut hairstyle facial hair glasses analysis photo upload ai' },
+  { label: 'Hair', section: 'Looks', path: '/looksmax?tab=hair', keywords: 'hair hairstyle dermaroll minoxidil barber cut' },
+  { label: 'Face (posture, eyes, lips, mewing)', section: 'Looks', path: '/looksmax?tab=face', keywords: 'face skincare posture chin tuck forward head eyes dark circles lips mewing jawline' },
+  { label: 'Methods (teeth, tanning, supplements…)', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'teeth whitening tanning tan supplements creatine debloat symmetry nose maxilla zygos hyoid female gaze harmony lifestyle foods desirability audit methods techniques' },
+  { label: 'Style & Colours', section: 'Looks', path: '/looksmax?tab=style', keywords: 'style colours colour clothes outfit wardrobe capsule undertone contrast glasses sunglasses archetype fit social media presence' },
+  { label: 'Grooming', section: 'Looks', path: '/looksmax?tab=grooming', keywords: 'grooming beard eyebrows brows nails body hair trim' },
+  { label: 'Scent / Fragrance', section: 'Looks', path: '/looksmax?tab=fragrance', keywords: 'scent fragrance perfume cologne smell layering combos edp edt most complimented' },
+  { label: 'Looksmax Tracker', section: 'Looks', path: '/looksmax?tab=tracker', keywords: 'tracker checklist daily routine morning evening weekly' },
+  // Mind
+  { label: 'Charisma & Conversation', section: 'Mind', path: '/mind?tab=charisma', keywords: 'charisma conversation voice body language storytelling banter funny humour group status punching bag' },
+  { label: 'Aura & High-Value Habits', section: 'Mind', path: '/mind?tab=aura', keywords: 'aura james bond high value habits composure positivity psychology restraint' },
+  { label: 'Icons (Beckham, Ronaldo…)', section: 'Mind', path: '/mind?tab=icons', keywords: 'icons beckham ronaldo reynolds bond gandy federer keanu inspiration famous role model' },
+  { label: 'Confidence', section: 'Mind', path: '/mind?tab=confidence', keywords: 'confidence nerves approval seeking validation self belief courage' },
+  { label: 'Self-Talk Scripts', section: 'Mind', path: '/mind?tab=selftalk', keywords: 'self talk affirmations inner critic mindset scripts' },
+  { label: '🔒 Secret Playbook', section: 'Mind', path: '/mind?tab=secret', keywords: 'secret girls dating texting chase girlfriend nights out club approach women intimacy rollercoaster' },
+  // Football
+  { label: 'Sprint Speed', section: 'Football', path: '/football?tab=speed', keywords: 'sprint speed faster acceleration running pace nordic' },
+  { label: 'Shooting & Finishing', section: 'Football', path: '/football?tab=shooting', keywords: 'shooting finishing shot volley chip penalty striker technique' },
+  { label: 'Every Skill Metric', section: 'Football', path: '/football?tab=skills', keywords: 'first touch passing dribbling weak foot stamina heading scanning skills' },
+  { label: 'By Position', section: 'Football', path: '/football?tab=position', keywords: 'position striker winger midfielder fullback defender goalkeeper cam cdm' },
+  // Money
+  { label: 'Money Skills', section: 'Money', path: '/money?tab=skills', keywords: 'money skills editing copywriting coding sales content trades income earn' },
+  { label: 'Online Income & Social Media', section: 'Money', path: '/money?tab=online', keywords: 'freelancing fiverr upwork flipping dropshipping agency social media presence audience followers' },
+  { label: 'Launch a Business', section: 'Money', path: '/money?tab=launch', keywords: 'business plan startup launch validate legal tax millionaire roadmap model modelling agency wealthy rich' },
+  { label: 'Trading & Investing', section: 'Money', path: '/money?tab=trading', keywords: 'trading investing stocks index funds isa crypto forex day trading' },
+  { label: 'Money Rules & Psychology', section: 'Money', path: '/money?tab=mindset', keywords: 'money rules wealth psychology saving debt pay yourself' },
+  // Uni
+  { label: 'AI Study Pack (revision)', section: 'Uni', path: '/uni?tab=ai', keywords: 'study revision timetable exam notes summary equation sheet powerpoint lectures uni university modules' },
+  { label: 'Get Smarter', section: 'Uni', path: '/uni?tab=smarter', keywords: 'smarter intelligence learning memory focus recall feynman anki brain iq reading' },
+  { label: 'High-Value Day Routine', section: 'Uni', path: '/uni?tab=day', keywords: 'day routine schedule morning structure productivity high value' },
+  { label: 'Career, Interviews & HireVue', section: 'Uni', path: '/uni?tab=career', keywords: 'career job interview hirevue cv application internship aptitude tests quizzes star graduate' },
+  { label: 'Sleep Lab', section: 'Uni', path: '/uni?tab=sleep', keywords: 'sleep deep tired red light blue light glasses melatonin nap insomnia energy' },
+];
+
+export default function SearchBar() {
+  const [q, setQ] = useState('');
+  const navigate = useNavigate();
+
+  const results = useMemo(() => {
+    const query = q.trim().toLowerCase();
+    if (query.length < 2) return [];
+    return INDEX
+      .map(e => {
+        const inLabel = e.label.toLowerCase().includes(query);
+        const inKeywords = e.keywords.includes(query);
+        const score = inLabel ? 2 : inKeywords ? 1 : 0;
+        return { e, score };
+      })
+      .filter(r => r.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 6)
+      .map(r => r.e);
+  }, [q]);
+
+  const go = (path: string) => {
+    setQ('');
+    navigate(path);
+  };
+
+  return (
+    <div className="relative">
+      <div className="flex items-center gap-2.5 bg-[#111] border border-white/10 rounded-2xl px-4 py-3 focus-within:border-orange-500/40 transition-colors">
+        <Search size={16} className="text-gray-600 flex-shrink-0" />
+        <input
+          value={q}
+          onChange={e => setQ(e.target.value)}
+          onKeyDown={e => { if (e.key === 'Enter' && results[0]) go(results[0].path); }}
+          placeholder="Search anything… scent, takedowns, sleep, HireVue"
+          className="flex-1 bg-transparent text-sm focus:outline-none placeholder-gray-600"
+        />
+      </div>
+      {results.length > 0 && (
+        <div className="absolute left-0 right-0 top-full mt-2 bg-[#161616] border border-white/10 rounded-2xl overflow-hidden z-40 shadow-2xl fade-up">
+          {results.map(r => (
+            <button key={r.path + r.label} onClick={() => go(r.path)}
+              className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-white/5 transition-colors border-b border-white/5 last:border-0">
+              <div>
+                <p className="text-sm font-semibold text-gray-200">{r.label}</p>
+                <p className="text-[11px] text-gray-600">{r.section}</p>
+              </div>
+              <ChevronRight size={14} className="text-gray-600 flex-shrink-0" />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}

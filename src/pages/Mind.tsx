@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, Eye, ChevronDown, Heart } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 
@@ -54,7 +54,11 @@ function Collapsible({ title, tag, children }: { title: string; tag?: string; ch
 }
 
 export default function Mind() {
-  const [tab, setTab] = useState<Tab>('charisma');
+  const [params] = useSearchParams();
+  const [tab, setTab] = useState<Tab>(() => {
+    const t = params.get('tab');
+    return (['charisma', 'aura', 'icons', 'confidence', 'selftalk', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'charisma';
+  });
   const [pw, setPw] = useState('');
   const [unlocked, setUnlocked] = useState(false);
 

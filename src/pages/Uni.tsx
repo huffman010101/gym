@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, GraduationCap, Brain, Sun, Briefcase, Moon, Loader2, AlertCircle, ChevronDown, Sparkles, Clock } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import { generateStudyPack } from '../lib/generators';
@@ -59,7 +59,11 @@ function Fold({ title, tag, items }: { title: string; tag: string; items: [strin
 }
 
 export default function Uni() {
-  const [tab, setTab] = useState<Tab>('ai');
+  const [params] = useSearchParams();
+  const [tab, setTab] = useState<Tab>(() => {
+    const t = params.get('tab');
+    return (['ai', 'smarter', 'day', 'career', 'sleep'] as const).includes(t as Tab) ? (t as Tab) : 'ai';
+  });
   const [course, setCourse] = useState('');
   const [modules, setModules] = useState('');
   const [examInfo, setExamInfo] = useState('');

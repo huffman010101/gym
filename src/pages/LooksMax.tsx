@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
 import { analyseFace, suggestLayering } from '../lib/generators';
 import type { FaceAnalysisResult, LayeringResult } from '../lib/generators';
@@ -108,7 +108,11 @@ function compressImage(dataUrl: string, maxPx = 800): Promise<string> {
 }
 
 export default function LooksMax() {
-  const [tab, setTab] = useState<LooksTab>('scan');
+  const [params] = useSearchParams();
+  const [tab, setTab] = useState<LooksTab>(() => {
+    const t = params.get('tab');
+    return (['scan', 'hair', 'face', 'techniques', 'style', 'grooming', 'fragrance', 'tracker'] as const).includes(t as LooksTab) ? (t as LooksTab) : 'scan';
+  });
   const [checklist, setChecklist] = useState<Record<string, boolean>>(loadChecklist());
   const [dermaroll, setDermaroll] = useState(loadDermaroll());
 
@@ -899,11 +903,33 @@ export default function LooksMax() {
               'Nasal breathing 24/7 is the real win: better sleep quality, less dry mouth, better facial rest tone. Mouth-taping at night (if your nose is clear) trains it.',
               'Chewing hard gum (mastic, falim) 20-30 min/day grows the MASSETER (jaw corner width) — visible in months. It does not widen zygos. Don\'t overdo it: jaw pain = stop.',
             ]} />
-            <ExpandableCard badge="LONG GAME" title="Zygos & cheekbones" content={[
+            <ExpandableCard badge="LONG GAME" title="Zygos & cheekbones — making them pop" content={[
               'Zygomatic bone size is genetic. What makes cheekbones VISIBLE: body fat under ~15%, debloating, and light grooming contrast (see Style tab).',
-              'Gua sha / lymphatic massage: temporary de-puff that makes zygos pop for the day — great before events, not a permanent change.',
-              'Hairstyle leverage: shorter sides + volume on top visually widens the upper face where zygos live.',
+              'The zygo-pop protocol (event-day): night before — low sodium, no alcohol, 3L water, 8h sleep slightly elevated. Morning — cold water/ice cube pass over cheeks 60s, then lymphatic massage: firm strokes from nose across the cheekbone to the ear, then down the neck, 2 min per side. Instant sharper midface for the day.',
+              'Gua sha / lymphatic massage daily compounds the de-puff: same outward-and-down strokes with light oil so you don\'t drag skin.',
+              'Fasted morning cardio (see the running card below) is the single fastest natural "zygo pop" lever — it drops water AND face fat together.',
+              'Slight squint-smile in photos engages the cheek muscles and lifts the midface — practice on video; it\'s what most male models are doing.',
+              'Hairstyle leverage: shorter sides + volume on top visually widens the upper face where zygos live. Light stubble under the cheekbone line adds shadow contrast that reads as hollows.',
               'Anything claiming to “grow” zygos without surgery is lying to you. Cheekbone implants/fillers exist in the surgical world — research-grade decision, licensed professionals only.',
+            ]} />
+            <ExpandableCard badge="S-TIER" title="Running & cardio for debloat — the exact prescription" content={[
+              'Why it works: cardio sweats out retained water + sodium, drops cortisol (a major water-retainer), moves lymph, and burns the face fat that hides definition. It\'s the most reliable natural face-sharpener there is.',
+              'The sweet spot: Zone 2 (conversational pace) 30-45 minutes, 3-4×/week. Roughly 5-7km per run at an easy pace. This maximises fat burn and water loss WITHOUT spiking cortisol.',
+              'Avoid the trap: daily long hard runs (10k+ at high effort every day) raise cortisol chronically → water retention and a puffier face. More is not better; consistent-moderate is better.',
+              'Fastest visible result: fasted morning walk-jog 30-40 min + water + no breakfast carbs until after — noticeably tighter face by the afternoon. Great before events.',
+              'Sprints count double: the football speed work (Football tab) is elite debloat cardio — 6-10 sprints twice a week complements the Zone 2.',
+              'Sweat means replace: after sweaty runs, water + electrolytes (a pinch of salt is fine) — rebound bloat comes from drinking plain water in huge amounts after heavy sweating with no minerals.',
+              '10k steps daily is the floor under all of it — walking is stealth cardio that keeps lymph moving all day.',
+            ]} />
+            <ExpandableCard badge="S-TIER" title="Full stretching & posture-fix routine" content={[
+              'Posture is the frame every other looksmax hangs on — and it\'s also pain prevention. This is the complete daily routine: 12-15 min. (Your chin-tuck question is answered in its own card below.)',
+              'DAILY MOBILITY (morning or post-training): 1) Chin tucks 3×15 · 2) Doorway chest stretch 3×30s · 3) Wall slides 3×10 · 4) Cat-cow ×10 · 5) Thoracic extension over a chair back or foam roller 60s · 6) Couch stretch (hip flexors) 60s per side · 7) Deep squat hold 60s · 8) Hamstring hinge stretch 60s.',
+              'STRENGTHEN THE WEAK LINKS (3×/week, after workouts): face pulls 3×15, band pull-aparts 3×20, reverse flys 3×12, glute bridges 3×15, dead bugs 3×10 — the posture muscles that phones and desks switch off.',
+              'ANTERIOR PELVIC TILT (arched lower back, butt out, gut pushed forward even when lean): stretch hip flexors + lower back, strengthen glutes + abs. Couch stretch, RKC planks, glute bridges, and consciously "tucking your tailbone" standing tall.',
+              'ROUNDED SHOULDERS: tight chest + weak upper back. The doorway stretch + face pulls combo above is the fix — 4-8 weeks of consistency visibly changes how you stand.',
+              'FORWARD HEAD: chin tucks + raise every screen to eye level + the phone-at-eye-height habit. Each cm your head sits forward adds ~4-5kg of apparent load on your neck — and it shows in every photo.',
+              'THE HOURLY RESET: stand, roll shoulders back and down, chin tuck, deep exhale, 10 seconds. Set a repeating timer — posture is won between workouts, not during them.',
+              'Test yourself monthly: wall test (heels, bum, upper back, head all touching a wall — head shouldn\'t strain to reach) and a side-profile photo. Progress photos work for posture exactly like they do for muscle.',
             ]} />
             <ExpandableCard badge="LONG GAME" title="Chin, jawline & hyoid" content={[
               'Jawline = bone + masseter + LOW BODY FAT + tight submental (under-chin) area. Attack all four.',

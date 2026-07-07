@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { Dumbbell, Target, Utensils, Mic, ChevronRight, Zap, Shield, Flame, Wind, Heart, Trophy, LayoutDashboard, Swords, Sparkles, Brain, GraduationCap } from 'lucide-react';
+import { Dumbbell, Target, Utensils, Mic, ChevronRight, Zap, Shield, Flame, Wind, Heart, Trophy, LayoutDashboard, Swords, Sparkles, Brain, GraduationCap, Map } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import SearchBar from '../components/SearchBar';
 
 const GOALS = [
   { icon: Trophy, label: 'Powerlifting',   color: 'text-yellow-400' },
@@ -76,6 +77,26 @@ export default function Home() {
         <p className="text-gray-500 text-sm md:text-base max-w-xl mx-auto">
           Training, fighting, looks, mindset, football and money — one system.
         </p>
+      </section>
+
+      {/* Search */}
+      <section className="px-6 pb-5 max-w-4xl mx-auto">
+        <SearchBar />
+      </section>
+
+      {/* Journey banner */}
+      <section className="px-6 pb-5 max-w-4xl mx-auto">
+        <Link to="/journey"
+          className="flex items-center justify-between bg-gradient-to-r from-orange-500/15 to-red-500/10 border border-orange-500/25 rounded-2xl px-5 py-4 hover:from-orange-500/20 transition-all group press">
+          <div className="flex items-center gap-3">
+            <Map className="text-orange-400 flex-shrink-0" size={20} />
+            <div>
+              <p className="font-black text-sm">The Journey — start here</p>
+              <p className="text-gray-500 text-xs">Every phase walked through step by step, with an AI advisor</p>
+            </div>
+          </div>
+          <ChevronRight size={17} className="text-orange-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+        </Link>
       </section>
 
       {/* The sections */}

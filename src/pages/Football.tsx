@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Zap, Target, Users, Activity, ChevronDown, Trophy } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 
@@ -56,7 +56,11 @@ function Fold({ title, tag, items }: { title: string; tag: string; items: [strin
 }
 
 export default function Football() {
-  const [tab, setTab] = useState<Tab>('speed');
+  const [params] = useSearchParams();
+  const [tab, setTab] = useState<Tab>(() => {
+    const t = params.get('tab');
+    return (['speed', 'shooting', 'skills', 'position'] as const).includes(t as Tab) ? (t as Tab) : 'speed';
+  });
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white pb-24">

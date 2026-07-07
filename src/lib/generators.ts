@@ -278,6 +278,25 @@ Give 3-5 combos if the collection allows. If a fragrance name is unrecognisable,
   return parse(text) as LayeringResult;
 }
 
+export async function askAdvisor(question: string, phaseContext: string): Promise<string> {
+  const client = makeClient();
+  const msg = await client.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 1200,
+    messages: [{
+      role: 'user',
+      content: `You are the personal advisor inside GymForge — a self-improvement app covering: training & nutrition, combat sports, looksmaxing (skin, hair, style, fragrance), mindset/charisma, football, money/business/investing, university study, and sleep.
+
+${phaseContext ? `The user is currently working on: ${phaseContext}` : ''}
+
+USER'S QUESTION: "${question}"
+
+Answer as a sharp, honest, motivating coach. Be specific and actionable — concrete numbers, protocols and next steps, not platitudes. If the question touches health, keep advice sensible and flag anything that needs a professional. Keep it under 250 words. Plain text with short paragraphs or dashes (no markdown headers).`,
+    }],
+  });
+  return msg.content[0].type === 'text' ? msg.content[0].text : 'No answer available.';
+}
+
 export interface StudyPack {
   timetable: { day: string; focus: string; tasks: string[] }[];
   prioritySheet: string[];
