@@ -78,6 +78,21 @@ export default function Home() {
         <SearchBar />
       </section>
 
+      {/* Feed banner */}
+      <section className="px-6 pb-3 max-w-4xl mx-auto">
+        <Link to="/feed"
+          className="flex items-center justify-between bg-gradient-to-r from-purple-500/15 to-pink-500/10 border border-purple-500/25 rounded-2xl px-5 py-4 hover:from-purple-500/20 transition-all group press">
+          <div className="flex items-center gap-3">
+            <Zap className="text-purple-400 flex-shrink-0" size={20} />
+            <div>
+              <p className="font-black text-sm">The Feed — scroll & learn</p>
+              <p className="text-gray-500 text-xs">Swipeable knowledge cards from every section</p>
+            </div>
+          </div>
+          <ChevronRight size={17} className="text-purple-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+        </Link>
+      </section>
+
       {/* Journey banner */}
       <section className="px-6 pb-5 max-w-4xl mx-auto">
         <Link to="/journey"
