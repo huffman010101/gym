@@ -51,6 +51,8 @@ const INDEX: Entry[] = [
   { label: 'Stoicism & Emotional Control', section: 'Mind', path: '/mind?tab=stoic', keywords: 'stoic stoicism emotions control anger marcus aurelius seneca epictetus being a man masculinity discipline code' },
   { label: 'Icons (Beckham, Ronaldo…)', section: 'Mind', path: '/mind?tab=icons', keywords: 'icons beckham ronaldo reynolds bond gandy federer keanu inspiration famous role model' },
   { label: 'Confidence', section: 'Mind', path: '/mind?tab=confidence', keywords: 'confidence nerves approval seeking validation self belief courage' },
+  { label: 'Dopamine Detox & Anti-Laziness', section: 'Mind', path: '/mind?tab=confidence', keywords: 'lazy laziness dopamine detox motivation discipline procrastination hard work focus willpower' },
+  { label: 'Whole-Food Diet & Water Retention', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'whole foods diet eating clean water retention bloat sodium potassium 80 20' },
   { label: 'Self-Talk Scripts', section: 'Mind', path: '/mind?tab=selftalk', keywords: 'self talk affirmations inner critic mindset scripts' },
   { label: '🔒 Secret Playbook', section: 'Mind', path: '/mind?tab=secret', keywords: 'secret girls dating texting chase girlfriend nights out club approach women intimacy rollercoaster' },
   // Football

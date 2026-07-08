@@ -869,6 +869,27 @@ export default function LooksMax() {
               'The anti-list: sugar spikes → glycation → duller skin and acne · seed-oil-heavy takeaways → inflammation · late-night salt+carb combos → morning moon face · excess dairy triggers acne in SOME people (test 3 weeks off if you break out).',
               'The pattern: single-ingredient foods, protein-anchored, colourful plants, water. Every list above is the same list — eat like you train and every metric moves at once.',
             ]} />
+            <ExpandableCard badge="S-TIER" title="Whole-food diet — the complete framework" content={[
+              'The rule that replaces all other rules: if it had a face, grew from the ground, or has one ingredient — eat it. If it comes in a packet with a mascot and 20 ingredients — that\'s the exception, not the diet.',
+              'The plate template (every meal): palm-sized+ protein (meat, fish, eggs, Greek yoghurt) · fist of carbs (rice, potatoes, oats, fruit) · two fists of vegetables · thumb of fats (olive oil, avocado, nuts). No counting needed when the template holds.',
+              'Why whole foods win automatically: higher satiety per calorie (hard to overeat a chicken breast, easy to inhale 800kcal of biscuits) · stable blood sugar = stable energy and mood · the micronutrients that skin, hair and hormones run on · less sodium = less bloat by default.',
+              'The 80/20 contract: 80% single-ingredient whole foods, 20% whatever you want, guilt-free. Perfection breaks in a week; 80/20 runs for life. The 20% eaten deliberately (a proper meal out) beats it leaking away in mindless snacks.',
+              'Shopping rule: shop the edges of the supermarket (meat, fish, produce, eggs, dairy) — the middle aisles are where the ultra-processed stuff lives. If your trolley needs no label-reading, you\'ve done it right.',
+              'The weekly prep hour: cook a big batch of protein (chicken thighs, mince, boiled eggs) + carbs (rice, potatoes) on Sunday. Laziness eats whatever\'s closest — make the closest thing whole food.',
+              'Upgrade swaps: cereal → eggs/oats · meal-deal sandwich → chicken rice box · crisps → nuts/fruit/biltong · soft drinks → sparkling water · takeaway sauce bombs → same dish home-made in 15 min.',
+              'Whole foods ARE the looksmax diet: everything in the foods-for-looks card above is a whole food. One eating pattern moves skin, bloat, physique, energy and mood at once.',
+            ]} />
+            <ExpandableCard badge="S-TIER" title="Water retention — the full-body fix" content={[
+              'What it is: extra water held under the skin and around the middle — the difference between how you look Monday morning vs after a clean week. Often 1-3kg of pure water masquerading as fat.',
+              'Sodium-potassium balance is the master lever: the problem is rarely just salt — it\'s high sodium WITH low potassium. Fix both: cut processed/takeaway food (hidden salt bombs) AND eat potassium daily (bananas, potatoes, avocado, spinach, yoghurt).',
+              'Drink MORE water to hold less: underdrinking makes your body cling to every drop (aldosterone). 3-4L daily flushes retention. The first few days you\'ll pee constantly — that\'s it working.',
+              'Carbs and the scale lie: every gram of stored carb holds ~3g of water. A big carb day = +1-2kg overnight that ISN\'T fat; a low-carb day = flat and "lean" but it\'s water. Judge trends weekly, never day-to-day.',
+              'Cortisol retains water: chronic stress and sleep debt visibly puff the face and body. The sleep protocol + daily movement + the Stoic tab are debloating tools.',
+              'Alcohol is a retention bomb: dehydrates you acutely, then rebounds into 2-3 days of holding everything. The Friday session shows on your face until Tuesday.',
+              'Movement drains lymph: the lymphatic system has no pump — walking IS the pump. 10k steps, plus sweat sessions (training, sauna if available) directly clear retained water.',
+              'The event-week protocol: 7 days out — clean whole foods, consistent moderate sodium, 4L water, daily steps, no alcohol. Last 2 days — normal water, slightly lower carbs, potassium up. Wake up event day the leanest version of your current self.',
+              'Creatine note: it adds ~1kg of water INSIDE the muscle (looks good, fuller) — that\'s not the puffy under-skin kind. Don\'t drop creatine for debloating; it\'s working for you.',
+            ]} />
             <ExpandableCard badge="MASTER" title="The Complete Desirability Audit — every metric in one list" content={[
               'Run this audit monthly. Score yourself 1-10 on each line, attack the lowest two scores first — the lowest metric drags the whole impression down more than your best one lifts it.',
               'BODY: body fat 12-15% · visible training consistency · posture (head back, shoulders down) · walk unhurried · grip strength and hands that look capable.',
