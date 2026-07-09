@@ -107,7 +107,7 @@ export default function Guide() {
   });
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white pb-24">
+    <main className="min-h-screen bg-[#0a0a0a] bg-gradient-to-b from-amber-950/30 via-[#0a0a0a] to-[#0a0a0a] text-white pb-24">
       <div className="max-w-2xl mx-auto px-5 pt-6">
         <Link to="/" className="inline-flex items-center gap-1.5 text-gray-500 hover:text-gray-300 text-sm mb-5">
           <ArrowLeft size={15} /> Home

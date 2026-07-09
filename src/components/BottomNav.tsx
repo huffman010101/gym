@@ -24,8 +24,10 @@ export default function BottomNav() {
                 active ? 'text-orange-400' : 'text-gray-600 hover:text-gray-400'
               }`}
             >
-              <Icon size={20} strokeWidth={active ? 2.5 : 1.5} />
+              <Icon size={20} strokeWidth={active ? 2.5 : 1.5}
+                style={active ? { filter: 'drop-shadow(0 0 6px rgba(249,115,22,0.6))' } : undefined} />
               <span className="text-[10px] font-medium">{label}</span>
+              <span className={`h-1 w-1 rounded-full transition-all ${active ? 'bg-orange-400' : 'bg-transparent'}`} />
             </Link>
           );
         })}

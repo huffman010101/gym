@@ -3,6 +3,7 @@ import { Dumbbell, Target, ChevronRight, Zap, Trophy, LayoutDashboard, Swords, S
 import { useEffect, useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import { HABITS, loadHabits } from '../components/DailyHabits';
+import TomorrowPlan from '../components/TomorrowPlan';
 
 
 
@@ -22,7 +23,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white">
+    <main className="min-h-screen bg-[#0a0a0a] bg-gradient-to-b from-orange-950/30 via-[#0a0a0a] to-[#0a0a0a] text-white">
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto">
         <div className="flex items-center gap-2">
@@ -66,7 +67,7 @@ export default function Home() {
           <Zap size={12} /> Every metric of your life, upgraded
         </div>
         <h1 className="text-3xl md:text-5xl font-black leading-tight tracking-tight mb-2">
-          Become <span className="gradient-text">undeniable.</span>
+          Become <span className="gradient-animate">undeniable.</span>
         </h1>
         <p className="text-gray-500 text-sm md:text-base max-w-xl mx-auto">
           Training, fighting, looks, mindset, football and money — one system.
@@ -128,6 +129,11 @@ export default function Home() {
         </section>
       )}
 
+      {/* Tomorrow planner */}
+      <section className="px-6 pb-5 max-w-4xl mx-auto">
+        <TomorrowPlan />
+      </section>
+
       {/* The sections */}
       <section className="px-6 pb-10 max-w-4xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -142,7 +148,7 @@ export default function Home() {
             { to: '/guide',     icon: Trophy, label: 'The Blueprint', desc: 'Skin · jaw · aura 0→100 · full protocol', color: 'text-amber-400', border: 'hover:border-amber-500/40', bg: 'bg-amber-500/10' },
           ].map(({ to, icon: Icon, label, desc, color, border, bg }) => (
             <Link key={to} to={to}
-              className={`bg-[#111] border border-white/8 ${border} rounded-2xl p-4 transition-all hover:-translate-y-0.5 group`}>
+              className={`bg-gradient-to-br ${bg} to-[#111] border border-white/8 ${border} rounded-2xl p-4 transition-all hover:-translate-y-0.5 group press`}>
               <div className="flex items-center justify-between mb-3">
                 <div className={`w-9 h-9 ${bg} rounded-xl flex items-center justify-center`}>
                   <Icon size={18} className={color} />

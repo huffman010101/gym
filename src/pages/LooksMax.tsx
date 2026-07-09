@@ -220,7 +220,7 @@ export default function LooksMax() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white pb-24">
+    <div className="min-h-screen bg-[#0a0a0a] bg-gradient-to-b from-purple-950/40 via-[#0a0a0a] to-[#0a0a0a] text-white pb-24">
       <div className="px-4 pt-12 pb-4 bg-gradient-to-b from-purple-950/30 to-transparent">
         <Link to="/dashboard" className="inline-flex items-center text-gray-500 hover:text-white text-sm mb-4 transition-colors">
           <ArrowLeft size={15} className="mr-1" /> Dashboard

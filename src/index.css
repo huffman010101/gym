@@ -124,6 +124,20 @@ body {
 .stagger > *:nth-child(10) { animation-delay: 0.38s; }
 .stagger > *:nth-child(n+11) { animation-delay: 0.42s; }
 
+/* Animated gradient text */
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.gradient-animate {
+  background: linear-gradient(90deg, #f97316, #ef4444, #ec4899, #f97316);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 6s ease infinite;
+}
+
 /* Touch feedback */
 .press { transition: transform 0.15s ease, box-shadow 0.2s ease; }
 .press:active { transform: scale(0.98); }
