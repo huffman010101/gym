@@ -74,6 +74,14 @@ export default function TomorrowPlan() {
     const updated = { ...doneMap, [i]: !doneMap[i] };
     setDoneMap(updated);
     localStorage.setItem(`gymforge_plan_done_${dateStr(0)}`, JSON.stringify(updated));
+    if (todayPlan && todayPlan.priorities.every((_, j) => updated[j])) {
+      setTimeout(() => {
+        localStorage.removeItem(`gymforge_plan_${dateStr(0)}`);
+        localStorage.removeItem(`gymforge_plan_done_${dateStr(0)}`);
+        setTodayPlan(null);
+        setDoneMap({});
+      }, 900);
+    }
   };
 
   const allDoneToday = todayPlan && todayPlan.priorities.length > 0 && todayPlan.priorities.every((_, i) => doneMap[i]);
