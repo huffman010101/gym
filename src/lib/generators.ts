@@ -293,6 +293,29 @@ Give one combo per fragrance minimum (more if the collection allows great extras
   return parse(text) as LayeringResult;
 }
 
+export async function planAdvice(tasks: string[], notes: string): Promise<string[]> {
+  const client = makeClient();
+  const msg = await client.messages.create({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 1000,
+    messages: [{
+      role: 'user',
+      content: `A user planning tomorrow has set these tasks:
+${tasks.map((t, i) => `${i + 1}. ${t}`).join('\n')}
+${notes ? `Their notes about the day: "${notes}"` : ''}
+
+For EACH task, give one sharp coaching tip (max 25 words each) that makes it more likely to actually happen — timing, sequencing, a pitfall to avoid, or a concrete way to do it better.
+
+Return ONLY a JSON array of strings, one tip per task, same order, no markdown:
+["tip for task 1", "tip for task 2", ...]`,
+    }],
+  });
+  const text = msg.content[0].type === 'text' ? msg.content[0].text : '[]';
+  const clean = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+  const match = clean.match(/\[[\s\S]*\]/);
+  return JSON.parse(match ? match[0] : clean) as string[];
+}
+
 export async function askAdvisor(question: string, phaseContext: string): Promise<string> {
   const client = makeClient();
   const msg = await client.messages.create({
