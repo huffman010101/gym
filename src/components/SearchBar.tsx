@@ -14,6 +14,7 @@ const INDEX: Entry[] = [
   { label: 'Blueprint: Hair & Scalp', section: 'Blueprint', path: '/guide?tab=hair', keywords: 'blueprint hair scalp rosemary oil wavy waves dermaroller wash haircut french crop verb' },
   { label: 'Blueprint: Grooming Detail', section: 'Blueprint', path: '/guide?tab=grooming', keywords: 'blueprint grooming eyebrows threading castor oil lips under eyes teeth stubble beard neckline' },
   { label: 'Blueprint: Posture Routine', section: 'Blueprint', path: '/guide?tab=posture', keywords: 'blueprint posture apt anterior pelvic tilt rib flare stomach vacuum dead hang wall angels neck training' },
+  { label: 'Back Extensions & Neck Thickness', section: 'Blueprint', path: '/guide?tab=posture', keywords: 'back extensions erectors lower back neck thicker stronger harness curls shrugs traps rdl' },
   { label: 'Blueprint: Debloating', section: 'Blueprint', path: '/guide?tab=debloat', keywords: 'blueprint debloat lymph collarbone gua sha ice roller sodium' },
   { label: 'Blueprint: Supplements & Lifestyle', section: 'Blueprint', path: '/guide?tab=supps', keywords: 'blueprint supplements zinc omega collagen biotin spearmint b6 lifestyle sleep hydration' },
   { label: 'Blueprint: Execution Order & Timeline', section: 'Blueprint', path: '/guide?tab=execution', keywords: 'blueprint execution week 1 timeline order start plan' },

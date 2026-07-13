@@ -400,6 +400,28 @@ export default function Guide() {
                 ['Tongue press — 2–3× daily anywhere', 'Fist under chin, press tongue down against it, 5s × 10–15. Suprahyoid — jaw-neck separation.'],
               ]} />
             </Fold>
+            <Fold title="Back Extensions & Erector Training" tag="The armour of the lower back — posture, power, and the V from behind">
+              <Pairs items={[
+                ['Why they matter', 'Strong spinal erectors hold your posture upright all day (a weak lower back is why posture collapses by evening), protect you in every heavy lift, and build the visible ridges of muscle along the spine that complete a developed back.'],
+                ['Bodyweight back extension — 3×12-15, 2-3×/week', 'On the 45° bench: hips ON the pad edge, hinge down under control, drive up by squeezing glutes and hamstrings first, finish with the spine neutral — NOT hyperextended. Ribs down at the top; arching past straight shifts stress to the discs.'],
+                ['Progression: weighted extensions', 'Hold a plate to your chest (start 5-10kg), add gradually. 3×10-12. When the bench feels easy, this is one of the best hamstring-glute-erector builders in the gym.'],
+                ['The glute-focused variant', 'Round the upper back slightly, tuck the chin, and pivot purely from the hips squeezing glutes hard at the top — turns the same bench into a glute builder (great for APT fix).'],
+                ['Alternatives that hit the same chain', 'Romanian deadlifts (the king — 3×8-10), good mornings (light, strict), reverse hypers if available, and supermans/bird-dogs at home (3×15, holds at top).'],
+                ['Programming', 'Slot after your main compound on pull/leg days. Erectors recover slowly — 2-3 quality sessions a week beats daily grinding. If your lower back rounds in squats/deadlifts or pumps up painfully when standing, this is the weak link to fix.'],
+                ['Form line that saves your spine', 'Move at the HIPS, not the lower back. The spine stays one rigid unit; the hinge happens below it. Sharp pain (vs muscle burn) = stop and reassess, don\'t push through.'],
+              ]} />
+            </Fold>
+            <Fold title="Neck Thickness — the full build programme" tag="From pencil neck to frame: the most underrated aesthetic + combat muscle">
+              <Pairs items={[
+                ['Why the neck is a cheat code', 'It\'s visible in EVERY outfit, frames the jaw from every angle, adds instant physical presence (a 2-3cm thicker neck changes how your whole head-shoulder structure reads), and in combat it\'s literal concussion protection.'],
+                ['Phase 1 (weeks 1-4): wake it up', 'No load. Neck curls 3×15 (lying on back, chin tuck, curl head up slow), neck extensions 3×15 (face down, head off the bench edge), lateral raises 2×12 each side (on your side), + manual isometrics: palm against forehead/side/back, push and resist 10s × 5 each direction. Every other day.'],
+                ['Phase 2 (month 2+): add resistance', 'Plate on forehead for curls (start 2.5kg, towel underneath), plate on the back of the head for extensions, or a neck harness (£15-25, the best purchase for this) — 3-4×12-15 with the harness, slow and controlled. Progress the weight like any lift: +1.25-2.5kg when 15 reps feel clean.'],
+                ['Phase 3: the full routine (every other day, ~12 min)', 'Harness extensions 4×15 · plate curls 3×15 · lateral flexion 2×12/side · shrugs 3×12 (heavy dumbbells — traps are half the "thick neck" look) · finish with the suprahyoid tongue press for the jaw-neck line.'],
+                ['Growth expectations', 'The neck responds FAST — most people add 2-4cm of circumference in 4-6 months of consistent training. Measure monthly at the Adam\'s apple; it\'s the most motivating tape measurement on the body.'],
+                ['Combat carryover', 'A strong neck resists chokes longer, absorbs strikes better (less head whip = fewer flash knockdowns), and makes your posture in the clinch far harder to break. Wrestlers train neck daily for a reason.'],
+                ['Safety rules', 'Never train the neck to failure · full control, zero jerking · no wrestling bridges until months of harness work (and honestly, the harness makes them unnecessary) · slight muscle soreness is normal, joint/nerve sensations are not — back off if anything tingles.'],
+              ]} />
+            </Fold>
             <Fold title="Gym Additions & Daily Habits">
               <Lists leftTitle="REMOVE / REDUCE" rightTitle="ADD EVERY SESSION"
                 left={['Front raises — front delts already overdeveloped from pressing.', 'Any pressing before face pulls are done.', 'Face-down sleeping — ruins neck alignment completely.']}
