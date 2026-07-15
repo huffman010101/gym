@@ -4,13 +4,14 @@ import { ArrowLeft, Zap, Target, Users, Activity, ChevronDown, Trophy } from 'lu
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 
-type Tab = 'speed' | 'shooting' | 'skills' | 'position';
+type Tab = 'speed' | 'shooting' | 'skills' | 'position' | 'gym';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'speed', label: 'Speed' },
   { id: 'shooting', label: 'Shooting' },
   { id: 'skills', label: 'Every Metric' },
   { id: 'position', label: 'By Position' },
+  { id: 'gym', label: 'Gym' },
 ];
 
 function Block({ title, items, accent = 'text-emerald-300' }: { title: string; items: [string, string][]; accent?: string }) {
@@ -60,7 +61,7 @@ export default function Football() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['speed', 'shooting', 'skills', 'position'] as const).includes(t as Tab) ? (t as Tab) : 'speed';
+    return (['speed', 'shooting', 'skills', 'position', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'speed';
   });
 
   return (
@@ -219,6 +220,36 @@ export default function Football() {
               ['Set position at every shot', 'Feet set, weight forward, hands ready at hip height BEFORE they strike. Moving keepers get beaten at their feet.'],
               ['Angles over acrobatics', 'Bisect the angle between ball and posts; a keeper in the right spot makes saves look easy. Top corners are conceded, everything else is positioning.'],
               ['Command your box', 'Claim crosses with a loud early call, punch when crowded. Distribution: throw fast to feet, find the free fullback — you\'re the first playmaker.'],
+            ]} />
+          </div>
+        )}
+
+        {/* ===== GYM ===== */}
+        {tab === 'gym' && (
+          <div className="fade-up stagger space-y-4">
+            <Block title="Lower Body First — the foundation you're missing" items={[
+              ['Why lower body leads', 'Speed, power on the ball, and shot power all come from the hips, glutes and legs. If you feel underdeveloped there, this is the highest-leverage place to train — everything else on the ball rides on top of it.'],
+              ['Squat pattern (2×/week)', 'Back squat or goblet squat 4×5-6, building load week to week. This is your base strength — the number one driver of jump height and sprint power.'],
+              ['Hip hinge (2×/week)', 'Romanian deadlifts or trap bar deadlifts 4×6. Builds the hamstrings and glutes that decelerate you and protect your knees — most football injuries happen in this exact chain.'],
+              ['Single-leg work', 'Bulgarian split squats or walking lunges 3×8 each leg. Football is played on one leg at a time — single-leg strength transfers directly to duels, shots and cutting.'],
+              ['Calves & ankles', 'Standing calf raises 3×15, plus pogo hops. Stiff, springy ankles are free speed and stop rolled ankles in duels.'],
+            ]} />
+            <Block title="Power on the Ball — strength that shows up in matches" items={[
+              ['Hip thrusts 3×6-8', 'The single best exercise for shot power and holding off defenders — loads the glutes that drive your hips through the ball.'],
+              ['Jump training 2×/week', 'Box jumps or broad jumps 4×4, resetting fully between reps. Converts raw strength into explosive power — the quality that actually shows up in sprints and jumps for headers.'],
+              ['Medicine ball throws', 'Rotational throws against a wall, 3×6 each side. Trains the hip rotation that powers a driven shot and a long throw-in.'],
+              ['Core anti-rotation', 'Pallof press and side planks 3×30s. A strong core lets your hip power transfer into the ball instead of leaking through a wobbly torso.'],
+            ]} />
+            <Block title="Get Faster & Stronger on the Ball — a simple weekly split" items={[
+              ['Mon — Heavy lower body', 'Squats + Romanian deadlifts + core. Strength day, full recovery between sets.'],
+              ['Wed — Power & speed', 'Jump training + short acceleration sprints (see Speed tab) + hip thrusts.'],
+              ['Fri — Single-leg + shooting', 'Split squats, lunges, calf work — then straight into a shooting session so leg power transfers to strikes while you\'re primed.'],
+              ['Progress weekly', 'Add small load or reps every week on your main lifts. Underdeveloped legs catch up fast with consistent progressive overload — expect visible changes in 6-8 weeks.'],
+            ]} />
+            <Block title="Shooting Power — where it actually comes from" items={[
+              ['It\'s hips, not arms', 'A powerful shot is hip rotation + a locked ankle + a strong plant leg, not swinging your leg harder. The lower-body work above IS your shooting power program.'],
+              ['Plant leg strength', 'A weak plant leg collapses on contact and kills power transfer. Single-leg squats build exactly the stability you need at the moment of the strike.'],
+              ['Combine with technique', 'Do 10 shots straight after your gym session on power days — you\'ll feel the extra drive through the ball almost immediately once the strength is there.'],
             ]} />
           </div>
         )}

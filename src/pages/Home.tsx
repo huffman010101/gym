@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom';
 import { Dumbbell, Target, ChevronRight, Zap, Trophy, LayoutDashboard, Swords, Sparkles, Brain, GraduationCap, Map } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import SearchBar from '../components/SearchBar';
-import { HABITS, loadHabits } from '../components/DailyHabits';
+import { HABITS, loadHabits, todaysItems } from '../components/DailyHabits';
 import TomorrowPlan from '../components/TomorrowPlan';
+import AccountabilityBot from '../components/AccountabilityBot';
 
 
 
@@ -16,8 +17,9 @@ export default function Home() {
       setHasPlan(!!localStorage.getItem('gymforge_quiz'));
       const paths: Record<string, string> = { mind: '/mind', combat: '/combat', football: '/football', money: '/money', uni: '/uni' };
       setHabitCounts(Object.entries(HABITS).map(([section, def]) => {
-        const done = def.items.filter(i => loadHabits(section)[i.id]).length;
-        return { section, label: section === 'uni' ? 'Uni' : section[0].toUpperCase() + section.slice(1), done, total: def.items.length, path: paths[section], color: def.color };
+        const items = todaysItems(section as keyof typeof HABITS);
+        const done = items.filter(i => loadHabits(section)[i.id]).length;
+        return { section, label: section === 'uni' ? 'Uni' : section[0].toUpperCase() + section.slice(1), done, total: items.length, path: paths[section], color: def.color };
       }));
     } catch {}
   }, []);
@@ -107,6 +109,11 @@ export default function Home() {
           </div>
           <ChevronRight size={17} className="text-orange-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
         </Link>
+      </section>
+
+      {/* Accountability bot */}
+      <section className="px-6 pb-5 max-w-4xl mx-auto">
+        <AccountabilityBot />
       </section>
 
       {/* Today's habits strip */}

@@ -4,7 +4,7 @@ import { ArrowLeft, Shield, Swords, Hand, AlertTriangle, Target, Users, Zap, Che
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 
-type Tab = 'fundamentals' | 'takedowns' | 'ground' | 'chokes' | 'strategy';
+type Tab = 'fundamentals' | 'takedowns' | 'ground' | 'chokes' | 'strategy' | 'gym';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'fundamentals', label: 'Fundamentals' },
@@ -12,6 +12,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'ground', label: 'Ground Game' },
   { id: 'chokes', label: 'Submissions' },
   { id: 'strategy', label: 'Strategy' },
+  { id: 'gym', label: 'Gym' },
 ];
 
 function Step({ n, title, desc }: { n: number; title: string; desc: string }) {
@@ -71,7 +72,7 @@ export default function Combat() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['fundamentals', 'takedowns', 'ground', 'chokes', 'strategy'] as const).includes(t as Tab) ? (t as Tab) : 'fundamentals';
+    return (['fundamentals', 'takedowns', 'ground', 'chokes', 'strategy', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'fundamentals';
   });
 
   return (
@@ -387,6 +388,41 @@ export default function Combat() {
                 ['Damage follows defence', 'The best openings appear right after you make them miss. Slip → counter. Sprawl → front headlock. Block the kick → catch and sweep.'],
                 ['Composure is a technique', 'Getting hit, getting swept, being under someone — panic is what finishes you, not the position. Slow exhale, frame, next step.'],
                 ['Drill > spar > watch', 'Reps with a partner build the skill, sparring pressure-tests it, and watching breakdowns of real fights builds pattern recognition. All three, weekly.'],
+              ].map(([t, d]) => (
+                <div key={t}>
+                  <p className="font-bold text-sm text-gray-200">{t}</p>
+                  <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ============ GYM ============ */}
+        {tab === 'gym' && (
+          <div className="fade-up stagger space-y-3">
+            <SectionTitle icon={Zap} title="Strength & Conditioning for Fighters" sub="Technique wins exchanges — strength and a bigger engine let you win the fight." />
+            <div className="bg-[#111] border border-white/8 rounded-2xl p-5 space-y-3">
+              {[
+                ['Lower body power', 'Squats or trap bar deadlifts 4×5, hip thrusts 3×6. Takedowns, sprawls and kicks all come from the hips and legs — a weak lower body loses scrambles.'],
+                ['Explosiveness', 'Box jumps or broad jumps 3×5 twice a week. Converts strength into the burst you need to shoot a takedown or explode off the cage.'],
+                ['Grip & pulling strength', 'Pull-ups, rows, and dead hangs 3×/week. Grappling is a grip fight — the person who tires first in the clinch loses control.'],
+                ['Neck strengthening', 'Neck bridges and resisted neck rotations 2×/week — protects you from strikes and chokes and adds real toughness in the clinch.'],
+                ['Core under rotation', 'Landmine rotations and Pallof presses 3×8 each side. Punching power and hip-driven sweeps both run through a braced, rotating core.'],
+              ].map(([t, d]) => (
+                <div key={t}>
+                  <p className="font-bold text-sm text-gray-200">{t}</p>
+                  <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
+                </div>
+              ))}
+            </div>
+            <SectionTitle icon={Zap} title="Weekly Split (in-season friendly)" />
+            <div className="bg-[#111] border border-white/8 rounded-2xl p-5 space-y-3">
+              {[
+                ['Mon — Heavy strength', 'Squats/deadlifts + pull-ups + core. Full recovery between sets — this is the base everything else builds on.'],
+                ['Wed — Power & explosiveness', 'Jump training + medicine ball throws + neck work. Short, sharp, high intent — never train power tired.'],
+                ['Fri — Conditioning', '4×4 min hard intervals or 6×30s max-effort bag rounds with 90s rest. Fight rounds are decided by whoever\'s legs and hands still work in round 3.'],
+                ['Recovery matters', 'Sleep 8h+, especially after sparring days. Strength and skill both compound off recovery — grinding without it just builds injuries.'],
               ].map(([t, d]) => (
                 <div key={t}>
                   <p className="font-bold text-sm text-gray-200">{t}</p>

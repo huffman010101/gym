@@ -335,6 +335,23 @@ Answer as a sharp, honest, motivating coach. Be specific and actionable — conc
   return msg.content[0].type === 'text' ? msg.content[0].text : 'No answer available.';
 }
 
+export async function dailyCheckIn(summary: string): Promise<string> {
+  const client = makeClient();
+  const msg = await client.messages.create({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 300,
+    messages: [{
+      role: 'user',
+      content: `You are an accountability coach inside a self-improvement app. Here's the user's recent activity:
+
+${summary}
+
+Write a short, direct daily check-in message (max 45 words) — like a coach who actually looks at your numbers. Call out what's slipping, credit what's working, and push them to act today. No fluff, no generic hype, be specific using the numbers given. Plain text, no markdown.`,
+    }],
+  });
+  return msg.content[0].type === 'text' ? msg.content[0].text.trim() : "Show up today. That's the whole job.";
+}
+
 export interface StudyPack {
   timetable: { day: string; focus: string; tasks: string[] }[];
   prioritySheet: string[];
