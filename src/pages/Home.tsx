@@ -5,6 +5,7 @@ import SearchBar from '../components/SearchBar';
 import { HABITS, loadHabits, todaysItems } from '../components/DailyHabits';
 import TomorrowPlan from '../components/TomorrowPlan';
 import AccountabilityBot from '../components/AccountabilityBot';
+import NotifyPrompt from '../components/NotifyPrompt';
 
 
 
@@ -109,6 +110,11 @@ export default function Home() {
           </div>
           <ChevronRight size={17} className="text-orange-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
         </Link>
+      </section>
+
+      {/* Notifications opt-in */}
+      <section className="px-6 pb-5 max-w-4xl mx-auto">
+        <NotifyPrompt />
       </section>
 
       {/* Accountability bot */}

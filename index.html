@@ -25,6 +25,24 @@
           allowLocalhostAsSecureOrigin: true,
         });
       });
+      // Called from a real button tap in the app — dashboard-configured auto-prompts
+      // are unreliable on iOS PWAs, but a permission request fired directly from a
+      // user gesture reliably triggers the native prompt.
+      window.gymforgeEnableNotifications = function () {
+        return new Promise(function (resolve) {
+          window.OneSignalDeferred.push(async function (OneSignal) {
+            await OneSignal.Notifications.requestPermission();
+            resolve(OneSignal.Notifications.permissionNative || (OneSignal.Notifications.permission ? 'granted' : 'default'));
+          });
+        });
+      };
+      window.gymforgeNotificationStatus = function () {
+        return new Promise(function (resolve) {
+          window.OneSignalDeferred.push(function (OneSignal) {
+            resolve(OneSignal.Notifications.permissionNative || (OneSignal.Notifications.permission ? 'granted' : 'default'));
+          });
+        });
+      };
     </script>
   </head>
   <body>
