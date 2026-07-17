@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, Eye, ChevronDown, Heart } from 'lucide-react';
+import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, Eye, ChevronDown, Heart, BookOpen } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 
@@ -75,6 +75,12 @@ export default function Mind() {
     } else {
       setPw('');
     }
+  };
+
+  const relock = () => {
+    setUnlocked(false);
+    setPw('');
+    try { localStorage.removeItem('gymforge_secret_unlocked'); } catch {}
   };
 
   return (
@@ -440,9 +446,25 @@ export default function Mind() {
         )}
         {tab === 'secret' && unlocked && (
           <div className="fade-up stagger space-y-4">
-            <div className="flex items-center gap-2 text-pink-400 text-xs font-bold uppercase tracking-widest">
-              <Unlock size={13} /> Unlocked — The Social Playbook
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-pink-400 text-xs font-bold uppercase tracking-widest">
+                <Unlock size={13} /> Unlocked — The Social Playbook
+              </div>
+              <button onClick={relock}
+                className="flex items-center gap-1.5 text-gray-500 hover:text-pink-400 text-xs font-bold transition-colors">
+                <Lock size={12} /> Lock it
+              </button>
             </div>
+            <Link to="/cheatsheet"
+              className="flex items-center justify-between bg-gradient-to-r from-pink-500/15 to-purple-500/10 border border-pink-500/25 rounded-2xl px-5 py-4 hover:from-pink-500/20 transition-all group press">
+              <div className="flex items-center gap-3">
+                <BookOpen className="text-pink-400 flex-shrink-0" size={20} />
+                <div>
+                  <p className="font-black text-sm">Open the Cheat Sheet</p>
+                  <p className="text-gray-500 text-xs">One page, everything you need — check it before you go out</p>
+                </div>
+              </div>
+            </Link>
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2 flex items-center gap-2"><Heart size={16} className="text-pink-400" /> Ground Rules First</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -452,6 +474,17 @@ export default function Mind() {
                 gracefully. Grace in rejection is the single most attractive trait you can build, because it means you were never desperate.
               </p>
             </div>
+            <Collapsible title="Frame — Hold It, Never Hand It Over" tag="The concept underneath everything else here">
+              <div className="space-y-3 text-sm text-gray-400">
+                <p><span className="font-bold text-gray-200">Frame is whose reality the interaction runs on.</span> Two people meet with two versions of "what's happening here" — attraction, banter, and outcomes all get decided by whichever frame wins. You keep yours by not flinching, over-explaining, or auditioning for the other person's approval.</p>
+                <p><span className="font-bold text-gray-200">Never put her on a pedestal.</span> The instant you treat someone as above you — more impressive, more valuable, someone you need to win over — you've handed them the frame and it shows in every word after. She's a person you're getting to know, not a judge scoring you. You approach; you don't apply.</p>
+                <p><span className="font-bold text-gray-200">You are the prize too.</span> Not arrogance — accuracy. You bring a full life, standards, and things you won't compromise on. The right mindset going in isn't "I hope she likes me," it's "let's see if we actually vibe" — a two-way evaluation, not an interview where only you're being assessed.</p>
+                <p><span className="font-bold text-gray-200">Qualify, don't perform.</span> Instead of stacking reasons she should like you, ask questions that check if SHE'S someone worth your time: her humour, her ambition, how she treats people. The switch from "please be impressed" to "let's see if you're interesting" changes your entire energy — and it's usually the difference people can't name but feel instantly.</p>
+                <p><span className="font-bold text-gray-200">Reframe rejection before it happens.</span> A "no" doesn't mean you lost — it means poor fit, found early, cheaply. Frame stays intact when outcomes don't define your worth. This is why the men with real frame are calm about rejection: it was never a referendum on them.</p>
+                <p><span className="font-bold text-gray-200">Frame breaks in small moments, not big ones.</span> Changing your opinion because she disagreed, over-explaining a joke that didn't land, rushing to fix a silence, apologising for existing — these tiny concessions leak frame faster than any single big mistake. Hold your positions lightly and calmly; you can be flexible without being someone who folds.</p>
+                <p><span className="font-bold text-gray-200">Standards over impressing.</span> Decide beforehand what you won't tolerate — disrespect, flakiness, disappearing acts — and hold that line regardless of how attracted you are. A man with standards he actually enforces is rarer and more magnetic than a man with a perfect opening line.</p>
+              </div>
+            </Collapsible>
             <Collapsible title="The Approach" tag="First 10 seconds">
               <div className="space-y-3 text-sm text-gray-400">
                 <p><span className="font-bold text-gray-200">Within 3 seconds of noticing her</span> — hesitation builds a story in your head and weirdness in your walk-up. See, decide, go.</p>
