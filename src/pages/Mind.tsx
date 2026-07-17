@@ -150,6 +150,31 @@ export default function Mind() {
               ['Don\'t compete for every laugh', 'Trying to top every joke reads as thirsty. Land your moments, let others have theirs. Scarcity applies to humour too.'],
               ['Never punch down, rarely punch first', 'Tease the confident mates, never the struggling one. Groups clock cruelty instantly and it costs more status than it wins laughs.'],
             ]} />
+            <Card icon={MessageCircle} title="Text Game — What the Different Moves Actually Signal" items={[
+              ['Reply speed says more than words', 'Instant replies (under a minute, always) read as: nothing else going on, low value on your time. Calibrated replies (minutes to a few hours, varies naturally) read as: you have a life. Deliberately slow, scheduled replies read as a game — most people clock it and it repels more than it attracts.'],
+              ['Double texting: dead vs alive', 'A second text that ADDS something (a new thought, a joke, a plan) is fine and often good — it shows you\'re thinking about them. A second text that just chases a reply ("hello??", "you there?") signals anxiety and should never happen. Test: does this message stand alone with something new, or is it just asking "why haven\'t you replied"?'],
+              ['Slow replies aren\'t always disinterest', 'People read a 6-hour gap as rejection when it\'s often just someone living their life. The fix isn\'t decoding gaps like tea leaves — it\'s not over-indexing on any single data point. Look at the PATTERN over a week, not any one delay.'],
+              ['Message length should roughly mirror', 'If they\'re sending one-liners, matching their effort avoids looking over-invested. If they\'re writing paragraphs, matching that shows engagement. Wildly mismatched effort (their essay, your "lol") reads as disinterest even if you\'re just busy.'],
+              ['Every message should do a job', 'A question, a joke, or a plan — never just filler to keep a thread alive. "Haha yeah" with nothing added is the moment to either ask something real or suggest doing something instead of texting about it.'],
+              ['The real skill: not needing the reply', 'Whether you get a fast reply or a slow one shouldn\'t change your mood. The moment you\'re checking your phone waiting, you\'ve handed them your state. Text well, then go live your life — the phone will still be there.'],
+            ]} />
+            <Card icon={Sparkles} title="High-Value Traits at Uni" items={[
+              ['Be the reliable one', 'Show up when you say you will, deliver on group work, remember what people told you. In an environment full of flakes, consistency alone puts you in the top 10%.'],
+              ['Have a visible thing you\'re building', 'Gym, a side hustle, a sport, a skill — something people can see you\'re serious about beyond lectures and nights out. A direction is more attractive than good banter alone; it signals you\'re going somewhere.'],
+              ['Know people across groups, not just your clique', 'The guy who says hi to people outside his friend group — sports teams, societies, different years — reads as secure and well-connected. Cliquey behaviour reads as small and insecure, even when it isn\'t meant to.'],
+              ['Skip the performance, keep the standards', 'You don\'t need to be out every night to be liked — you need to be good company when you ARE out, and have a life outside it the rest of the time. Missing things sometimes because you\'re training or working builds more respect than being everywhere.'],
+              ['Handle group dynamics with ease, not anxiety', 'Deadlines, flatmate drama, society politics — the guy who stays level while everyone else spirals becomes the one people go to. Composure under normal uni chaos is a status signal nobody can fake for long.'],
+              ['Don\'t need the story to be about you', 'Let others have the floor, bring people into conversations, remember details about people who aren\'t "important." The guy who makes everyone feel included is remembered more fondly than the loudest guy in the room.'],
+            ]} />
+            <Card icon={Heart} title="Making Anyone Feel Comfortable" items={[
+              ['Lower the temperature first', 'People arrive slightly guarded. A relaxed tone, a genuine smile, and an easy opener ("mad day or good day?") signals it\'s safe to drop the guard before you ask for anything real.'],
+              ['Match their energy, then lead it gently up', 'Meeting someone quiet with loud energy overwhelms them; meeting someone loud with flat energy falls flat. Start where they are, then bring warmth up a notch — people follow calibrated energy, not mismatched energy.'],
+              ['Give them the floor', 'Ask about them, then actually stop talking. Most people are starved for someone who listens without waiting to speak. Comfort is mostly the absence of feeling rushed or judged.'],
+              ['No sudden judgement, ever', 'The fastest way to make someone guarded is a visible reaction of surprise or disapproval to something they share. Neutral, curious face — "tell me more" — keeps people opening up instead of clamming shut.'],
+              ['Use their name and specifics', 'Saying someone\'s name and referencing something they said earlier makes people feel individually seen rather than processed. It\'s a small move with an outsized effect.'],
+              ['Physical ease helps', 'Relaxed posture, open body, normal distance (not looming, not distant), unhurried movement. People\'s nervous systems read your body before your words — a tense host makes for a tense guest.'],
+              ['Fill silence with patience, not pressure', 'If someone\'s shy or slow to open up, a comfortable silence beats a barrage of questions. Rushing someone to open up has the opposite effect — ease invites more than pressure ever does.'],
+            ]} />
             <Card icon={MessageCircle} title="Storytelling & Banter" items={[
               ['Story structure: setup → tension → payoff', 'Setup: one line of context ("So I\'m at the gym at 6am, dead empty…"). Tension: the thing that went wrong or got weird. Payoff: the punchline or the lesson. Cut everything that isn\'t one of those three.'],
               ['Tell it for them, not for you', 'Eye contact, act out the voices, pause before the payoff. A mid story told with energy beats a great story mumbled.'],
@@ -186,6 +211,15 @@ export default function Mind() {
               ['Never over-explain', 'Reasons on request, not preemptive essays. Over-explaining signals you expect to be doubted.'],
               ['Keep confidences like a vault', 'Never gossip. The person hearing your gossip learns you leak. "He never talks about people" is elite reputation.'],
               ['Compliment rarely, precisely', 'When compliments are scarce and specific, yours mean something. The person who validates everything validates nothing.'],
+            ]} />
+            <Card icon={Eye} title="Becoming Unreadable & Mysterious" items={[
+              ['Emotion felt, not broadcast', 'Unreadable doesn\'t mean cold — it means your face and voice don\'t leak every internal reaction in real time. Feel the surprise, the hurt, the excitement fully — then choose a measured response instead of an instant one. The gap between feeling and showing IS the mystery.'],
+              ['Give information, not narration', 'Answer what\'s asked, don\'t volunteer the surrounding story. "Good weekend, you?" beats a 4-sentence recap. People fill silence with curiosity about you — talkers fill it for them and empty the tank.'],
+              ['Nobody gets the full picture', 'Different people know different slices of your life — one knows your training, another your work, another your family stuff. Nobody has the complete file. This isn\'t deception, it\'s just not narrating your whole life to everyone who asks.'],
+              ['React late, react less', 'Let a beat pass before responding to news, jokes, or provocations. Instant, big reactions are readable and give away exactly what buttons exist. A slow, measured "interesting" gives away nothing.'],
+              ['Keep one or two things entirely private', 'A goal, a relationship, a plan you\'re building — something that\'s just yours, not for group consumption. Having a private layer is what makes people sense there\'s more to you, because there genuinely is.'],
+              ['Ask questions instead of answering fully', 'When someone probes, redirect with warmth: "why do you ask?" or answer a fraction then pivot to them. Not evasive — just never fully an open book. People find what they can\'t fully read more interesting, not less.'],
+              ['Predictability kills mystery', 'Vary your routine\'s visible parts — don\'t announce every plan, don\'t always give the same reaction to the same joke. A man who\'s slightly unpredictable stays interesting; a man who\'s a known quantity gets ignored.'],
             ]} />
             <Card icon={Brain} title="Psychology of Positivity (the real kind)" items={[
               ['The no-complaint rule', 'Zero complaining unless paired with an action ("this is broken, here\'s what I\'m doing"). Complainers signal helplessness; problem-solvers signal power. Try 7 days clean.'],
