@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, Eye, ChevronDown, Heart, BookOpen } from 'lucide-react';
+import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, Eye, ChevronDown, Heart, BookOpen, ListChecks } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 
@@ -463,6 +463,13 @@ export default function Mind() {
                   <p className="font-black text-sm">Open the Cheat Sheet</p>
                   <p className="text-gray-500 text-xs">One page, everything you need — check it before you go out</p>
                 </div>
+              </div>
+            </Link>
+            <Link to="/dating"
+              className="flex items-center justify-between bg-white/3 border border-white/10 rounded-2xl px-5 py-3.5 hover:border-pink-500/25 transition-all group press">
+              <div className="flex items-center gap-3">
+                <ListChecks className="text-pink-400/70 flex-shrink-0" size={17} />
+                <p className="font-bold text-xs text-gray-300">Or browse the Full Reference — every principle, by category</p>
               </div>
             </Link>
             <div className="card-premium p-5">
