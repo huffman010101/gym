@@ -161,10 +161,31 @@ export default function Football() {
               ['Play the way you face — mostly', 'One-touch back when pressed, turn when you\'ve scanned and know you have time. The turn decision comes from scanning, not hope.'],
               ['Disguise', 'Look one way, pass the other; open your hips late. One disguised pass a match changes how defenders treat you all game.'],
             ]} />
-            <Fold title="Dribbling & 1v1s" tag="Beat your man on demand" items={[
+            <Fold title="Dribbling & 1v1s — Fundamentals" tag="Beat your man on demand" items={[
               ['Two touches per stride at speed', 'Close control drills daily: cone weaves, figure-8s, both feet, head up on every third touch.'],
               ['One move mastered > ten known', 'Pick a go-to (body feint, chop, or push-and-go) and drill it until it works at full speed under pressure. Add a counter-move once defenders expect it.'],
               ['Attack the front foot', 'Dribble AT the defender\'s leading foot, shift as their weight commits, explode past. Speed change beats trick complexity — slow-slow-FAST.'],
+              ['Change of pace beats change of direction', 'The defender reacts to your speed change more than your angle change. Slow their momentum down with small touches, then explode — the explosion IS the move, the trick just sets it up.'],
+              ['Keep the ball on your strong side', 'Close control means the ball stays on the foot furthest from the defender as you run past them — if it\'s on your near foot, they can poke it away even after you\'ve beaten them.'],
+            ]} />
+            <Fold title="Named Skill Moves — the toolbox" tag="Learn these in order, drill each to failure before adding the next" items={[
+              ['The Step-Over', 'Circle your foot OVER the ball without touching it, hips and shoulders selling the fake direction, then push off the other way with your other foot. The sell is in the hips, not the foot — a step-over with square hips fools nobody.'],
+              ['The Body Feint (Matthews)', 'Shift your whole body weight onto one foot as if pushing the ball that way, defender\'s weight commits — then push the ball the OPPOSITE direction with the outside of the same foot. No extra touch needed, which is why it works even under tight pressure.'],
+              ['La Croqueta', 'Drag the ball hard across your body from one foot to the other in a single sweeping motion, changing the ball\'s angle instantly while your body stays running in a straight line. Devastating in tight spaces because it needs zero backswing or space.'],
+              ['The Cruyff Turn', 'Show a pass or cross, then at the last second drag the ball behind your standing leg with the inside of your foot and spin away in the opposite direction. Best used when a defender is showing you outside and expecting you to cross.'],
+              ['The Nutmeg (Panna)', 'Push the ball through the defender\'s open legs and collect it the other side. Works best when they\'re square-on with feet apart (committing to a block or tackle) — never force it on a defender in a good side-on stance, you\'ll just lose the ball.'],
+              ['The Chop (Ronaldo Chop)', 'At speed, plant your standing foot and use the inside of your other foot to chop the ball sharply back across your body at an angle, changing direction almost 90° without losing pace. Great for cutting inside from the wing.'],
+              ['The Roulette (Marseille Turn)', 'Trap the ball between your feet, spin your body a full 360° using the sole of one foot to drag the ball round with you, coming out the other side facing a new direction. Use it under pressure from behind — it takes the ball away from a chasing defender\'s reach.'],
+              ['The Elastico (Flip-Flap)', 'Push the ball outward with the outside of your foot, then instantly whip it back inside with the same foot before it\'s touched the ground — a fast outside-in snap. High skill ceiling; drill it slow for weeks before trying it at match speed.'],
+              ['The Fake Shot (Shooting Feint)', 'Wind up like a full shot, plant hard, but stop the swing and push the ball past the defender who\'s flinched/committed to blocking. Works because defenders are trained to react to shooting motion instinctively.'],
+            ]} />
+            <Fold title="When & Where to Use Each Move" tag="A move is a tool, not a trick — match it to the situation" items={[
+              ['Isolated 1v1, space in behind', 'Body feint or chop — you need a move that changes direction AND keeps your speed, since you\'re about to sprint into space.'],
+              ['Tight/crowded areas, no space to run into', 'La Croqueta or nutmeg — moves that create a new passing/dribbling angle without needing room to accelerate.'],
+              ['Defender showing you the outside (want you to cross)', 'Cruyff turn — punishes exactly this defensive setup by cutting back inside where they didn\'t expect.'],
+              ['Being chased from behind', 'Roulette — the spin shields the ball with your whole body as you turn, taking it out of a trailing defender\'s reach.'],
+              ['Defender rushing in to block a shot', 'Fake shot — the more committed their block-attempt body language, the more this works.'],
+              ['Practice progression', 'Master body feint + chop first (lowest risk, highest success rate) before investing serious hours in elastico or roulette — the fancier moves are for adding a weapon, not for replacing the basics.'],
             ]} />
             <Fold title="Weak Foot" tag="From liability to weapon in 8 weeks" items={[
               ['Daily minimum', '50 wall passes + 20 finishes weak-foot only. Start close and slow, add power weekly.'],
