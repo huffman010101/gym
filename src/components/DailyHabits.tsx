@@ -90,6 +90,20 @@ export const HABITS: Record<string, { title: string; color: string; bar: string;
       { id: 'sleep_target', label: 'Hit your sleep target last night' },
     ],
   },
+  padel: {
+    title: 'Daily Padel Reps',
+    color: 'text-sky-400',
+    bar: 'from-sky-500 to-blue-500',
+    items: [
+      { id: 'bandeja_reps', label: '20 bandeja/overhead reps against a wall or with a partner' },
+      { id: 'volley_reps', label: '20 volley reps, both sides — short punchy contact' },
+      { id: 'split_step', label: 'Split-step drilled on every shadow rally' },
+      { id: 'wall_reading', label: 'Wall-bounce reading practised (let it bounce, then react)' },
+      { id: 'lateral_mobility', label: 'Lateral lunges or side shuffles done' },
+      { id: 'shoulder_care', label: 'Rotator cuff / shoulder prehab band work' },
+      { id: 'watch_match', label: '10 min pro match study — court positioning' },
+    ],
+  },
 };
 
 const todayStr = () => new Date().toISOString().split('T')[0];

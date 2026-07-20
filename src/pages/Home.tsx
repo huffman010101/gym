@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Dumbbell, Target, ChevronRight, Zap, Trophy, LayoutDashboard, Swords, Sparkles, Brain, GraduationCap, Map } from 'lucide-react';
+import { Dumbbell, Target, ChevronRight, Zap, Trophy, LayoutDashboard, Swords, Sparkles, Brain, GraduationCap, Map, CircleDot } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import { HABITS, loadHabits, todaysItems } from '../components/DailyHabits';
@@ -16,7 +16,7 @@ export default function Home() {
   useEffect(() => {
     try {
       setHasPlan(!!localStorage.getItem('gymforge_quiz'));
-      const paths: Record<string, string> = { mind: '/mind', combat: '/combat', football: '/football', money: '/money', uni: '/uni' };
+      const paths: Record<string, string> = { mind: '/mind', combat: '/combat', football: '/football', money: '/money', uni: '/uni', padel: '/padel' };
       setHabitCounts(Object.entries(HABITS).map(([section, def]) => {
         const items = todaysItems(section as keyof typeof HABITS);
         const done = items.filter(i => loadHabits(section)[i.id]).length;
@@ -156,6 +156,7 @@ export default function Home() {
             { to: '/looksmax',  icon: Sparkles, label: 'Looks',    desc: 'AI face scan · style · fragrance',      color: 'text-purple-400',  border: 'hover:border-purple-500/40',  bg: 'bg-purple-500/10' },
             { to: '/mind',      icon: Brain,    label: 'Mind',     desc: 'Charisma · aura · confidence',          color: 'text-pink-400',    border: 'hover:border-pink-500/40',    bg: 'bg-pink-500/10' },
             { to: '/football',  icon: Trophy,   label: 'Football', desc: 'Speed · shooting · position mastery',   color: 'text-emerald-400', border: 'hover:border-emerald-500/40', bg: 'bg-emerald-500/10' },
+            { to: '/padel',     icon: CircleDot, label: 'Padel',    desc: 'Technique · strategy · wall play',      color: 'text-sky-400',     border: 'hover:border-sky-500/40',     bg: 'bg-sky-500/10' },
             { to: '/money',     icon: Target,   label: 'Money',    desc: 'Skills · business · investing',         color: 'text-yellow-400',  border: 'hover:border-yellow-500/40',  bg: 'bg-yellow-500/10' },
             { to: '/uni',       icon: GraduationCap, label: 'Uni & Brain', desc: 'AI revision · career · sleep · IQ', color: 'text-sky-400', border: 'hover:border-sky-500/40', bg: 'bg-sky-500/10' },
             { to: '/guide',     icon: Trophy, label: 'The Blueprint', desc: 'Skin · jaw · aura 0→100 · full protocol', color: 'text-amber-400', border: 'hover:border-amber-500/40', bg: 'bg-amber-500/10' },

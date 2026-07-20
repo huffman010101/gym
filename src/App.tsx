@@ -11,6 +11,7 @@ import LooksMax from './pages/LooksMax';
 import Combat from './pages/Combat';
 import Mind from './pages/Mind';
 import Football from './pages/Football';
+import Padel from './pages/Padel';
 import Money from './pages/Money';
 import Uni from './pages/Uni';
 import Journey from './pages/Journey';
@@ -43,6 +44,7 @@ export default function App() {
         <Route path="/combat" element={<Combat />} />
         <Route path="/mind" element={<Mind />} />
         <Route path="/football" element={<Football />} />
+        <Route path="/padel" element={<Padel />} />
         <Route path="/money" element={<Money />} />
         <Route path="/uni" element={<Uni />} />
         <Route path="/journey" element={<Journey />} />
