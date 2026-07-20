@@ -134,6 +134,39 @@ export default function Combat() {
                 { title: 'Use it as a rangefinder', desc: 'The jab measures distance, blinds them, interrupts their rhythm and sets up everything else — the cross, the takedown, the low kick.' },
               ]}
               keyDetail="Double and triple the jab. One jab gets slipped; three jabs walks someone into the fence." />
+            <Technique name="The Cross (Rear Straight)" tag="Your power punch, thrown straight down the pipe"
+              steps={[
+                { title: 'Drive from the back foot', desc: 'Pivot your rear heel up and rotate it like stubbing out a cigarette — the power starts in the ground and travels up through the hip, not the arm.' },
+                { title: 'Rotate hip and shoulder together', desc: 'Rear hip and shoulder snap forward as one unit as the fist travels straight to the target. Arm-only crosses are slaps; hip-driven crosses are power.' },
+                { title: 'Non-throwing hand stays home', desc: 'Lead hand stays glued to your cheek while you throw — dropping it to "help" the punch is how the return jab/cross finds your chin.' },
+                { title: 'Snap back on the same line', desc: 'The fist returns the way it came, not looping wide. A punch that doesn\'t reset your guard immediately is an invitation.' },
+              ]}
+              keyDetail="Thrown right after a jab, the cross lands because the jab already occupied their guard and eyes — jab-cross is the single most reliable combo in boxing." />
+            <Technique name="The Hook" tag="The looping shot that ends fights"
+              steps={[
+                { title: 'Elbow at 90°, stay compact', desc: 'Bend the arm to roughly a right angle and keep it there through the whole punch — a straight, swinging hook telegraphs and loses power.' },
+                { title: 'Pivot the lead foot', desc: 'Rotate your lead heel outward as you throw, turning your whole hip and shoulder into the target. The rotation IS the power, not the arm swing.' },
+                { title: 'Level it to the body too', desc: 'A hook to the liver (their right side, your left hook) with the same mechanics dropped slightly lower ends fights faster than most head shots — and it\'s much harder for them to see coming.'},
+                { title: 'Chin down behind the shoulder', desc: 'As you rotate into a hook, tuck your chin behind your lead shoulder — this is what stops you eating a counter hook on the same beat.' },
+              ]}
+              keyDetail="Hooks work best off an angle change — step slightly off their centre line first, then hook, so it arrives from outside their vision." />
+            <Technique name="The Uppercut" tag="The close-range finisher, thrown up through the guard"
+              steps={[
+                { title: 'Drop the level slightly', desc: 'Bend your knees a touch to dip below the target line, then drive UP through your legs — the punch is powered by your legs extending, not your arm lifting.' },
+                { title: 'Short, tight arc', desc: 'The fist travels a short vertical line close to your own body, not a wide loop — a looping uppercut gets seen and countered from a mile away.' },
+                { title: 'Rotate the hip upward', desc: 'Same hip-drive principle as the cross and hook, just redirected vertically. Palm faces you at the start, rotates as it rises.' },
+                { title: 'Best at close range, in the pocket or clinch', desc: 'Uppercuts shine when an opponent is leaning forward or ducking to slip — exactly the position their chin drops into your punch\'s path.' },
+              ]}
+              keyDetail="The classic finishing combo: hook to draw the guard up and across, uppercut through the gap it leaves underneath." />
+            <Technique name="Kicks, Knees & Elbows" tag="For MMA / Muay Thai rulesets"
+              steps={[
+                { title: 'The low kick (round kick to the leg)', desc: 'Step slightly off-line with the lead foot, swing the rear leg through the target with the shin (not the foot/instep — that\'s how you break toes), hip fully rotating over. Repeated low kicks dead-leg an opponent\'s mobility within a few rounds.' },
+                { title: 'The teep (push kick)', desc: 'Snap the ball of your foot straight into their hip/stomach to create distance or stop their forward pressure — think of it as a kicking jab, not a power shot.' },
+                { title: 'Knees in the clinch', desc: 'From a collar tie or double-collar tie, drive your knee straight up into the thigh or body, pulling their head down onto it with your grip for extra impact. The clinch knee is one of the highest-damage exchanges in the sport.' },
+                { title: 'Elbows at close range', desc: 'Short, sharp elbow strikes (horizontal or downward) work inside punching range where fists have no room to wind up. Devastating for cuts, but check your ruleset — many gyms/competitions restrict elbows for sparring safety.' },
+                { title: 'Checking a kick', desc: 'Raise your shin/knee to meet an incoming low kick rather than absorbing it on soft tissue — a well-timed check often hurts the kicker more than the kickee.' },
+              ]}
+              keyDetail="Kicks committed from too close get caught and turned into takedowns — throw them at a range where you can retract before they close distance, or set them up behind hand combinations." />
             <Technique name="Defence: Blocking, Slipping, Frames" tag="Getting hit less is a skill you drill"
               steps={[
                 { title: 'Block', desc: 'Tight guard, forearms take the shot, eyes stay open on the target. Don\'t reach for punches — that opens the door.' },

@@ -4,13 +4,14 @@ import { ArrowLeft, Zap, Target, Users, Activity, ChevronDown, Trophy } from 'lu
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 
-type Tab = 'speed' | 'shooting' | 'skills' | 'position' | 'gym';
+type Tab = 'speed' | 'shooting' | 'skills' | 'position' | 'setpieces' | 'gym';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'speed', label: 'Speed' },
   { id: 'shooting', label: 'Shooting' },
   { id: 'skills', label: 'Every Metric' },
   { id: 'position', label: 'By Position' },
+  { id: 'setpieces', label: 'Set Pieces' },
   { id: 'gym', label: 'Gym' },
 ];
 
@@ -61,7 +62,7 @@ export default function Football() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['speed', 'shooting', 'skills', 'position', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'speed';
+    return (['speed', 'shooting', 'skills', 'position', 'setpieces', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'speed';
   });
 
   return (
@@ -241,6 +242,38 @@ export default function Football() {
               ['Set position at every shot', 'Feet set, weight forward, hands ready at hip height BEFORE they strike. Moving keepers get beaten at their feet.'],
               ['Angles over acrobatics', 'Bisect the angle between ball and posts; a keeper in the right spot makes saves look easy. Top corners are conceded, everything else is positioning.'],
               ['Command your box', 'Claim crosses with a loud early call, punch when crowded. Distribution: throw fast to feet, find the free fullback — you\'re the first playmaker.'],
+            ]} />
+          </div>
+        )}
+
+        {/* ===== SET PIECES ===== */}
+        {tab === 'setpieces' && (
+          <div className="fade-up stagger space-y-4">
+            <Block title="Corners" items={[
+              ['Inswinger vs outswinger', 'Inswinger (curling toward goal, kicked with the foot on the same side as the corner flag) is more dangerous because it moves toward goal even if flicked — most professional corners are inswingers for this reason.'],
+              ['Target the front-post run', 'A near-post flick-on from a fast attacker creates chaos defenders can\'t react to — deliver it low and hard to the front post rather than a lazy floated ball to the back post.'],
+              ['Near-post, far-post, and the penalty spot', 'Three zones defenders must cover — overload one with 2-3 attackers making staggered runs (not all arriving at once) to create a free header somewhere.'],
+              ['Short corners break set defences', 'A quick pass to a nearby teammate drags a marker out and creates a passing/crossing angle a set defence hasn\'t prepared for — use it occasionally to keep defenders honest.'],
+              ['Attack the ball, don\'t wait for it', 'Time your run to meet the ball at its highest point with a running jump, not a standing one — attacking the flight beats defenders who are set and waiting.'],
+            ]} />
+            <Block title="Free Kicks" items={[
+              ['Direct free kick technique — the wrap', 'Approach on a slight curve (not straight-on), strike with the inside of the foot low on the ball to generate topspin/sidespin that dips it over the wall and down under the bar.'],
+              ['The knuckleball (no-spin driven shot)', 'Strike with minimal spin using the top of the laces dead-centre through the ball — the lack of spin makes it move unpredictably in the air, a genuine goalkeeper nightmare when mastered.'],
+              ['Wall gap and near-post routines', 'A short pass to the side of the wall into a runner exploits the gap defences must leave for the "wall" player watching the far post — practice this as a genuine set play, not an afterthought.'],
+              ['Indirect free kicks near the box', 'Set up a low, first-time strike from the edge of the box off a short lay-off — the keeper and wall are set for a direct strike and are often slow to react to the second touch.'],
+              ['Placement over power, inside 25 yards', 'Corners of the goal, especially low into the corner the keeper\'s momentum is moving away from, convert more often than raw power straight down the middle.'],
+            ]} />
+            <Block title="Penalties" items={[
+              ['Pick your corner before you run up', 'Decide your placement in advance and commit fully — keepers read late hip/foot hesitation better than they read direction, so a confidently placed "wrong" corner beats an indecisive "right" one.'],
+              ['Placement over power', 'Low into a corner beats blasting down the middle — most penalty misses are from over-hitting a shot the keeper never had the reaction time to reach anyway.'],
+              ['Consistent run-up, no stutter unless practiced', 'A stutter-step run-up (waiting for the keeper to commit) is a real technique but needs hours of practice — if you haven\'t drilled it, a standard confident run-up beats an improvised one.'],
+              ['Ignore the keeper\'s movement', 'Once you\'ve committed to a corner, follow through regardless of what the keeper does — second-guessing mid-run-up is how clean strikes become weak, central pushovers.'],
+            ]} />
+            <Block title="Throw-Ins" items={[
+              ['Legal technique, non-negotiable', 'Both feet on the ground (or behind the line), ball held with both hands, released from behind and over the head in one continuous motion — get any of these wrong and it\'s given to the opposition.'],
+              ['Quick throws beat set plays', 'A fast throw before the defence reorganises catches teams in transition — always scan for a quick option before opting for a slow, set throw-in routine.'],
+              ['Long throws as a corner-like weapon', 'Near the opposition box, a well-drilled long throw functions like a short corner — practice targeting the same near-post flick zones.'],
+              ['Support angles', 'The receiver should show for the ball at an angle, not standing square — a throw to a player facing the thrower square-on has nowhere good to go with the first touch.'],
             ]} />
           </div>
         )}

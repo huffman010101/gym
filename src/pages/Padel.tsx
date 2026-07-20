@@ -101,6 +101,14 @@ export default function Padel() {
               ['Ready stance', 'Knees soft, racket up in front of your chest, weight forward on the balls of your feet. You should be able to move in any direction within one step.'],
               ['Short backswing', 'Padel courts are small — a big tennis-style backswing arrives late. Take the racket back short and compact, punch through the ball instead of swinging at it.'],
             ]} />
+            <Block title="The Serve — padel's unique underarm rule" items={[
+              ['It must be underarm, always', 'Unlike tennis, padel requires an underarm serve struck at or below waist height — overhead serves are illegal. This changes the whole shot: it\'s about placement and spin, not raw pace.'],
+              ['The bounce is mandatory', 'Drop or bounce the ball behind the service line, then strike it AFTER it bounces, below waist height — serving on the volley or above waist height is a fault every time.'],
+              ['Stance and diagonal rule', 'Stand behind the service line on your side, ball must land diagonally in the opposite service box — same cross-court rule as tennis, just underarm.'],
+              ['Slice serve for control', 'A short, controlled swing brushing the outside of the ball creates sidespin that kicks away from the receiver off the bounce — far more reliable than trying to serve hard and flat.'],
+              ['Serve to set up the point, not to ace', 'Because it\'s underarm, padel serves rarely win points outright — use it to open an angle (wide to their backhand) or set up your first move to the net.'],
+              ['Advance to the net immediately after', 'The serve-and-advance pattern applies from ball one — a served point where you stay put at the baseline gives away your net position for free.'],
+            ]} />
             <Block title="Forehand — the groundstroke you'll hit most" items={[
               ['Setup', 'Turn your shoulders sideways to the ball early — hips and shoulders rotate together as one unit, not arm-only. Racket back to about waist height, continental grip unchanged.'],
               ['Contact point', 'Strike out in front of your lead hip, not level with your body — hitting late (ball beside or behind you) is the #1 forehand error and kills both power and direction.'],
