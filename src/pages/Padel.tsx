@@ -101,6 +101,33 @@ export default function Padel() {
               ['Ready stance', 'Knees soft, racket up in front of your chest, weight forward on the balls of your feet. You should be able to move in any direction within one step.'],
               ['Short backswing', 'Padel courts are small — a big tennis-style backswing arrives late. Take the racket back short and compact, punch through the ball instead of swinging at it.'],
             ]} />
+            <Block title="Forehand — the groundstroke you'll hit most" items={[
+              ['Setup', 'Turn your shoulders sideways to the ball early — hips and shoulders rotate together as one unit, not arm-only. Racket back to about waist height, continental grip unchanged.'],
+              ['Contact point', 'Strike out in front of your lead hip, not level with your body — hitting late (ball beside or behind you) is the #1 forehand error and kills both power and direction.'],
+              ['Low-to-high swing path', 'Start the racket slightly below the ball\'s eventual contact height and brush up and through — this is what gives you topspin and net clearance without needing to muscle the shot.'],
+              ['Finish across your body', 'Let the racket finish up near your opposite shoulder. A swing that stops dead at contact is a swing with no follow-through power — finish it every time, even on soft shots.'],
+              ['Off the bounce vs off the glass', 'Most forehands in padel come after the ball has bounced once (sometimes off the back glass too) — track the FULL bounce pattern before committing your swing, not just the first bounce.'],
+            ]} />
+            <Block title="Backhand — build it early, don't avoid it" items={[
+              ['One-handed is standard in padel', 'Unlike tennis, most padel players use a one-handed backhand even at high levels — the compact swing suits the small court. Same continental grip, just rotate your knuckles slightly.'],
+              ['Turn side-on, lead with the shoulder', 'Your back (non-hitting) shoulder should point at the net before you swing — this shoulder turn IS the backhand, not an add-on to it.'],
+              ['Keep the elbow away from your body', 'A cramped elbow tucked into your ribs produces a weak, stabbing backhand. Let your arm extend with room to swing freely across your body line.'],
+              ['Contact slightly further out front', 'Because the backhand naturally has a shorter lever, hit it a touch earlier / further in front than you would a forehand, or you\'ll feel rushed and mis-hit.'],
+              ['Drill it as much as your forehand', 'Most players avoid backhands in practice because they\'re less comfortable — which is exactly why opponents will target it in matches. Deliberately hit 50/50 forehand/backhand in every practice session.'],
+            ]} />
+            <Block title="Spin — topspin, backspin, and when to use each" items={[
+              ['Topspin (groundstrokes)', 'Low-to-high racket path brushing up the back of the ball. Makes the ball dip down into the court after clearing the net and kick up higher off the bounce — your safety margin on hard groundstrokes.'],
+              ['Backspin/slice (bandeja, defensive shots)', 'High-to-low racket path, chopping down and through. Keeps the ball low and skiddy off the bounce, which is exactly why it\'s the standard technique for the bandeja and defensive returns from deep.'],
+              ['Sidespin (vibora, angled shots)', 'A slicing swing path across the side of the ball rather than over the top — makes the ball curve and skid sideways off the wall, which is what makes the vibora so hard to read.'],
+              ['Why spin matters more than power in padel', 'The court is enclosed and small — pure flat power sends balls long or into the glass awkwardly. Spin is what lets you hit committed, full swings while keeping the ball in play. Prioritise learning spin before learning to hit harder.'],
+            ]} />
+            <Block title="The Lob — as a shot, not just a tactic" items={[
+              ['Grip and stance stay the same', 'A lob is not a different swing family — same continental grip, same ready position. What changes is the racket face angle (more open) and the swing path (steeper low-to-high).'],
+              ['Open the racket face early', 'Let the ball sit slightly deeper on the strings with the face tilted skyward at contact — this lifts the ball rather than driving it flat.'],
+              ['Defensive lob: high and deep, no exceptions', 'When you\'re under pressure, prioritise height and depth over placement — a lob that lands short gets punished immediately. Aim for the back third of their court, always.'],
+              ['Offensive lob: flatter and to a target', 'When you have time and they\'re at the net, a lower, faster, well-placed lob (over the weaker player\'s backhand shoulder) can be an outright winner, not just a reset.'],
+              ['Disguise it', 'Prepare every overhead-height ball with the same racket takeback whether you intend to smash or lob — telegraphing the lob early lets opponents retreat in time to smash it back at you.'],
+            ]} />
             <Block title="The Bandeja — your most important shot" items={[
               ['What it is', 'A controlled overhead smash hit with backspin/slice instead of full power — used from the back of the court when the ball is high but you\'re not in a killing position.'],
               ['Why power kills you here', 'A full-power smash from deep court usually goes long or gets lobbed back. The bandeja trades power for control, keeping you in the point instead of gifting it away.'],
