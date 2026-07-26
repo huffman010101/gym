@@ -4,7 +4,7 @@ import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, E
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 
-type Tab = 'charisma' | 'aura' | 'stoic' | 'icons' | 'confidence' | 'selftalk' | 'secret';
+type Tab = 'charisma' | 'aura' | 'stoic' | 'icons' | 'confidence' | 'focus' | 'selftalk' | 'secret';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'charisma', label: 'Charisma' },
@@ -12,6 +12,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'stoic', label: 'Stoic' },
   { id: 'icons', label: 'Icons' },
   { id: 'confidence', label: 'Confidence' },
+  { id: 'focus', label: 'Focus & Discipline' },
   { id: 'selftalk', label: 'Self-Talk' },
   { id: 'secret', label: '🔒 Secret' },
 ];
@@ -59,7 +60,7 @@ export default function Mind() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['charisma', 'aura', 'stoic', 'icons', 'confidence', 'selftalk', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'charisma';
+    return (['charisma', 'aura', 'stoic', 'icons', 'confidence', 'focus', 'selftalk', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'charisma';
   });
   const [pw, setPw] = useState('');
   const [unlocked, setUnlocked] = useState(false);
@@ -382,6 +383,69 @@ export default function Mind() {
                 <p className="text-gray-400"><span className="font-bold text-gray-200">Focus outward:</span> nerves come from self-monitoring. Put 100% attention on the other person or the task — self-consciousness needs an audience of you.</p>
               </div>
             </Collapsible>
+          </div>
+        )}
+
+        {/* ============ FOCUS & DISCIPLINE ============ */}
+        {tab === 'focus' && (
+          <div className="fade-up stagger space-y-4">
+            <div className="card-premium p-5">
+              <h3 className="font-bold mb-2 flex items-center gap-2"><Brain size={16} className="text-pink-400" /> Why You Feel Groggy and Scroll Instead of Working</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                It's not laziness, it's a dopamine economy problem. Short-form content, porn, junk food and gaming deliver huge,
+                effort-free dopamine spikes constantly — next to that, deep work and hard tasks feel like they pay in pennies,
+                so your brain rationally avoids them. The fix isn't more willpower; it's resetting the baseline so real effort
+                feels rewarding again. Everything below is that reset, in order.
+              </p>
+            </div>
+            <Card icon={Brain} title="The Dopamine Detox — a real 14-day protocol" items={[
+              ['What you\'re actually detoxing', 'Not dopamine itself (you\'d die — it drives all motivation) but the CHEAP, high-frequency sources: short-form video, porn, junk food, gaming, random browsing. You\'re lowering the noise floor so normal life registers as rewarding again.'],
+              ['Days 1-4 — withdrawal (expect this)', 'Delete or screen-time-lock TikTok/Reels/Shorts, no porn, phone stays outside the bedroom, no snacking between meals. You WILL feel restless, grey, and bored — that\'s receptors healing, not depression. Do not quit here; this is the part that works.'],
+              ['Days 5-9 — the flat zone', 'Boredom peaks, then starts lifting. Fill freed time with training, walking, reading, and people — not another screen. Journaling what you notice (energy, sleep, urges) keeps you honest about progress you can\'t feel day-to-day.'],
+              ['Days 10-14 — the payoff', 'Normal activities — a conversation, a workout, a boring lecture — start generating real interest again. This is the point of the whole protocol: hard, valuable things become startable without dragging yourself.'],
+              ['What stays in, the whole time', 'Training, reading, real conversations, sunlight, music/podcasts while moving. You\'re cutting the cheap dopamine, not living like a monk — the detox targets specific sources, not all pleasure.'],
+              ['After day 14 — controlled reintroduction', 'Add things back ONE at a time, with a rule attached (e.g. short-form only after the day\'s deep work block is done). If a reintroduced habit creeps back to compulsive, cut it again for a week. This is maintenance forever, not a one-time fix.'],
+            ]} />
+            <Card icon={Flame} title="Mastering Dopamine — the operating rules" items={[
+              ['Effort BEFORE reward, always', 'Phone after the work block, dessert after the meal, scroll after the study session. Sequencing alone retrains the brain that effort precedes reward — the exact wiring "lazy" brains have backwards.'],
+              ['Motivation follows action, it never leads it', 'Waiting to "feel like it" is the trap — dopamine releases DURING progress, not before it. Start any task at 10% effort and motivation typically arrives within 5 minutes. Action first, feeling second, no exceptions.'],
+              ['Variable reward is why apps win — use it against them', 'Unpredictable rewards (a great video, a like, a match) are more addictive than predictable ones. You can\'t out-willpower an engineered system — you remove access instead (delete the app, greyscale the phone, log out).'],
+              ['Novelty-seeking needs a legal outlet', 'The same brain chemistry that loves infinite scroll loves new skills, new places, new training stimuli. Redirect the craving for "new" into deliberate variety in productive things — new lifts, new topics, new routes — instead of fighting the craving itself.'],
+              ['Protect the morning dopamine baseline', 'Checking your phone first thing spikes dopamine artificially before you\'ve done anything — everything real then feels dull by comparison. No phone for the first 30-60 minutes keeps your baseline low enough that real tasks still feel rewarding.'],
+            ]} />
+            <Card icon={Brain} title="Deep Work — the actual system" items={[
+              ['Define the block, not the day', '90-minute sessions, one single task, phone physically in another room (proximity beats willpower every time). Two real 90-min blocks outperform 8 distracted hours — most people never get level 2 focus, they get the illusion of work.'],
+              ['Environment does half the work', 'Same desk, same time, same starting ritual (water poured, notifications off, one specific playlist with no lyrics). Repetition trains an association: "this setup = deep focus" — you drop into the state faster every time you run the ritual.'],
+              ['Kill switching cost, not just distraction', 'Every notification or tab-switch costs ~20 minutes of full refocus, even if the check itself takes 5 seconds. Batch messages/emails into 2-3 windows a day instead of live-checking — the batching alone can double usable focus time.'],
+              ['Single-tasking is a trained skill', 'Multitasking is a myth — you\'re rapidly switching, and each switch has a cost. Close every tab except the one you need. If research is required, do it in a separate block, not mid-task.'],
+              ['Shallow work has a place — after, not during', 'Admin, replies, and easy tasks go in low-energy windows (post-lunch dip, evening). Never let shallow work eat your peak-energy hours — that\'s the highest-value theft your day can suffer.'],
+            ]} />
+            <Card icon={Flame} title="Discipline for Hard Things — when everything in you wants to quit" items={[
+              ['The 5-minute contract', 'Commit to just 5 minutes of the avoided task. Quitting after 5 is technically allowed — you almost never will, because starting was 90% of the resistance. Use this on literally anything you\'re avoiding.'],
+              ['Shrink the task until it\'s stupid', '"Revise the whole module" paralyses; "read 3 pages" doesn\'t. If you\'re stalling, the task is too big — cut it in half repeatedly until starting feels trivial. Momentum rebuilds the scope on its own once you\'re moving.'],
+              ['Discipline is a trainable muscle, literally', 'The anterior midcingulate cortex — the brain region tied to doing things you don\'t want to do — grows with use, confirmed in longevity/willpower research. Every cold shower, every session done unmotivated is a physical rep for this region. You\'re not born with or without discipline; you\'re training a muscle that atrophies from comfort.'],
+              ['Design your environment, don\'t rely on willpower', 'Phone in another room, gym bag packed the night before, distracting apps deleted (reinstalling is enough friction to matter). Willpower is a finite, exhaustible resource; environment design doesn\'t run out by 3pm.'],
+              ['Track the streak, not the mood', 'A visible daily-habit streak converts "do I feel like it?" into "do I break the chain?" — a far easier question to answer honestly. Never miss twice: one missed day is life happening; two in a row is the old pattern creeping back.'],
+              ['Reframe the discomfort itself', 'Boredom and effort during deep work or training are supposed to feel like that — it\'s not a sign something\'s wrong, it\'s the cost of a life most people won\'t pay. The people you respect most simply accepted that cost earlier and more often than everyone else.'],
+            ]} />
+            <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
+              <h3 className="font-bold mb-3 text-pink-300">Daily System — putting it all together</h3>
+              <div className="space-y-2">
+                {[
+                  ['On waking', 'No phone for 30-60 min. Water, light, movement. This protects your dopamine baseline before the day starts spiking it artificially.'],
+                  ['First work block', 'Hardest task of the day, first, while willpower is highest. 90 min, phone in another room, one task, environment ritual run beforehand.'],
+                  ['Midday', 'Shallow work (emails, admin, replies) in the post-lunch dip — never during peak focus hours.'],
+                  ['Second work block', 'Second 90-min session if the day allows it. Same ritual, same rules.'],
+                  ['Reward, deliberately placed', 'Phone/scrolling/games AFTER the blocks are done, not as a break from them. This is the effort-before-reward rule in daily practice.'],
+                  ['Evening', 'Screens down earlier than you think you need to. Review: did I run the blocks? Track the leading behaviour, not just how the day felt.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 
