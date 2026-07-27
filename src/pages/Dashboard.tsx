@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
-import type { GymSession, CombatSession, FootballSession, ConditioningEntry, BodyMetric, SkinEntry, CalendarEvent, Macros } from '../lib/types';
+import type { GymSession, CombatSession, FootballSession, ConditioningEntry, BodyMetric, CalendarEvent, Macros } from '../lib/types';
 import { calcMacros } from '../lib/calculations';
-import { Dumbbell, Activity, Zap, Trophy, Plus, X, ChevronRight, Utensils, Flame, Sparkles } from 'lucide-react';
+import { Dumbbell, Activity, Trophy, Plus, X, ChevronRight, Utensils, Flame, Sparkles } from 'lucide-react';
 
 function load<T>(key: string): T[] {
   try { return JSON.parse(localStorage.getItem(key) || '[]') as T[]; }
@@ -57,7 +57,6 @@ export default function Dashboard() {
   const [footballSessions, setFootballSessions] = useState<FootballSession[]>([]);
   const [conditioning, setConditioning] = useState<ConditioningEntry[]>([]);
   const [metrics, setMetrics] = useState<BodyMetric[]>([]);
-  const [skinEntries, setSkinEntries] = useState<SkinEntry[]>([]);
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [showAddEvent, setShowAddEvent] = useState(false);
   const [newEvent, setNewEvent] = useState({ date: '', title: '', type: 'sparring' as CalendarEvent['type'] });
@@ -70,7 +69,6 @@ export default function Dashboard() {
     setFootballSessions(load<FootballSession>('gymforge_football_sessions'));
     setConditioning(load<ConditioningEntry>('gymforge_conditioning'));
     setMetrics(load<BodyMetric>('gymforge_body_metrics'));
-    setSkinEntries(load<SkinEntry>('gymforge_skin_entries'));
     setEvents(load<CalendarEvent>('gymforge_events'));
 
     try {
@@ -99,11 +97,6 @@ export default function Dashboard() {
   const latestMetric = sortedMetrics[0];
   const olderMetric = sortedMetrics.find(m => daysSince(m.date) >= 6);
   const weightTrend = latestMetric && olderMetric ? latestMetric.weight - olderMetric.weight : null;
-
-  const sortedSkin = [...skinEntries].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  const lastRetinol = sortedSkin.find(e => e.retinol);
-  const lastBha = sortedSkin.find(e => e.bha);
-  const lastAha = sortedSkin.find(e => e.aha);
 
   const todayMidnight = new Date();
   todayMidnight.setHours(0, 0, 0, 0);
@@ -161,9 +154,6 @@ export default function Dashboard() {
               </div>
             ))}
           </div>
-          <Link to="/training" className="flex items-center justify-center gap-2 bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 rounded-xl py-2.5 text-orange-400 text-sm font-semibold transition-colors">
-            Log a Session <ChevronRight size={15} />
-          </Link>
         </div>
 
         {/* Body weight */}
@@ -239,39 +229,6 @@ export default function Dashboard() {
           )}
           <Link to="/food" className="flex items-center justify-center gap-2 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 rounded-xl py-2.5 text-green-400 text-sm font-semibold transition-colors">
             {todayFood ? 'Update Food Log' : 'Log Today\'s Food'} <ChevronRight size={15} />
-          </Link>
-        </div>
-
-        {/* Skin actives */}
-        <div className="bg-[#111] rounded-2xl border border-white/10 p-4">
-          <h2 className="font-bold text-base flex items-center gap-2 mb-3">
-            <Zap size={16} className="text-purple-400" /> Skin Actives
-          </h2>
-          <div className="space-y-2">
-            {([
-              { label: 'Retinol', entry: lastRetinol, warnDays: 3 },
-              { label: 'BHA', entry: lastBha, warnDays: 3 },
-              { label: 'AHA', entry: lastAha, warnDays: 5 },
-            ] as const).map(({ label, entry, warnDays }) => {
-              const days = entry ? daysSince(entry.date) : null;
-              return (
-                <div key={label} className="flex items-center justify-between bg-white/5 rounded-xl px-3 py-2.5">
-                  <span className="text-gray-300 font-medium text-sm">{label}</span>
-                  {days !== null ? (
-                    <span className={`text-sm font-bold ${
-                      days === 0 ? 'text-green-400' : days <= warnDays ? 'text-orange-400' : 'text-red-400'
-                    }`}>
-                      {days === 0 ? 'Done tonight ✓' : `${days}d ago`}
-                    </span>
-                  ) : (
-                    <span className="text-gray-600 text-xs">Never logged</span>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-          <Link to="/physique" className="mt-3 flex items-center justify-center gap-2 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 rounded-xl py-2.5 text-purple-400 text-sm font-semibold transition-colors">
-            Log Skincare <ChevronRight size={15} />
           </Link>
         </div>
 
@@ -352,13 +309,6 @@ export default function Dashboard() {
 
         {/* Quick links */}
         <div className="grid grid-cols-2 gap-3 pb-2">
-          <Link to="/training" className="bg-[#111] border border-white/10 hover:border-orange-500/30 rounded-2xl p-4 flex items-center gap-3 transition-colors">
-            <Dumbbell size={22} className="text-orange-400" />
-            <div>
-              <p className="font-bold text-sm">Training</p>
-              <p className="text-gray-500 text-xs">Log a session</p>
-            </div>
-          </Link>
           <Link to="/plan" className="bg-[#111] border border-white/10 hover:border-blue-500/30 rounded-2xl p-4 flex items-center gap-3 transition-colors">
             <Utensils size={22} className="text-blue-400" />
             <div>

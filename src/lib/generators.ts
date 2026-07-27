@@ -12,7 +12,11 @@ export function makeClient(): Anthropic {
 function parse(text: string): unknown {
   const clean = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
   const match = clean.match(/\{[\s\S]*\}/);
-  return JSON.parse(match ? match[0] : clean);
+  try {
+    return JSON.parse(match ? match[0] : clean);
+  } catch {
+    throw new Error('The AI response came back incomplete. Tap Regenerate to try again.');
+  }
 }
 
 export async function generateWorkoutPlan(
@@ -23,8 +27,8 @@ export async function generateWorkoutPlan(
   const w = q.unit === 'metric' ? `${q.weightKg} kg` : `${q.weightLbs} lbs`;
 
   const msg = await client.messages.create({
-    model: 'claude-sonnet-4-6',
-    max_tokens: 4096,
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 16000,
     messages: [{
       role: 'user',
       content: `You are an elite personal trainer. Create a highly personalised workout program.
@@ -80,8 +84,8 @@ export async function generateMeals(
     : '';
 
   const msg = await client.messages.create({
-    model: 'claude-sonnet-4-6',
-    max_tokens: 6000,
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 16000,
     messages: [{
       role: 'user',
       content: `You are a sports nutritionist. Create a practical ${q.mealsPerDay}-meal daily plan.
@@ -129,7 +133,7 @@ export async function runVoiceCommand(
 ): Promise<{ message: string; updatedPlan: WorkoutPlan | null }> {
   const client = makeClient();
   const msg = await client.messages.create({
-    model: 'claude-sonnet-4-6',
+    model: 'claude-sonnet-5',
     max_tokens: 2048,
     messages: [{
       role: 'user',
@@ -187,7 +191,7 @@ Be specific and practical, kind but honest.`;
   content.push({ type: 'text', text: systemPrompt });
 
   const msg = await client.messages.create({
-    model: 'claude-sonnet-4-6',
+    model: 'claude-sonnet-5',
     max_tokens: 1024,
     messages: [{ role: 'user', content }],
   });
@@ -200,7 +204,7 @@ export async function analyzeFoodLog(
 ): Promise<FoodAnalysis> {
   const client = makeClient();
   const msg = await client.messages.create({
-    model: 'claude-sonnet-4-6',
+    model: 'claude-sonnet-5',
     max_tokens: 2048,
     messages: [{
       role: 'user',
@@ -257,7 +261,7 @@ export async function suggestLayering(fragrances: string, opts: LayeringOptions 
   ].filter(Boolean).join('\n');
 
   const msg = await client.messages.create({
-    model: 'claude-sonnet-4-6',
+    model: 'claude-sonnet-5',
     max_tokens: 3000,
     messages: [{
       role: 'user',
@@ -319,7 +323,7 @@ Return ONLY a JSON array of strings, one tip per task, same order, no markdown:
 export async function askAdvisor(question: string, phaseContext: string): Promise<string> {
   const client = makeClient();
   const msg = await client.messages.create({
-    model: 'claude-sonnet-4-6',
+    model: 'claude-sonnet-5',
     max_tokens: 1200,
     messages: [{
       role: 'user',
@@ -369,8 +373,8 @@ export async function generateStudyPack(
 ): Promise<StudyPack> {
   const client = makeClient();
   const msg = await client.messages.create({
-    model: 'claude-sonnet-4-6',
-    max_tokens: 8000,
+    model: 'claude-sonnet-5',
+    max_tokens: 16000,
     messages: [{
       role: 'user',
       content: `You are an elite academic coach who has taken hundreds of students to first-class degrees. Build a complete revision pack.

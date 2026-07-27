@@ -4,7 +4,6 @@ import Home from './pages/Home';
 import Quiz from './pages/Quiz';
 import Plan from './pages/Plan';
 import FoodLog from './pages/FoodLog';
-import TrainingLog from './pages/TrainingLog';
 import Physique from './pages/Physique';
 import Dashboard from './pages/Dashboard';
 import LooksMax from './pages/LooksMax';
@@ -37,7 +36,6 @@ export default function App() {
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/plan" element={<Plan />} />
         <Route path="/food" element={<FoodLog />} />
-        <Route path="/training" element={<TrainingLog />} />
         <Route path="/physique" element={<Physique />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/looksmax" element={<LooksMax />} />

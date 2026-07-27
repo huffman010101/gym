@@ -27,7 +27,6 @@ const INDEX: Entry[] = [
   { label: 'Zygos Pop Protocol', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'zygos cheekbones pop gua sha lymphatic hollow cheeks' },
   // Gym
   { label: 'Workout Plan (AI)', section: 'Gym', path: '/plan', keywords: 'training split programme exercises workout plan quiz' },
-  { label: 'Training Log', section: 'Gym', path: '/training', keywords: 'log sets reps sessions train' },
   { label: 'Food Log & Macros', section: 'Gym', path: '/food', keywords: 'food eat calories macros protein diet nutrition meals fuel' },
   { label: 'Physique AI Review', section: 'Gym', path: '/physique', keywords: 'physique photos progress body ai review muscle' },
   { label: 'Skin Photo AI Routine', section: 'Gym', path: '/physique', keywords: 'skin photo analysis personalised skincare routine ai scan' },

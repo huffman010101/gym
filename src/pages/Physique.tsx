@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
-import type { BodyMetric, SkinEntry, ProgressPhoto } from '../lib/types';
-import { ArrowLeft, Plus, Trash2, Camera, TrendingUp, TrendingDown, Minus, Check, Upload, X, Sparkles, Loader } from 'lucide-react';
+import type { BodyMetric, ProgressPhoto } from '../lib/types';
+import { ArrowLeft, Plus, Trash2, Camera, TrendingUp, TrendingDown, Minus, Upload, X, Sparkles, Loader } from 'lucide-react';
 import { reviewPhoto } from '../lib/generators';
 
-type Tab = 'metrics' | 'photos' | 'skincare';
+type Tab = 'metrics' | 'photos';
 
 function load<T>(key: string): T[] {
   try { return JSON.parse(localStorage.getItem(key) || '[]') as T[]; }
@@ -80,15 +80,9 @@ export default function Physique() {
   const [reviewResult, setReviewResult] = useState('');
   const [reviewError, setReviewError] = useState('');
 
-  // Skincare
-  const [skinEntries, setSkinEntries] = useState<SkinEntry[]>([]);
-  const [loggingSkin, setLoggingSkin] = useState(false);
-  const [skinForm, setSkinForm] = useState({ retinol: false, bha: false, aha: false, spf: false, notes: '' });
-
   useEffect(() => {
     setMetrics(load<BodyMetric>('gymforge_body_metrics'));
     setPhotos(load<ProgressPhoto>('gymforge_photos'));
-    setSkinEntries(load<SkinEntry>('gymforge_skin_entries'));
   }, []);
 
   // --- METRICS ---
@@ -179,52 +173,6 @@ export default function Physique() {
     }
   };
 
-  // --- SKINCARE ---
-  const saveSkin = () => {
-    if (!skinForm.retinol && !skinForm.bha && !skinForm.aha && !skinForm.spf) return;
-    const existing = skinEntries.find(e => e.date === todayStr());
-    let updated: SkinEntry[];
-    if (existing) {
-      updated = skinEntries.map(e => e.date === todayStr()
-        ? { ...e, retinol: skinForm.retinol, bha: skinForm.bha, aha: skinForm.aha, spf: skinForm.spf, notes: skinForm.notes || undefined }
-        : e
-      );
-    } else {
-      const entry: SkinEntry = {
-        id: Date.now().toString(), date: todayStr(),
-        retinol: skinForm.retinol, bha: skinForm.bha, aha: skinForm.aha, spf: skinForm.spf,
-        notes: skinForm.notes || undefined,
-      };
-      updated = [entry, ...skinEntries];
-    }
-    setSkinEntries(updated);
-    save('gymforge_skin_entries', updated);
-    setLoggingSkin(false);
-    setSkinForm({ retinol: false, bha: false, aha: false, spf: false, notes: '' });
-  };
-
-  const sortedSkin = [...skinEntries].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  const lastRetinol = sortedSkin.find(e => e.retinol);
-  const lastBha = sortedSkin.find(e => e.bha);
-  const lastAha = sortedSkin.find(e => e.aha);
-  const lastSpf = sortedSkin.find(e => e.spf);
-
-  const activeCheck = (active: boolean, label: string, key: 'retinol' | 'bha' | 'aha' | 'spf') => (
-    <button
-      onClick={() => setSkinForm(p => ({ ...p, [key]: !p[key] }))}
-      className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border font-semibold text-sm transition-all ${
-        active ? 'bg-purple-500/20 border-purple-500/50 text-purple-300' : 'bg-white/5 border-white/10 text-gray-500'
-      }`}
-    >
-      <div className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 ${
-        active ? 'bg-purple-500 border-purple-500' : 'border-gray-600'
-      }`}>
-        {active && <Check size={10} />}
-      </div>
-      {label}
-    </button>
-  );
-
   const METRIC_ROWS: { label: string; key: MetricKey; unit: string; color: string }[] = [
     { label: 'Weight', key: 'weight', unit: 'kg', color: 'text-white' },
     { label: 'Waist', key: 'waist', unit: 'cm', color: 'text-red-400' },
@@ -244,7 +192,7 @@ export default function Physique() {
       {/* Tabs */}
       <div className="px-4 mb-4">
         <div className="flex gap-2 bg-[#111] border border-white/10 rounded-2xl p-1">
-          {(['metrics', 'photos', 'skincare'] as Tab[]).map(t => (
+          {(['metrics', 'photos'] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               className={`flex-1 py-2 rounded-xl text-xs font-semibold capitalize transition-all ${
                 tab === t ? 'bg-white/10 text-white' : 'text-gray-500 hover:text-gray-300'
@@ -554,95 +502,6 @@ export default function Physique() {
           </>
         )}
 
-        {/* ===== SKINCARE TAB ===== */}
-        {tab === 'skincare' && (
-          <>
-            <div className="bg-[#111] rounded-2xl border border-white/10 p-4">
-              <h2 className="font-bold text-base mb-3">Active Status</h2>
-              <div className="space-y-2">
-                {([
-                  { label: 'Retinol', entry: lastRetinol, warnDays: 3, note: 'Every 3rd night' },
-                  { label: 'BHA (Salicylic)', entry: lastBha, warnDays: 3, note: 'Every 3rd night' },
-                  { label: 'AHA (Glycolic)', entry: lastAha, warnDays: 5, note: 'Weekly or less' },
-                  { label: 'SPF', entry: lastSpf, warnDays: 1, note: 'Every morning' },
-                ] as { label: string; entry: SkinEntry | undefined; warnDays: number; note: string }[]).map(({ label, entry, warnDays, note }) => {
-                  const days = entry ? daysSince(entry.date) : null;
-                  return (
-                    <div key={label} className="flex items-center justify-between bg-white/5 rounded-xl px-3 py-2.5">
-                      <div>
-                        <p className="font-semibold text-sm text-gray-200">{label}</p>
-                        <p className="text-gray-600 text-xs">{note}</p>
-                      </div>
-                      {days !== null ? (
-                        <span className={`text-sm font-bold ${
-                          days === 0 ? 'text-green-400'
-                          : days <= warnDays ? 'text-orange-400'
-                          : 'text-red-400'
-                        }`}>
-                          {days === 0 ? 'Tonight ✓' : `${days}d ago`}
-                        </span>
-                      ) : (
-                        <span className="text-gray-600 text-xs">Never logged</span>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {!loggingSkin ? (
-              <button onClick={() => setLoggingSkin(true)}
-                className="w-full bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 rounded-2xl py-3 text-purple-400 font-bold flex items-center justify-center gap-2 transition-colors">
-                <Plus size={16} /> Log Tonight's Routine
-              </button>
-            ) : (
-              <div className="bg-[#111] rounded-2xl border border-purple-500/20 p-4 space-y-3">
-                <div className="flex items-center justify-between">
-                  <h2 className="font-bold text-lg">Tonight's Actives</h2>
-                  <button onClick={() => setLoggingSkin(false)} className="text-gray-500 hover:text-red-400 transition-colors"><X size={18} /></button>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  {activeCheck(skinForm.retinol, 'Retinol', 'retinol')}
-                  {activeCheck(skinForm.bha, 'BHA', 'bha')}
-                  {activeCheck(skinForm.aha, 'AHA', 'aha')}
-                  {activeCheck(skinForm.spf, 'SPF', 'spf')}
-                </div>
-                <div>
-                  <label className="text-xs text-gray-400 mb-1 block">Notes (optional)</label>
-                  <input type="text" placeholder="e.g. Felt some irritation, used less retinol"
-                    value={skinForm.notes}
-                    onChange={e => setSkinForm(p => ({ ...p, notes: e.target.value }))}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white placeholder-gray-600 text-sm focus:outline-none focus:border-purple-500/50" />
-                </div>
-                <button onClick={saveSkin}
-                  className="w-full bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 rounded-xl py-3 font-bold transition-all">
-                  Save Routine
-                </button>
-              </div>
-            )}
-
-            {sortedSkin.length > 0 && (
-              <div>
-                <h3 className="font-semibold text-gray-400 text-sm px-1 mb-2">Last 14 Nights</h3>
-                <div className="bg-[#111] rounded-2xl border border-white/10 overflow-hidden">
-                  {sortedSkin.slice(0, 14).map((e, i) => (
-                    <div key={e.id} className={`flex items-center justify-between px-4 py-2.5 ${
-                      i < sortedSkin.slice(0, 14).length - 1 ? 'border-b border-white/5' : ''
-                    }`}>
-                      <p className="text-gray-400 text-xs">{fmtDate(e.date)}</p>
-                      <div className="flex items-center gap-2">
-                        {e.retinol && <span className="text-[10px] bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded font-bold">RTN</span>}
-                        {e.bha && <span className="text-[10px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded font-bold">BHA</span>}
-                        {e.aha && <span className="text-[10px] bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded font-bold">AHA</span>}
-                        {e.spf && <span className="text-[10px] bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded font-bold">SPF</span>}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </>
-        )}
       </div>
 
       <BottomNav />
