@@ -398,6 +398,34 @@ export default function Mind() {
                 feels rewarding again. Everything below is that reset, in order.
               </p>
             </div>
+            <div className="bg-gradient-to-br from-pink-500/15 to-[#111] border border-pink-500/30 rounded-2xl p-5">
+              <h3 className="font-black mb-1 flex items-center gap-2 text-pink-300"><Flame size={16} /> Uncook Your Brain</h3>
+              <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                Ten rules. Not a program, not a phase — just how you live. Do these and the fog lifts within about two weeks.
+              </p>
+              <div className="space-y-3">
+                {[
+                  ['No music in the shower', 'Sit with your own thoughts. If every quiet moment is filled with audio you never actually process anything — the shower is where ideas surface.'],
+                  ['Wake up to sunlight, not your phone', 'Light in your eyes within 30 min sets your body clock. Phone first thing spikes dopamine before you\'ve earned anything, and the whole day feels flat by comparison.'],
+                  ['No gooning', 'Porn is the single biggest artificial dopamine hit available on demand. Cutting it moves your drive, focus and confidence more than anything else on this list.'],
+                  ['Chill with the short-form', 'You don\'t have to quit forever — but 20 minutes of scrolling rewires what "interesting" feels like. Cap it, and never before a work block.'],
+                  ['One task, phone in another room', 'Not face down. Not on silent. Another room. Proximity beats willpower every single time.'],
+                  ['Go 100% in or don\'t bother', 'Half-focused work for 3 hours is worse than 45 fully locked-in minutes. Decide which one you\'re doing before you start.'],
+                  ['Walk without headphones', '20 minutes, no input. This is when your brain files things away and solves the problems you were stuck on.'],
+                  ['Eat one meal a day with no screen', 'Nothing else happening. Trains the ability to just be present, which is the whole skill underneath all of this.'],
+                  ['Boredom is the point', 'That restless itch when you put the phone down IS your baseline recovering. Sit in it instead of reaching — it passes faster than you think.'],
+                  ['No phone first or last 30 min of the day', 'These two windows set your daily baseline and your sleep quality. Protect them and everything else gets easier.'],
+                ].map(([t, d], i) => (
+                  <div key={t} className="flex gap-3">
+                    <span className="text-pink-400/70 font-black text-xs mt-0.5 w-4 flex-shrink-0">{i + 1}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-sm text-gray-200">{t}</p>
+                      <p className="text-gray-500 text-xs leading-relaxed mt-0.5">{d}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
             <Card icon={Brain} title="The Dopamine Detox — a real 14-day protocol" items={[
               ['What you\'re actually detoxing', 'Not dopamine itself (you\'d die — it drives all motivation) but the CHEAP, high-frequency sources: short-form video, porn, junk food, gaming, random browsing. You\'re lowering the noise floor so normal life registers as rewarding again.'],
               ['Days 1-4 — withdrawal (expect this)', 'Delete or screen-time-lock TikTok/Reels/Shorts, no porn, phone stays outside the bedroom, no snacking between meals. You WILL feel restless, grey, and bored — that\'s receptors healing, not depression. Do not quit here; this is the part that works.'],
