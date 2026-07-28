@@ -3,12 +3,14 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ChevronDown, Dumbbell } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 
-type Tab = 'upper' | 'lower' | 'week' | 'rules';
+type Tab = 'push' | 'pull' | 'shoulders' | 'functional' | 'week' | 'rules';
 
 const TABS: { id: Tab; label: string }[] = [
-  { id: 'upper', label: 'Upper Body' },
-  { id: 'lower', label: 'Lower Body' },
-  { id: 'week', label: 'Weekly Split' },
+  { id: 'push', label: 'Push' },
+  { id: 'pull', label: 'Pull' },
+  { id: 'shoulders', label: 'Shoulders' },
+  { id: 'functional', label: 'Functional' },
+  { id: 'week', label: 'The Week' },
   { id: 'rules', label: 'How to Run It' },
 ];
 
@@ -70,7 +72,7 @@ export default function Programs() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['upper', 'lower', 'week', 'rules'] as const).includes(t as Tab) ? (t as Tab) : 'upper';
+    return (['push', 'pull', 'shoulders', 'functional', 'week', 'rules'] as const).includes(t as Tab) ? (t as Tab) : 'push';
   });
 
   return (
@@ -86,15 +88,15 @@ export default function Programs() {
           </div>
           <div>
             <h1 className="text-2xl font-black">The Program</h1>
-            <p className="text-gray-500 text-sm">Aesthetic + functional upper · explosive lower</p>
+            <p className="text-gray-500 text-sm">Push · Pull · Shoulders · Rest · repeat</p>
           </div>
         </div>
 
         <div className="bg-orange-500/5 border border-orange-500/20 rounded-xl px-4 py-3 mb-5">
           <p className="text-xs text-orange-200/80 leading-relaxed">
-            Built for exactly your goal: an upper body that looks aesthetic AND is genuinely strong and functional for
-            combat sports, and a lower body trained for power and speed that transfers to football and Muay Thai.
-            No AI needed — this is always here.
+            Your split: <span className="text-orange-300 font-bold">Push → Pull → Shoulders → Rest → Push → Pull → Shoulders/Functional</span>.
+            Each session has an A and B version so you never repeat the exact same workout twice in a week.
+            Aesthetic upper body, combat-functional strength, and the football/Muay Thai power work on the functional day.
           </p>
         </div>
 
@@ -109,110 +111,169 @@ export default function Programs() {
           ))}
         </div>
 
-        {/* ===== UPPER ===== */}
-        {tab === 'upper' && (
+        {/* ===== PUSH ===== */}
+        {tab === 'push' && (
           <div className="fade-up stagger space-y-4">
-            <Block title="What this upper body is built for" items={[
-              ['Aesthetics come from the V-taper', 'Wide delts + wide lats + a tight waist is what actually reads as an impressive upper body. That\'s why lateral raises and pull-ups are non-negotiable here, not optional accessories.'],
-              ['Combat strength is pulling, pressing and rotating', 'Clinch work and grappling are dominated by lats, grip and upper back. Punching power comes from rotation and a stable shoulder — not from bench press numbers.'],
-              ['Neck and grip are the combat multipliers', 'A strong neck reduces knockout risk and wins clinch battles; grip decides who controls who. Most gym-goers skip both, which is exactly why training them separates you.'],
+            <Session
+              title="Push A — Day 1"
+              tag="Chest size & shape · triceps"
+              block="Aesthetic emphasis. Heavy compound first, then volume and stretch work. Rest 2-3 min on the first two, 60-90s after."
+              exercises={[
+                { name: 'Incline barbell or DB press', sets: '4 × 6', why: 'Upper chest is what fills out a shirt and stops the "flat chest" look. Leading with incline while fresh is why most people\'s upper chest lags — they always do flat first.' },
+                { name: 'Weighted dips', sets: '4 × 6-8', why: 'Lower chest sweep plus brutal triceps lockout strength. One of the best pure upper-body mass builders there is.' },
+                { name: 'Flat DB press', sets: '3 × 8-10', why: 'Dumbbells allow a deeper stretch than a barbell and even out left/right imbalances — important when one side is stronger from sport.' },
+                { name: 'Cable fly or pec deck', sets: '3 × 12-15', why: 'Pure stretch and squeeze with no triceps involvement. This is shaping work — the chest detail that pressing alone doesn\'t give you.' },
+                { name: 'Overhead triceps extension', sets: '3 × 12', why: 'Hits the long head, which is most of your arm thickness seen from the side. Also the head most neglected by pushdowns alone.' },
+                { name: 'Triceps pushdown', sets: '3 × 12-15', why: 'Finishes the triceps with high-rep pump work. Elbows pinned to your sides — no cheating with the shoulders.' },
+                { name: 'Pallof press', sets: '3 × 30s/side', why: 'Anti-rotation core. Teaches your midsection to resist twist, which is what lets hip power reach your fist instead of leaking.' },
+              ]}
+            />
+            <Session
+              title="Push B — Day 5"
+              tag="Pressing strength · punch power"
+              block="Strength and combat emphasis. Power work goes FIRST while completely fresh — never at the end."
+              exercises={[
+                { name: 'Med ball rotational throw', sets: '4 × 5/side', why: 'The exact hip-to-shoulder chain that generates punching power. Full intent every rep, full recovery between sets. This is nervous-system training, not conditioning.' },
+                { name: 'Flat barbell bench press', sets: '4 × 5', why: 'Raw pressing strength and the lift you\'ll track progression on. Heavier and lower rep than Push A so the two days don\'t just repeat each other.' },
+                { name: 'Landmine press', sets: '3 × 8/side', why: 'Pressing in an arc with rotation — far more shoulder-friendly and combat-specific than pure flat pressing. Great if your shoulders get cranky.' },
+                { name: 'Incline DB press', sets: '3 × 10', why: 'Upper chest volume again, but in a different rep range from Push A so you get both strength and size stimulus across the week.' },
+                { name: 'Bodyweight dips', sets: '3 × AMRAP-2', why: 'Stop 2 reps short of failure. High-rep bodyweight work builds work capacity without frying recovery like heavy weighted sets do.' },
+                { name: 'Close-grip push-up or JM press', sets: '3 × 10', why: 'Triceps under a pressing pattern — direct carryover to straight-punch lockout speed.' },
+                { name: 'Hanging leg raise', sets: '3 × 12', why: 'Lower abs and hip flexor strength — carries to knees in the clinch and a tighter-looking midsection.' },
+              ]}
+            />
+          </div>
+        )}
+
+        {/* ===== PULL ===== */}
+        {tab === 'pull' && (
+          <div className="fade-up stagger space-y-4">
+            <Session
+              title="Pull A — Day 2"
+              tag="Lat width · V-taper"
+              block="Width emphasis — this is the day that builds the V-taper. Vertical pulling dominates."
+              exercises={[
+                { name: 'Weighted pull-ups', sets: '4 × 5', why: 'The king of upper-body pulling. Lat strength is clinch and grappling strength, and lats are the widest part of your taper. Add weight once you can do 8 clean bodyweight reps.' },
+                { name: 'Lat pulldown', sets: '3 × 10-12', why: 'Same vertical pattern with adjustable load so you can push volume after pull-ups have fatigued you.' },
+                { name: 'Chest-supported row', sets: '3 × 10', why: 'Horizontal pulling with the lower back completely removed, so you can train hard without stealing recovery from squats and sprints.' },
+                { name: 'Straight-arm pulldown', sets: '3 × 12', why: 'Isolates the lats without the biceps failing first. Pure width builder — one of the most underrated aesthetic exercises.' },
+                { name: 'Face pulls', sets: '3 × 15', why: 'Rear delts and rotator cuff. This is what keeps your shoulders healthy under heavy pressing and punching volume for years.' },
+                { name: 'Incline DB curl', sets: '3 × 12', why: 'Incline puts the biceps long head on stretch for maximum growth. Biceps also assist every underhook and pull.' },
+                { name: 'Farmer\'s carry', sets: '3 × 40m', why: 'Grip, traps and full-body bracing at once. Grip strength is the hidden currency of grappling and clinch control.' },
+              ]}
+            />
+            <Session
+              title="Pull B — Day 6"
+              tag="Back thickness · neck · grip"
+              block="Thickness and combat emphasis. Horizontal pulling dominates. Do not skip the neck work — almost nobody does it, which is exactly why it separates you."
+              exercises={[
+                { name: 'Barbell or Pendlay row', sets: '4 × 6', why: 'Back thickness and the pulling power behind snapping an opponent\'s head down. Strict, hips hinged, no jerking with the lower back.' },
+                { name: 'Weighted chin-ups', sets: '4 × 6', why: 'Supinated grip shifts more load to the biceps while still hammering the lats. Different stimulus from Pull A\'s pronated pull-ups.' },
+                { name: 'T-bar row or seal row', sets: '3 × 10', why: 'Heavy mid-back loading. Seal row (chest on bench) removes all momentum if you tend to cheat.' },
+                { name: 'Single-arm DB row', sets: '3 × 10/side', why: 'Unilateral work catches imbalances and lets you get a longer range of motion than any bilateral row.' },
+                { name: 'Neck curls + extensions', sets: '3 × 15 each', why: 'Non-negotiable for combat sports. A strong neck absorbs strikes, resists chokes and wins clinch position. Start light, controlled, never explosive.' },
+                { name: 'Hammer curl', sets: '3 × 12', why: 'Brachialis and forearm — arm thickness plus grip strength that carries directly to gi/clinch control.' },
+                { name: 'Towel hang', sets: '3 × max time', why: 'Grip endurance under a thick, awkward grip — the closest gym equivalent to holding a fighting grip while someone tries to break it.' },
+              ]}
+            />
+          </div>
+        )}
+
+        {/* ===== SHOULDERS ===== */}
+        {tab === 'shoulders' && (
+          <div className="fade-up stagger space-y-4">
+            <Block title="Why shoulders get their own day" items={[
+              ['Delts are the aesthetic cheat code', 'Wide shoulders over a tight waist is the single biggest driver of an impressive-looking upper body. Giving them a dedicated day means they get trained fresh, not as an afterthought after chest.'],
+              ['Overhead strength is combat strength', 'Shoulder strength and stability underpin clinch frames, pushing off, and every punch you throw. It also protects the joint under high punching volume.'],
+              ['Side delts need volume, not weight', 'Laterals respond to high reps and consistent frequency, not ego loading. That\'s why they appear on both shoulder days plus the functional day.'],
             ]} />
             <Session
-              title="Day A — Upper Push"
-              tag="Pressing strength · delts · punching power"
-              block="Power first while fresh, then heavy strength, then aesthetic volume. Rest 2-3 min on the first three, 60-90s on accessories."
+              title="Shoulders A — Day 3"
+              tag="Overhead strength · full delt development"
+              block="Heavy pressing first, then width work, then the rear delts almost everyone neglects."
               exercises={[
-                { name: 'Med ball rotational throw', sets: '4 × 5/side', why: 'Trains the exact hip-to-shoulder rotation that generates punching and kicking power. Explosive intent, full recovery — this is power work, not conditioning.' },
-                { name: 'Overhead press (barbell or DB)', sets: '4 × 5-6', why: 'The single best pressing lift for combat — builds overhead shoulder strength and a braced torso. Directly carries to clinch frames and shoulder durability.' },
-                { name: 'Weighted dips or incline press', sets: '4 × 6', why: 'Heavy pressing for chest and triceps. Incline builds the upper chest that fills out a shirt; dips build brutal lockout strength.' },
-                { name: 'Landmine press', sets: '3 × 8/side', why: 'Pressing in an arc with rotation — shoulder-friendly and far more combat-specific than flat pressing. Great for anyone with cranky shoulders.' },
-                { name: 'DB lateral raise', sets: '4 × 12-15', why: 'The #1 aesthetic exercise for upper body width. Side delts create the shoulder-to-waist illusion. Light weight, strict form, high reps — leave ego at the door.' },
-                { name: 'Face pulls', sets: '3 × 15', why: 'Rear delts and rotator cuff health. This is what keeps your shoulders working under heavy pressing and punching volume for years.' },
-                { name: 'Overhead triceps extension', sets: '3 × 12', why: 'Long head of the triceps = arm thickness from the side, and lockout power on straight punches.' },
+                { name: 'Overhead barbell press', sets: '4 × 5-6', why: 'The best pressing lift for combat — overhead strength with a braced torso. Track progression on this one weekly.' },
+                { name: 'Seated DB shoulder press', sets: '3 × 8-10', why: 'More range of motion than a barbell and it evens out side-to-side imbalances. Seated removes leg drive so the delts do the work.' },
+                { name: 'DB lateral raise', sets: '4 × 12-15', why: 'THE width builder. Side delts create the shoulder-to-waist illusion. Light weight, strict form, no swinging — leave ego at the door on this one.' },
+                { name: 'Cable lateral raise', sets: '3 × 15', why: 'Constant tension through the whole range, unlike dumbbells which are easy at the bottom. Brutal pump and a different stimulus.' },
+                { name: 'Rear delt fly', sets: '3 × 15', why: 'The delt head everyone skips. Rear delts give shoulders a 3D look from the side and balance out all your pressing.' },
+                { name: 'Barbell shrug', sets: '3 × 12', why: 'Traps frame the neck and shoulders — and a strong trap-neck complex is genuinely protective in combat sports.' },
+                { name: 'Pallof press', sets: '3 × 30s/side', why: 'Core bracing so overhead work stays stable and safe.' },
               ]}
             />
-            <Session
-              title="Day B — Upper Pull"
-              tag="Lats · back thickness · neck · grip"
-              block="Pull days build the combat-relevant strength. Do not skip the neck and grip work at the end — that's the part almost nobody does."
-              exercises={[
-                { name: 'Weighted pull-ups', sets: '4 × 5', why: 'The king of upper-body pulling. Lat strength is clinch strength, grappling strength, and the widest part of your V-taper. Add weight as soon as you can do 8 clean bodyweight reps.' },
-                { name: 'Barbell row or Pendlay row', sets: '4 × 6', why: 'Back thickness and the pulling power behind snapping an opponent down. Heavy, strict, hips hinged — no jerking with the lower back.' },
-                { name: 'Chest-supported row', sets: '3 × 10', why: 'Same pulling pattern with the lower back removed, so you can push volume safely. Squeeze the shoulder blades at the top.' },
-                { name: 'Straight-arm pulldown', sets: '3 × 12', why: 'Isolates the lats for width without the biceps failing first. This is a pure V-taper builder.' },
-                { name: 'Neck curls + extensions', sets: '3 × 15 each', why: 'Non-negotiable for combat sports. A thick, strong neck absorbs strikes, resists chokes, and wins clinch position. Start light and controlled — never explosive.' },
-                { name: 'Farmer\'s carry', sets: '3 × 40m', why: 'Grip, traps, and full-body bracing in one. Grip strength is the hidden currency of grappling and clinch control.' },
-                { name: 'Incline DB curl', sets: '3 × 12', why: 'Arms — aesthetic, and biceps assist every pull and underhook. Incline puts the long head on stretch for maximum growth.' },
-              ]}
-            />
-            <Block title="Core — do this on both upper days" items={[
-              ['Pallof press — 3 × 30s/side', 'Anti-rotation. Teaches your core to resist twisting, which is exactly what lets you transfer hip power into a punch instead of leaking it.'],
-              ['Hanging leg raise — 3 × 10-12', 'Lower abs and hip flexor strength — carries directly to knees in the clinch and a tight-looking midsection.'],
-              ['Cable woodchop — 3 × 10/side', 'Rotational power under load. The controlled cousin of the med ball throw.'],
+            <Block title="Shoulders B — Day 7" items={[
+              ['It\'s combined with the functional work', 'Day 7 is Shoulders/Functional — lighter shoulder volume paired with the football and Muay Thai power training. Full session is on the Functional tab.'],
+              ['Why lighter on day 7', 'You\'ve already pressed heavy on Day 3 and on both push days. Day 7 shoulders is volume and pump work, not another heavy pressing session — that would be too much overhead loading in one week.'],
             ]} />
           </div>
         )}
 
-        {/* ===== LOWER ===== */}
-        {tab === 'lower' && (
+        {/* ===== FUNCTIONAL ===== */}
+        {tab === 'functional' && (
           <div className="fade-up stagger space-y-4">
-            <Block title="What this lower body is built for" items={[
-              ['Power = strength × speed', 'You need both. A heavy squat with no explosive training makes you strong but slow; jumps with no strength base give you nothing to be explosive with. This split trains them on separate days so neither gets compromised.'],
-              ['Sprint speed and kick power share a source', 'Both come from the hips and glutes producing force fast. Hip thrusts, jumps and sprints build the same engine that drives a round kick and a 20m sprint.'],
-              ['Injury-proofing IS performance', 'Nordics and Copenhagen planks aren\'t optional extras — hamstring and groin injuries are the two things most likely to stop your football and Muay Thai. Training them is training availability.'],
+            <Block title="What the functional day is for" items={[
+              ['This is your football and Muay Thai day', 'Explosiveness, sprint speed, change of direction, and kick power — the athletic qualities that actually show up on the pitch and on the pads.'],
+              ['Power first, always fresh', 'Jumps, throws and sprints go at the very start. Power trained tired is just conditioning with extra injury risk — if you\'re fatigued, stop the power work and move on.'],
+              ['It also carries your leg work', 'Because this split has no dedicated leg day, this session includes the essential lower-body strength and injury-prevention work. If your legs feel undertrained, this is the day to extend — not push or pull.'],
             ]} />
             <Session
-              title="Day C — Lower Power & Speed"
-              tag="Explosiveness · sprint speed · kick power"
-              block="Everything here is done FRESH with full recovery (2-3 min between sets). The moment you're fatigued, you're training endurance not power — stop the session. Quality over volume, always."
+              title="Shoulders / Functional — Day 7"
+              tag="Power · speed · legs · light delts"
+              block="Longest session of the week (~75-90 min). Order matters enormously here: power → sprints → leg strength → shoulder volume. Full recovery (2-3 min) on everything before the shoulder block."
               exercises={[
-                { name: 'Box jump or broad jump', sets: '5 × 3', why: 'Pure triple extension — ankle, knee, hip firing together. Step down from box jumps, never jump down. Reset fully between every rep.' },
-                { name: 'Trap bar jump / jump squat (light)', sets: '4 × 3', why: 'Loaded jumps at ~30% of your max — the sweet spot for peak power output. This is the bridge between heavy strength and pure speed.' },
-                { name: 'Acceleration sprints', sets: '6 × 20m', why: 'Football is won in the first 5-20 metres. Sprint from varied starts (standing, lying, rolling), walk back slowly for full recovery.' },
-                { name: 'Flying sprints', sets: '4 × 40m', why: 'Build up 20m, then hit 100% for 20m. Trains max velocity mechanics — hips tall, ground contact under you, fast and loose.' },
-                { name: 'Lateral bounds', sets: '3 × 5/side', why: 'Side-to-side explosiveness for cutting in football and switching stance in Muay Thai. Stick the landing on each rep — control is the point.' },
-                { name: 'Med ball slam / rotational throw', sets: '4 × 5', why: 'Hip rotation under speed — the same chain that fires a round kick. Throw with total intent or don\'t bother.' },
-                { name: 'Copenhagen plank', sets: '3 × 20s/side', why: 'Adductor strength. Groin injuries end football and Muay Thai seasons; this is the single best prevention exercise there is.' },
+                { name: 'Med ball slam / rotational throw', sets: '4 × 5', why: 'Hip rotation under speed — the same chain that fires a round kick. Throw with total intent or don\'t bother doing it at all.' },
+                { name: 'Box jump or broad jump', sets: '4 × 3', why: 'Pure triple extension — ankle, knee and hip firing together. Step down from box jumps, never jump down. Reset fully between every single rep.' },
+                { name: 'Acceleration sprints', sets: '6 × 20m', why: 'Football is won in the first 5-20 metres. Vary the start (standing, side-on, rolling) and walk back slowly for full recovery.' },
+                { name: 'Lateral bounds', sets: '3 × 5/side', why: 'Side-to-side explosiveness for cutting in football and switching stance in Muay Thai. Stick and hold each landing — control is the whole point.' },
+                { name: 'Bulgarian split squat', sets: '3 × 6-8/leg', why: 'Football and Muay Thai happen on one leg at a time — cutting, kicking, planting. Single-leg strength transfers more directly than bilateral squatting.' },
+                { name: 'Nordic hamstring curl', sets: '3 × 5', why: 'Cuts hamstring injury risk roughly in half AND makes you faster. Non-negotiable. Lower slowly under control, push back up with your hands.' },
+                { name: 'Hip thrust', sets: '3 × 8', why: 'Direct glute loading — the muscle driving sprint speed, shot power and kick power. Highest-return lift for athletes in your sports.' },
+                { name: 'Copenhagen plank', sets: '3 × 20s/side', why: 'Adductor strength. Groin injuries end football and Muay Thai seasons — this is the single best prevention exercise there is.' },
+                { name: 'DB or cable lateral raise', sets: '3 × 15', why: 'Light shoulder volume to finish. Delts recover fast and respond to frequency, so a third weekly dose accelerates width.' },
+                { name: 'Rear delt fly', sets: '3 × 15', why: 'More rear delt volume — balances all the week\'s pressing and keeps the shoulders healthy.' },
               ]}
             />
-            <Session
-              title="Day D — Lower Max Strength"
-              tag="The force base everything else rides on"
-              block="Heavy, controlled, full recovery. This is the day that raises your ceiling — power work on Day C converts this strength into speed."
-              exercises={[
-                { name: 'Back squat or trap bar deadlift', sets: '5 × 3-5', why: 'Your foundational strength lift. Trap bar is more forgiving on the lower back and arguably transfers better to jumping and sprinting. Pick one and progress it weekly.' },
-                { name: 'Bulgarian split squat', sets: '3 × 6/leg', why: 'Football and Muay Thai happen on one leg at a time — cutting, kicking, planting. Single-leg strength transfers more directly than bilateral squatting.' },
-                { name: 'Hip thrust', sets: '3 × 8', why: 'Direct glute loading — the muscle that drives sprint speed, shot power and kick power. One of the highest-return lifts for athletes.' },
-                { name: 'Nordic hamstring curl', sets: '3 × 5', why: 'Cuts hamstring injury risk roughly in half AND makes you faster. Non-negotiable twice a week. Lower slowly under control, push back up with your hands.' },
-                { name: 'Romanian deadlift', sets: '3 × 8', why: 'Hamstring and glute strength through a full hinge. Builds the deceleration ability that makes you agile, not just fast in a straight line.' },
-                { name: 'Standing calf raise', sets: '4 × 12-15', why: 'Stiff, springy ankles are free speed and protect against rolled ankles in duels. Pause at the top and full stretch at the bottom.' },
-                { name: 'Pallof press', sets: '3 × 30s/side', why: 'Core bracing so your leg power actually reaches the ground instead of leaking through a soft midsection.' },
-              ]}
-            />
+            <Block title="If you have football or Muay Thai training that day" items={[
+              ['Sport replaces the sprint work', 'If you\'re training football or Muay Thai on Day 7, skip the acceleration sprints and lateral bounds — you\'ll get that stimulus in the session itself. Keep the jumps, leg strength and shoulders.'],
+              ['Sport first, gym after', 'Do the technical/sport session while fresh and sharp, then lift. Skill degrades badly under fatigue, and sloppy reps build sloppy habits.'],
+              ['Never skip Nordics and Copenhagens', 'Even on a heavy sport day, keep these two. They\'re the exercises most likely to keep you available all season.'],
+            ]} />
           </div>
         )}
 
         {/* ===== WEEK ===== */}
         {tab === 'week' && (
           <div className="fade-up stagger space-y-4">
-            <Block title="The 4-day split" items={[
-              ['Monday — Day A: Upper Push', 'Fresh from the weekend, hit pressing strength and rotational power.'],
-              ['Tuesday — Day C: Lower Power & Speed', 'Explosive work on relatively fresh legs. Never the day after heavy squats.'],
-              ['Wednesday — Sport / recovery', 'Football, Muay Thai, or active recovery (walk, mobility, Zone 2). No lifting.'],
-              ['Thursday — Day B: Upper Pull', 'Lats, back thickness, neck, grip.'],
-              ['Friday — Day D: Lower Max Strength', 'Heavy squat/deadlift day. Placed late in the week so it doesn\'t compromise the speed work.'],
-              ['Weekend — Sport + one full rest day', 'Match day, sparring, or training. Take at least one genuine full rest day — that\'s when adaptation actually happens.'],
+            <Block title="The 7-day rotation" items={[
+              ['Day 1 — Push A', 'Chest size and shape, triceps. Incline-led for upper chest.'],
+              ['Day 2 — Pull A', 'Lat width and V-taper. Vertical pulling dominant, plus grip.'],
+              ['Day 3 — Shoulders A', 'Heavy overhead pressing, full delt development, traps.'],
+              ['Day 4 — REST', 'Genuine rest. This is when adaptation actually happens — not a "light gym" day.'],
+              ['Day 5 — Push B', 'Pressing strength and punch power. Heavier, lower rep than Push A.'],
+              ['Day 6 — Pull B', 'Back thickness, neck and grip. Horizontal pulling dominant.'],
+              ['Day 7 — Shoulders / Functional', 'Power, sprints, leg strength, light delt volume. Your football and Muay Thai day.'],
             ]} />
-            <Block title="If you only have 3 days" items={[
-              ['Option: rotate A → C → B → D', 'Run the same four sessions in order across whatever days you train, rather than fixing them to specific weekdays. You\'ll hit each session roughly every 5-6 days.'],
-              ['Never stack lower days back to back', 'Power and heavy strength need 48h between them. If Tuesday was jumps and sprints, Wednesday is not squats.'],
-              ['Sport comes first in the hierarchy', 'If you have a match or hard sparring, drop a lower body day that week rather than turning up to the pitch or the gym already cooked.'],
+            <Block title="Then it repeats" items={[
+              ['It\'s a rolling 7-day cycle', 'Day 8 is Push A again. If you prefer fixed weekdays, Mon-Sun works perfectly with Thursday as your rest day.'],
+              ['Take a second rest day if you need it', 'If sport volume is high that week, insert a rest day after Day 6. Two rest days in a hard week beats grinding through and getting injured.'],
+              ['Sport sits on top', 'Football matches, Muay Thai sessions and sparring go wherever they fall — but try to keep hard sport away from Day 7 if that\'s already your big functional session.'],
             ]} />
-            <Block title="Fitting sport around lifting" items={[
-              ['Hard sport + hard lifting on the SAME day beats splitting them', 'If both must happen, do them on the same day (sport first, lift after) and keep the next day genuinely easy. Two hard days in a row is worse than one very hard day plus a real recovery day.'],
-              ['Never lift heavy legs within 48h of a match', 'You want fresh legs on the pitch. Move Day D earlier in the week if match day is Saturday.'],
-              ['Technical sport work is not conditioning', 'Bag work, pad work, and touches on the ball should be done fresh enough to be sharp. Skill degrades badly under fatigue — and sloppy reps build sloppy habits.'],
+            <Block title="What each muscle gets per week" items={[
+              ['Chest — 2×', 'Push A (size/shape) + Push B (strength). Different rep ranges so you get both stimuli.'],
+              ['Back — 2×', 'Pull A (width) + Pull B (thickness). Vertical and horizontal pulling both covered.'],
+              ['Shoulders — 3×', 'Heavy on Day 3, plus indirect work on both push days, plus light volume on Day 7. This frequency is why they\'ll grow fast.'],
+              ['Arms — 2-3×', 'Triceps on both push days, biceps on both pull days, plus indirect work throughout.'],
+              ['Legs — 1× direct', 'Day 7, plus whatever your football and Muay Thai training provides. This is the honest trade-off of a push/pull/shoulders split — see the note below.'],
+              ['Neck & grip — 1-2×', 'Pull B primarily, plus carries on Pull A. More than 95% of gym-goers, which matters for combat.'],
             ]} />
+            <div className="bg-amber-500/5 border border-amber-500/20 rounded-2xl px-4 py-3.5">
+              <p className="text-xs text-amber-200/85 leading-relaxed">
+                <span className="font-bold">One honest flag:</span> a push/pull/shoulders split trains legs directly only once a week.
+                For your football and Muay Thai power goals that's on the light side — your sport sessions cover a lot of it,
+                but if you find your legs stalling, the fix is adding a second lower-body slot (easiest swap: make Day 4 a light
+                legs day instead of full rest, or extend Day 7). Your split, your call — just know the trade-off you're making.
+              </p>
+            </div>
           </div>
         )}
 
@@ -220,32 +281,33 @@ export default function Programs() {
         {tab === 'rules' && (
           <div className="fade-up stagger space-y-4">
             <Block title="The rules that make this work" items={[
-              ['Power work always comes first, always fresh', 'Jumps, throws and sprints go at the START of a session, never at the end. Power trained tired is just conditioning with extra injury risk.'],
-              ['Full recovery on power and heavy sets', '2-3 minutes. It feels lazy. It\'s the difference between training the nervous system (what you want) and training fatigue tolerance (what you don\'t, on these days).'],
-              ['Progressive overload on the main lifts', 'Every week, add a small amount of weight or one rep to your squat, deadlift, press, pull-up and row. Write it down. If the number isn\'t moving over a month, something is wrong with recovery or effort.'],
-              ['Accessories are for reps, not ego', 'Lateral raises, face pulls, curls, calves — 8-15 reps, controlled, close to failure. Heaving heavy weight here just steals from the main lifts.'],
-              ['Two reps in reserve on most sets', 'Stop most sets when you could have done ~2 more clean reps. Training to absolute failure every set wrecks recovery and does very little extra for you.'],
+              ['Power work always first, always fresh', 'Med ball throws, jumps and sprints go at the START of a session, never at the end. Power trained tired is just conditioning with extra injury risk.'],
+              ['Full recovery on power and heavy sets', '2-3 minutes. It feels lazy. It\'s the difference between training the nervous system (what you want) and training fatigue tolerance (what you don\'t, on those days).'],
+              ['Progressive overload on the main lifts', 'Every cycle, add a small amount of weight or one rep to: bench, overhead press, row, pull-up, split squat, hip thrust. Write it down. If numbers aren\'t moving over a month, recovery or effort is the problem.'],
+              ['Accessories are for reps, not ego', 'Lateral raises, face pulls, curls, flies — 12-15 reps, controlled, close to failure. Heaving heavy weight here just steals recovery from the main lifts.'],
+              ['Two reps in reserve on most sets', 'Stop most sets when you could have done ~2 more clean reps. Training to absolute failure every set wrecks recovery and adds very little.'],
+              ['A and B days are not interchangeable', 'The whole point of the A/B structure is different rep ranges and emphases. Doing Push A twice a week wastes the design.'],
             ]} />
             <Block title="Progression, concretely" items={[
-              ['Weeks 1-2 — learn the movements', 'Lighter loads, focus entirely on technique. Skip depth jumps entirely at this stage. Get the pattern right before you get heavy.'],
-              ['Weeks 3-6 — build the base', 'Add weight weekly to main lifts. Power output climbs naturally as strength does. This is where most of your visible change starts.'],
-              ['Weeks 7-10 — push power', 'Now add depth jumps (4 × 3, full recovery) and heavier loaded jumps. You have the strength base to convert them safely.'],
-              ['Every 5-6 weeks — deload', 'One week at ~60% of your usual volume. Not optional. This is when your body actually catches up and the next block goes better.'],
-              ['Track it or it isn\'t real', 'Weight, sets, reps for every main lift, every session. The logbook IS the program — memory lies, paper doesn\'t.'],
+              ['Weeks 1-2 — learn the movements', 'Lighter loads, full focus on technique. Get the patterns right before you get heavy — especially Nordics, which will humble you.'],
+              ['Weeks 3-6 — build the base', 'Add weight weekly to the main lifts. This is where most of your visible change starts showing.'],
+              ['Weeks 7-10 — push power', 'Add depth jumps (4 × 3, full recovery) on Day 7 and heavier loaded jumps. You now have the strength base to convert them safely.'],
+              ['Every 5-6 weeks — deload', 'One cycle at ~60% of usual volume. Not optional. This is when your body catches up and the next block goes better.'],
+              ['Track it or it isn\'t real', 'Weight, sets and reps for every main lift, every session. The logbook IS the program — memory lies, paper doesn\'t.'],
             ]} />
-            <Block title="Nutrition & recovery for this program" items={[
-              ['Protein: 1.6-2.2g per kg bodyweight', 'This is the number that decides whether hard training turns into muscle. Spread it across 3-4 meals — protein at every meal beats one huge hit.'],
-              ['Carbs around training', 'Power and sprint work run on glycogen. Eat carbs before and after your training sessions — under-fuelled speed work is just slow work.'],
-              ['Sleep 8h+, seriously', 'Strength, power, and recovery from combat training all depend on it more than any supplement. This is the highest-leverage thing on this entire page.'],
-              ['Creatine 5g daily', 'The most evidence-backed supplement for exactly this kind of training — strength, power output and repeated sprint ability. Timing doesn\'t matter; consistency does.'],
-              ['Hydration the day before, not just the day of', 'Especially for sport. Turning up already slightly dehydrated costs you power, speed, and focus.'],
+            <Block title="Nutrition & recovery" items={[
+              ['Protein: 1.6-2.2g per kg bodyweight', 'The number that decides whether hard training becomes muscle. Spread across 3-4 meals — protein at every meal beats one huge hit.'],
+              ['Carbs around training', 'Power and sprint work run on glycogen. Eat carbs before and after sessions — under-fuelled speed work is just slow work.'],
+              ['Sleep 8h+', 'Strength, power and recovery from combat training depend on it more than any supplement. Highest-leverage item on this entire page.'],
+              ['Creatine 5g daily', 'Most evidence-backed supplement for exactly this training — strength, power output, repeated sprint ability. Timing doesn\'t matter, consistency does.'],
+              ['Hydrate the day before', 'Especially before sport. Turning up slightly dehydrated costs power, speed and focus before you\'ve even started.'],
             ]} />
-            <Block title="Common mistakes with this exact goal" items={[
-              ['Training upper body like a bodybuilder only', 'Endless bench and curls with no pulling, neck, grip or rotation gives you a body that looks trained but doesn\'t perform. The split above deliberately balances both.'],
-              ['Doing power work when tired', 'Jumps at the end of leg day, sprints after a hard session — this is the single most common way athletes waste their power training entirely.'],
-              ['Skipping Nordics and Copenhagens', 'They\'re boring and they\'re hard. They\'re also the two exercises most likely to keep you on the pitch and on the mats all season.'],
-              ['Chasing soreness instead of progress', 'Soreness measures novelty, not effectiveness. The logbook going up measures effectiveness.'],
-              ['Adding more instead of progressing what\'s there', 'The urge to add exercises is almost always the wrong instinct. Add weight to what you\'re already doing first.'],
+            <Block title="Common mistakes with this exact split" items={[
+              ['Turning the rest day into a gym day', 'Day 4 is where the growth actually happens. Training 7 days straight is how you stall and get injured.'],
+              ['Doing power work when tired', 'Jumps or sprints tacked onto the end of a session — the most common way athletes waste their power training entirely.'],
+              ['Going heavy on lateral raises', 'Side delts respond to strict high-rep work. Swinging 20kg dumbbells trains your traps and lower back, not your delts.'],
+              ['Skipping neck, grip, Nordics and Copenhagens', 'They\'re boring and hard. They\'re also what keep you fighting, playing and uninjured.'],
+              ['Adding exercises instead of adding weight', 'The urge to add more is almost always wrong. Progress what\'s already there first.'],
             ]} />
           </div>
         )}
