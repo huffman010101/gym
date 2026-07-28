@@ -4,7 +4,7 @@ import { ArrowLeft, Zap, Target, Users, Activity, ChevronDown, Trophy } from 'lu
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 
-type Tab = 'speed' | 'shooting' | 'skills' | 'position' | 'setpieces' | 'gym';
+type Tab = 'speed' | 'shooting' | 'skills' | 'position' | 'setpieces' | 'physical' | 'gym';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'speed', label: 'Speed' },
@@ -12,6 +12,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'skills', label: 'Every Metric' },
   { id: 'position', label: 'By Position' },
   { id: 'setpieces', label: 'Set Pieces' },
+  { id: 'physical', label: 'Physicality' },
   { id: 'gym', label: 'Gym' },
 ];
 
@@ -62,7 +63,7 @@ export default function Football() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['speed', 'shooting', 'skills', 'position', 'setpieces', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'speed';
+    return (['speed', 'shooting', 'skills', 'position', 'setpieces', 'physical', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'speed';
   });
 
   return (
@@ -242,6 +243,75 @@ export default function Football() {
               ['Set position at every shot', 'Feet set, weight forward, hands ready at hip height BEFORE they strike. Moving keepers get beaten at their feet.'],
               ['Angles over acrobatics', 'Bisect the angle between ball and posts; a keeper in the right spot makes saves look easy. Top corners are conceded, everything else is positioning.'],
               ['Command your box', 'Claim crosses with a loud early call, punch when crowded. Distribution: throw fast to feet, find the free fullback — you\'re the first playmaker.'],
+            ]} />
+          </div>
+        )}
+
+        {/* ===== PHYSICALITY ===== */}
+        {tab === 'physical' && (
+          <div className="fade-up stagger space-y-4">
+            <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl px-4 py-3">
+              <p className="text-xs text-emerald-200/85 leading-relaxed">
+                Haaland and Khusanov don't dominate because they lift the most — they dominate because of
+                <span className="text-emerald-300 font-bold"> mass × strength × timing × technique</span>, in that order of neglect.
+                Most players only train the second one. This tab covers all four.
+              </p>
+            </div>
+            <Block title="The honest truth about bullying people" items={[
+              ['Bodyweight is the floor you can\'t skip', 'Physics doesn\'t negotiate. A strong 65kg player still gets moved by an average 85kg one. If you\'re light, gaining well-built mass is the single biggest upgrade available to you — bigger than any technique on this page.'],
+              ['Haaland\'s real advantage is mass that MOVES', '195cm and ~88-90kg, but sprinting near-elite speed. That combination — heavy AND fast — is what makes him unplayable. Getting big and slow is a downgrade; getting big while keeping your speed work in is the goal.'],
+              ['Khusanov wins duels with timing, not just power', 'Watch him: he initiates contact first, from a low, stable base, and gets his body in front BEFORE the ball arrives. Half of "strength" in football is arriving in the right body position a half-second earlier.'],
+              ['Whoever initiates contact wins', 'The player who braces and delivers contact from a set base beats the player receiving it, almost every time — regardless of who\'s stronger on paper. Being passive in a duel is how strong players still get bodied.'],
+              ['Strength you can\'t use is decoration', 'A big squat doesn\'t transfer automatically. You have to practise contact: shoulder-to-shoulder drills, shielding under pressure, jostling in training. Gym builds the engine; duels teach you to drive it.'],
+            ]} />
+            <Block title="Building the frame — getting bigger" items={[
+              ['Eat in a surplus, properly', '300-500 kcal above maintenance daily. Most footballers chronically undereat and wonder why they never fill out. If your weight isn\'t moving on the scale, you are not in a surplus — no matter what you think you ate.'],
+              ['Protein: 1.6-2.2g per kg bodyweight', 'This is what turns training into muscle rather than just fatigue. Spread across 3-4 meals. This number matters more than any supplement you could buy.'],
+              ['Target 0.25-0.5kg per week', 'Faster than that and you\'re mostly adding fat, which costs you speed. Weigh yourself weekly (same time, same conditions) and adjust food up or down from there.'],
+              ['Don\'t fear the scale going up', 'A well-built 80kg beats a lean 68kg in every duel, and if you keep sprinting and jumping in your training you won\'t lose speed — the gym section is built to add mass without making you slow.'],
+              ['Sleep 8h+ or none of it works', 'Growth happens in recovery. Undersleeping while eating in a surplus mostly makes you fatter, not stronger.'],
+            ]} />
+            <Block title="The lifts that build a body people bounce off" items={[
+              ['Trap bar deadlift or back squat — 4×5', 'Your base of total-body force. Everything else in this list is built on top of this number going up.'],
+              ['Hip thrust — 3×6-8', 'The collision muscle. Glutes drive acceleration, jumping, and the force you deliver through a shoulder in a duel.'],
+              ['Weighted carries (farmer\'s + suitcase) — 3×40m', 'The most underrated exercise for football physicality. Carrying heavy load while staying upright IS shielding the ball. Suitcase carries (one side only) train exactly the anti-lean strength you need when someone leans on you.'],
+              ['Bulgarian split squat — 3×6-8/leg', 'Duels happen on one leg. Single-leg strength under load is what stops you getting knocked off balance mid-stride.'],
+              ['Neck work — 3×15', 'Non-negotiable for aerial dominance. A strong neck means more power through a header and staying upright through contact. Almost no amateur player trains this — it\'s free separation.'],
+              ['Bench press + overhead press — 4×5-6', 'Upper body strength for arm-barring, holding someone off, and winning the shoulder battle. Pressing strength is how you create space with your arms legally.'],
+              ['Rows + weighted pull-ups — 4×6', 'Back strength for shielding, pulling, and holding position when someone is climbing all over you.'],
+              ['Med ball rotational throws — 4×5/side', 'Explosive rotational power — the difference between a soft shoulder barge and one that genuinely moves someone.'],
+            ]} />
+            <Block title="How to actually use your body in a duel" items={[
+              ['Get side-on and low', 'Never square-on and upright — that\'s a body waiting to be moved. Turn sideways, bend the knees, wide base, weight low. A low centre of gravity is worth 10kg of bodyweight.'],
+              ['The arm bar', 'Forearm across their chest (not a push — a frame), feeling exactly where they are. Legal, and it lets you control their distance while keeping your eyes on the ball.'],
+              ['Feel them, don\'t look at them', 'Use your back and arm to sense their position while your eyes stay on the ball. Turning to look is how you lose the ball and the duel simultaneously.'],
+              ['Back into them BEFORE the ball arrives', 'Establish contact and your position early. Arriving at the same time as the ball means you\'re reacting; arriving before it means they are.'],
+              ['Roll them using their own momentum', 'When they lean into you hard, spin off that side — their force becomes the thing that takes them out of the play. This is how smaller players beat bigger ones.'],
+              ['Shielding: body between ball and defender', 'Far foot on the ball, body square across their path, arm out for space, knees bent. Held properly, this is nearly impossible to defend legally.'],
+              ['Explode on first contact, not after', 'The instant you feel them, drive through — don\'t absorb the hit and then try to recover. Accepting contact passively is losing in slow motion.'],
+            ]} />
+            <Block title="Aerial dominance — winning everything in the air" items={[
+              ['Timing beats height, every time', 'Watch the flight, then go. The late jumper wins because they\'re rising as the early jumper is falling. Most headers are lost by jumping too soon, not by being too short.'],
+              ['One-foot jump with a run-up', 'Always more height than a two-foot standing jump. Even one or two steps of run-up transforms your reach.'],
+              ['Get in front and back into them', 'Body position wins headers before anyone jumps. Establish yourself in front of your marker, feel them with your back, then attack the ball.'],
+              ['Use your arms for leverage', 'Arms up and out creates space and helps you rise — legal as long as you\'re not pushing off. Every dominant header does this.'],
+              ['Attack the ball, don\'t let it hit you', 'Neck tensed, eyes open, strike through it at the hairline. Whoever attacks the ball wins the duel; whoever waits for it gets beaten and often hurt.'],
+              ['Neck strength = header power', 'This is where your neck training pays off — power through a header comes from the neck and trunk snapping through contact, not just the jump.'],
+            ]} />
+            <Block title="Defending physically — the Khusanov side" items={[
+              ['Win the first contact', 'As the ball travels to a striker, make contact early and get touch-tight. A striker who receives with you already leaning on them has no time and no options.'],
+              ['Shoulder-to-shoulder is legal, arms are not', 'You can barge shoulder-to-shoulder when contesting the ball. What gets penalised is arms extended, hands pushing, or contact with no attempt to play the ball. Learn that line and live right on it.'],
+              ['Read, don\'t lunge', 'Diving in is how strong defenders get embarrassed. Stay side-on, jockey, show them their weak side, and use your strength when the ball is genuinely winnable.'],
+              ['Front-foot defending', 'When the ball goes into a striker\'s feet, be aggressive and tight. When there\'s a ball over the top, drop early. Getting caught in between is what makes defenders look slow.'],
+              ['Recovery pace covers mistakes', 'Strength without pace gets exposed by any quick forward. Keep the sprint work in the Speed tab going — being big AND fast is what makes Khusanov work.'],
+              ['Be relentless, not reckless', 'Constant physical presence across 90 minutes wears strikers down mentally. Late in games they stop wanting the ball. That\'s the real win.'],
+            ]} />
+            <Block title="Slotting this into your week" items={[
+              ['3 gym sessions minimum', 'Two heavy lower/full-body sessions plus one upper. See the Gym tab for the full structure — that programme is already built for this.'],
+              ['Carries and neck every session', 'They\'re quick, they\'re the ones everyone skips, and they\'re the ones that show up most in duels. Two minutes each, non-negotiable.'],
+              ['Practise contact in training', 'Ask for 1v1 shielding drills, back-to-goal work, and aerial duels in training. Gym strength that never meets a real opponent stays theoretical.'],
+              ['Keep sprinting while you bulk', 'Sprint and jump work is what stops added mass turning into slowness. Never drop the speed work during a gaining phase.'],
+              ['Give it 3-6 months', 'Meaningful mass and strength changes take a season, not a month. Track weight, main lifts, and how duels actually feel — all three should trend up together.'],
             ]} />
           </div>
         )}

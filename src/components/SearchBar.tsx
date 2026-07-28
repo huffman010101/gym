@@ -63,6 +63,7 @@ const INDEX: Entry[] = [
   { label: 'Shooting & Finishing', section: 'Football', path: '/football?tab=shooting', keywords: 'shooting finishing shot volley chip penalty striker technique' },
   { label: 'Every Skill Metric', section: 'Football', path: '/football?tab=skills', keywords: 'first touch passing dribbling weak foot stamina heading scanning skills' },
   { label: 'By Position', section: 'Football', path: '/football?tab=position', keywords: 'position striker winger midfielder fullback defender goalkeeper cam cdm' },
+  { label: 'Physicality — Win Every Duel', section: 'Football', path: '/football?tab=physical', keywords: 'physical physicality strong strength duels body bully haaland khusanov shielding aerial headers mass bulk size contact hold off dominant' },
   // Money
   { label: 'Money Skills', section: 'Money', path: '/money?tab=skills', keywords: 'money skills editing copywriting coding sales content trades income earn' },
   { label: 'Online Income & Social Media', section: 'Money', path: '/money?tab=online', keywords: 'freelancing fiverr upwork flipping dropshipping agency social media presence audience followers' },
