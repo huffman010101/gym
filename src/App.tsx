@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Home from './pages/Home';
 import Quiz from './pages/Quiz';
 import Plan from './pages/Plan';
+import Programs from './pages/Programs';
 import FoodLog from './pages/FoodLog';
 import Physique from './pages/Physique';
 import Dashboard from './pages/Dashboard';
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/plan" element={<Plan />} />
+        <Route path="/programs" element={<Programs />} />
         <Route path="/food" element={<FoodLog />} />
         <Route path="/physique" element={<Physique />} />
         <Route path="/dashboard" element={<Dashboard />} />

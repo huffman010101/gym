@@ -22,7 +22,7 @@ const PHASES: Phase[] = [
     actions: [
       { id: 'f1', label: 'Fixed wake time set (7 days/week) + morning light habit', link: '/uni?tab=sleep' },
       { id: 'f2', label: 'Do the quiz → AI training + meal plan generated', link: '/quiz' },
-      { id: 'f3', label: 'Training 3-4×/week started (any consistency > perfection)', link: '/plan' },
+      { id: 'f3', label: 'Training 3-4×/week started (any consistency > perfection)', link: '/programs' },
       { id: 'f4', label: 'Basic AM/PM skincare running (cleanser, moisturiser, SPF)', link: '/looksmax?tab=face' },
       { id: 'f5', label: 'Supplements started: creatine, D3, omega-3, magnesium', link: '/looksmax?tab=techniques' },
       { id: 'f6', label: 'High-Value Day template adapted to your timetable', link: '/uni?tab=day' },
@@ -37,7 +37,7 @@ const PHASES: Phase[] = [
     why: 'Body composition is the single biggest looks lever (face definition, clothes fit, presence) AND the biggest confidence lever. This phase is about visible physical change.',
     actions: [
       { id: 'b1', label: 'Nutrition dialled: protein target hit 6 days/week, food logged', link: '/food' },
-      { id: 'b2', label: 'Progressive overload — beating last week\'s weights', link: '/plan' },
+      { id: 'b2', label: 'Progressive overload — beating last week\'s weights', link: '/programs' },
       { id: 'b3', label: 'Cardio protocol: Zone 2 3×/week + 10k steps daily', link: '/looksmax?tab=techniques' },
       { id: 'b4', label: 'Posture routine daily (chin tucks, doorway stretch, face pulls)', link: '/looksmax?tab=techniques' },
       { id: 'b5', label: 'Monthly physique AI review — course-correct from photos', link: '/physique' },

@@ -26,6 +26,7 @@ const INDEX: Entry[] = [
   { label: 'Running for Debloat', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'running cardio debloat zone 2 face fat sharp jawline steps' },
   { label: 'Zygos Pop Protocol', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'zygos cheekbones pop gua sha lymphatic hollow cheeks' },
   // Gym
+  { label: 'The Program — Upper & Lower', section: 'Gym', path: '/programs', keywords: 'program programme workout routine split upper body lower body aesthetic functional combat power speed explosive strength push pull squat deadlift sprint jump' },
   { label: 'Workout Plan (AI)', section: 'Gym', path: '/plan', keywords: 'training split programme exercises workout plan quiz' },
   { label: 'Food Log & Macros', section: 'Gym', path: '/food', keywords: 'food eat calories macros protein diet nutrition meals fuel' },
   { label: 'Physique AI Review', section: 'Gym', path: '/physique', keywords: 'physique photos progress body ai review muscle' },

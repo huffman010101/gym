@@ -307,6 +307,18 @@ export default function Dashboard() {
           )}
         </div>
 
+        {/* The Program — always available, no AI needed */}
+        <Link to="/programs" className="block bg-gradient-to-r from-orange-500/15 to-red-500/10 border border-orange-500/30 rounded-2xl p-4 hover:from-orange-500/20 transition-all">
+          <div className="flex items-center gap-3">
+            <Dumbbell size={22} className="text-orange-400 flex-shrink-0" />
+            <div className="flex-1 min-w-0">
+              <p className="font-black text-sm">The Program</p>
+              <p className="text-gray-500 text-xs">Aesthetic + combat-functional upper · explosive lower</p>
+            </div>
+            <ChevronRight size={16} className="text-orange-400 flex-shrink-0" />
+          </div>
+        </Link>
+
         {/* Quick links */}
         <div className="grid grid-cols-2 gap-3 pb-2">
           <Link to="/plan" className="bg-[#111] border border-white/10 hover:border-blue-500/30 rounded-2xl p-4 flex items-center gap-3 transition-colors">
