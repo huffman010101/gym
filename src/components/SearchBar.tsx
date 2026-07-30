@@ -72,7 +72,7 @@ const INDEX: Entry[] = [
   // Uni
   { label: 'AI Study Pack (revision)', section: 'Uni', path: '/uni?tab=ai', keywords: 'study revision timetable exam notes summary equation sheet powerpoint lectures uni university modules' },
   { label: 'Get Smarter', section: 'Uni', path: '/uni?tab=smarter', keywords: 'smarter intelligence learning memory focus recall feynman anki brain iq reading' },
-  { label: 'Morning Routine', section: 'Uni', path: '/uni?tab=morning', keywords: 'morning routine wake up early light water phone cold shower caffeine coffee breakfast protein snooze grogginess energy start day productive' },
+  { label: 'Morning Routine', section: 'Mind', path: '/mind?tab=morning', keywords: 'morning routine wake up early light water phone cold shower caffeine coffee breakfast protein snooze grogginess energy start day productive' },
   { label: 'High-Value Day Routine', section: 'Uni', path: '/uni?tab=day', keywords: 'day routine schedule morning structure productivity high value' },
   { label: 'Career, Interviews & HireVue', section: 'Uni', path: '/uni?tab=career', keywords: 'career job interview hirevue cv application internship aptitude tests quizzes star graduate' },
   { label: 'Sleep Lab', section: 'Uni', path: '/uni?tab=sleep', keywords: 'sleep deep tired red light blue light glasses melatonin nap insomnia energy' },

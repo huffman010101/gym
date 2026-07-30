@@ -3,8 +3,9 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, Eye, ChevronDown, Heart, BookOpen, ListChecks } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
+import MorningRoutine from '../components/MorningRoutine';
 
-type Tab = 'charisma' | 'aura' | 'stoic' | 'icons' | 'confidence' | 'focus' | 'selftalk' | 'secret';
+type Tab = 'charisma' | 'aura' | 'stoic' | 'icons' | 'confidence' | 'focus' | 'morning' | 'selftalk' | 'secret';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'charisma', label: 'Charisma' },
@@ -13,6 +14,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'icons', label: 'Icons' },
   { id: 'confidence', label: 'Confidence' },
   { id: 'focus', label: 'Focus & Discipline' },
+  { id: 'morning', label: 'Morning Routine' },
   { id: 'selftalk', label: 'Self-Talk' },
   { id: 'secret', label: '🔒 Secret' },
 ];
@@ -60,7 +62,7 @@ export default function Mind() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['charisma', 'aura', 'stoic', 'icons', 'confidence', 'focus', 'selftalk', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'charisma';
+    return (['charisma', 'aura', 'stoic', 'icons', 'confidence', 'focus', 'morning', 'selftalk', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'charisma';
   });
   const [pw, setPw] = useState('');
   const [unlocked, setUnlocked] = useState(false);
@@ -476,6 +478,9 @@ export default function Mind() {
             </div>
           </div>
         )}
+
+        {/* ============ MORNING ROUTINE ============ */}
+        {tab === 'morning' && <MorningRoutine />}
 
         {/* ============ SELF-TALK ============ */}
         {tab === 'selftalk' && (
