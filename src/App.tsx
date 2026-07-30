@@ -6,7 +6,6 @@ import Plan from './pages/Plan';
 import Programs from './pages/Programs';
 import FoodLog from './pages/FoodLog';
 import Physique from './pages/Physique';
-import Dashboard from './pages/Dashboard';
 import LooksMax from './pages/LooksMax';
 import Combat from './pages/Combat';
 import Mind from './pages/Mind';
@@ -39,7 +38,6 @@ export default function App() {
         <Route path="/programs" element={<Programs />} />
         <Route path="/food" element={<FoodLog />} />
         <Route path="/physique" element={<Physique />} />
-        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/looksmax" element={<LooksMax />} />
         <Route path="/combat" element={<Combat />} />
         <Route path="/mind" element={<Mind />} />

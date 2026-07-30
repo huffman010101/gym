@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, ChevronDown, Dumbbell } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Dumbbell, Utensils, Flame, Activity } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 
 type Tab = 'push' | 'pull' | 'shoulders' | 'functional' | 'week' | 'rules';
@@ -78,8 +78,8 @@ export default function Programs() {
   return (
     <main className="min-h-screen bg-[#0a0a0a] bg-gradient-to-b from-orange-950/30 via-[#0a0a0a] to-[#0a0a0a] text-white pb-24">
       <div className="max-w-2xl mx-auto px-5 pt-6">
-        <Link to="/dashboard" className="inline-flex items-center gap-1.5 text-gray-500 hover:text-gray-300 text-sm mb-5">
-          <ArrowLeft size={15} /> Dashboard
+        <Link to="/" className="inline-flex items-center gap-1.5 text-gray-500 hover:text-gray-300 text-sm mb-5">
+          <ArrowLeft size={15} /> Home
         </Link>
 
         <div className="flex items-center gap-3 mb-2">
@@ -98,6 +98,20 @@ export default function Programs() {
             Each session has an A and B version so you never repeat the exact same workout twice in a week.
             Aesthetic upper body, combat-functional strength, and the football/Muay Thai power work on the functional day.
           </p>
+        </div>
+
+        <div className="grid grid-cols-3 gap-2 mb-6">
+          {[
+            { to: '/plan', icon: Utensils, label: 'AI Plan', color: 'text-blue-400' },
+            { to: '/food', icon: Flame, label: 'Food Log', color: 'text-green-400' },
+            { to: '/physique', icon: Activity, label: 'Physique', color: 'text-purple-400' },
+          ].map(({ to, icon: Icon, label, color }) => (
+            <Link key={to} to={to}
+              className="bg-[#111] border border-white/8 hover:border-white/20 rounded-xl px-2 py-3 flex flex-col items-center gap-1.5 transition-colors">
+              <Icon size={17} className={color} />
+              <span className="text-[11px] font-semibold text-gray-300">{label}</span>
+            </Link>
+          ))}
         </div>
 
         <div className="flex gap-1.5 overflow-x-auto scrollbar-hide mb-6 -mx-5 px-5">

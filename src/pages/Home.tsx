@@ -35,9 +35,9 @@ export default function Home() {
         </div>
         <div className="flex items-center gap-3">
           {hasPlan && (
-            <Link to="/dashboard"
+            <Link to="/programs"
               className="flex items-center gap-1.5 text-orange-400 hover:text-orange-300 text-sm font-semibold transition-colors">
-              <LayoutDashboard size={15} /> Dashboard
+              <Dumbbell size={15} /> My Program
             </Link>
           )}
           <Link to="/quiz"
@@ -50,13 +50,13 @@ export default function Home() {
       {/* Return user banner */}
       {hasPlan && (
         <div className="mx-6 mt-2 max-w-6xl md:mx-auto">
-          <Link to="/dashboard"
+          <Link to="/programs"
             className="flex items-center justify-between bg-orange-500/10 border border-orange-500/20 rounded-xl px-5 py-3.5 hover:bg-orange-500/15 transition-all group">
             <div className="flex items-center gap-3">
-              <LayoutDashboard className="text-orange-400" size={20} />
+              <Dumbbell className="text-orange-400" size={20} />
               <div>
                 <p className="text-orange-300 font-bold text-sm">Welcome back — your plan is ready</p>
-                <p className="text-orange-400/60 text-xs">Dashboard · Training · Food Log · Physique</p>
+                <p className="text-orange-400/60 text-xs">Program · AI Plan · Food Log · Physique</p>
               </div>
             </div>
             <ChevronRight className="text-orange-400 group-hover:translate-x-1 transition-transform" size={18} />
@@ -151,7 +151,7 @@ export default function Home() {
       <section className="px-6 pb-10 max-w-4xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {[
-            { to: '/dashboard', icon: Dumbbell, label: 'Gym',      desc: 'Training · nutrition · physique AI',    color: 'text-orange-400',  border: 'hover:border-orange-500/40',  bg: 'bg-orange-500/10' },
+            { to: '/programs', icon: Dumbbell, label: 'Gym',      desc: 'Your split · training · physique',    color: 'text-orange-400',  border: 'hover:border-orange-500/40',  bg: 'bg-orange-500/10' },
             { to: '/combat',    icon: Swords,   label: 'Combat',   desc: 'Takedowns · grappling · fight IQ',      color: 'text-red-400',     border: 'hover:border-red-500/40',     bg: 'bg-red-500/10' },
             { to: '/looksmax',  icon: Sparkles, label: 'Looks',    desc: 'AI face scan · style · fragrance',      color: 'text-purple-400',  border: 'hover:border-purple-500/40',  bg: 'bg-purple-500/10' },
             { to: '/mind',      icon: Brain,    label: 'Mind',     desc: 'Charisma · aura · confidence',          color: 'text-pink-400',    border: 'hover:border-pink-500/40',    bg: 'bg-pink-500/10' },

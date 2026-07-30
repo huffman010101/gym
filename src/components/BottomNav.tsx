@@ -3,7 +3,7 @@ import { LayoutDashboard, Dumbbell, Swords, Sparkles, Brain } from 'lucide-react
 
 const TABS = [
   { path: '/', icon: LayoutDashboard, label: 'Home' },
-  { path: '/dashboard', icon: Dumbbell, label: 'Gym' },
+  { path: '/programs', icon: Dumbbell, label: 'Gym' },
   { path: '/combat', icon: Swords, label: 'Combat' },
   { path: '/looksmax', icon: Sparkles, label: 'Looks' },
   { path: '/mind', icon: Brain, label: 'Mind' },
