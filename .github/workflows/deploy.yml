@@ -2,7 +2,11 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [claude/vibrant-cori-87quqp, main]
+    # Only main deploys. GitHub's github-pages environment rejects other
+    # branches, so triggering on them produced runs that could never deploy
+    # AND cancelled the real main deploy via the concurrency group below.
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
