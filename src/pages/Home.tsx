@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import { HABITS, loadHabits, todaysItems } from '../components/DailyHabits';
 import TomorrowPlan from '../components/TomorrowPlan';
+import MorningReminder from '../components/MorningReminder';
 import AccountabilityBot from '../components/AccountabilityBot';
 import NotifyPrompt from '../components/NotifyPrompt';
 
@@ -143,8 +144,9 @@ export default function Home() {
       )}
 
       {/* Tomorrow planner */}
-      <section className="px-6 pb-5 max-w-4xl mx-auto">
+      <section className="px-6 pb-5 max-w-4xl mx-auto space-y-3">
         <TomorrowPlan />
+        <MorningReminder />
       </section>
 
       {/* The sections */}
