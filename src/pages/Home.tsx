@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Dumbbell, Target, ChevronRight, Zap, Trophy, LayoutDashboard, Swords, Sparkles, Brain, GraduationCap, Map, CircleDot } from 'lucide-react';
+import { Dumbbell, Target, ChevronRight, Zap, Trophy, LayoutDashboard, Swords, Sparkles, Brain, GraduationCap, Map, CircleDot, Sun, Moon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import { HABITS, loadHabits, todaysItems } from '../components/DailyHabits';
@@ -147,6 +147,22 @@ export default function Home() {
       <section className="px-6 pb-5 max-w-4xl mx-auto space-y-3">
         <TomorrowPlan />
         <MorningReminder />
+
+        {/* Daily routines — the two halves of the same system */}
+        <div className="grid grid-cols-2 gap-3">
+          <Link to="/mind?tab=morning"
+            className="bg-gradient-to-br from-amber-500/15 to-[#111] border border-amber-500/30 hover:border-amber-500/50 rounded-2xl p-4 transition-colors press">
+            <Sun size={20} className="text-amber-400 mb-2" />
+            <p className="font-black text-sm text-amber-200">Morning routine</p>
+            <p className="text-gray-500 text-[11px] leading-snug mt-0.5">Start the day sharp</p>
+          </Link>
+          <Link to="/mind?tab=night"
+            className="bg-gradient-to-br from-indigo-500/15 to-[#111] border border-indigo-500/30 hover:border-indigo-500/50 rounded-2xl p-4 transition-colors press">
+            <Moon size={20} className="text-indigo-400 mb-2" />
+            <p className="font-black text-sm text-indigo-200">Night routine</p>
+            <p className="text-gray-500 text-[11px] leading-snug mt-0.5">Win tomorrow tonight</p>
+          </Link>
+        </div>
       </section>
 
       {/* The sections */}

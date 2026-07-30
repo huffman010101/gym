@@ -4,8 +4,9 @@ import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, E
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 import MorningRoutine from '../components/MorningRoutine';
+import NightRoutine from '../components/NightRoutine';
 
-type Tab = 'charisma' | 'aura' | 'stoic' | 'icons' | 'confidence' | 'focus' | 'morning' | 'selftalk' | 'secret';
+type Tab = 'charisma' | 'aura' | 'stoic' | 'icons' | 'confidence' | 'focus' | 'morning' | 'night' | 'selftalk' | 'secret';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'charisma', label: 'Charisma' },
@@ -15,6 +16,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'confidence', label: 'Confidence' },
   { id: 'focus', label: 'Focus & Discipline' },
   { id: 'morning', label: 'Morning Routine' },
+  { id: 'night', label: 'Night Routine' },
   { id: 'selftalk', label: 'Self-Talk' },
   { id: 'secret', label: '🔒 Secret' },
 ];
@@ -62,7 +64,7 @@ export default function Mind() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['charisma', 'aura', 'stoic', 'icons', 'confidence', 'focus', 'morning', 'selftalk', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'charisma';
+    return (['charisma', 'aura', 'stoic', 'icons', 'confidence', 'focus', 'morning', 'night', 'selftalk', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'charisma';
   });
   const [pw, setPw] = useState('');
   const [unlocked, setUnlocked] = useState(false);
@@ -481,6 +483,9 @@ export default function Mind() {
 
         {/* ============ MORNING ROUTINE ============ */}
         {tab === 'morning' && <MorningRoutine />}
+
+        {/* ============ NIGHT ROUTINE ============ */}
+        {tab === 'night' && <NightRoutine />}
 
         {/* ============ SELF-TALK ============ */}
         {tab === 'selftalk' && (
