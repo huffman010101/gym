@@ -148,7 +148,7 @@ export default function DailyHabits({ section }: { section: keyof typeof HABITS 
   const def = HABITS[section];
   const items = todaysItems(section);
   const [done, setDone] = useState<Record<string, boolean>>({});
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [streak, setStreak] = useState(0);
 
   useEffect(() => {
@@ -176,42 +176,77 @@ export default function DailyHabits({ section }: { section: keyof typeof HABITS 
     } catch {}
   };
 
+  const pct = Math.round((count / items.length) * 100);
+
   return (
-    <div className={`bg-[#111] border rounded-2xl overflow-hidden mb-5 press ${allDone ? 'border-emerald-500/30' : 'border-white/8'}`}>
-      <button onClick={() => setOpen(!open)} className="w-full px-5 py-3.5 text-left">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-2">
-            <p className={`font-bold text-sm ${def.color}`}>{def.title}</p>
+    <div className={`rounded-3xl overflow-hidden mb-6 shadow-2xl ring-1 transition-all ${
+      allDone ? 'ring-emerald-400/40 shadow-emerald-500/10' : 'ring-white/10'
+    }`}>
+      {/* Vibrant gradient header */}
+      <button
+        onClick={() => setOpen(!open)}
+        className={`w-full text-left px-5 pt-5 pb-4 bg-gradient-to-br ${allDone ? 'from-emerald-500 to-green-600' : def.bar} relative`}
+      >
+        <div className="flex items-start justify-between gap-3 mb-3">
+          <div className="min-w-0">
+            <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-white/70 mb-0.5">
+              {allDone ? 'Complete — see you tomorrow' : "Today's checklist"}
+            </p>
+            <h2 className="text-2xl font-black text-white leading-tight drop-shadow-sm">{def.title}</h2>
+          </div>
+          <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <div className="flex items-baseline gap-0.5 text-white drop-shadow-sm">
+              <span className="text-3xl font-black leading-none">{count}</span>
+              <span className="text-lg font-bold text-white/60 leading-none">/{items.length}</span>
+            </div>
             {streak > 1 && (
-              <span className="flex items-center gap-0.5 text-[10px] bg-orange-500/15 text-orange-400 px-1.5 py-0.5 rounded-full font-bold">
-                <Flame size={10} /> {streak}
+              <span className="flex items-center gap-1 text-[11px] bg-black/25 text-white px-2 py-0.5 rounded-full font-black">
+                <Flame size={11} /> {streak} day streak
               </span>
             )}
           </div>
-          <div className="flex items-center gap-2">
-            <span className={`text-xs font-bold ${allDone ? 'text-emerald-400' : 'text-gray-500'}`}>{count}/{items.length}</span>
-            <ChevronDown size={15} className={`text-gray-600 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
-          </div>
         </div>
-        <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-          <div className={`h-full bg-gradient-to-r ${def.bar} rounded-full transition-all duration-500`}
-            style={{ width: `${(count / items.length) * 100}%` }} />
+
+        <div className="h-3 bg-black/25 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-white rounded-full transition-all duration-500 shadow-[0_0_12px_rgba(255,255,255,0.5)]"
+            style={{ width: `${pct}%` }}
+          />
+        </div>
+
+        <div className="flex items-center justify-center gap-1 mt-2 -mb-1">
+          <span className="text-[11px] font-bold text-white/70">{open ? 'Hide' : 'Show'} tasks</span>
+          <ChevronDown size={14} className={`text-white/70 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
         </div>
       </button>
-      <div className={`collapse-wrap ${open ? 'open' : ''}`}>
+
+      {/* Task list */}
+      <div className={`collapse-wrap ${open ? 'open' : ''} bg-[#141414]`}>
         <div className="collapse-inner">
-          <div className="collapse-content px-5 pb-4 space-y-1.5">
+          <div className="collapse-content px-4 py-4 space-y-2">
             {items.map(i => (
-              <button key={i.id} onClick={() => toggle(i.id)} className="w-full flex items-center gap-2.5 text-left py-0.5">
-                <div className={`w-5 h-5 rounded-md border flex items-center justify-center flex-shrink-0 transition-all ${
-                  done[i.id] ? 'bg-emerald-500 border-emerald-500' : 'border-white/15'
+              <button
+                key={i.id}
+                onClick={() => toggle(i.id)}
+                className={`w-full flex items-center gap-3.5 text-left px-3.5 py-3.5 rounded-2xl border transition-all active:scale-[0.98] ${
+                  done[i.id]
+                    ? 'bg-emerald-500/10 border-emerald-500/30'
+                    : 'bg-white/[0.04] border-white/10 hover:bg-white/[0.07]'
+                }`}
+              >
+                <div className={`w-7 h-7 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                  done[i.id] ? 'bg-emerald-500 border-emerald-500 scale-105' : 'border-white/25'
                 }`}>
-                  {done[i.id] && <Check size={12} className="text-white" />}
+                  {done[i.id] && <Check size={17} strokeWidth={3.5} className="text-white" />}
                 </div>
-                <span className={`text-sm ${done[i.id] ? 'text-gray-600 line-through' : 'text-gray-300'}`}>{i.label}</span>
+                <span className={`text-[15px] font-semibold leading-snug ${
+                  done[i.id] ? 'text-gray-500 line-through' : 'text-gray-100'
+                }`}>{i.label}</span>
               </button>
             ))}
-            <p className="text-[10px] text-gray-600 pt-1.5">Fresh set each day — resets at midnight. Complete all to build your streak 🔥</p>
+            <p className="text-[11px] text-gray-600 text-center pt-2">
+              Fresh set each day — resets at midnight. Complete all to build your streak 🔥
+            </p>
           </div>
         </div>
       </div>
