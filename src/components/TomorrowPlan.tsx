@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CalendarDays, Check, PenLine, Plus, X, Sparkles, Loader2 } from 'lucide-react';
+import { CalendarDays, Check, PenLine, Plus, X, Sparkles, Loader2, ChevronDown } from 'lucide-react';
 import { planAdvice } from '../lib/generators';
 
 const dateStr = (offset = 0) => {
@@ -120,23 +120,50 @@ export default function TomorrowPlan() {
       )}
 
       {/* Plan tomorrow */}
-      <div className="bg-[#111] border border-white/10 rounded-2xl overflow-hidden">
-        <button onClick={() => setEditing(!editing)} className="w-full flex items-center justify-between px-4 py-3.5 text-left press">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-orange-500/10 rounded-lg flex items-center justify-center">
-              <PenLine size={15} className="text-orange-400" />
+      <div className={`rounded-3xl overflow-hidden shadow-2xl ring-1 transition-all ${
+        saved ? 'ring-emerald-400/40 shadow-emerald-500/10' : 'ring-orange-400/40 shadow-orange-500/20'
+      }`}>
+        <button
+          onClick={() => setEditing(!editing)}
+          className={`w-full text-left px-5 pt-5 pb-4 bg-gradient-to-br relative ${
+            saved ? 'from-emerald-500 to-green-600' : 'from-orange-500 via-orange-500 to-amber-600'
+          }`}
+        >
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-white/70 mb-0.5">
+                {saved ? 'Tomorrow is locked in' : 'Tonight · 2 minutes'}
+              </p>
+              <h2 className="text-2xl font-black text-white leading-tight drop-shadow-sm">
+                {saved ? 'Plan set' : 'Plan tomorrow'}
+              </h2>
+              <p className="text-white/80 text-[13px] font-medium mt-1 leading-snug">
+                {saved
+                  ? 'Tap to view or change it. You\'ll get it back in the morning.'
+                  : 'Win tomorrow before it starts. Decide now, wake up with a plan instead of a feed.'}
+              </p>
             </div>
-            <div>
-              <p className="font-bold text-sm">Plan tomorrow</p>
-              <p className="text-gray-600 text-[11px]">{saved ? 'Plan set ✓ — tap to view/edit' : 'Write it tonight, own it in the morning'}</p>
+            <div className="flex flex-col items-center gap-1 flex-shrink-0">
+              <div className="w-11 h-11 rounded-2xl bg-black/25 flex items-center justify-center">
+                {saved ? <Check size={22} className="text-white" strokeWidth={3} /> : <PenLine size={20} className="text-white" />}
+              </div>
             </div>
           </div>
-          <span className={`text-xs font-bold ${saved ? 'text-emerald-400' : 'text-gray-600'}`}>{saved ? 'SET' : '—'}</span>
+          {!saved && (
+            <div className="mt-3 bg-black/25 rounded-xl px-3 py-2 flex items-center gap-2">
+              <Sparkles size={13} className="text-white/80 flex-shrink-0" />
+              <span className="text-[12px] font-semibold text-white/90">Tap to write your 3 priorities — takes 2 minutes</span>
+            </div>
+          )}
+          <div className="flex items-center justify-center gap-1 mt-2 -mb-1">
+            <span className="text-[11px] font-bold text-white/70">{editing ? 'Close' : saved ? 'View plan' : 'Start planning'}</span>
+            <ChevronDown size={14} className={`text-white/70 transition-transform duration-300 ${editing ? 'rotate-180' : ''}`} />
+          </div>
         </button>
-        <div className={`collapse-wrap ${editing ? 'open' : ''}`}>
+        <div className={`collapse-wrap ${editing ? 'open' : ''} bg-[#141414]`}>
           <div className="collapse-inner">
-            <div className="collapse-content px-4 pb-4 space-y-2">
-              <p className="text-gray-500 text-xs">Tomorrow's tasks — as many as the day needs:</p>
+            <div className="collapse-content px-4 py-4 space-y-2">
+              <p className="text-gray-400 text-xs font-semibold">Tomorrow's tasks — as many as the day needs:</p>
               {tasks.map((val, i) => (
                 <div key={i}>
                   <div className="flex gap-1.5">

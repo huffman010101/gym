@@ -4,13 +4,16 @@ import { ArrowLeft, Banknote, TrendingUp, Laptop, Rocket, AlertTriangle, Chevron
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 
-type Tab = 'skills' | 'online' | 'launch' | 'trading' | 'mindset';
+type Tab = 'skills' | 'online' | 'launch' | 'invest' | 'trading' | 'tax' | 'econ' | 'mindset';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'skills', label: 'Skills' },
   { id: 'online', label: 'Online Income' },
   { id: 'launch', label: 'Launch a Business' },
-  { id: 'trading', label: 'Trading & Investing' },
+  { id: 'invest', label: 'Investing' },
+  { id: 'trading', label: 'Trading' },
+  { id: 'tax', label: 'Tax' },
+  { id: 'econ', label: 'Economics' },
   { id: 'mindset', label: 'Money Rules' },
 ];
 
@@ -61,7 +64,7 @@ export default function Money() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['skills', 'online', 'launch', 'trading', 'mindset'] as const).includes(t as Tab) ? (t as Tab) : 'skills';
+    return (['skills', 'online', 'launch', 'invest', 'trading', 'tax', 'econ', 'mindset'] as const).includes(t as Tab) ? (t as Tab) : 'skills';
   });
 
   return (
@@ -240,6 +243,63 @@ export default function Money() {
           </div>
         )}
 
+        {/* ===== INVESTING ===== */}
+        {tab === 'invest' && (
+          <div className="fade-up stagger space-y-4">
+            <div className="card-premium p-5">
+              <h3 className="font-bold mb-2 flex items-center gap-2"><TrendingUp size={16} className="text-yellow-400" /> Being Smart With Money — the whole thing in order</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Investing is the easy part — it is about six decisions total, then decades of leaving it alone.
+                What separates people is doing them in the right ORDER. Work down this page top to bottom; do not skip
+                to picking funds before the steps above it are done.
+              </p>
+            </div>
+            <Block title="Step 0 — Do these BEFORE you invest a penny" items={[
+              ['1. Kill high-interest debt first', 'Credit cards, overdrafts, buy-now-pay-later at 20-40% APR. Paying that off is a GUARANTEED 20-40% return — no investment on earth reliably beats that. Student loans are different (see Tax tab), don\'t rush those.'],
+              ['2. Build a 3-month emergency fund', 'In an easy-access savings account, not invested. This is what stops you selling investments at the worst possible moment when your laptop dies or you lose income. Boring, and the reason most portfolios survive.'],
+              ['3. Take the free money — employer pension match', 'If an employer matches pension contributions, contributing enough to get the full match is an instant 100% return. Nothing else comes close. Do this before any ISA investing.'],
+              ['4. THEN invest', 'Only once the three above are done. Skipping to step 4 because investing feels exciting is the single most common mistake young investors make.'],
+            ]} />
+            <Fold title="What to actually invest in" tag="The honest answer is boring — that's why it works" items={[
+              ['A global index fund — for most people this is the answer', 'One fund holding thousands of companies across the whole world (e.g. a FTSE Global All Cap or MSCI World tracker). Instant diversification, near-zero effort, and it has beaten the large majority of professional stock pickers over long periods. If you only ever buy one thing, this is it.'],
+              ['S&P 500 tracker — the popular alternative', 'The 500 biggest US companies. Historically strong returns, but it is 100% one country. A global fund already holds these (the US is roughly 60-70% of a world tracker) with the rest of the planet included as well. Global is the more sensible default.'],
+              ['Bonds — the shock absorber, not the engine', 'Loans to governments/companies paying fixed interest. Lower return, lower volatility. In your 20s with decades ahead, you need very little or none. Their job is protecting money you will need SOON, not growing it.'],
+              ['Individual stocks — cap it at "fun money"', 'Picking single companies is a skill most professionals fail at. If you want to, keep it under 5-10% of your portfolio and treat losses as tuition. Never let it become the core.'],
+              ['Property', 'Real but illiquid, concentrated in one asset, and needs a big deposit plus real running costs. It works, but it is a business, not a passive investment. Do not treat "get on the ladder" as automatically superior to investing — run the numbers.'],
+              ['Crypto — speculation, not investing', 'Extremely volatile, minimal regulation, dense with scams. If you want exposure, cap it at a small percentage you can watch go to zero without it changing your life. It is not a retirement plan.'],
+              ['What to avoid entirely', 'Anything with "guaranteed returns", anything a stranger DMs you, leveraged/inverse ETFs, actively managed funds charging over ~0.75%, and any product you cannot explain in one sentence.'],
+            ]} />
+            <Fold title="How to invest — the actual mechanics" tag="First investment, start to finish, UK" items={[
+              ['1. Open a Stocks & Shares ISA', 'This is a wrapper, not an investment. Everything inside grows completely tax-free, forever, and you never declare it. £20,000 allowance per tax year (2026/27) across all ISA types combined. Low-fee providers: Vanguard, InvestEngine, Trading 212, AJ Bell, Hargreaves Lansdown.'],
+              ['2. Pick ONE global index fund', 'Look for: "accumulation" (Acc) units, which reinvest dividends automatically, and an ongoing charge (OCF) under 0.25%. That is genuinely the entire selection criteria for a first investment.'],
+              ['3. Set a monthly direct debit', 'Automate it for the day after payday so it leaves before you can spend it. Automation beats motivation — this single step is why some people build wealth and others intend to.'],
+              ['4. Then do nothing', 'Do not check it daily. Do not switch funds because something else did better last year. The strategy IS leaving it alone. Rebalance once a year at most.'],
+              ['Accumulation vs Income units', 'Acc reinvests dividends for you (best while building wealth). Inc pays them out as cash (useful when you eventually live off it). Pick Acc now.'],
+              ['Lifetime ISA — worth knowing', 'If you are under 40 and saving for a FIRST home: the government adds 25% on up to £4,000/year, so £1,000 free per year. Huge. But withdrawing for anything other than a first home or age 60 carries a penalty that can leave you worse off. Only use it if the goal genuinely is a first home.'],
+            ]} />
+            <Fold title="When to invest" tag="The timing question, answered properly" items={[
+              ['Time IN the market beats timing the market', 'Missing just the ~10 best days over a couple of decades can cut your total return dramatically — and those days cluster right after crashes, exactly when scared people are sitting in cash. Staying invested is the whole strategy.'],
+              ['Invest as soon as you have the money', 'Statistically, investing a lump sum immediately beats drip-feeding it in about two thirds of the time, simply because markets rise more often than they fall. If a lump sum makes you anxious, splitting it over 3-6 months is a reasonable emotional compromise.'],
+              ['Monthly automatic buying is the default', 'For regular income, buy every month regardless of price. You buy more units when cheap and fewer when expensive, and it removes emotion — the thing that actually destroys returns.'],
+              ['Do not wait for a crash', 'People have waited years for a "better entry point" while the market ran away. The best time was earlier; the second best is now, mechanically, every month.'],
+              ['What to do WHEN it crashes', 'Nothing. Keep buying. A 30-50% drop happens roughly once a decade and has always recovered given enough time. A crash while you are still buying is a discount, not a disaster. Selling is the only way to make a paper loss permanent.'],
+              ['Only invest money you will not need for 5+ years', 'Short-term money belongs in savings. Markets can be down for several years running — never be forced to sell at the bottom.'],
+            ]} />
+            <Block title="Fees — the silent killer" items={[
+              ['Why 1% matters enormously', 'A 1% annual fee versus 0.2% sounds trivial. Over 30 years on serious money it can cost you a very large fraction of your final pot, because you lose the fee AND all the growth that fee would have compounded into.'],
+              ['The two fees to check', 'The fund\'s OCF (ongoing charge — aim under 0.25%) and the platform fee (aim under ~0.45%, some are flat-fee which is cheaper once your pot is large).'],
+              ['Actively managed funds', 'Charge 5-10× more than index funds for the promise of beating the market, and the large majority fail to do so over long periods. You pay more for worse expected outcomes.'],
+              ['Financial advisors', 'Can genuinely help with complex situations (big inheritance, business sale, retirement drawdown). For "put money into a global index fund monthly", a 1%/year advisor fee is not worth it.'],
+            ]} />
+            <Block title="How much, and what it becomes" items={[
+              ['Aim for 15-20% of income invested', 'Start wherever you can — £50/month at 19 genuinely beats £500/month at 30 because of the extra decade of compounding. Raise the percentage every time your income rises.'],
+              ['The real numbers', '£200/month at ~8% average: 10 yrs ≈ £36k · 20 yrs ≈ £118k · 30 yrs ≈ £298k — of which only £72k was ever your own deposits. The rest is compounding doing the work.'],
+              ['Your income is still the biggest lever', 'At your stage, going from £500 to £2,000/month income (Skills tab) moves your future far more than optimising which fund you picked. Earn more, invest the difference, keep lifestyle flat.'],
+              ['The first £10k is the hardest', 'Progress feels invisible early because your contributions dwarf the growth. Around £100k, growth starts outpacing what you put in. Push through the boring phase — that is the entire game.'],
+            ]} />
+          </div>
+        )}
+
         {/* ===== TRADING ===== */}
         {tab === 'trading' && (
           <div className="fade-up stagger space-y-4">
@@ -331,6 +391,155 @@ export default function Money() {
               ['Screenshots of profits', 'Demo accounts and cherry-picking. Audited track records or it didn\'t happen.'],
               ['Leverage pushed at beginners', '100x leverage means a 1% move wipes you. Brokers push it because your loss is often their gain.'],
               ['"Guaranteed returns"', 'The two words that always mean scam. Real markets guarantee nothing.'],
+            ]} />
+          </div>
+        )}
+
+        {/* ===== TAX ===== */}
+        {tab === 'tax' && (
+          <div className="fade-up stagger space-y-4">
+            <div className="card-premium p-5">
+              <h3 className="font-bold mb-2 flex items-center gap-2"><Banknote size={16} className="text-yellow-400" /> Tax — the thing nobody teaches you</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                UK figures for the <span className="text-yellow-300 font-semibold">2026/27 tax year</span>. Most thresholds are frozen
+                until April 2031, so these hold for a while — but always confirm on gov.uk before acting.
+                This is general information, not personal tax advice.
+              </p>
+            </div>
+            <Block title="How income tax actually works" items={[
+              ['You are NOT taxed at one rate on everything', 'This is the single biggest misunderstanding. Tax is charged in bands — only the money inside each band is taxed at that band\'s rate. Earning £1 into the higher band does not re-tax your whole salary.'],
+              ['Personal Allowance — £12,570', 'The first £12,570 you earn is tax-free.'],
+              ['Basic rate — 20%', 'On income from £12,571 to £50,270.'],
+              ['Higher rate — 40%', 'On income from £50,271 to £125,140.'],
+              ['Additional rate — 45%', 'On income above £125,140.'],
+              ['Worked example', 'On a £60,000 salary you do NOT pay 40% on £60,000. You pay: nothing on the first £12,570, 20% on the next £37,700 (£7,540), and 40% only on the £9,730 above £50,270 (£3,892). Total ≈ £11,432, an effective rate of about 19%.'],
+              ['A pay rise is always worth taking', 'Because of banding, more gross pay always means more take-home. The only real exceptions are the specific traps below.'],
+            ]} />
+            <Fold title="National Insurance — the second income tax" tag="Everyone forgets this one exists" items={[
+              ['What it is', 'A separate deduction on top of income tax, nominally funding the state pension and NHS. In practice, treat it as a second income tax when working out what you actually keep.'],
+              ['Employee rates (Class 1)', 'Nothing below roughly £12,570, then 8% on earnings up to about £50,270, then 2% above that. Note it goes DOWN at the higher threshold, unlike income tax.'],
+              ['Your true marginal rate', 'A basic-rate employee loses about 28% of each extra pound (20% tax + 8% NI). A higher-rate employee loses about 42% (40% + 2%). Use these numbers, not the headline tax rate, when judging overtime or a raise.'],
+              ['Self-employed', 'Class 4 NI on profits, at different rates, paid through Self Assessment rather than deducted at source. Budget for it — it is the bill that catches out first-year freelancers.'],
+            ]} />
+            <Fold title="The tax traps — where marginal rates go insane" tag="Worth knowing before you hit them" items={[
+              ['The 60% trap (£100k-£125,140)', 'Above £100k your Personal Allowance is withdrawn by £1 for every £2 earned. Combined with 40% tax, your effective marginal rate on that band is about 60%. Pension contributions are the standard fix — they reduce adjusted net income and can pull you back under £100k.'],
+              ['High Income Child Benefit Charge', 'If you or a partner earn above the threshold and claim Child Benefit, some or all of it is clawed back through Self Assessment. Not relevant yet, but it blindsides people later.'],
+              ['Losing the personal savings allowance', 'Basic-rate taxpayers get £1,000 of savings interest tax-free; higher-rate only £500; additional-rate nothing. Crossing a band can quietly create a tax bill on savings interest.'],
+              ['The fix is almost always pension contributions', 'They come off your taxable income, so they can pull you out of a trap while the money is still yours — just locked until pension age.'],
+            ]} />
+            <Fold title="ISAs — your most important tax shelter" tag="Use this before anything clever" items={[
+              ['£20,000 per tax year', 'Across ALL ISA types combined (Cash, Stocks & Shares, Lifetime, Innovative Finance). The allowance resets every 6 April and does NOT carry over — unused allowance is gone forever.'],
+              ['Everything inside is tax-free, permanently', 'No income tax on interest or dividends, no capital gains tax, and nothing to declare on a tax return. This is as good as tax planning gets for a normal person.'],
+              ['Cash ISA vs Stocks & Shares ISA', 'Cash ISA for money you need within ~5 years. Stocks & Shares ISA for long-term growth. With inflation around 2-3%, cash held for decades loses real purchasing power.'],
+              ['Lifetime ISA — the 25% bonus', 'Under 40, up to £4,000/year (inside the £20k total), government adds 25% — up to £1,000 free annually. For a FIRST home under the price cap, or age 60+. Withdraw for anything else and the penalty can leave you with less than you put in.'],
+              ['Practical order', 'Employer pension match first → then ISA → then pension beyond the match → then a general investment account once the £20k is genuinely used up.'],
+            ]} />
+            <Fold title="Pensions — the biggest tax break you get" tag="Boring, and mathematically enormous" items={[
+              ['Tax relief explained simply', 'Contributions are made from pre-tax income. For a basic-rate taxpayer, £100 in your pension costs you £80 of take-home. For a higher-rate taxpayer it costs £60 (claim the extra via Self Assessment). That is an instant 25-67% uplift before any investment growth.'],
+              ['Employer match is free money', 'If they match contributions, not contributing enough to get the full match is declining part of your salary. Always take the full match.'],
+              ['The trade-off', 'You cannot touch it until pension age (currently 57 from 2028, likely rising). That illiquidity is the price of the tax relief.'],
+              ['ISA vs pension, simply', 'Pension: tax relief now, taxed on withdrawal, locked away. ISA: no relief now, completely tax-free later, accessible anytime. Young and building flexibility, weight toward the ISA — but never at the cost of losing an employer match.'],
+            ]} />
+            <Fold title="Capital Gains, Dividends & side income" tag="What you owe when money makes money" items={[
+              ['Capital Gains Tax (CGT)', 'On PROFIT when you sell investments outside an ISA. Annual exempt amount is just £3,000 (2026/27), then 18% for basic-rate and 24% for higher/additional-rate taxpayers. Inside an ISA: zero, and nothing to report.'],
+              ['Dividend allowance — £500', 'Dividends above £500/year (outside an ISA) are taxed at 8.75% basic, 33.75% higher, 39.35% additional. Again, zero inside an ISA.'],
+              ['The £1,000 trading allowance', 'You can earn up to £1,000/year of self-employed or side-hustle income with no tax and no need to register. Above that, register for Self Assessment.'],
+              ['Self Assessment key dates', 'Tax year runs 6 April to 5 April. Register by 5 October after the tax year. File online and pay by 31 January. Miss it and there is an automatic £100 penalty, then more.'],
+              ['Set aside 25-30% of profit', 'From day one, move it to a separate account the moment you get paid. The January bill destroys freelancers who spent gross income as if it were net.'],
+              ['Payments on account', 'Once your bill passes a threshold, HMRC makes you pre-pay half of next year\'s tax in January and July. Your first year can therefore feel like paying 150% at once — budget for it or it is genuinely brutal.'],
+            ]} />
+            <Block title="Student loans — the bit everyone gets wrong" items={[
+              ['It behaves like a graduate tax, not a debt', 'You repay a percentage of income above a threshold, via payroll. If your income is low, you pay nothing. The balance is written off after a set period regardless of what is left.'],
+              ['Do not rush to overpay', 'For most graduates who will never clear the balance before write-off, voluntary overpayments are money you simply hand over for no benefit. Only high earners who will clearly repay in full should consider it.'],
+              ['It does not work like a credit card', 'It is not on your credit file and does not block a mortgage directly — though the monthly repayment reduces the income lenders assess. Check your plan type (1, 2, 4, 5 or postgrad); thresholds and rates differ significantly.'],
+            ]} />
+            <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl px-4 py-3 flex items-start gap-2.5">
+              <AlertTriangle size={15} className="text-amber-400 flex-shrink-0 mt-0.5" />
+              <p className="text-xs text-amber-200/80 leading-relaxed">
+                Tax avoidance schemes promising to convert salary into loans or offshore payments are how people end up
+                owing HMRC six figures years later. If it sounds clever and it is not an ISA or a pension, it probably is not legal.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* ===== ECONOMICS ===== */}
+        {tab === 'econ' && (
+          <div className="fade-up stagger space-y-4">
+            <div className="bg-gradient-to-br from-yellow-500/15 to-[#111] border border-yellow-500/30 rounded-2xl p-5">
+              <div className="flex items-start justify-between gap-3 mb-3">
+                <h3 className="font-black text-yellow-300">Where things stand</h3>
+                <span className="text-[10px] bg-black/30 text-yellow-200/80 px-2 py-1 rounded-full font-bold flex-shrink-0">30 JUL 2026</span>
+              </div>
+              <div className="space-y-2.5">
+                {[
+                  ['UK inflation (CPI)', '2.6%', 'Above the Bank of England\'s 2% target. Expected to rise again later this year as higher energy prices feed through — the Bank projects a peak around 3.2% in Q4 2026.'],
+                  ['UK interest rate (Bank Rate)', '3.75%', 'Held on 29 July 2026 by a 6-3 vote. Three members wanted a rise to 4%, so the committee is split and leaning hawkish.'],
+                  ['US interest rate (Fed funds)', '3.50-3.75%', 'Held on 29 July 2026 by 9-3, with three dissenters wanting a hike. US economy described as expanding at a solid pace with inflation still above target.'],
+                  ['UK Prime Minister', 'Andy Burnham', 'Took office in July 2026 — the UK\'s seventh PM in recent years. New leadership means policy direction is still being set.'],
+                  ['UK Chancellor', 'John Healey', 'Appointed late July 2026. The Chancellor controls tax and spending, so this is the person whose Budget decisions hit your take-home pay.'],
+                  ['The big pressure', 'Energy prices', 'Middle East conflict is pushing energy costs up, which is the main force keeping inflation above target on both sides of the Atlantic.'],
+                ].map(([label, val, note]) => (
+                  <div key={label} className="bg-black/25 rounded-xl px-3.5 py-2.5">
+                    <div className="flex items-baseline justify-between gap-2">
+                      <span className="text-[13px] font-bold text-gray-200">{label}</span>
+                      <span className="text-sm font-black text-yellow-300 flex-shrink-0">{val}</span>
+                    </div>
+                    <p className="text-gray-500 text-xs leading-relaxed mt-1">{note}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="text-[11px] text-amber-200/70 leading-relaxed mt-3 bg-amber-500/10 rounded-lg px-3 py-2">
+                These are a snapshot, not live data — they will go stale. Check the real numbers yourself:
+                <span className="text-amber-200"> bankofengland.co.uk</span> (rates),
+                <span className="text-amber-200"> ons.gov.uk</span> (inflation, jobs, GDP),
+                <span className="text-amber-200"> federalreserve.gov</span> (US rates).
+                The section below is the part that does not expire — learn to read it and you never need anyone to tell you what is happening.
+              </p>
+            </div>
+            <Block title="Inflation — what it actually is" items={[
+              ['The definition', 'How fast prices rise. 2.6% inflation means what cost £100 a year ago costs £102.60 now. CPI is the headline measure; CPIH also includes housing costs.'],
+              ['Why 2% is the target', 'Mild inflation encourages spending and investing rather than hoarding cash. Zero risks deflation (people delay purchases, the economy stalls); high inflation destroys savings and planning.'],
+              ['What it does to you', 'Cash loses purchasing power every year it sits still. At 2.6%, money in a 1% savings account is LOSING about 1.6% a year in real terms. This is the entire argument for investing rather than saving long-term.'],
+              ['What it does to markets', 'High inflation usually means higher interest rates to fight it — and higher rates push share prices and bond prices down. Persistent inflation is generally bad for stocks in the short run.'],
+              ['Real vs nominal', 'Always subtract inflation. A 5% pay rise with 2.6% inflation is a 2.4% real rise. A 7% investment return with 2.6% inflation is 4.4% of genuine gain. Nominal numbers flatter everything.'],
+            ]} />
+            <Block title="Interest rates — the most powerful lever there is" items={[
+              ['Who sets them', 'In the UK, the Bank of England\'s Monetary Policy Committee — nine members, voting roughly eight times a year. Deliberately independent of government, so politicians cannot cut rates to win elections. The Fed\'s FOMC does the same job in the US.'],
+              ['What the rate actually is', 'The Bank Rate is what the central bank pays commercial banks. Everything else — mortgages, loans, savings accounts — prices off it. Change this one number and you change the cost of money everywhere.'],
+              ['Rates UP = economy cooled', 'Borrowing costs more, saving pays more, people spend less, demand falls, inflation comes down. It also slows growth and can cause job losses — that is the deliberate trade-off.'],
+              ['Rates DOWN = economy stimulated', 'Borrowing is cheap, saving is pointless, spending and investing rise. Boosts growth but risks pushing inflation up.'],
+              ['Why a 6-3 split matters', 'Vote splits signal what is coming. Three members voting for a hike means the committee is closer to raising than cutting — markets read those minutes as carefully as the decision itself.'],
+              ['What it means for you personally', 'Higher rates: better savings accounts, worse mortgage deals, pressure on share prices. Lower rates: the reverse. If you are on a fixed-rate mortgage, note the date it ends — that is when today\'s rates hit you.'],
+            ]} />
+            <Fold title="The other indicators worth knowing" tag="What the news is talking about" items={[
+              ['GDP — total economic output', 'The value of everything a country produces. Growing GDP means expansion; two consecutive quarters of shrinking GDP is the common definition of a recession. Watch the direction more than the level.'],
+              ['Unemployment rate', 'Low unemployment means workers have bargaining power and wages rise — good for people, but it can feed inflation. Central banks watch it closely; rising unemployment is often the price of taming inflation.'],
+              ['Government bond yields (gilts in the UK)', 'What it costs the government to borrow. Rising yields mean investors demand more to lend, usually signalling inflation or fiscal worry. Gilt yields also drive mortgage pricing, so they matter to you directly.'],
+              ['The yield curve', 'Normally long-term bonds pay more than short-term ones. When it INVERTS (short pays more than long), it has historically preceded recessions — one of the most-watched warning signals in finance.'],
+              ['Exchange rates', 'A weak pound makes imports and holidays dearer but helps UK exporters. It also boosts the sterling value of your overseas investments — a global index fund is partly a hedge against a falling pound.'],
+              ['Consumer confidence & PMI', 'Surveys of how households and businesses feel. They move BEFORE the hard data, which is why markets react to them.'],
+            ]} />
+            <Fold title="Who controls what — and why it matters" tag="Central bank vs government" items={[
+              ['The Bank of England controls interest rates', 'Independent of government. Its single legal mandate is 2% inflation. It cannot be told by the PM to cut rates — this independence is precisely what keeps inflation expectations anchored.'],
+              ['The Chancellor controls tax and spending', 'Income tax, National Insurance, VAT, allowances, public spending — all set by the Treasury, announced at Budgets. This is what changes your payslip.'],
+              ['Why the pairing matters', 'The two can pull against each other: a government spending heavily while the Bank raises rates to cool things is a tug-of-war. Markets punish governments whose plans look unfunded — gilt yields spike and the currency falls.'],
+              ['New leadership = uncertainty', 'A new PM and Chancellor mean markets are pricing guesses about future tax and spending. Expect volatility around the first Budget of any new government.'],
+              ['What to do about it', 'Nothing dramatic. Politics changes tax rules (relevant to ISAs, CGT, pensions — worth watching at Budget time) but should almost never change a long-term investing plan.'],
+            ]} />
+            <Block title="How this all moves markets" items={[
+              ['The core relationship', 'Interest rates up → borrowing costs rise for companies, future profits are discounted more heavily, and safe savings become a real alternative to shares → share prices generally fall. Rates down → the reverse. Most market moves trace back to this.'],
+              ['Bonds move opposite to rates', 'When rates rise, existing bonds paying less become worth less, so their prices fall. This is why "safe" bond funds lost money in rate-rising periods and surprised a lot of people.'],
+              ['Markets trade expectations, not news', 'Prices already contain what everyone expects. Markets move on the SURPRISE — a rate hold can rally or sink markets depending on whether it was expected and what the guidance said.'],
+              ['Sectors respond differently', 'Higher rates hurt growth/tech stocks (their value is mostly future profits) and can help banks (wider lending margins). A global index fund holds all of it, which is exactly why it is the low-stress option.'],
+              ['What you should actually do', 'Almost nothing. Keep buying monthly through all of it. The entire point of automated index investing is that you do not have to forecast any of this — and virtually nobody who tries to forecast it does better.'],
+            ]} />
+            <Block title="Reading the economy yourself" items={[
+              ['Check the source, not the headline', 'ONS for UK inflation/jobs/GDP, Bank of England for rates and minutes, Federal Reserve for US policy. Free, primary, and without the panic framing.'],
+              ['Read the vote split and the minutes', 'The decision is one number; the reasoning tells you what is coming next. "Split 6-3 with dissenters wanting a hike" is a genuine forward signal.'],
+              ['Distrust scary headlines', 'Financial media monetises fear and urgency. "Markets plunge" usually describes a move that is irrelevant to a 30-year plan. Check the actual percentage before reacting.'],
+              ['Watch direction and trend, not single prints', 'One month of data is noise. Three to six months is a trend. Central banks think in trends; so should you.'],
+              ['Know which numbers touch YOUR life', 'Inflation (your purchasing power and pay rises), Bank Rate (your mortgage and savings), and Budget announcements (your take-home and ISA/CGT rules). Most of the rest is spectator sport.'],
             ]} />
           </div>
         )}

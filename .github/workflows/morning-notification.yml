@@ -1,0 +1,51 @@
+name: Morning plan notification
+
+# Sends a push notification every morning reminding you to open your plan.
+#
+# SETUP (one time): add a repo secret named ONESIGNAL_REST_API_KEY
+#   OneSignal dashboard > Settings > Keys & IDs > REST API Key
+#   GitHub: repo > Settings > Secrets and variables > Actions > New repository secret
+# Without that secret this workflow exits cleanly and does nothing.
+
+on:
+  schedule:
+    # 06:00 UTC = 07:00 UK during BST. Cron is always UTC.
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send morning push
+        env:
+          ONESIGNAL_REST_API_KEY: ${{ secrets.ONESIGNAL_REST_API_KEY }}
+          ONESIGNAL_APP_ID: 7284aa68-3615-4d1c-9983-e02846e4fb7b
+        run: |
+          if [ -z "$ONESIGNAL_REST_API_KEY" ]; then
+            echo "ONESIGNAL_REST_API_KEY not set — skipping. See the setup note at the top of this file."
+            exit 0
+          fi
+
+          DAY=$(date -u +%A)
+
+          RESPONSE=$(curl -sS -w "\n%{http_code}" -X POST https://api.onesignal.com/notifications \
+            -H "Authorization: Basic $ONESIGNAL_REST_API_KEY" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "{
+              \"app_id\": \"$ONESIGNAL_APP_ID\",
+              \"included_segments\": [\"Subscribed Users\"],
+              \"headings\": {\"en\": \"Good morning — it's $DAY\"},
+              \"contents\": {\"en\": \"Here's the plan you set last night. Open it, tick it off, own the day.\"},
+              \"url\": \"https://huffman010101.github.io/gym/\"
+            }")
+
+          BODY=$(echo "$RESPONSE" | sed '$d')
+          CODE=$(echo "$RESPONSE" | tail -n1)
+          echo "HTTP $CODE"
+          echo "$BODY"
+
+          if [ "$CODE" -ge 300 ]; then
+            echo "::error::OneSignal rejected the request (HTTP $CODE)"
+            exit 1
+          fi
