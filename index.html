@@ -26,6 +26,13 @@
         var reloading = false;
         navigator.serviceWorker.addEventListener('controllerchange', function () {
           if (!hadController || reloading) return;
+          // HARD CAP: at most one auto-reload per tab session. OneSignal also
+          // registers a worker at this scope, so the controller can change more
+          // than once; without this cap those changes caused a reload loop.
+          try {
+            if (sessionStorage.getItem('gymforge_sw_reloaded')) return;
+            sessionStorage.setItem('gymforge_sw_reloaded', '1');
+          } catch (e) { return; }
           reloading = true;
           window.location.reload();
         });
@@ -34,11 +41,16 @@
           var base = location.pathname.replace(/[^/]*$/, '');
           navigator.serviceWorker.register(base + 'sw.js', { scope: base })
             .then(function (reg) {
-              // Check for a new build on every launch and whenever the app is
-              // brought back to the foreground.
+              // Check for a new build on launch, then at most every 30 min when
+              // returning to the foreground. Checking on every visibilitychange
+              // hammered the worker and made controller churn worse.
               reg.update().catch(function () {});
+              var lastCheck = Date.now();
               document.addEventListener('visibilitychange', function () {
-                if (document.visibilityState === 'visible') reg.update().catch(function () {});
+                if (document.visibilityState !== 'visible') return;
+                if (Date.now() - lastCheck < 1800000) return;
+                lastCheck = Date.now();
+                reg.update().catch(function () {});
               });
             })
             .catch(function () { /* offline support unavailable; app still runs */ });
