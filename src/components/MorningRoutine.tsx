@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Sun, ChevronDown } from 'lucide-react';
+import { Sun, ChevronDown, CheckCircle2, XCircle } from 'lucide-react';
 
 /*
  * Self-contained so it can be moved between sections without rewriting it
@@ -48,6 +48,81 @@ function Fold({ title, tag, items }: { title: string; tag: string; items: [strin
   );
 }
 
+const BAD = [
+  'Snooze × 3',
+  'Phone in bed, 20 min scroll',
+  'Coffee first, no water',
+  'No daylight',
+  'Skipped or sugary breakfast',
+  'Emails / easy tasks first',
+];
+
+const GOOD = [
+  'Up on the first alarm',
+  'No phone for 30-60 min',
+  '500ml water',
+  'Daylight within 30 min',
+  'Protein, coffee 90 min later',
+  'Hardest task first',
+];
+
+function Compare() {
+  return (
+    <div className="bg-[#111] border border-white/8 rounded-2xl p-4">
+      <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-gray-500 mb-3 text-center">
+        Two versions of the same day
+      </p>
+      <div className="grid grid-cols-2 gap-2.5">
+        {/* Bad morning */}
+        <div className="bg-red-500/8 border border-red-500/25 rounded-xl p-3">
+          <div className="flex items-center gap-1.5 mb-2.5">
+            <XCircle size={14} className="text-red-400 flex-shrink-0" />
+            <p className="font-black text-[12px] text-red-300 whitespace-nowrap">Bad morning</p>
+          </div>
+          <ul className="space-y-1.5">
+            {BAD.map(x => (
+              <li key={x} className="text-[11px] text-gray-400 leading-snug flex gap-1.5">
+                <span className="text-red-400/60 flex-shrink-0">·</span>{x}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-3 pt-2.5 border-t border-red-500/20">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-red-400/70 mb-1">The day you get</p>
+            <p className="text-[11px] text-gray-400 leading-snug">
+              Foggy till noon · can&apos;t focus · 3pm crash · scroll all evening · bed too late · repeat
+            </p>
+          </div>
+        </div>
+
+        {/* Good morning */}
+        <div className="bg-emerald-500/8 border border-emerald-500/25 rounded-xl p-3">
+          <div className="flex items-center gap-1.5 mb-2.5">
+            <CheckCircle2 size={14} className="text-emerald-400 flex-shrink-0" />
+            <p className="font-black text-[12px] text-emerald-300 whitespace-nowrap">Good morning</p>
+          </div>
+          <ul className="space-y-1.5">
+            {GOOD.map(x => (
+              <li key={x} className="text-[11px] text-gray-300 leading-snug flex gap-1.5">
+                <span className="text-emerald-400/60 flex-shrink-0">·</span>{x}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-3 pt-2.5 border-t border-emerald-500/20">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-400/70 mb-1">The day you get</p>
+            <p className="text-[11px] text-gray-300 leading-snug">
+              Sharp by 8 · real work done early · steady energy · training feels good · evening is yours
+            </p>
+          </div>
+        </div>
+      </div>
+      <p className="text-[11px] text-gray-500 leading-relaxed mt-3 text-center">
+        Same person, same amount of sleep. The only difference is the first hour —
+        and it compounds every single day.
+      </p>
+    </div>
+  );
+}
+
 export default function MorningRoutine() {
   return (
     <div className="fade-up stagger space-y-4">
@@ -59,6 +134,8 @@ export default function MorningRoutine() {
           Everything below is ordered — do it top to bottom.
         </p>
       </div>
+
+      <Compare />
 
       <div className="bg-gradient-to-br from-amber-500/15 to-[#111] border border-amber-500/30 rounded-2xl p-5">
         <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-amber-300/70 mb-3">The 6 non-negotiables</p>
