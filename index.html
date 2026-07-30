@@ -19,9 +19,28 @@
       // registration when it loads; when it can't load (offline / blocked), the
       // app still works offline.
       if ('serviceWorker' in navigator) {
+        // If a worker was already controlling this page, a controllerchange means
+        // a NEW version just took over — reload once so the user actually sees it.
+        // Without this, aggressive caching can pin people to an old build forever.
+        var hadController = !!navigator.serviceWorker.controller;
+        var reloading = false;
+        navigator.serviceWorker.addEventListener('controllerchange', function () {
+          if (!hadController || reloading) return;
+          reloading = true;
+          window.location.reload();
+        });
+
         window.addEventListener('load', function () {
           var base = location.pathname.replace(/[^/]*$/, '');
           navigator.serviceWorker.register(base + 'sw.js', { scope: base })
+            .then(function (reg) {
+              // Check for a new build on every launch and whenever the app is
+              // brought back to the foreground.
+              reg.update().catch(function () {});
+              document.addEventListener('visibilitychange', function () {
+                if (document.visibilityState === 'visible') reg.update().catch(function () {});
+              });
+            })
             .catch(function () { /* offline support unavailable; app still runs */ });
         });
       }
