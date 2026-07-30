@@ -18,7 +18,7 @@ try {
   // Push notifications unavailable — the rest of the worker still works.
 }
 
-const CACHE = 'gymforge-v2';
+const CACHE = 'gymforge-v3';
 
 // Replaced at build time by scripts/inject-sw-precache.mjs
 const PRECACHE = self.__GYMFORGE_PRECACHE__ || ['./', './index.html'];
