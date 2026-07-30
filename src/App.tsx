@@ -21,6 +21,23 @@ import Dating from './pages/Dating';
 import ApiKeySetup from './components/ApiKeySetup';
 import { getApiKey } from './lib/anthropic';
 
+function OfflineBanner() {
+  const [offline, setOffline] = useState(!navigator.onLine);
+  useEffect(() => {
+    const on = () => setOffline(false);
+    const off = () => setOffline(true);
+    window.addEventListener('online', on);
+    window.addEventListener('offline', off);
+    return () => { window.removeEventListener('online', on); window.removeEventListener('offline', off); };
+  }, []);
+  if (!offline) return null;
+  return (
+    <div className="fixed top-0 left-0 right-0 z-[100] bg-amber-500 text-black text-center text-[12px] font-bold py-1.5 px-4">
+      Offline — all guides and your checklist work. AI features need signal.
+    </div>
+  );
+}
+
 export default function App() {
   const [hasKey, setHasKey] = useState(false);
 
@@ -30,6 +47,7 @@ export default function App() {
 
   return (
     <HashRouter>
+      <OfflineBanner />
       {!hasKey && <ApiKeySetup onSet={() => setHasKey(true)} />}
       <Routes>
         <Route path="/" element={<Home />} />
