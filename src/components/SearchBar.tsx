@@ -6,6 +6,7 @@ interface Entry { label: string; section: string; path: string; keywords: string
 
 const INDEX: Entry[] = [
   { label: 'The Journey (guided phases + AI advisor)', section: 'Journey', path: '/journey', keywords: 'journey phases guide walkthrough plan roadmap advisor ask ai questions coach interactive start' },
+  { label: 'Know More — daily general knowledge', section: 'Knowledge', path: '/knowledge', keywords: 'general knowledge learn daily world affairs history tech business deals science economics facts interesting smart trivia geopolitics' },
   { label: 'The Feed (scroll & learn)', section: 'Feed', path: '/feed', keywords: 'feed scroll swipe cards learn tips knowledge fun interactive' },
   { label: 'Blueprint: Skin & Acne Protocol', section: 'Blueprint', path: '/guide?tab=skin', keywords: 'blueprint skin acne routine retinol bha benzoyl niacinamide spf slugging hyperpigmentation marks cerave ordinary' },
   { label: 'Blueprint: Bone Development & Mewing', section: 'Blueprint', path: '/guide?tab=bone', keywords: 'blueprint bone mewing maxilla masseter mastic gum cheekbone development' },

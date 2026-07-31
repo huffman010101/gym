@@ -99,6 +99,21 @@ export default function Home() {
         </Link>
       </section>
 
+      {/* Know More banner */}
+      <section className="px-6 pb-3 max-w-4xl mx-auto">
+        <Link to="/knowledge"
+          className="flex items-center justify-between bg-gradient-to-r from-sky-500/15 to-cyan-500/10 border border-sky-500/25 rounded-2xl px-5 py-4 hover:from-sky-500/20 transition-all group press">
+          <div className="flex items-center gap-3">
+            <GraduationCap className="text-sky-400 flex-shrink-0" size={20} />
+            <div>
+              <p className="font-black text-sm">Know More — today&apos;s lesson</p>
+              <p className="text-gray-500 text-xs">World affairs, history, tech &amp; business deals</p>
+            </div>
+          </div>
+          <ChevronRight size={17} className="text-sky-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+        </Link>
+      </section>
+
       {/* Journey banner */}
       <section className="px-6 pb-5 max-w-4xl mx-auto">
         <Link to="/journey"
