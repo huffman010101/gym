@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, GraduationCap, Brain, Sun, Briefcase, Moon, Loader2, AlertCircle, ChevronDown, Sparkles, Clock } from 'lucide-react';
+import { ArrowLeft, GraduationCap, Brain, Sun, Briefcase, Moon, Loader2, AlertCircle, ChevronDown, Sparkles, Clock, Upload, FileText, X } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 import { generateStudyPack } from '../lib/generators';
+import { extractFile, combine, MAX_TOTAL_CHARS, type Extracted } from '../lib/extractText';
 import type { StudyPack } from '../lib/generators';
 
 type Tab = 'ai' | 'smarter' | 'day' | 'career' | 'sleep';
@@ -72,6 +73,25 @@ export default function Uni() {
   const [pack, setPack] = useState<StudyPack | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [files, setFiles] = useState<Extracted[]>([]);
+  const [extracting, setExtracting] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const totalChars = files.filter(f => !f.error).reduce((n, f) => n + f.chars, 0);
+  const overBudget = totalChars + materials.length > MAX_TOTAL_CHARS;
+
+  const addFiles = async (list: FileList | null) => {
+    if (!list || !list.length) return;
+    setExtracting(true);
+    setError('');
+    const incoming = Array.from(list);
+    // Sequential: parsing several large decks at once spikes memory on phones.
+    for (const file of incoming) {
+      const res = await extractFile(file);
+      setFiles(prev => [...prev, res]);
+    }
+    setExtracting(false);
+  };
 
   useEffect(() => {
     try {
@@ -87,7 +107,13 @@ export default function Uni() {
     if (!course.trim() || !modules.trim()) return;
     setBusy(true); setError('');
     try {
-      const result = await generateStudyPack(course.trim(), modules.trim(), examInfo.trim(), materials.trim());
+      const { text: combined } = combine(files, materials);
+      if (!combined.trim()) {
+        setError('Attach at least one file, or paste some notes, so it has material to work from.');
+        setBusy(false);
+        return;
+      }
+      const result = await generateStudyPack(course.trim(), modules.trim(), examInfo.trim(), combined);
       setPack(result);
       localStorage.setItem('gymforge_studypack', JSON.stringify({ course, modules, examInfo, pack: result }));
     } catch (e) {
@@ -135,8 +161,8 @@ export default function Uni() {
                 <h2 className="font-bold">AI Study Pack Generator</h2>
               </div>
               <p className="text-gray-500 text-xs leading-relaxed mb-4">
-                Tell it your course + modules and paste your lecture content (open your PowerPoints → select-all → copy → paste here;
-                rough formatting is fine). It builds your revision timetable, priority list, summary sheet, equation sheet and dense notes.
+                Attach your lecture slides — as many as you like — and it builds your revision timetable, priority list,
+                summary sheet, equation sheet and dense notes from YOUR material, not a generic version.
               </p>
               <div className="space-y-2.5">
                 <input value={course} onChange={e => setCourse(e.target.value)} placeholder="Course (e.g. BSc Economics, Year 1)"
@@ -145,8 +171,48 @@ export default function Uni() {
                   className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky-500/50" />
                 <input value={examInfo} onChange={e => setExamInfo(e.target.value)} placeholder="Exam dates & format (e.g. 20 May, 2h written + MCQ)"
                   className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky-500/50" />
-                <textarea value={materials} onChange={e => setMaterials(e.target.value)} rows={5}
-                  placeholder="Paste lecture slides / notes here (as much as you can — it uses this to build YOUR pack, not a generic one)"
+
+                {/* File attachments */}
+                <input ref={fileRef} type="file" multiple accept=".pptx,.pdf,.docx,.txt,.md,.csv" className="hidden"
+                  onChange={e => { addFiles(e.target.files); if (fileRef.current) fileRef.current.value = ''; }} />
+                <button onClick={() => fileRef.current?.click()} disabled={extracting}
+                  className="w-full border-2 border-dashed border-white/20 hover:border-sky-500/50 disabled:opacity-50 rounded-xl py-5 flex flex-col items-center gap-1.5 text-gray-400 hover:text-sky-400 transition-colors">
+                  {extracting
+                    ? <><Loader2 size={20} className="animate-spin" /><span className="text-sm font-semibold">Reading your slides…</span></>
+                    : <><Upload size={20} /><span className="text-sm font-semibold">Attach lecture slides</span>
+                        <span className="text-[11px] text-gray-600">PowerPoint · PDF · Word · text — as many as you want</span></>}
+                </button>
+
+                {files.length > 0 && (
+                  <div className="space-y-1.5">
+                    {files.map((f, i) => (
+                      <div key={f.name + i} className={`flex items-center gap-2.5 rounded-xl px-3 py-2 border ${
+                        f.error ? 'bg-red-500/5 border-red-500/25' : 'bg-white/5 border-white/10'
+                      }`}>
+                        <FileText size={14} className={f.error ? 'text-red-400 flex-shrink-0' : 'text-sky-400 flex-shrink-0'} />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-semibold text-gray-200 truncate">{f.name}</p>
+                          <p className={`text-[10px] ${f.error ? 'text-red-400' : 'text-gray-500'}`}>
+                            {f.error ? f.error : `${f.chars.toLocaleString()} characters read`}
+                          </p>
+                        </div>
+                        <button onClick={() => setFiles(prev => prev.filter((_, j) => j !== i))}
+                          className="text-gray-600 hover:text-red-400 transition-colors flex-shrink-0">
+                          <X size={14} />
+                        </button>
+                      </div>
+                    ))}
+                    <div className="flex items-center justify-between px-1">
+                      <p className="text-[11px] text-gray-500">
+                        {files.filter(f => !f.error).length} file(s) · {totalChars.toLocaleString()} characters
+                      </p>
+                      {overBudget && <p className="text-[11px] text-amber-400">Will be trimmed to fit</p>}
+                    </div>
+                  </div>
+                )}
+
+                <textarea value={materials} onChange={e => setMaterials(e.target.value)} rows={3}
+                  placeholder="Optional: paste anything extra (topics the slides skip, your own notes, past-paper questions)"
                   className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky-500/50 resize-none" />
                 <button onClick={generate} disabled={busy || !course.trim() || !modules.trim()}
                   className="w-full bg-sky-500 hover:bg-sky-600 disabled:opacity-40 text-white py-3 rounded-xl text-sm font-bold transition-colors flex items-center justify-center gap-2">
