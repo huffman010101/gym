@@ -289,6 +289,50 @@ export default function Uni() {
         {/* ===== GET SMARTER ===== */}
         {tab === 'smarter' && (
           <div className="fade-up stagger space-y-4">
+            <Fold title="How to remember almost anything" tag="The techniques that actually beat forgetting" items={[
+              ['The forgetting curve is the problem', 'Without review you lose roughly half of new material within a day or two and most of it within a week. Everything below exists to interrupt that curve. Studying without reviewing is filling a bucket with a hole in it.'],
+              ['Spaced repetition — the single best tool', 'Review at day 1, 3, 7, 14, 30. Each successful recall at a longer gap makes the memory more durable. Anki does the scheduling for you — 15 minutes a day of cards beats a three-hour cram, and it is not close.'],
+              ['Active recall — retrieve, do not review', 'Close everything and write down what you know BEFORE checking. The effort of retrieval is what strengthens the memory. Highlighting and re-reading feel productive and are close to worthless — they build familiarity, which your brain mistakes for knowledge.'],
+              ['Elaboration — ask why and how', 'Do not just learn that something is true; ask why it is true and how it connects to what you already know. Memory is a network, and facts with more connections are far easier to retrieve.'],
+              ['The memory palace (method of loci)', 'For lists and sequences: picture a route you know well — your house, your walk to lectures — and place a vivid, absurd image for each item at a specific spot. Walk the route mentally to recall them. This is genuinely how memory champions do it, and it works because spatial memory is enormous.'],
+              ['Chunking', 'Working memory holds about four items at once. Group information into meaningful chunks and you multiply what fits — a phone number as three chunks, an essay as five arguments, a formula as three moves rather than twelve symbols.'],
+              ['Dual coding — words plus pictures', 'Pair a written explanation with a diagram you draw yourself. Two routes to the same memory means two chances to retrieve it. Drawing it badly from memory beats copying a perfect one from the slides.'],
+              ['Sleep is when it gets stored', 'Memory consolidation happens overnight, particularly in deep sleep and REM. Learning something and then sleeping 5 hours actively wastes the study. Reviewing briefly right before bed is genuinely effective.'],
+              ['Teach it to nobody', 'Explain the topic out loud to an empty room as if to a 12-year-old. Every point where you stall or reach for jargon is a gap. This is the Feynman technique and it is the fastest way to find what you only think you know.'],
+            ]} />
+
+            <Fold title="How to learn any skill fast" tag="Football, guitar, coding, a language — the same process" items={[
+              ['Deliberate practice, not repetition', 'Mindless repetition of what you can already do builds almost nothing. Deliberate practice means working at the edge of your ability, on a specific weakness, with immediate feedback. It is uncomfortable by definition — comfort means you are rehearsing, not improving.'],
+              ['Break the skill into sub-skills', 'Do not practise "football" — practise weak-foot first touch. Do not practise "guitar" — practise one chord change. Skills are stacks of small components, and progress comes from isolating the ones that are actually holding you back.'],
+              ['Find the 80/20 first', 'Every skill has a small number of things that produce most of the result. In a language it is the 1,000 most common words. In cooking it is knife skills and heat control. Identify those before you touch anything advanced.'],
+              ['Feedback loops decide your speed', 'You improve at the speed you get accurate feedback. Video yourself, use a coach, use a metronome, check answers immediately. Practising for months with no feedback usually means grooving mistakes.'],
+              ['Desirable difficulty', 'Conditions that make practice feel harder — spacing sessions out, mixing topics, testing yourself — reduce performance during practice but substantially improve long-term retention. If it feels easy, you are probably not learning much.'],
+              ['Plateaus are normal and mean something', 'Progress is stepwise, not linear. A plateau usually means the thing that got you here will not get you further and you need to change the constraint — a new drill, more difficulty, or a coach who can see what you cannot.'],
+              ['The first 20 hours matter most', 'Going from nothing to competent is fast; going from competent to excellent is slow. If the goal is being decent at something, 20 focused hours genuinely does it. Do not let the fear of a 10,000-hour figure stop you starting.'],
+            ]} />
+
+            <Fold title="How to actually read a book" tag="Most people finish books and remember nothing" items={[
+              ['Decide why you are reading it first', 'Entertainment, one specific answer, or a whole model of a topic? The answer changes how you read. Reading everything the same way is why so little sticks.'],
+              ['Read with a question in mind', 'Skim the contents and ask what you want out of it before starting. A brain looking for something reads far more actively than one passively receiving.'],
+              ['Notes in your own words, not highlights', 'Highlighting is the reading equivalent of re-reading — it feels productive and does almost nothing. One or two sentences per chapter, written in your own words, beats a book full of yellow lines.'],
+              ['Summarise from memory at the end', 'Close the book and write the argument in five bullets. That single act of retrieval does more for retention than the whole read did.'],
+              ['Talk about it within a week', 'Explaining a book to someone forces you to compress and structure it. If you cannot explain what a book said, you did not really read it.'],
+              ['Abandon bad books without guilt', 'Finishing a book you are not getting anything from has no virtue in it. There are more good books than you have time for — sunk cost applies to reading too.'],
+              ['Two books at once, different types', 'One challenging (ideas above your level) and one enjoyable. The hard one grows you; the easy one keeps the habit alive on tired days.'],
+            ]} />
+
+            <Fold title="The reading list" tag="Books actually worth your time, by category" items={[
+              ['Learning & memory — start here', '"Make It Stick" (Brown, Roediger, McDaniel) is the best evidence-based book on how learning actually works. "A Mind for Numbers" (Barbara Oakley) for maths and science specifically. "Moonwalking with Einstein" (Joshua Foer) for memory technique, and it is genuinely a good read.'],
+              ['Thinking & decisions', '"Thinking, Fast and Slow" (Kahneman) — dense but foundational on how your brain fools you. "The Art of Thinking Clearly" (Dobelli) covers similar ground in short, readable chapters if Kahneman is heavy going. "Poor Charlie\'s Almanack" (Munger) on mental models.'],
+              ['Discipline & work', '"Atomic Habits" (James Clear) — the most practical habit book there is. "Deep Work" (Cal Newport) on focus as a competitive advantage. "Peak" (Anders Ericsson) is the actual research behind deliberate practice, as opposed to the 10,000-hours myth built on top of it.'],
+              ['Mindset & philosophy', '"Meditations" (Marcus Aurelius) — a Roman emperor\'s private notes on self-control, and it holds up 1,900 years later. "Mindset" (Carol Dweck) on fixed versus growth mindset. "Man\'s Search for Meaning" (Frankl) if you want something that stays with you.'],
+              ['Money', '"The Psychology of Money" (Housel) — the best first money book, about behaviour rather than spreadsheets. "The Almanack of Naval Ravikant" (free online) on wealth and leverage. "Zero to One" (Thiel) if you are interested in building something.'],
+              ['World & history', '"Prisoners of Geography" (Tim Marshall) explains world affairs through maps and is perfect if you like the Know More cards. "Sapiens" (Harari) is a brilliant read — worth knowing some historians dispute specific claims, so treat it as a provocative framework rather than settled fact.'],
+              ['Communication', '"How to Win Friends and Influence People" (Carnegie) — dated in tone, still the best on basic social skill. "Never Split the Difference" (Chris Voss) on negotiation, and far more useful in normal life than the FBI framing suggests.'],
+              ['Body & health', '"Outlive" (Peter Attia) on training and longevity, genuinely rigorous. "Why We Sleep" (Matthew Walker) is the famous sleep book and largely directionally right, though several specific claims have been challenged — take the principles, not every statistic.'],
+              ['How to use this list', 'Do not buy eight books. Buy one, finish it, apply one thing from it. Someone who has read three books properly and acted on them is far ahead of someone who has read thirty and changed nothing.'],
+            ]} />
+
             <Block title="Learning Science — study half as long, remember twice as much" items={[
               ['Active recall beats rereading 3:1', 'Close the slides. Write/say everything you know about the topic, THEN check what you missed. The struggle to retrieve IS the learning — rereading just feels like learning.'],
               ['Spaced repetition', 'Review at day 1, 3, 7, 14, 30. Use Anki for flashcards — 15 min/day of spaced cards beats a 3-hour cram for retention. Make cards from lectures the same day.'],
