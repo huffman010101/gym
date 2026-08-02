@@ -178,6 +178,21 @@ export default function Guide() {
                 ['Month 3+ — nightly', 'Full benefits: smooth texture, clear pores, faded marks. Now consider stepping up to 0.3–0.5%.'],
               ]} />
             </Fold>
+            <Fold title="Tretinoin — the prescription step up from retinol" tag="Stronger, faster, and needs more respect">
+              <Pairs items={[
+                ['What it actually is', 'Retinol is over-the-counter and your skin has to convert it into retinoic acid before it works — a slow, weak process. Tretinoin IS retinoic acid already, applied directly. That is the entire difference, and it is why it works faster and harder than any strength of retinol.'],
+                ['How to get it in the UK', 'Prescription-only — it is not sold over the counter. Options: your GP (can prescribe but often reluctant for cosmetic use), a private dermatologist, or an online prescriber (Skin + Me, Dermatica, ZAVA) who assesses your skin via photos and posts it out. The online route is the fastest for most people.'],
+                ['Strengths', '0.025% is the standard starting strength, 0.05% and 0.1% are stronger. Cream is gentler than gel — start with 0.025% cream unless a dermatologist says otherwise. Going in strong is the single most common way people wreck their skin barrier.'],
+                ['When to actually switch from retinol', 'Once you have run 0.2-0.5% retinol nightly for several months with no further improvement, or if you want faster results and are willing to manage more irritation. If you are still purging on retinol, you are not ready for tretinoin — fix the barrier first.'],
+                ['The build-up is slower than retinol\'s', 'Once every 3 nights for 2-3 weeks, then every other night for a month, then nightly — and only once your skin tolerates each step without persistent redness or flaking. Rushing tretinoin causes real, sometimes weeks-long irritation, not just mild dryness.'],
+                ['Purging is real and can be worse than retinol\'s', 'Tretinoin speeds up cell turnover, which can bring existing microcomedones to the surface faster — expect a possible flare around weeks 2-6 before skin clears. This is genuinely different from a bad reaction; a true purge happens in areas you already tend to break out, and it resolves.'],
+                ['The moisturiser sandwich — the actual irritation fix', 'Moisturiser first, wait 20 minutes, apply a pea-sized amount of tretinoin (whole face, not just problem areas), then more moisturiser on top once it has absorbed. This "buffers" the dose without meaningfully reducing efficacy, and it is the single best tool for surviving the first month.'],
+                ['SPF is not optional, it is mandatory', 'Tretinoin thins the outer skin layer and increases sun sensitivity significantly more than retinol does. Skipping SPF while on tretinoin will burn skin that is already compromised and can undo months of progress in one exposure.'],
+                ['Never combine carelessly', 'Not on the same night as BHA, benzoyl peroxide or AHA — stack the irritation and you get a wrecked barrier, not faster results. Space actives across different nights, exactly as with retinol.'],
+                ['Pregnancy and general safety', 'Not for use during pregnancy or if trying to conceive — this applies to all retinoids. Otherwise well-studied and dermatologist-standard for acne and ageing when used correctly.'],
+                ['Realistic timeline', 'Weeks 2-6: possible purge, redness, flaking — the hard part. Month 2-3: skin adjusting, texture visibly improving. Month 4-6: clearer skin, faded marks, refined pores — noticeably ahead of what retinol alone would have achieved by then.'],
+              ]} />
+            </Fold>
             <Fold title="Weekly Additions & Daily Habits">
               <Pairs items={[
                 ['Clay mask — 1× per week', 'Aztec Secret with ACV, 10 minutes, deep pore cleanse.'],
