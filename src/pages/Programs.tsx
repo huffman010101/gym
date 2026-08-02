@@ -139,11 +139,11 @@ function Fold({ title, tag, items }: { title: string; tag: string; items: [strin
 
 const DAYS: [string, string, string][] = [
   ['Mon', 'Push', 'Chest, triceps — hypertrophy'],
-  ['Tue', 'Legs A', 'Max strength + size'],
+  ['Tue', 'Big Leg Day', 'Max strength + size — the whole leg, one session'],
   ['Wed', 'Pull', 'Back, biceps, neck — hypertrophy'],
-  ['Thu', 'Explosive / Sport', 'Speed, jumps, rotational power'],
+  ['Thu', 'Explosive / Functional Leg Day', 'Speed, jumps, rotational power'],
   ['Fri', 'Shoulders + Arms', 'Delts, traps, arms — hypertrophy'],
-  ['Sat', 'Legs B', 'Unilateral, posterior chain, football-specific'],
+  ['Sat', 'Rest / Sport', 'Freed up — padel, football, or genuine rest'],
   ['Sun', 'Rest', 'Full rest — this is where it all happens'],
 ];
 
@@ -175,9 +175,9 @@ export default function Programs() {
         <div className="bg-orange-500/5 border border-orange-500/20 rounded-xl px-4 py-3 mb-5">
           <p className="text-xs text-orange-200/80 leading-relaxed">
             Push / Pull / Shoulders built for <span className="text-orange-300 font-bold">muscle growth</span>,
-            two leg days built for <span className="text-orange-300 font-bold">football power</span>, one dedicated
-            <span className="text-orange-300 font-bold"> explosive/sport day</span>, and rotating core work so every
-            session finishes with either sport-specific trunk strength or direct ab growth.
+            one big leg day built for <span className="text-orange-300 font-bold">football power</span>, one dedicated
+            <span className="text-orange-300 font-bold"> explosive/functional leg day</span>, and rotating core work so
+            every session finishes with either sport-specific trunk strength or direct ab growth.
           </p>
         </div>
 
@@ -238,16 +238,15 @@ export default function Programs() {
 
             <Block title="The 5-day version (recommended if you also play sport)" items={[
               ['Mon — Push', 'Chest and triceps, hypertrophy. Rotational core to finish.'],
-              ['Tue — Legs A', 'Squat-led strength and size. Anti-extension core.'],
+              ['Tue — Big Leg Day', 'Squat-led strength and size, the whole leg in one session. Anti-extension core.'],
               ['Wed — Pull', 'Back, biceps, neck. Anti-rotation core and carries.'],
               ['Thu — Shoulders + Arms', 'Delts and arms. Weighted ab work.'],
-              ['Fri — Legs B + Explosive', 'Merge the two: jumps and sprints first while fresh, then unilateral and posterior chain work.'],
+              ['Fri — Explosive / Functional Leg Day', 'Jumps, sprints and rotational power while fresh — your sport can replace part of this if you played this week.'],
               ['Sat/Sun — Sport + one full rest day', 'Football or Muay Thai covers your remaining explosive work. Take at least one genuinely empty day.'],
             ]} />
 
             <Block title="Why the days sit in this order" items={[
-              ['Legs A on Tuesday, Legs B on Saturday', 'Roughly 96 hours apart. Training legs twice a week beats once for both size and force production, but they need real time between heavy sessions.'],
-              ['Explosive on Thursday', 'Two days after heavy legs and the day after an upper session, so your legs are fresh. Power work on tired legs is just conditioning with injury risk attached.'],
+              ['Big Leg Day on Tuesday, Explosive on Thursday', 'Two days apart. Legs get real recovery before the nervous-system work, and power work on tired legs is just conditioning with injury risk attached.'],
               ['Push and Pull separated', 'Monday and Wednesday, so your shoulders are not doing pressing and pulling on consecutive days before the dedicated shoulder day.'],
               ['Shoulders after both', 'By Friday your delts have already had indirect work from pressing and rowing, so Friday is about direct volume rather than heavy overhead strength.'],
               ['Sunday off, properly', 'Not a light gym day. Muscle is built during recovery, and this is the day that makes the other six count.'],
@@ -257,7 +256,7 @@ export default function Programs() {
               ['Chest — 12-14 hard sets', 'All on Push. Comfortably inside the 10-20 set range that research associates with maximum growth.'],
               ['Back — 14-16 sets', 'Pull day, plus indirect work from rows and carries elsewhere. Back tolerates and benefits from high volume.'],
               ['Shoulders — 16-18 sets across the week', 'Direct on Friday plus indirect from every press. Side delts get the most because they drive width.'],
-              ['Quads and hamstrings — 10-14 sets each', 'Split across Legs A and Legs B, with hamstrings deliberately over-served for sprinting and injury prevention.'],
+              ['Quads and hamstrings — 10-14 sets each', 'All on Big Leg Day, with hamstrings deliberately over-served for sprinting and injury prevention.'],
               ['Arms — 8-10 sets each', 'Direct work on Push, Pull and Shoulders days. They also grow from every compound you do.'],
               ['Core — 6 sessions, rotating function', 'Different quality each day rather than the same crunches six times. See the Core tab.'],
             ]} />
@@ -346,46 +345,35 @@ export default function Programs() {
         {tab === 'legs' && (
           <div className="fade-up stagger space-y-4">
             <div className="card-premium p-5">
-              <h3 className="font-bold mb-2">Two leg days, two different jobs</h3>
+              <h3 className="font-bold mb-2">One big leg day, one explosive leg day</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Legs A builds the force you can produce. Legs B makes it usable on a pitch — single leg, posterior chain,
-                and the injury-prevention work that keeps you available. Both add size; neither will make you slow,
-                because the explosive day and your sprint work are what convert strength into speed.
+                Tuesday builds the size and the force you can produce — everything loaded, everything for mass.
+                Thursday (see the Explosive tab) is where that force gets converted into speed. Splitting size and
+                power onto separate days like this, rather than blending them, means neither one waters down the other.
               </p>
             </div>
             <Session
-              title="Tuesday — Legs A"
-              tag="Max strength + size"
-              block="Heavy compound first with full recovery (3 min), then hypertrophy work. This is the day that raises your ceiling — the explosive day converts it into speed."
+              title="Tuesday — Big Leg Day"
+              tag="Max strength + size — the whole leg, one session"
+              block="Heavy compound first with full recovery (3 min), then hypertrophy work in higher rep ranges. This is the longest session of the week by design — it is now the only dedicated leg-size day, so it earns the extra time."
               exercises={[
                 { name: 'Back squat', sets: '4 × 5-6', targets: 'Quads · glutes · adductors · spinal erectors · trunk', how: "Bar on the upper traps, feet about shoulder-width with toes slightly out. Big breath, brace the trunk like you are about to be punched. Sit down and slightly back, knees tracking over the toes, until the hip crease passes below the knee if your mobility allows. Drive up through the whole foot — chest and hips rising together, not hips shooting up first.", why: 'Your foundational strength lift and the number to progress weekly. Sprint speed and jump height both track with relative squat strength.' },
                 { name: 'Romanian deadlift', sets: '3 × 8-10', targets: 'Hamstrings · glutes · spinal erectors', how: "Start standing with the bar at hip height. Soft knees held at a constant angle — this is a hip hinge, not a squat. Push the hips straight back, bar dragging down the thighs, until you feel a strong hamstring stretch around mid-shin. Back stays flat throughout. Drive the hips forward to stand.", why: 'Hamstrings under a loaded stretch. The hamstrings decelerate your leg every stride at top speed, which is exactly where they tear.' },
                 { name: 'Bulgarian split squat', sets: '3 × 8-10/leg', targets: 'Quads · glutes · adductors · balance', how: "Rear foot on a bench behind you, front foot far enough forward that your front shin stays near vertical. Drop straight down until the back knee is just off the floor. More forward lean hits glutes, more upright hits quads. The front leg does everything — the back leg is only balance.", why: 'Football happens on one leg. Single-leg strength transfers more directly to cutting, kicking and planting than any bilateral lift.' },
-                { name: 'Leg press or hack squat', sets: '3 × 10-12', targets: 'Quads · glutes', how: "Feet mid-platform, shoulder-width. Lower until your knees reach roughly 90 degrees or just past, without the lower back rounding off the pad — that round is where leg press injuries come from. Press back without locking the knees out hard at the top.", why: 'Pure quad size with the stabilising demand removed, so you can take it close to failure safely after the heavy squatting.' },
-                { name: 'Nordic hamstring curl', sets: '3 × 5', targets: 'Hamstrings — eccentric strength', how: "Kneel with your ankles anchored under something solid or held by a partner. Body straight from knees to head, squeeze the glutes. Lower yourself forward as slowly as you possibly can, resisting the whole way, then catch with your hands and push back up. Even lowering 20-30 degrees under control is a working rep at the start.", why: 'The single most evidence-backed hamstring injury prevention exercise there is — programmes using it have roughly halved hamstring injury rates. Non-negotiable if you play football.' },
-                { name: 'Standing calf raise', sets: '4 × 10-15', targets: 'Gastrocnemius', how: "Balls of the feet on a raised edge, knees straight. Drop the heels for a full stretch, pause a beat at the bottom, then drive up onto the toes and hold the top for a second. Straight knees are what target the gastroc rather than the soleus.", why: 'Stiff, springy ankles are free speed and protect against rolled ankles. Pause at the top, full stretch at the bottom.' },
-                { name: 'CORE — Anti-extension', sets: 'see Core tab', why: 'Hanging leg raises and ab wheel. Resisting extension is what stops your lower back taking load that belongs to your abs.' },
-              ]}
-            />
-            <Session
-              title="Saturday — Legs B"
-              tag="Unilateral · posterior chain · football-specific"
-              open={false}
-              block="Lighter on the spine, heavier on the hips and hamstrings. This is the session that makes your legs work on a pitch rather than just in a squat rack."
-              exercises={[
-                { name: 'Trap bar deadlift', sets: '4 × 5', targets: 'Glutes · quads · hamstrings · traps · whole posterior chain', how: "Stand in the middle of the bar, feet hip-width. Hinge down and grip the handles, chest up, back flat, arms straight. Push the floor away with your legs and drive the hips through to stand tall. The neutral grip and centred load make it far kinder on the spine than a straight bar.", why: 'Hip and posterior chain power with a far friendlier spinal position than a barbell deadlift. Arguably transfers better to jumping and sprinting too.' },
                 { name: 'Hip thrust', sets: '4 × 8-10', targets: 'Glutes · hamstrings', how: "Upper back on a bench, bar across the hips with a pad. Feet planted so your shins are vertical at the top. Drive through the heels, squeeze the glutes hard and finish with the torso parallel to the floor — do not hyperextend the lower back to get higher. Chin tucked, ribs down.", why: 'Direct glute loading. Glutes are the primary engine of sprint acceleration, shot power and kick power — one of the highest-return lifts for a footballer.' },
-                { name: 'Walking lunges', sets: '3 × 10/leg', targets: 'Quads · glutes · adductors · hip stability', how: "Long step forward, drop the back knee toward the floor, front shin roughly vertical. Push through the front heel to stand and step straight into the next rep. Torso upright, no leaning over the front leg. Dumbbells at your sides is the simplest loading.", why: 'Single-leg strength through a stride pattern, plus real hip mobility under load. Closest gym movement to actually running.' },
-                { name: 'Single-leg RDL', sets: '3 × 8/leg', targets: 'Hamstrings · glutes · balance · hip control', how: "Weight in the opposite hand to the standing leg. Soft knee, hinge at the hip letting the free leg travel straight back as a counterweight, keeping hips square to the floor. Lower until you feel the hamstring stretch, then drive the hip forward to stand.", why: 'Hamstring and glute strength plus the balance and hip control that stops you getting knocked off the ball.' },
-                { name: 'Nordic hamstring curl', sets: '3 × 5', targets: 'Hamstrings — eccentric strength', how: "Kneel with your ankles anchored under something solid or held by a partner. Body straight from knees to head, squeeze the glutes. Lower yourself forward as slowly as you possibly can, resisting the whole way, then catch with your hands and push back up. Even lowering 20-30 degrees under control is a working rep at the start.", why: 'Second weekly dose. Twice a week is what the injury-prevention research protocols actually use, and it is what makes the difference.' },
+                { name: 'Leg press or hack squat', sets: '3 × 10-12', targets: 'Quads · glutes', how: "Feet mid-platform, shoulder-width. Lower until your knees reach roughly 90 degrees or just past, without the lower back rounding off the pad — that round is where leg press injuries come from. Press back without locking the knees out hard at the top.", why: 'Pure quad size with the stabilising demand removed, so you can take it close to failure safely after the heavy squatting.' },
+                { name: 'Nordic hamstring curl', sets: '3 × 6-8', targets: 'Hamstrings — eccentric strength', how: "Kneel with your ankles anchored under something solid or held by a partner. Body straight from knees to head, squeeze the glutes. Lower yourself forward as slowly as you possibly can, resisting the whole way, then catch with your hands and push back up. Even lowering 20-30 degrees under control is a working rep at the start.", why: 'The single most evidence-backed hamstring injury prevention exercise there is. Now only once a week rather than twice, so the extra sets here make up part of the difference — see the note below.' },
                 { name: 'Copenhagen plank', sets: '3 × 20-30s/side', targets: 'Adductors (groin) · obliques', how: "Side-lying, top leg resting on a bench at the knee (easier) or ankle (harder). Lift your hips so the body forms a straight line, holding position with the inner thigh of the top leg. Start with the knee-supported version — the full ankle version is genuinely hard.", why: 'Adductor strength. Groin strains end football seasons, and this is the best prevention exercise available.' },
+                { name: 'Standing calf raise', sets: '4 × 10-15', targets: 'Gastrocnemius', how: "Balls of the feet on a raised edge, knees straight. Drop the heels for a full stretch, pause a beat at the bottom, then drive up onto the toes and hold the top for a second. Straight knees are what target the gastroc rather than the soleus.", why: 'Stiff, springy ankles are free speed and protect against rolled ankles. Pause at the top, full stretch at the bottom.' },
                 { name: 'Seated calf raise', sets: '3 × 12-15', targets: 'Soleus', how: "Seated with the pad over the knees, balls of the feet on the platform. Knees bent to 90 degrees is what shifts the work from the gastroc to the soleus. Full stretch at the bottom, hard squeeze at the top, slow throughout.", why: 'Seated targets the soleus, which the standing version misses. The soleus takes enormous load in running.' },
-                { name: 'CORE — Anti-lateral flexion', sets: 'see Core tab', why: 'Suitcase carries and side planks. Resisting sideways bend is what keeps you upright when someone leans on you mid-sprint.' },
+                { name: 'CORE — Anti-extension + anti-lateral flexion', sets: 'see Core tab', why: 'Hanging leg raises/ab wheel, then a suitcase carry or side plank. Both trunk functions live here now that there is only one leg day to attach them to.' },
               ]}
             />
-            <Block title="Will heavy legs make me slower?" items={[
-              ['No — as long as you keep sprinting', 'Strength is the foundation of power. What makes people slow is gaining weight while dropping the sprint and jump work that teaches the body to use it. Your explosive day exists precisely to prevent that.'],
-              ['Strength first, then convert it', 'A stronger leg can produce more force. The jumps and sprints on Thursday train you to produce that force fast. Doing only one of the two is why people are either strong and slow or fast and fragile.'],
+            <Block title="Why one day instead of two" items={[
+              ['Nothing here is being cut, just recombined', 'Every exercise from the old two-day split is still in the programme — Big Leg Day is genuinely long, and that is the point. It frees Saturday for rest, sport, or extra padel/football rather than a second gym session.'],
+              ['The one real trade-off: Nordic frequency', 'Research protocols that roughly halve hamstring injury rates use Nordics twice a week. Dropping to once a week is still valuable, just not quite as protective — the extra set here (6-8 instead of 5) is a partial compensation, not a full one. If hamstring durability is a priority, the fix is doing a short second Nordic-only session (just 2-3 sets, 5 minutes) on a lighter day rather than reviving a whole second leg day.'],
+              ['Will heavy legs make me slower? No', 'Strength is the foundation of power. What makes people slow is gaining weight while dropping the sprint and jump work that teaches the body to use it — which is exactly what Thursday exists to prevent.'],
+              ['Strength first, then convert it', 'A stronger leg can produce more force. Thursday trains you to produce that force fast. Doing only one of the two is why people end up either strong and slow, or fast and fragile.'],
               ['Do not chase a squat number at any cost', 'Once your squat is roughly 1.5-2x bodyweight, extra maximal strength returns less for sport than more speed work. Keep progressing, but not at the expense of Thursday.'],
             ]} />
           </div>
@@ -403,7 +391,7 @@ export default function Programs() {
               </p>
             </div>
             <Session
-              title="Thursday — Explosive / Sport"
+              title="Thursday — Explosive / Functional Leg Day"
               tag="Speed · jumps · rotational power"
               block="Order matters enormously: most explosive and most technical first, always fresh. Rest 2-3 min between everything. Total working time is short — around 45 minutes including warm-up."
               exercises={[
@@ -430,12 +418,12 @@ export default function Programs() {
         {tab === 'core' && (
           <div className="fade-up stagger space-y-4">
             <div className="card-premium p-5">
-              <h3 className="font-bold mb-2">Rotating core — why it is not the same thing six times</h3>
+              <h3 className="font-bold mb-2">Rotating core — why it is not the same thing five times</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
                 Your trunk has four jobs: resist extension, resist rotation, resist sideways bend, and produce rotation.
                 Sport needs all four. Visible abs also need actual muscle, which needs loaded reps in a hypertrophy
                 range — not endless bodyweight crunches. This rotation covers every function across the week and gives
-                the abs two dedicated growth slots.
+                the abs a dedicated growth slot.
               </p>
             </div>
             <Session
@@ -449,13 +437,14 @@ export default function Programs() {
               ]}
             />
             <Session
-              title="Tue (Legs A) — Anti-extension"
-              tag="Resist arching"
+              title="Tue (Big Leg Day) — Anti-extension + anti-lateral flexion"
+              tag="Resist arching, resist sideways bend"
               open={false}
-              block="After legs. Keeps the lower back out of work that belongs to the abs."
+              block="After legs. Keeps the lower back out of work that belongs to the abs — both trunk functions now sit here since Big Leg Day absorbed the old Saturday session."
               exercises={[
                 { name: 'Hanging leg raise', sets: '3 × 10-15', targets: 'Lower abs · hip flexors', how: "Hang from a bar, shoulders active. Curl the pelvis up toward your ribs rather than just lifting the legs — that posterior tilt is what makes it an ab exercise instead of a hip flexor swing. Lower slowly with no swinging. Bend the knees if straight legs are too hard.", why: 'Lower abs and hip flexors. Control the lowering — swinging turns it into a hip flexor swing with no ab work at all.' },
                 { name: 'Ab wheel rollout', sets: '3 × 8-12', targets: 'Whole anterior core — anti-extension', how: "Start on your knees, wheel under the shoulders. Roll out keeping the ribs pulled down and the lower back flat — the moment your back arches, you have gone past your range. Only roll out as far as you can control and pull back with the abs, not the hips.", why: 'One of the highest ab-activation exercises measured. Keep the ribs down and the lower back flat throughout.' },
+                { name: 'Side plank with reach-through', sets: '3 × 30-40s/side', targets: 'Obliques · QL — anti-lateral flexion', how: "Side plank on the forearm, body in a straight line, hips lifted high. Reach the top arm under your body, rotate slightly, then return and open back up. Hips must not sag toward the floor at any point.", why: 'Obliques and quadratus lumborum. Keeps you upright when someone leans into you mid-stride.' },
               ]}
             />
             <Session
@@ -488,20 +477,10 @@ export default function Programs() {
                 { name: 'Weighted decline sit-up', sets: '3 × 10-12', targets: 'Rectus abdominis · hip flexors', how: "Decline bench, plate held on the chest or behind the head. Curl up rounding the spine segment by segment rather than staying rigid and hinging at the hips. Lower slowly. Add weight as it gets easy.", why: 'Hold a plate on your chest. Abs are muscles: they need progressive overload to get thicker, and thickness is what makes them visible.' },
               ]}
             />
-            <Session
-              title="Sat (Legs B) — Anti-lateral flexion"
-              tag="Resist sideways bend"
-              open={false}
-              block="Completes the four functions. Also the most football-specific of the six."
-              exercises={[
-                { name: 'Side plank with reach-through', sets: '3 × 30-40s/side', targets: 'Obliques · QL — anti-lateral flexion', how: "Side plank on the forearm, body in a straight line, hips lifted high. Reach the top arm under your body, rotate slightly, then return and open back up. Hips must not sag toward the floor at any point.", why: 'Obliques and quadratus lumborum. Keeps you upright when someone leans into you mid-stride.' },
-                { name: 'Heavy suitcase hold', sets: '3 × 30s/side', targets: 'Obliques · QL · grip', how: "Same as the carry but static. Stand completely upright holding a heavy weight in one hand, shoulders level, resisting the sideways pull for the full duration.", why: 'Simple, brutal, and directly transfers to holding your ground in a shoulder-to-shoulder duel.' },
-              ]}
-            />
             <Block title="The honest bit about visible abs" items={[
               ['Training grows them, diet reveals them', 'You can build genuinely thick abs and still not see one of them at 18% body fat. Both halves are required, and they are separate jobs.'],
               ['Roughly 10-12% body fat for a clear four, lower for six', 'Individual and largely genetic in terms of where you store fat and how your abs are shaped. Training makes them thicker; it cannot change their arrangement.'],
-              ['Do not train abs daily', 'They recover like any other muscle. Six short, varied, quality sessions across the week is more than enough — the rotation above is deliberately not six of the same thing.'],
+              ['Do not train abs daily', 'They recover like any other muscle. Five short, varied, quality sessions across the week is more than enough — the rotation above is deliberately not the same thing every time.'],
             ]} />
           </div>
         )}
@@ -566,7 +545,7 @@ export default function Programs() {
             ]} />
 
             <Block title="Recovering from sport on top of lifting" items={[
-              ['Count your sport as training', 'A football match is roughly a hard leg session plus conditioning. If you played Saturday, Legs B on Sunday is not brave, it is a mistake. Move it or cut it.'],
+              ['Count your sport as training', 'A football match is roughly a hard leg session plus conditioning. If you played Saturday, going straight into a full Big Leg Day fully fatigued is not brave, it is a mistake. Move it or cut the volume.'],
               ['Match day plus 48 hours', 'Leave at least two days between a match or hard sparring and your heavy leg or explosive day. That is when hamstring injuries happen.'],
               ['Hard days hard, easy days easy', 'If both a sport session and a lift must happen, do them on the SAME day and keep the next day genuinely easy. Two moderately hard days in a row is worse recovery than one very hard day plus a real rest day.'],
               ['In-season, cut volume not intensity', 'Keep the weights heavy and drop the number of sets by about a third. You maintain strength on far less volume than you needed to build it.'],

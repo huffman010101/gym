@@ -1208,6 +1208,132 @@ export default function LooksMax() {
             </div>
 
             <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-1">How to Pose</h2>
+              <p className="text-gray-600 text-xs mb-3">Posing is a skill, not a genetic trait. Everyone looks better in a good position than a lazy one — including you right now.</p>
+              <div className="space-y-2">
+                {[
+                  ['Weight on the back foot, angled 30-45°', 'Never square to the camera — it flattens and widens you. Turn slightly, weight on the back leg, front leg relaxed with a soft bend at the knee.'],
+                  ['Create space between arms and torso', 'A small gap at the armpit — hand in a pocket, thumb hooked on a belt loop, arm resting on something — instantly makes the torso look narrower and the shoulders wider by contrast.'],
+                  ['Elongate the neck', 'Chin very slightly forward and down, not tucked or raised. This is the single biggest difference between an awkward photo and a natural one — most bad photos are a bad chin, not a bad face.'],
+                  ['Engage, don\'t flex', 'A visible flex reads as trying. A braced core and straight spine reads as natural definition. Squeeze subtly, breathe normally, never suck in obviously.'],
+                  ['Hands are the tell', 'Dead-straight arms or fully open flat palms look stiff. Soft bend at the elbow, a slight curl in the fingers, or a hand in a pocket. Busy hands (adjusting a cuff, holding a jacket) look more natural than posed hands.'],
+                  ['Weight distribution over both feet is the beginner mistake', 'Standing square and even is what makes photos look like a passport photo. Shift weight onto one leg, hip drops slightly, the whole body reads as relaxed instead of braced.'],
+                  ['Practise in a mirror first', 'Nobody looks natural on attempt one. Run through 4-5 positions in a mirror until one feels unforced, then that becomes your default for photos — this is genuinely how it is done professionally.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-1">Taking High-Value Photos</h2>
+              <p className="text-gray-600 text-xs mb-3">The camera, the light and the angle decide more than the outfit does.</p>
+              <div className="space-y-2">
+                {[
+                  ['Always use the rear/main camera', 'Front cameras are wide-angle and distort faces up close — bigger nose, smaller ears, warped proportions. Rear camera + a few steps back + zoom in slightly beats any front-facing selfie.'],
+                  ['Shoot from chest height, never below', 'A low angle exaggerates the chin and nostrils and shortens the body. Camera at chest-to-eye height, phone held level — not tilted up or down.'],
+                  ['Natural light, not overhead artificial', 'Golden hour (the hour after sunrise or before sunset) or bright open shade both flatter skin. Direct overhead sun creates harsh shadows under the eyes and nose; ceiling lights cast unflattering shadows upward.'],
+                  ['Face the light source', 'Turn so the light hits your face rather than coming from behind you (which silhouettes you) or directly above (which shadows your eyes). A window is the easiest reliable light source indoors.'],
+                  ['Clean background, one focal point', 'A busy background competes with you. Plain walls, nature, or a blurred background (portrait mode) all keep the eye on the subject — which is the point of the photo.'],
+                  ['Burst mode or multiple shots, always', 'Take 10-15 shots minimum and pick one. Nobody\'s first shot is their best — this is the actual secret behind photos that look effortless.'],
+                  ['Editing: correct, don\'t transform', 'Adjust exposure, warmth and contrast — small, honest tweaks. Heavy filters and face-altering apps are usually obvious and undercut trust the moment you meet someone in person.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-1">Framing the Shot</h2>
+              <p className="text-gray-600 text-xs mb-3">Composition is a small number of rules, not talent.</p>
+              <div className="space-y-2">
+                {[
+                  ['Rule of thirds', 'Mentally split the frame into a 3×3 grid and position yourself on one of the intersecting lines rather than dead centre. Off-centre reads as an intentional photo, not a snapshot — most phone cameras can overlay this grid in settings.'],
+                  ['Leave headroom, not too much', 'A small gap above the head, not a huge empty void or the top of the head cut off. Too much empty space above makes the subject look small and lost in the frame.'],
+                  ['Fill the frame with intention', 'Full body for outfit/physique shots, waist-up for a stronger presence shot, chest-up for a portrait that shows the face clearly. Decide what the photo is FOR before you shoot it.'],
+                  ['Vertical for solo, horizontal for context', 'Portrait orientation for a single-subject shot (fits every platform). Landscape when the environment — a stadium, a view, a group — is part of the story.'],
+                  ['Depth beats a flat background', 'Standing a few metres in front of a wall or landscape (rather than pressed against it) creates separation and a more professional look, especially with portrait/blur mode.'],
+                  ['Leading lines', 'A path, a railing, a row of buildings that draws the eye toward you. Not essential, but it is the difference between a good photo and one that looks considered.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-1">Presenting Yourself in a Positive Light</h2>
+              <p className="text-gray-600 text-xs mb-3">What the photo says about you matters more than how sharp it is.</p>
+              <div className="space-y-2">
+                {[
+                  ['A genuine expression beats a perfect one', 'Actually think of something that makes you smile rather than performing a smile — the eyes give away the difference instantly, and people register it even if they cannot say why a photo feels "off".'],
+                  ['Context photos out-communicate posed ones', 'A photo mid-activity — training, playing, laughing with people — signals more about your life than any posed shot ever will. This is exactly why the Social Media Presence advice below says "document, don\'t perform".'],
+                  ['Consistency across photos builds trust', 'If every photo looks radically different in lighting, editing and vibe, it reads as curated or fake. A consistent style across your set is what makes people trust the version of you they are seeing.'],
+                  ['One great photo beats ten average ones', 'Be selective and ruthless. A single genuinely strong photo does more for a first impression than a wall of mediocre ones — this applies to dating profiles, social media and anywhere else you are chosen from photos.'],
+                  ['Match the photo to the platform', 'A dating profile needs your face clear and early, plus one full-body and one social/activity shot. Instagram grid tolerates more mood and mystery. LinkedIn wants approachable and sharp, not casual.'],
+                  ['The confidence in the photo is doing real work', 'Two technically identical photos — same lighting, same outfit — read completely differently if one has a relaxed, grounded posture and the other looks stiff or unsure. This is the Security and High Value tabs showing up in a still image.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-1">Taking the Photo on iPhone</h2>
+              <p className="text-gray-600 text-xs mb-3">The camera app has more control than most people use. A few taps before you shoot beats any amount of editing after.</p>
+              <div className="space-y-2">
+                {[
+                  ['Turn the grid on', 'Settings → Camera → Grid. Gives you rule-of-thirds lines live, so you can actually place yourself instead of guessing. Leave it on permanently.'],
+                  ['Tap-and-hold to lock exposure and focus', 'Tap once to focus, then press and hold the same spot until "AE/AF LOCK" appears. This stops the phone re-exposing for the background every time you move — critical outdoors or with a bright sky behind you.'],
+                  ['Drag the sun icon to control brightness manually', 'After locking focus, a small sun slider appears next to the yellow box — drag it up or down to fine-tune exposure before you shoot, rather than fixing a blown-out or dark shot in editing.'],
+                  ['HDR / Smart HDR: leave it on auto', 'It balances bright skies with a shadowed face automatically. Only worth overriding if a specific shot looks flat or over-processed on review.'],
+                  ['Use the 1x or 3x lens, never ultra-wide for people', 'The 0.5x ultra-wide lens distorts faces and bodies badly up close — it is built for landscapes. 1x is natural, 3x (or the portrait lens) flatters faces by compressing perspective, which is why professional portraits are shot on longer lenses.'],
+                  ['Portrait mode for a clean single-subject shot', 'Blurs the background and keeps the focus on you. Check the depth slider (f-stop, top corner) afterward — the default is often too aggressive and cuts into hair or shoulders unnaturally at f/2.8-4 is usually safer than f/1.4.'],
+                  ['Use the volume button or a timer, not a shaky reach', 'Either button works as a shutter and is more stable than tapping the screen. For self-timer shots, use the 3s or 10s timer with the phone properly propped, not held.'],
+                  ['Clean the lens', 'Pocket lint and fingerprints cause a soft, hazy look that no edit fixes properly. Ten seconds with a t-shirt before any shoot that matters.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-1">Editing: Settings That Actually Help</h2>
+              <p className="text-gray-600 text-xs mb-3">Small, consistent adjustments. The goal is correcting the photo, not transforming it — see "editing correct, don't transform" above.</p>
+              <div className="space-y-2">
+                {[
+                  ['The native Photos app edit tool is enough', 'Tap Edit → the sliders icon. You do not need a separate app to get a clean result — most "influencer" photos are three or four native sliders, not a filter.'],
+                  ['Exposure and Brilliance first', 'Exposure sets overall brightness; Brilliance lifts shadow detail without blowing out highlights. Small moves — +/-10 to 20 on the slider — go a long way before it looks edited.'],
+                  ['Contrast up slightly, Shadows up slightly', 'A small contrast boost (around +10-15) adds punch. Lifting shadows a touch (+10-20) stops faces looking muddy in anything but perfect light. Both together is the single biggest "why does this look better" move.'],
+                  ['Warmth: nudge toward your skin tone, not away from it', 'A tiny warmth increase (+5-10) generally flatters skin. Cold, blue-tinted photos read as unedited phone-flash shots.'],
+                  ['Sharpness: barely touch it', 'A small bump (+5-10) can help on a slightly soft shot. Overdone sharpening creates a harsh, artificial edge around hair and skin texture — the most common tell of a bad edit.'],
+                  ['Vignette: light, if at all', 'A very subtle vignette (10-15) pulls the eye toward the centre/subject. Heavy vignettes look dated and try-hard.'],
+                  ['Skip beauty filters entirely', 'Skin-smoothing and face-reshape filters (Facetune-style apps) are detectable at a glance and undercut trust the moment someone meets you in person. If skin is a genuine concern, that is what the Skin & Acne Protocol in the Guide is for — fix it at the source, not in post.'],
+                  ['Crop last', 'Recompose using the crop tool to apply the rule-of-thirds and headroom guidance above if you did not nail it in-camera. Straighten the horizon while you are there — a tilted horizon is a small detail that reads as sloppy.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
               <h2 className="font-bold text-base mb-1">Social Media Presence</h2>
               <p className="text-gray-600 text-xs mb-3">Your grid is your first impression before you ever speak. Curate it like an outfit.</p>
               <div className="space-y-2">
