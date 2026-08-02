@@ -1,8 +1,9 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, GraduationCap, Shuffle, Lightbulb, Check } from 'lucide-react';
+import { ArrowLeft, GraduationCap, Shuffle, Lightbulb, Check, Sparkles, Loader2, AlertCircle } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import { CARDS, CATS, TOTAL, todaysCards, daysToSeeAll, type Card, type Cat } from '../data/knowledge';
+import { generateKnowledgeCards } from '../lib/generators';
 
 const PER_DAY = 4;
 const readKey = () => `gymforge_knowledge_read_${new Date().toISOString().split('T')[0]}`;
@@ -52,8 +53,44 @@ export default function Knowledge() {
     catch { return {}; }
   });
 
+  // AI-generated cards persist locally, so the library grows permanently and
+  // stays available offline once fetched.
+  const [generated, setGenerated] = useState<Card[]>(() => {
+    try { return JSON.parse(localStorage.getItem('gymforge_knowledge_generated') || '[]') as Card[]; }
+    catch { return []; }
+  });
+  const [genBusy, setGenBusy] = useState(false);
+  const [genErr, setGenErr] = useState('');
+
+  const library = useMemo(() => [...CARDS, ...generated], [generated]);
+
   const today = useMemo(() => todaysCards(PER_DAY), []);
   const doneCount = today.filter(c => read[c.id]).length;
+
+  const generateMore = async () => {
+    setGenBusy(true); setGenErr('');
+    try {
+      const fresh = await generateKnowledgeCards(
+        Object.keys(CATS),
+        library.map(c => c.title)
+      );
+      if (!fresh.length) throw new Error('Nothing came back — try again.');
+      const stamped: Card[] = fresh.map((c, i) => ({
+        id: `gen_${Date.now()}_${i}`,
+        cat: (Object.keys(CATS).includes(c.cat) ? c.cat : 'world') as Cat,
+        title: c.title,
+        text: c.text,
+        twist: c.twist,
+      }));
+      const next = [...generated, ...stamped];
+      setGenerated(next);
+      setExtra(e => [...e, ...stamped]);
+      try { localStorage.setItem('gymforge_knowledge_generated', JSON.stringify(next)); } catch { /* quota */ }
+    } catch (e) {
+      setGenErr(e instanceof Error ? e.message : 'Generation failed. Check your API key and connection.');
+    }
+    setGenBusy(false);
+  };
 
   const markRead = (id: string) => {
     setRead(prev => {
@@ -64,12 +101,12 @@ export default function Knowledge() {
   };
 
   const addRandom = () => {
-    const pool = CARDS.filter(c => !today.includes(c) && !extra.includes(c));
+    const pool = library.filter(c => !today.includes(c) && !extra.includes(c));
     if (!pool.length) return;
     setExtra(e => [...e, pool[Math.floor(Math.random() * pool.length)]]);
   };
 
-  const browseList = filter === 'all' ? CARDS : CARDS.filter(c => c.cat === filter);
+  const browseList = filter === 'all' ? library : library.filter(c => c.cat === filter);
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] bg-gradient-to-b from-sky-950/30 via-[#0a0a0a] to-[#0a0a0a] text-white pb-24">
@@ -118,9 +155,17 @@ export default function Knowledge() {
               <Shuffle size={15} /> One more
             </button>
 
+            <button onClick={generateMore} disabled={genBusy}
+              className="w-full flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white py-3 rounded-2xl text-sm font-bold transition-colors">
+              {genBusy
+                ? <><Loader2 size={15} className="animate-spin" /> Writing 6 new lessons…</>
+                : <><Sparkles size={15} /> Generate 6 brand-new lessons</>}
+            </button>
+            {genErr && <p className="text-red-400 text-xs flex items-center gap-1.5 px-1"><AlertCircle size={12} /> {genErr}</p>}
+
             <button onClick={() => setBrowsing(true)}
               className="w-full text-center text-gray-600 hover:text-gray-400 text-xs font-semibold py-2 transition-colors">
-              Browse all {TOTAL} — {daysToSeeAll(PER_DAY)} days of lessons
+              Browse all {library.length} lessons{generated.length > 0 ? ` (${generated.length} generated)` : ` — ${daysToSeeAll(PER_DAY)} days`}
             </button>
           </div>
         )}

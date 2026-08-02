@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ChevronDown, Dumbbell, Utensils, Flame, Activity } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 
-type Tab = 'week' | 'push' | 'pull' | 'shoulders' | 'legs' | 'explosive' | 'core' | 'posture' | 'rules';
+type Tab = 'week' | 'push' | 'pull' | 'shoulders' | 'legs' | 'explosive' | 'core' | 'recovery' | 'posture' | 'rules';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'week', label: 'The Week' },
@@ -13,6 +13,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'legs', label: 'Legs' },
   { id: 'explosive', label: 'Explosive' },
   { id: 'core', label: 'Core & Abs' },
+  { id: 'recovery', label: 'Recovery' },
   { id: 'posture', label: 'Posture' },
   { id: 'rules', label: 'How to Run It' },
 ];
@@ -150,7 +151,7 @@ export default function Programs() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['week', 'push', 'pull', 'shoulders', 'legs', 'explosive', 'core', 'posture', 'rules'] as const)
+    return (['week', 'push', 'pull', 'shoulders', 'legs', 'explosive', 'core', 'recovery', 'posture', 'rules'] as const)
       .includes(t as Tab) ? (t as Tab) : 'week';
   });
 
@@ -501,6 +502,74 @@ export default function Programs() {
               ['Training grows them, diet reveals them', 'You can build genuinely thick abs and still not see one of them at 18% body fat. Both halves are required, and they are separate jobs.'],
               ['Roughly 10-12% body fat for a clear four, lower for six', 'Individual and largely genetic in terms of where you store fat and how your abs are shaped. Training makes them thicker; it cannot change their arrangement.'],
               ['Do not train abs daily', 'They recover like any other muscle. Six short, varied, quality sessions across the week is more than enough — the rotation above is deliberately not six of the same thing.'],
+            ]} />
+          </div>
+        )}
+
+        {/* ===== RECOVERY ===== */}
+        {tab === 'recovery' && (
+          <div className="fade-up stagger space-y-4">
+            <div className="card-premium p-5">
+              <h3 className="font-bold mb-2">Recovery is the programme</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Training is the stimulus. Every bit of the actual adaptation — muscle, strength, speed, skill —
+                happens while you recover. At six sessions a week plus sport, recovery stops being optional
+                maintenance and becomes the thing that decides whether any of it works. Ranked below by how much
+                each actually matters.
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-emerald-500/15 to-[#111] border border-emerald-500/30 rounded-2xl p-5">
+              <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-emerald-300/70 mb-3">The big four — in order</p>
+              <div className="space-y-3">
+                {[
+                  ['Sleep — 8-9 hours', 'Nothing else on this list comes close. Growth hormone peaks in deep sleep, muscle protein synthesis and CNS recovery both depend on it, and a week of 6-hour nights measurably reduces strength and increases injury risk. If you are training six days and sleeping six hours, fix the sleep before you change anything in the gym.'],
+                  ['Protein — 1.6-2.2g per kg bodyweight', 'The raw material. Spread it across 3-4 meals of roughly 30-40g rather than one huge hit, since the response to a single dose plateaus. At 75kg that is around 120-165g a day, every day, including rest days.'],
+                  ['Total calories', 'You cannot recover from six sessions in a meaningful deficit. Building muscle needs a surplus of roughly 300-500 kcal; maintaining while training this hard needs at least maintenance. Chronic under-eating shows up as stalled lifts, poor sleep and constant niggles long before it shows up on the scale.'],
+                  ['Deloads — every 6-8 weeks', 'One week at roughly 60% of normal volume, keeping the weights similar. Fatigue accumulates faster than you notice, and a planned deload is how you avoid the unplanned one where something tears. Non-negotiable at this frequency.'],
+                ].map(([t, d], i) => (
+                  <div key={t} className="flex gap-3">
+                    <span className="text-emerald-400/70 font-black text-xs mt-0.5 w-4 flex-shrink-0">{i + 1}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-sm text-gray-200">{t}</p>
+                      <p className="text-gray-500 text-xs leading-relaxed mt-0.5">{d}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <Block title="Around your sessions" items={[
+              ['Carbs before and after training', 'Glycogen is the fuel for both lifting and sprinting. Training depleted is why some sessions feel inexplicably heavy. Carbs before, carbs after, and more of them on your leg and explosive days.'],
+              ['Protein timing matters less than total', 'The "anabolic window" is far wider than the old 30-minute rule. Getting your daily total is what counts — though protein within a couple of hours either side of training is a sensible default.'],
+              ['Hydration the day before, not just during', 'Even mild dehydration reduces strength output and makes everything feel harder. Turning up already low is a self-inflicted bad session.'],
+              ['Walk on rest days', '20-40 minutes of easy walking increases blood flow without adding fatigue. It genuinely speeds recovery, unlike lying completely still all day.'],
+              ['Do not train through sharp pain', 'Muscle soreness is fine to train around. Sharp, localised or joint pain is information — training through it turns a two-week problem into a three-month one.'],
+            ]} />
+
+            <Fold title="What actually works — ranked honestly" tag="Most recovery products are not worth the money" items={[
+              ['Sleep, food, deloads', 'Roughly 90% of your recovery. Everything below is fine-tuning at the margins, and none of it compensates for getting these wrong.'],
+              ['Sauna — decent evidence', 'Regular heat exposure is associated with cardiovascular benefits and may aid recovery and heat adaptation. Pleasant, low risk, genuinely worth doing if it is available. Not a substitute for sleep.'],
+              ['Massage / foam rolling — real but short-lived', 'Reduces perceived soreness and briefly improves range of motion. The effect on actual tissue recovery is small. Worth it because feeling better makes you train better, not because it repairs muscle.'],
+              ['Cold water immersion — useful, with a big caveat', 'Good for reducing soreness and for recovering between events on the same day. BUT taken straight after lifting it appears to blunt the muscle-growth signal. Use it after football or a match, not after your hypertrophy sessions — or leave 4+ hours.'],
+              ['Compression garments, massage guns — mild', 'Small effects on perceived soreness, minimal on performance. Harmless, just do not expect much and do not pay a lot.'],
+              ['Static stretching after training — neutral', 'Does not reduce soreness meaningfully and does not prevent injury. Do it if you want mobility gains; do not do it expecting recovery.'],
+              ['Ice baths for everything, always', 'The most over-applied tool in the gym. Timing determines whether it helps or actively works against the training you just did.'],
+            ]} />
+
+            <Block title="Reading your own fatigue" items={[
+              ['Resting heart rate on waking', 'A consistent rise of 5-10 bpm over your normal for several days usually means accumulated fatigue or illness coming. Cheapest useful metric there is — check it before you get out of bed.'],
+              ['Sleep quality falling', 'Counter-intuitively, being genuinely overreached often wrecks sleep rather than improving it. Waking at 3am when you are training hard is a warning sign, not bad luck.'],
+              ['Numbers stalling across multiple lifts', 'One lift stalling is normal. Three or four stalling in the same week is systemic fatigue, not a programming problem — do not respond by adding volume.'],
+              ['Motivation gone', 'Not wanting to train, for more than a couple of days, in someone who normally does, is a physiological signal as much as a psychological one.'],
+              ['The rule', 'Any two of the above at once means deload NOW rather than in three weeks. Taking four easy days deliberately is always cheaper than being forced to take three weeks off.'],
+            ]} />
+
+            <Block title="Recovering from sport on top of lifting" items={[
+              ['Count your sport as training', 'A football match is roughly a hard leg session plus conditioning. If you played Saturday, Legs B on Sunday is not brave, it is a mistake. Move it or cut it.'],
+              ['Match day plus 48 hours', 'Leave at least two days between a match or hard sparring and your heavy leg or explosive day. That is when hamstring injuries happen.'],
+              ['Hard days hard, easy days easy', 'If both a sport session and a lift must happen, do them on the SAME day and keep the next day genuinely easy. Two moderately hard days in a row is worse recovery than one very hard day plus a real rest day.'],
+              ['In-season, cut volume not intensity', 'Keep the weights heavy and drop the number of sets by about a third. You maintain strength on far less volume than you needed to build it.'],
             ]} />
           </div>
         )}

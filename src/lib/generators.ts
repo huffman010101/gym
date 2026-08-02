@@ -486,3 +486,61 @@ Return ONLY valid JSON (no markdown fences):
   const match = clean.match(/\{[\s\S]*\}/);
   return JSON.parse(match ? match[0] : clean) as FaceAnalysisResult;
 }
+
+export interface GeneratedKnowledgeCard {
+  cat: string;
+  title: string;
+  text: string;
+  twist: string;
+}
+
+/** Generates fresh general-knowledge cards so the Know More library never
+ *  runs out. `avoid` carries titles already in the library so the model does
+ *  not repeat what the user has read. */
+export async function generateKnowledgeCards(
+  categories: string[],
+  avoid: string[]
+): Promise<GeneratedKnowledgeCard[]> {
+  const client = makeClient();
+  // Only the most recent titles — the full list would eat the context window
+  // once the user has generated hundreds of cards.
+  const recent = avoid.slice(-120);
+
+  const msg = await client.messages.create({
+    model: 'claude-sonnet-5',
+    max_tokens: 3000,
+    messages: [{
+      role: 'user',
+      content: `Generate 6 genuinely interesting general-knowledge cards for a curious 19-year-old.
+
+CATEGORIES to draw from (use the exact id): ${categories.join(', ')}
+- world = geopolitics and how the world actually works
+- history = historical events and turning points
+- tech = technology, computing, engineering
+- business = companies, deals, business strategy
+- science = physics, biology, medicine, space
+- econ = economics and how money works
+
+Each card needs:
+- "cat": one of the category ids above
+- "title": a hook, max 60 chars, stated as an intriguing fact or claim
+- "text": 2-3 sentences explaining it clearly and accurately
+- "twist": one sentence giving the deeper implication or the surprising angle
+
+RULES:
+- Facts must be accurate and verifiable. No urban myths, no "scientists say" vagueness.
+- Prefer specific, concrete detail (names, numbers, dates) over general statements.
+- Make them genuinely surprising — the kind of thing worth repeating to someone.
+- Mix the categories across the 6 cards.
+- British English. No markdown.
+- Do NOT repeat any of these already-used titles: ${recent.join(' | ')}
+
+Return ONLY valid JSON, no markdown fences:
+{"cards":[{"cat":"history","title":"...","text":"...","twist":"..."}]}`,
+    }],
+  });
+
+  const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
+  const data = parse(text) as { cards?: GeneratedKnowledgeCard[] };
+  return (data.cards || []).filter(c => c.cat && c.title && c.text && c.twist);
+}
