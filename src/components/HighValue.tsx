@@ -142,6 +142,34 @@ export default function HighValue() {
         ['Neither is the real answer', 'Both are outputs. A man with a good body, a full life and real standards ends up with both by default. That is why the hierarchy above starts where it does.'],
       ]} />
 
+      <Block title="The mindset that does not move" items={[
+        ['"I don\'t give a shit" — the version that actually works', 'Genuinely caring about nothing is a pose, and it collapses the moment something matters. The real thing is two separate dials: care intensely about your standards, care very little about approval. Most men have those the wrong way round.'],
+        ['Stop outsourcing your mood', 'If how you feel about yourself depends on whether someone replies, you have handed a stranger the switch. The question is not "does she like me" — it is "did I do what I said I would today". One of those you control.'],
+        ['Want it, do not need it', 'Outcome independence is not pretending you do not care. It is being able to be disappointed without being destabilised. You can want the outcome fully and still be the same person if it does not happen.'],
+        ['A full week protects you better than a mantra', 'This is structural, not psychological. If your week contains training, work you care about, and mates, then any one person is a small share of your life — so a bad night stays a bad night. Nothing you tell yourself replaces that.'],
+        ['Confidence is built from evidence, not affirmations', 'Every time you do what you said you would do, you add to a file that says you are reliable. That is why it survives rejection — it was never based on someone else\'s opinion. Confidence built purely on results or attention disappears the moment those do.'],
+        ['You will still feel it — that is fine', 'The goal is not feeling nothing. It is not being ruled by what you feel. Behaving the same whether or not it stung IS the trait. Anyone claiming they feel nothing is either lying or has stopped caring about anything, which is worse.'],
+      ]} />
+
+      <Fold title="Chasing ambition instead of girls" tag="Why this works — and where it becomes an excuse" items={[
+        ['The men who do well are mostly not optimising for it', 'That is not a coincidence, it is the mechanism. Attention that is not being sought reads completely differently to attention that is.'],
+        ['What a mission actually gives you', 'Somewhere to be. Something to talk about that is not her. A legitimate reason to end the night. And far less time to sit analysing one conversation.'],
+        ['It fixes the maths honestly', 'You do not have to perform being busy if your attention is genuinely scarce. That is the whole difference between abundance and acting it out.'],
+        ['The practical test', 'Your week should contain things that would happen exactly the same if she never replied. If cancelling one plan empties your week, the problem is the week.'],
+        ['Where it becomes a cop-out', 'Being honest: "I am focusing on my goals" can quietly become a way to avoid all social risk. It works when your life is genuinely full. It does not work as a reason to stay in and never put yourself in a position to be rejected.'],
+      ]} />
+
+      <Fold title="Why girls go for &quot;bad boys&quot;" tag="It is not the badness — it is what comes bundled with it" items={[
+        ['It is never the cruelty', 'Nobody is attracted to being treated badly. They are attracted to traits that happen to be common in men who do not care about being liked — and those traits are completely separable from the behaviour.'],
+        ['Decisiveness', 'He makes the plan, picks the place, leads. He does not ask permission for every small thing or outsource the decision back to her. Most men underestimate how attractive it is simply to decide something.'],
+        ['Willingness to be disliked', 'He has opinions that survive disagreement and does not adjust himself to be approved of. That is the single biggest one — because it cannot be faked and everyone can sense it.'],
+        ['He is not auditioning', 'No trying to impress, no CV of achievements, no anxiety about how it is landing. He assumes he is fine as he is, which reads as status whether or not it is earned.'],
+        ['Unpredictability', 'Not knowing exactly what happens next is genuinely stimulating. The reliable-but-boring man loses on novelty, not on character.'],
+        ['What actually happens next', 'Those relationships very often go badly, because the same indifference that was attractive turns into unreliability and disregard. That is not a moral point, it is just what tends to happen.'],
+        ['The actual move', 'Take the traits, leave the damage. Decisive AND warm. Willing to be disliked AND kind. Non-needy AND reliable. That combination beats both the bad boy and the nice guy, and almost nobody runs it.'],
+        ['Why "nice guys" lose — the honest reason', 'It is not niceness. It is niceness as a transaction: being agreeable in exchange for interest, then resenting it when the exchange is not honoured. Agreeableness with no standards underneath reads as having no self. Be kind because that is who you are, not because it is a payment.'],
+      ]} />
+
       <Fold title="The chasing paradox" tag="Why wanting to be chased is the thing stopping it" items={[
         ['Wanting it is itself the tell', 'Being desperate for people to chase you is outcome-dependence — you are handing them control of how you feel. That is the exact opposite of the quality that makes people chase.'],
         ['Acting busy is not being busy', 'Deliberately waiting three hours to reply while staring at your phone is not abundance, it is anxiety with a timer. People read the difference remarkably fast — through your questions, your energy, what you bring up.'],
@@ -157,6 +185,40 @@ export default function HighValue() {
         ['Early jealousy or possessiveness', 'Reads as insecurity with no basis yet, and it is one of very few things that can end interest in a single conversation.'],
         ['Mentioning other women\'s interest in you', 'Intended as social proof, received as insecurity. If it were true you would not need to say it.'],
         ['Being a different person in a group', 'Louder with the lads, quieter with her, or the reverse. Inconsistency reads as a lack of a real self underneath, and people notice it faster than you would think.'],
+      ]} />
+
+      <Fold title="Night out — what actually puts them off" tag="Mostly small things you will not notice yourself doing" items={[
+        ['Hovering', 'Staying in her orbit all night, reappearing every ten minutes. It signals that she is your whole evening. Talk, enjoy it, then genuinely go and be somewhere else.'],
+        ['Not having your own night', 'If you have no mates around you and nothing going on, the entire evening visibly rests on her. Have your own night and let her be part of it, not the point of it.'],
+        ['Buying drinks to buy interest', 'It converts an interaction into a transaction, and both of you feel it. Buy a drink because you are getting one anyway, never as an opener or an apology.'],
+        ['Being drunk', 'Obvious, ignored constantly. Nothing you have built survives being sloppy — and your judgement about how it is going goes first.'],
+        ['Ignoring the group', 'Her friends have an effective veto and they will use it. Being good company to all of them does more than anything you say to her directly. Trying to isolate her early gets you vetoed instantly.'],
+        ['Not reading the moment', 'Talking at her over loud music for forty minutes when she wants to dance or be with her friends. The venue tells you what kind of interaction is on offer — match it.'],
+        ['Re-approaching after a soft no', 'The polite exit is still a no. Going back to try again turns a neutral night into a story her friends tell.'],
+        ['Being a different person when your mates arrive', 'Louder, cruder, or suddenly ignoring her. Inconsistency between the two versions is noticed immediately and kills more than either version would alone.'],
+        ['Phone out', 'Checking it mid-conversation says the room is more interesting than she is. Cheapest fix on this list — pocket, face down, gone.'],
+      ]} />
+
+      <Fold title="Reading whether she is actually interested" tag="Better than running tests on people" items={[
+        ['Why "tests" are the wrong frame', 'Games select for people who respond to games, and you have to keep running them forever. What you actually want is to read signals accurately and screen for someone worth your time.'],
+        ['Politeness is not interest', 'Replying is not interest. Laughing is not interest. Being friendly in a group is not interest. Most misreadings come from counting basic manners as signals.'],
+        ['The real signals', 'She initiates. She makes time when it is inconvenient. She re-engages the conversation after it dies. She asks about you rather than only answering. She brings you into her group.'],
+        ['The one clean test that is not a game', 'Propose something specific — a day, a thing, a time. Genuine interest makes time. Ambivalence produces vague replies and no counter-offer. One clear invitation tells you more than a week of texting.'],
+        ['If you have to decode it, that is the answer', 'Real interest is rarely subtle for long. Spending hours interpreting a message is itself the information.'],
+        ['Screen her too', 'This runs both ways and most men forget it entirely. How does she treat staff? Do her words match her actions? Is she the same when it is inconvenient? How does she talk about people who are not there? You are choosing as well.'],
+        ['Standards you would actually enforce', 'A standard you would never act on is a preference. Know what you would walk away from before you are in a position where walking is hard.'],
+      ]} />
+
+      <Fold title="An Instagram people watch" tag="The signalling side — see Looks → Style for the visuals" items={[
+        ['Show the life, do not announce it', 'Photos of you doing things beat photos of you posing. A picture from a match, a trip, a session with friends says more than any caption claiming you are interesting.'],
+        ['Other people in your photos', 'Social proof is the one signal you cannot self-report, and it is the strongest thing on your grid. A profile of nothing but solo mirror selfies says the opposite of what it is trying to say.'],
+        ['Post less than you want to', 'Frequency reads as needing the response. One strong post a week beats five average ones, and the restraint itself signals you are not fishing.'],
+        ['Never post the low moments', 'Vague-posting, sad-posting, anything aimed at a specific person who will know it is about them. It is the most visible neediness there is and it is instantly read as such.'],
+        ['Visible effort is the killer', 'Obvious thirst traps, gym mirror selfies as your entire identity, heavily edited photos. The effort is legible, and legible effort asking for a response is the thing you are trying to avoid.'],
+        ['Spend attention carefully', 'Viewing every story within seconds, liking every post, replying instantly to every story. Attention is the currency — spending all of it on one person makes yours worth nothing.'],
+        ['Stories are the life, the grid is the highlights', 'Stories can be loose, real-time and unpolished. The grid should be the small number of things you would show a stranger. Do not invert them.'],
+        ['The honest warning', 'An audience is not a life. If you are building the grid instead of the thing the grid is meant to show, that is visible too — and it is the same neediness wearing a different outfit. The best profiles are a by-product of a life worth photographing, not a project.'],
+        ['Stop checking who viewed', 'Refreshing the viewer list is the neediness loop with a nicer interface. If you would not admit to doing it, that is your answer.'],
       ]} />
 
       <Block title="Build it in this order" items={[

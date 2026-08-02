@@ -49,7 +49,7 @@ const INDEX: Entry[] = [
   { label: 'Looksmax Tracker', section: 'Looks', path: '/looksmax?tab=tracker', keywords: 'tracker checklist daily routine morning evening weekly' },
   // Mind
   { label: 'Charisma & Conversation', section: 'Mind', path: '/mind?tab=charisma', keywords: 'charisma conversation voice body language storytelling banter funny humour group status punching bag' },
-  { label: 'High Value — frame, looks & being chased', section: 'Mind', path: '/mind?tab=highvalue', keywords: 'high value frame looks chased girls attraction attractive neediness needy abundance standards outcome independence chasing women dating value' },
+  { label: 'High Value — frame, looks & being chased', section: 'Mind', path: '/mind?tab=highvalue', keywords: 'high value frame looks chased girls attraction attractive neediness needy abundance standards outcome independence chasing women dating value instagram insta social bad boys nice guy night out mistakes reading interest tests ambition mindset dont care unbothered' },
   { label: 'Aura & High-Value Habits', section: 'Mind', path: '/mind?tab=aura', keywords: 'aura james bond high value habits composure positivity psychology restraint' },
   { label: 'Stoicism & Emotional Control', section: 'Mind', path: '/mind?tab=stoic', keywords: 'stoic stoicism emotions control anger marcus aurelius seneca epictetus being a man masculinity discipline code' },
   { label: 'Icons (Beckham, Ronaldo…)', section: 'Mind', path: '/mind?tab=icons', keywords: 'icons beckham ronaldo reynolds bond gandy federer keanu inspiration famous role model' },
