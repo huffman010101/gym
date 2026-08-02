@@ -5,11 +5,13 @@ import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 import MorningRoutine from '../components/MorningRoutine';
 import NightRoutine from '../components/NightRoutine';
+import HighValue from '../components/HighValue';
 
-type Tab = 'charisma' | 'aura' | 'stoic' | 'icons' | 'confidence' | 'focus' | 'morning' | 'night' | 'selftalk' | 'secret';
+type Tab = 'charisma' | 'highvalue' | 'aura' | 'stoic' | 'icons' | 'confidence' | 'focus' | 'morning' | 'night' | 'selftalk' | 'secret';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'charisma', label: 'Charisma' },
+  { id: 'highvalue', label: 'High Value' },
   { id: 'aura', label: 'Aura' },
   { id: 'stoic', label: 'Stoic' },
   { id: 'icons', label: 'Icons' },
@@ -64,7 +66,7 @@ export default function Mind() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['charisma', 'aura', 'stoic', 'icons', 'confidence', 'focus', 'morning', 'night', 'selftalk', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'charisma';
+    return (['charisma', 'highvalue', 'aura', 'stoic', 'icons', 'confidence', 'focus', 'morning', 'night', 'selftalk', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'charisma';
   });
   const [pw, setPw] = useState('');
   const [unlocked, setUnlocked] = useState(false);
@@ -480,6 +482,9 @@ export default function Mind() {
             </div>
           </div>
         )}
+
+        {/* ============ HIGH VALUE ============ */}
+        {tab === 'highvalue' && <HighValue />}
 
         {/* ============ MORNING ROUTINE ============ */}
         {tab === 'morning' && <MorningRoutine />}
