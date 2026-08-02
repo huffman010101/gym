@@ -544,3 +544,53 @@ Return ONLY valid JSON, no markdown fences:
   const data = parse(text) as { cards?: GeneratedKnowledgeCard[] };
   return (data.cards || []).filter(c => c.cat && c.title && c.text && c.twist);
 }
+
+export interface SubjectConcept {
+  concept: string;
+  simple: string;
+  why: string;
+  example: string;
+}
+
+/** Explains the key concepts of a user's actual modules in plain English.
+ *  `avoid` carries concepts already generated so repeat presses give new ones. */
+export async function generateSubjectConcepts(
+  course: string,
+  modules: string,
+  avoid: string[]
+): Promise<SubjectConcept[]> {
+  const client = makeClient();
+  const recent = avoid.slice(-80);
+
+  const msg = await client.messages.create({
+    model: 'claude-sonnet-5',
+    max_tokens: 4000,
+    messages: [{
+      role: 'user',
+      content: `A university student is studying: ${course}
+Their modules/topics: ${modules}
+
+Pick 8 genuinely important concepts from those modules and explain each one properly.
+
+For each concept:
+- "concept": the proper academic name of the idea
+- "simple": explain it as if to a smart 15-year-old. Plain English, no jargon. If you must use a technical term, define it in the same sentence. 2-3 sentences.
+- "why": why this concept matters — what it lets you understand or predict, and where it shows up in the real world. 1-2 sentences.
+- "example": one concrete worked example with actual numbers, names or a specific situation. Not abstract. 1-2 sentences.
+
+RULES:
+- Choose concepts that are genuinely central to those modules and commonly examined — not obscure trivia.
+- Be accurate. If a concept is contested or simplified, say so briefly in "why".
+- Cover a spread across the modules listed rather than eight from one topic.
+- British English. No markdown formatting.
+- Do NOT repeat these already-covered concepts: ${recent.join(' | ') || 'none yet'}
+
+Return ONLY valid JSON, no markdown fences:
+{"concepts":[{"concept":"...","simple":"...","why":"...","example":"..."}]}`,
+    }],
+  });
+
+  const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
+  const data = parse(text) as { concepts?: SubjectConcept[] };
+  return (data.concepts || []).filter(c => c.concept && c.simple && c.why && c.example);
+}

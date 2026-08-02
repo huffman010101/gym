@@ -1,16 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, GraduationCap, Brain, Sun, Briefcase, Moon, Loader2, AlertCircle, ChevronDown, Sparkles, Clock, Upload, FileText, X } from 'lucide-react';
+import { ArrowLeft, GraduationCap, Brain, Sun, Briefcase, Moon, Loader2, AlertCircle, ChevronDown, Sparkles, Clock, Upload, FileText, X, Lightbulb, BookOpen } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
-import { generateStudyPack } from '../lib/generators';
+import { generateStudyPack, generateSubjectConcepts, type SubjectConcept } from '../lib/generators';
 import { extractFile, combine, MAX_TOTAL_CHARS, type Extracted } from '../lib/extractText';
 import type { StudyPack } from '../lib/generators';
 
-type Tab = 'ai' | 'smarter' | 'day' | 'career' | 'sleep';
+type Tab = 'ai' | 'subject' | 'smarter' | 'day' | 'career' | 'sleep';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'ai', label: 'AI Study Pack' },
+  { id: 'subject', label: 'My Subject' },
   { id: 'smarter', label: 'Get Smarter' },
   { id: 'day', label: 'High-Value Day' },
   { id: 'career', label: 'Career' },
@@ -64,7 +65,7 @@ export default function Uni() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['ai', 'smarter', 'day', 'career', 'sleep'] as const).includes(t as Tab) ? (t as Tab) : 'ai';
+    return (['ai', 'subject', 'smarter', 'day', 'career', 'sleep'] as const).includes(t as Tab) ? (t as Tab) : 'ai';
   });
   const [course, setCourse] = useState('');
   const [modules, setModules] = useState('');
@@ -76,6 +77,40 @@ export default function Uni() {
   const [files, setFiles] = useState<Extracted[]>([]);
   const [extracting, setExtracting] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+
+  // My Subject — concept explanations, kept locally so they survive offline
+  const [concepts, setConcepts] = useState<SubjectConcept[]>(() => {
+    try { return JSON.parse(localStorage.getItem('gymforge_subject_concepts') || '[]') as SubjectConcept[]; }
+    catch { return []; }
+  });
+  const [subjBusy, setSubjBusy] = useState(false);
+  const [subjErr, setSubjErr] = useState('');
+  const [openConcept, setOpenConcept] = useState<number | null>(null);
+
+  const explainSubject = async () => {
+    if (!course.trim() || !modules.trim()) {
+      setSubjErr('Add your course and modules first.');
+      return;
+    }
+    setSubjBusy(true); setSubjErr('');
+    try {
+      const fresh = await generateSubjectConcepts(
+        course.trim(), modules.trim(), concepts.map(c => c.concept)
+      );
+      if (!fresh.length) throw new Error('Nothing came back — try again.');
+      const next = [...concepts, ...fresh];
+      setConcepts(next);
+      try { localStorage.setItem('gymforge_subject_concepts', JSON.stringify(next)); } catch { /* quota */ }
+    } catch (e) {
+      setSubjErr(e instanceof Error ? e.message : 'Failed. Check your API key and connection.');
+    }
+    setSubjBusy(false);
+  };
+
+  const clearConcepts = () => {
+    setConcepts([]); setOpenConcept(null);
+    try { localStorage.removeItem('gymforge_subject_concepts'); } catch { /* ignore */ }
+  };
 
   const totalChars = files.filter(f => !f.error).reduce((n, f) => n + f.chars, 0);
   const overBudget = totalChars + materials.length > MAX_TOTAL_CHARS;
@@ -99,6 +134,13 @@ export default function Uni() {
       if (saved) {
         const parsed = JSON.parse(saved) as { course: string; modules: string; examInfo: string; pack: StudyPack };
         setCourse(parsed.course); setModules(parsed.modules); setExamInfo(parsed.examInfo); setPack(parsed.pack);
+      } else {
+        // Course details may have been saved by My Subject without a full pack.
+        const light = localStorage.getItem('gymforge_course_details');
+        if (light) {
+          const d = JSON.parse(light) as { course: string; modules: string };
+          setCourse(d.course || ''); setModules(d.modules || '');
+        }
       }
     } catch {}
   }, []);
@@ -282,6 +324,109 @@ export default function Uni() {
                   </ul>
                 </div>
               </>
+            )}
+          </div>
+        )}
+
+        {/* ===== MY SUBJECT ===== */}
+        {tab === 'subject' && (
+          <div className="fade-up stagger space-y-4">
+            <div className="card-premium p-5">
+              <div className="flex items-center gap-2 mb-1">
+                <BookOpen size={15} className="text-sky-400" />
+                <h2 className="font-bold">Explain My Subject</h2>
+              </div>
+              <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                Put in your course and modules and it explains the key concepts in plain English — what each one
+                actually means, why it matters, and a worked example. Press it again for a fresh set; it will not
+                repeat concepts it has already covered.
+              </p>
+              <div className="space-y-2.5">
+                <input value={course} onChange={e => setCourse(e.target.value)} placeholder="Course (e.g. BSc Economics, Year 1)"
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky-500/50" />
+                <input value={modules} onChange={e => setModules(e.target.value)} placeholder="Modules/topics (e.g. Microeconomics, Macro, Statistics)"
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky-500/50" />
+                <button
+                  onClick={() => {
+                    try {
+                      localStorage.setItem('gymforge_course_details', JSON.stringify({ course, modules }));
+                    } catch { /* ignore */ }
+                    explainSubject();
+                  }}
+                  disabled={subjBusy}
+                  className="w-full bg-sky-500 hover:bg-sky-600 disabled:opacity-40 text-white py-3 rounded-xl text-sm font-bold transition-colors flex items-center justify-center gap-2">
+                  {subjBusy
+                    ? <><Loader2 size={15} className="animate-spin" /> Explaining your modules…</>
+                    : <><Sparkles size={15} /> {concepts.length ? 'Explain 8 more concepts' : 'Explain my modules'}</>}
+                </button>
+                {subjErr && <p className="text-red-400 text-xs flex items-center gap-1.5"><AlertCircle size={12} /> {subjErr}</p>}
+              </div>
+            </div>
+
+            {concepts.length > 0 && (
+              <>
+                <div className="flex items-center justify-between px-1">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-gray-500">
+                    {concepts.length} concept{concepts.length === 1 ? '' : 's'} saved
+                  </p>
+                  <button onClick={clearConcepts} className="text-[11px] text-gray-600 hover:text-red-400 font-semibold transition-colors">
+                    Clear all
+                  </button>
+                </div>
+
+                <div className="space-y-2">
+                  {concepts.map((c, i) => (
+                    <div key={c.concept + i} className="bg-[#111] border border-white/8 rounded-2xl overflow-hidden">
+                      <button
+                        onClick={() => setOpenConcept(openConcept === i ? null : i)}
+                        className="w-full flex items-start justify-between gap-3 px-4 py-3.5 text-left"
+                      >
+                        <div className="flex-1 min-w-0">
+                          <p className="font-bold text-sm text-gray-100 leading-snug">{c.concept}</p>
+                          {openConcept !== i && (
+                            <p className="text-gray-500 text-xs leading-relaxed mt-1 line-clamp-2">{c.simple}</p>
+                          )}
+                        </div>
+                        <ChevronDown size={16} className={`text-gray-600 flex-shrink-0 mt-0.5 transition-transform duration-300 ${openConcept === i ? 'rotate-180' : ''}`} />
+                      </button>
+                      <div className={`collapse-wrap ${openConcept === i ? 'open' : ''}`}>
+                        <div className="collapse-inner">
+                          <div className="collapse-content px-4 pb-4 space-y-3">
+                            <div>
+                              <p className="text-[10px] font-black uppercase tracking-wider text-sky-400/80 mb-1">In plain English</p>
+                              <p className="text-gray-300 text-sm leading-relaxed">{c.simple}</p>
+                            </div>
+                            <div>
+                              <p className="text-[10px] font-black uppercase tracking-wider text-emerald-400/80 mb-1">Why it matters</p>
+                              <p className="text-gray-400 text-sm leading-relaxed">{c.why}</p>
+                            </div>
+                            <div className="bg-white/5 rounded-xl px-3.5 py-3 flex gap-2.5">
+                              <Lightbulb size={14} className="text-amber-400 flex-shrink-0 mt-0.5" />
+                              <div>
+                                <p className="text-[10px] font-black uppercase tracking-wider text-amber-400/80 mb-1">Example</p>
+                                <p className="text-gray-300 text-sm leading-relaxed">{c.example}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <p className="text-[11px] text-gray-600 text-center leading-relaxed">
+                  Saved on your device — these stay available offline. Use them for active recall: read the
+                  concept name, explain it yourself, then open the card to check.
+                </p>
+              </>
+            )}
+
+            {concepts.length === 0 && !subjBusy && (
+              <div className="bg-[#111] border border-white/8 rounded-2xl px-5 py-8 text-center">
+                <BookOpen size={26} className="text-gray-700 mx-auto mb-2" />
+                <p className="text-gray-500 text-sm">No concepts yet.</p>
+                <p className="text-gray-600 text-xs mt-1">Add your course and modules above, then tap Explain.</p>
+              </div>
             )}
           </div>
         )}
