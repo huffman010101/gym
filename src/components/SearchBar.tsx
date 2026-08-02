@@ -48,6 +48,7 @@ const INDEX: Entry[] = [
   { label: 'Scent / Fragrance', section: 'Looks', path: '/looksmax?tab=fragrance', keywords: 'scent fragrance perfume cologne smell layering combos edp edt most complimented' },
   { label: 'Looksmax Tracker', section: 'Looks', path: '/looksmax?tab=tracker', keywords: 'tracker checklist daily routine morning evening weekly' },
   // Mind
+  { label: 'Security — being settled in yourself', section: 'Mind', path: '/mind?tab=security', keywords: 'security secure insecure insecurity self worth self trust settled grounded unbothered validation reassurance comparison confidence identity' },
   { label: 'Charisma & Conversation', section: 'Mind', path: '/mind?tab=charisma', keywords: 'charisma conversation voice body language storytelling banter funny humour group status punching bag' },
   { label: 'High Value — frame, looks & being chased', section: 'Mind', path: '/mind?tab=highvalue', keywords: 'high value frame looks chased girls attraction attractive neediness needy abundance standards outcome independence chasing women dating value instagram insta social bad boys nice guy night out mistakes reading interest tests ambition mindset dont care unbothered' },
   { label: 'Aura & High-Value Habits', section: 'Mind', path: '/mind?tab=aura', keywords: 'aura james bond high value habits composure positivity psychology restraint' },
