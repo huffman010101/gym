@@ -4,9 +4,10 @@ import { ArrowLeft, ChevronDown, CircleDot } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 
-type Tab = 'technique' | 'strategy' | 'walls' | 'gym';
+type Tab = 'plan' | 'technique' | 'strategy' | 'walls' | 'gym';
 
 const TABS: { id: Tab; label: string }[] = [
+  { id: 'plan', label: 'The Plan' },
   { id: 'technique', label: 'Technique' },
   { id: 'strategy', label: 'Strategy' },
   { id: 'walls', label: 'Wall Play' },
@@ -60,7 +61,7 @@ export default function Padel() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['technique', 'strategy', 'walls', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'technique';
+    return (['plan', 'technique', 'strategy', 'walls', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'plan';
   });
 
   return (
@@ -92,6 +93,79 @@ export default function Padel() {
             </button>
           ))}
         </div>
+
+        {/* ===== THE PLAN ===== */}
+        {tab === 'plan' && (
+          <div className="fade-up stagger space-y-4">
+            <div className="card-premium p-5">
+              <h3 className="font-bold mb-2">The one thing that separates levels</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Amateurs play. Good players drill. That is genuinely most of the gap. Competitive players spend the
+                majority of their court time on repetition of specific shots; the average club player spends
+                essentially none and wonders why they have been the same standard for two years.
+              </p>
+            </div>
+
+            <div className="bg-amber-500/5 border border-amber-500/20 rounded-2xl px-4 py-3.5">
+              <p className="text-xs text-amber-200/85 leading-relaxed">
+                <span className="font-bold">Matches do not teach technique, they reveal it.</span> You cannot fix a
+                bandeja in a match — the ball comes once, you hit it however you already hit it, and the point moves
+                on. Repetition changes the shot; matches tell you which shot to go and repeat. You need both, in that
+                order.
+              </p>
+            </div>
+
+            <Block title="Your padel week" items={[
+              ['1-2 drilling sessions', 'Structured repetition of specific shots with a partner or coach. This is the session that actually raises your level, and it is the one most people never book.'],
+              ['1-2 match sessions', 'Real points, real pressure. This is where you find out what holds up and what does not — and it feeds what you drill next.'],
+              ['Solo wall work, 15-20 min', 'Any wall. Volleys, controlled groundstrokes, bandeja shadow swings. Free, needs nobody, and it builds the touch that court time alone will not.'],
+              ['Physical — from the gym programme', 'Your Explosive day already covers lateral movement and rotational power. Do not add extra conditioning on top; padel is a skill problem for you far more than a fitness one.'],
+              ['One video session a month', 'Film a match on a phone from behind the court. Watch your court position and your shot selection, not your technique — that is where the points actually leak.'],
+            ]} />
+
+            <Fold title="The drill list — what to actually repeat" tag="In priority order for a developing player" items={[
+              ['Bandeja, 100 reps', 'The single most important shot in padel and the one that decides whether you keep the net. Feed lobs, hit bandejas, land them deep. Do this more than anything else.'],
+              ['Back glass defence, 50 balls', 'Partner hits deep, you let it come off the glass and play it back. The whole point is getting comfortable letting the ball go past you — the instinct to hit it early is what keeps people at beginner level.'],
+              ['Volley blocks at the net, 100', 'Partner feeds fast at your body and to both sides. Short, punchy blocks, no swinging. Net position is worthless if you cannot hold it under pressure.'],
+              ['Lob accuracy, 50', 'Aim to land in the back metre of the court. The lob is how you win the net back, and a short one gets smashed at your feet — accuracy matters more than any other shot in the sport.'],
+              ['Serve and move in, 30', 'Serve underarm, then immediately take the net. Groove the pattern so the movement becomes automatic rather than something you remember to do.'],
+              ['Vibora and smash, 30', 'Only once the bandeja is reliable. This is the point-ending shot, and rushing to it before you can control an overhead is why people spray them out.'],
+              ['How to structure a drilling hour', 'Roughly: 10 min warm-up, 30 min on ONE shot you are deliberately fixing, 15 min on a second, 5 min of points using it. One shot per session, not six.'],
+            ]} />
+
+            <Fold title="Padel-specific development priorities" tag="What to fix, in what order" items={[
+              ['1. Court position with your partner', 'Moving as a pair, both up or both back, never split. This wins more points than any shot improvement and costs nothing to learn — it is purely a habit.'],
+              ['2. The bandeja', 'Being able to take an overhead from deep, keep it in, and keep the net. Until this is reliable your net position collapses every time they lob.'],
+              ['3. Comfort with the glass', 'Waiting for the ball off the back wall instead of panicking. Wholly a matter of repetition and nerve, and it transforms your defence.'],
+              ['4. Lob accuracy', 'The single best escape from the back of the court. Deep, high, and to the middle or their backhand.'],
+              ['5. Patience and point construction', 'Padel points are long. Most amateur points end in an unforced error, not a winner — so the player who simply keeps the ball in play and waits wins an enormous share of points by doing nothing clever.'],
+              ['6. The smash and vibora', 'Last, deliberately. Everyone wants to learn this first and it is the least important of the six until the rest hold up.'],
+            ]} />
+
+            <Block title="Playing to win, not just to hit" items={[
+              ['Most points are lost, not won', 'At club level the large majority of points end in an error. Reducing your own unforced errors beats adding winners, and it is far easier.'],
+              ['Target the weaker player relentlessly', 'Politely but consistently. Most amateur doubles is decided by finding the lesser player and making them hit.'],
+              ['Play the percentage shot', 'Deep and central is boring and it wins. Going for a winner off a difficult ball is how amateurs lose points they had already won.'],
+              ['Talk to your partner', 'Call yours and theirs, agree who takes the middle before the match. Silent pairs lose points to nobody moving.'],
+              ['Learn to lose a point on purpose', 'When you are stretched and out of position, a high defensive lob that resets the point is a win. Trying to hit a winner from a bad position is how you gift points away.'],
+            ]} />
+
+            <Block title="The honest picture on getting seriously good" items={[
+              ['Padel is young and the ceiling is open', 'It is growing extremely fast, which means the competitive scene in most countries is far less saturated than tennis or football. Getting to a genuinely high amateur or competitive level is realistic for someone who trains properly.'],
+              ['Coaching is worth more here than in most sports', 'The technique is unintuitive — the bandeja, letting the glass work for you, the underarm serve. A handful of coached sessions fixes things that would take you a year to work out alone.'],
+              ['Find better players and lose to them', 'The fastest way to improve is regularly playing people slightly better than you. Winning every game against weaker players is pleasant and teaches you nothing.'],
+              ['Fixed partner beats random pairing', 'Doubles is about coordination. Playing regularly with the same partner builds a shared understanding that individually better but unfamiliar pairs cannot match.'],
+              ['Timeline', 'Roughly 3 months of drilling to feel like a different player, 12 months to be genuinely competitive in a club setting. Most people never get there because they play twice a week for years and never once drill.'],
+            ]} />
+
+            <Block title="Running football and padel together" items={[
+              ['They complement each other well', 'Both need lateral movement, reactive agility and rotational power — the same gym work serves both. Padel is also far lower impact than football, so it is a good session in a heavy week.'],
+              ['Do not stack both on a heavy gym day', 'Padel on your Legs A or Legs B day is a lot of leg volume. Put it on an upper-body day or a lighter one.'],
+              ['Shoulder load is the thing to watch', 'Overheads in padel plus pressing in the gym plus any Muay Thai adds up on the same joint. Keep the face pulls and rear delt work in — that is what keeps this sustainable.'],
+              ['Pick a priority per block', 'Trying to improve maximally at both at once splits your focus. Six weeks with football as the priority, then six with padel, beats permanently half-committing to each.'],
+            ]} />
+          </div>
+        )}
 
         {/* ===== TECHNIQUE ===== */}
         {tab === 'technique' && (

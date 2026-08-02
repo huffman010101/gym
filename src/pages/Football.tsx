@@ -4,9 +4,10 @@ import { ArrowLeft, Zap, Target, Users, Activity, ChevronDown, Trophy } from 'lu
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 
-type Tab = 'speed' | 'shooting' | 'skills' | 'position' | 'setpieces' | 'physical' | 'gym';
+type Tab = 'plan' | 'speed' | 'shooting' | 'skills' | 'position' | 'setpieces' | 'physical' | 'gym';
 
 const TABS: { id: Tab; label: string }[] = [
+  { id: 'plan', label: 'The Plan' },
   { id: 'speed', label: 'Speed' },
   { id: 'shooting', label: 'Shooting' },
   { id: 'skills', label: 'Every Metric' },
@@ -63,7 +64,7 @@ export default function Football() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['speed', 'shooting', 'skills', 'position', 'setpieces', 'physical', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'speed';
+    return (['plan', 'speed', 'shooting', 'skills', 'position', 'setpieces', 'physical', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'plan';
   });
 
   return (
@@ -95,6 +96,92 @@ export default function Football() {
             </button>
           ))}
         </div>
+
+        {/* ===== THE PLAN ===== */}
+        {tab === 'plan' && (
+          <div className="fade-up stagger space-y-4">
+            <div className="card-premium p-5">
+              <h3 className="font-bold mb-2">How to actually get good — the structure</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                You already have the technique content in the other tabs. This is the missing piece: how to organise
+                it so you improve every week instead of just playing and hoping. The gap between a good amateur and a
+                professional is far less about hours and far more about whether those hours are structured, specific
+                and fed back on.
+              </p>
+            </div>
+
+            <div className="bg-amber-500/5 border border-amber-500/20 rounded-2xl px-4 py-3.5">
+              <p className="text-xs text-amber-200/85 leading-relaxed">
+                <span className="font-bold">One honest thing first.</span> Pros train twice a day with physios,
+                nutritionists, analysts and no job. You cannot copy the volume and you should not try — that is how
+                you get injured. What you CAN copy exactly is the structure: deliberate practice on specific
+                weaknesses, video feedback, periodised load, and daily technical touches. That is the part that
+                actually transfers, and almost no amateur does it.
+              </p>
+            </div>
+
+            <Block title="The professional week — what they actually do" items={[
+              ['MD+1 (day after a match) — recovery', 'Light movement only: pool, bike, mobility, walking. Nothing that adds load. Amateurs skip this and stay tired all week.'],
+              ['MD+2 — off, or gym', 'Full rest or upper-body/strength work. The furthest point from the last match and the next one, so it takes the heaviest non-football load.'],
+              ['MD-3 — the biggest day', 'Highest physical and tactical load of the week: full-intensity possession work, conditioning, heavy running. Far enough out to recover from.'],
+              ['MD-2 — sharp and short', 'Speed, finishing, set pieces. High intensity but low volume — the nervous system stays sharp without accumulating fatigue.'],
+              ['MD-1 — activation only', 'Short, light, technical. Shape, set pieces, a few sprints to stay switched on. Nothing that could leave you heavy-legged tomorrow.'],
+              ['MD — match', 'The point of the entire week. Everything above exists so you arrive fresh and sharp.'],
+              ['The principle to steal', 'Load rises away from match day and falls toward it. Most amateurs train hardest the day before a game and wonder why they play badly.'],
+            ]} />
+
+            <Block title="Your realistic week (fits the gym programme)" items={[
+              ['Daily — 20 min technical (non-negotiable)', 'Wall work, touches, weak foot. This is the single biggest lever you have and it costs 20 minutes. Consistency beats duration: 20 min daily destroys 3 hours on a Sunday.'],
+              ['Mon — Gym Push + technical', 'Upper body does not interfere with football. Do your 20 min of touches before or after.'],
+              ['Tue — Gym Legs A + light touches', 'Heavy legs day. Keep football to gentle technical work only — no sprinting.'],
+              ['Wed — Football session or small-sided games', 'Your main skill day. Play, drill, or train with a team. Highest football-specific quality.'],
+              ['Thu — Gym Explosive (this IS your speed work)', 'Sprints, jumps, change of direction. Do not duplicate this with extra running elsewhere.'],
+              ['Fri — Gym Shoulders + technical, or rest', 'Light day if you have a match Saturday. Activation only.'],
+              ['Sat — MATCH (or Legs B if no match)', 'If you play, that replaces Legs B entirely. Never do both.'],
+              ['Sun — recovery', 'Walk, mobility, stretch. Genuinely easy. This is where the week gets absorbed.'],
+            ]} />
+
+            <Fold title="The daily 20 minutes — exactly what to do" tag="The thing that separates people, done alone" items={[
+              ['100 wall passes, both feet', 'One touch against a wall, controlling and returning. Start close, move back as it gets easy. This builds first touch and passing weight better than anything else you can do alone.'],
+              ['50 weak-foot passes + 20 weak-foot finishes', 'The single highest-return investment in your game. A genuinely two-footed player is far harder to defend and it takes months, not years.'],
+              ['Close control — 5 min', 'Cone weave, figure-8s, tight touches at pace, head up on every third touch. Both feet, both surfaces (inside and outside).'],
+              ['Juggling — 5 min', 'Not for show. It calibrates touch, and doing it with weak foot only, thigh only, or one-bounce forces genuine control.'],
+              ['One skill move, 50 reps', 'The move you picked in the Skills tab. Slow first, then at full speed. Fifty reps a day for a month is 1,500 reps and it becomes automatic.'],
+              ['Why this works when team training does not', 'In a team session you might touch the ball a few dozen times. Twenty minutes alone gives you hundreds of quality touches on exactly the thing you are worst at.'],
+            ]} />
+
+            <Fold title="Deliberate practice — the actual difference" tag="Why some players improve for years and others plateau at 17" items={[
+              ['Pick ONE weakness per 4-6 week block', 'Weak foot. Or first touch under pressure. Or heading. Trying to fix everything fixes nothing. Name the weakness, attack it for six weeks, then reassess.'],
+              ['Practise at match speed and under pressure', 'Cones do not close you down. Once a skill works unopposed, add a defender, a time limit, or a restriction. Skills that only work in isolation do not exist in matches.'],
+              ['Use constraints to force the adaptation', 'Weak foot only. One touch. Two-touch maximum. No talking. Constraints make the thing you are avoiding unavoidable, and they work far faster than instruction.'],
+              ['Get feedback or you are guessing', 'Video, a coach, or a teammate who will be honest. Practising for months without feedback usually means grooving errors deeper.'],
+              ['Train the specific, play the whole', 'Isolate a sub-skill in practice, then play games where you have to use it under real conditions. Neither alone is enough — this is the loop.'],
+            ]} />
+
+            <Fold title="Game intelligence — the invisible level-up" tag="Why some slower players always look faster" items={[
+              ['Scanning — check your shoulders every 2-3 seconds', 'Elite midfielders scan far more often than average players. Knowing what is around you BEFORE the ball arrives is what makes a player look like they have more time. Count your scans in a game — most people are shocked how few they do.'],
+              ['Decide before you receive', 'Your first touch should already be going where you decided to play. That decision comes from the scan you did two seconds earlier.'],
+              ['Watch full matches, not highlights', 'Pick one elite player in your position and watch what they do WITHOUT the ball for a full 90 minutes. That is 95% of their game and 0% of any highlight reel.'],
+              ['Film your own games', 'Uncomfortable and by far the fastest feedback available. Watch three things only: your decisions, your positioning off the ball, and your first touch. You will see things you would swear did not happen.'],
+              ['Learn your position properly', 'See the By Position tab. Knowing where you should be at each phase is a skill you can learn from a sofa, and it makes you look quicker without moving faster.'],
+            ]} />
+
+            <Block title="The 12-week block" items={[
+              ['Weeks 1-2 — audit', 'Film a game. Be honest about the two weaknesses costing you most. Set your daily 20 minutes around one of them, and get your gym and sleep consistent.'],
+              ['Weeks 3-6 — build', 'Daily technical work every day without fail. Gym programme running. One weakness attacked deliberately. Expect it to feel worse before it feels better — new technique always does.'],
+              ['Weeks 7-10 — pressure', 'Take the improved skill into games and small-sided play under real pressure. Add the second weakness. Film again and compare with week 1.'],
+              ['Weeks 11-12 — consolidate + deload', 'Reduce volume, play more, let it become automatic. Reassess with video, then choose the next block\'s weakness.'],
+              ['What to expect, honestly', 'Noticeable touch and fitness change in about 6-8 weeks. A level change others comment on in 6-12 months. Anyone promising faster than that is selling something.'],
+            ]} />
+
+            <Fold title="On going pro — the honest picture" tag="Worth knowing rather than guessing" items={[
+              ['The standard pathway is early', 'Most professionals are in an academy well before 16. If you are past that and not in a club system, the realistic route is not a Premier League academy — that is just the honest position, and it is better to know it than not.'],
+              ['But the pathway is not closed', 'Non-league, semi-pro, university football at a high level, trials at lower-league clubs, and playing abroad are all real. Players do get picked up late — it is rarer, not impossible, and it happens to people who are visibly excellent, fit and reliable.'],
+              ['What actually gets you seen', 'Playing at the highest level that will have you, being physically outstanding for that level, and being coachable. Scouts notice players who dominate their current standard, not players who are theoretically good.'],
+              ['The version of this that always pays', 'Getting genuinely good at football makes you fitter, more confident and better socially, whether or not it becomes a career. Train like it matters, keep the degree and the income skills running, and you cannot lose either way.'],
+            ]} />
+          </div>
+        )}
 
         {/* ===== SPEED ===== */}
         {tab === 'speed' && (
