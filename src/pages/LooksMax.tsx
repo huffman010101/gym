@@ -591,6 +591,30 @@ export default function LooksMax() {
                 <h2 className="font-bold text-base text-red-400">Posture — The Invisible Looksmax</h2>
               </div>
               <p className="text-gray-500 text-xs mb-3">Correct posture adds immediate height, projects confidence, and changes how your face and neck appear. Fix these three patterns.</p>
+
+              <div className="bg-gradient-to-br from-red-500/10 to-[#111] border border-red-500/25 rounded-xl p-3.5 mb-3">
+                <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-red-300/80 mb-2.5">The fix — 5 minutes, once a day</p>
+                <div className="space-y-2">
+                  {[
+                    ['Chin tucks — 3 × 15', 'Fixes forward head. Pull chin straight back into a double chin, hold 5s.'],
+                    ['Face pulls or band pull-aparts — 3 × 15', 'Fixes rounded shoulders. Already in your Pull day if you train it that week.'],
+                    ['Glute bridges — 3 × 15', 'Fixes the pelvic tilt. Squeeze glutes hard at the top.'],
+                    ['Stack check — a few times a day', 'Ears over shoulders, shoulders over hips. Just glance in any mirror you pass and reset.'],
+                  ].map(([t, d]) => (
+                    <div key={t} className="flex gap-2.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-red-400/70 mt-1.5 flex-shrink-0" />
+                      <div>
+                        <p className="font-semibold text-xs text-gray-200">{t}</p>
+                        <p className="text-gray-500 text-[11px] leading-relaxed">{d}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-gray-600 text-[11px] leading-relaxed mt-2.5 pt-2.5 border-t border-white/5">
+                  That is the whole fix. The four cards below exist if you ever want the why or extra options — you do not need to read them to get results.
+                </p>
+              </div>
+
               <div className="space-y-2">
                 <ExpandableCard
                   title="Forward Head Posture — Fix"
