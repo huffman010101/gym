@@ -23,6 +23,7 @@ const INDEX: Entry[] = [
   { label: 'Blueprint: The Social Edge', section: 'Blueprint', path: '/guide?tab=social', keywords: 'blueprint social edge confidence exposure charisma memorable peak end ford mirror label freelancing copywriting reading list daily stack' },
   { label: 'Fighting as the Taller Man', section: 'Combat', path: '/combat?tab=strategy', keywords: 'tall taller height reach boxing muay thai grappling teep jab range' },
   { label: 'Investing 101 & Financial Freedom', section: 'Money', path: '/money?tab=trading', keywords: 'investing stocks isa index funds financial freedom fire compound passive income' },
+  { label: 'Backtest Lab — test strategies & paper trade', section: 'Money', path: '/backtest', keywords: 'backtest trading strategy nasdaq100 nasdaq paper trade simulate simulator moving average rsi macd breakout practice' },
   { label: 'Stretching & Posture Routine', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'stretching posture stretch mobility apt anterior pelvic tilt rounded shoulders forward head' },
   { label: 'Running for Debloat', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'running cardio debloat zone 2 face fat sharp jawline steps' },
   { label: 'Zygos Pop Protocol', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'zygos cheekbones pop gua sha lymphatic hollow cheeks' },

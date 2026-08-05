@@ -335,6 +335,15 @@ export default function Money() {
         {/* ===== TRADING ===== */}
         {tab === 'trading' && (
           <div className="fade-up stagger space-y-4">
+            <Link to="/backtest" className="block bg-gradient-to-br from-amber-500/15 to-[#111] border border-amber-500/30 rounded-2xl p-4 hover:border-amber-500/50 transition-colors">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-bold text-amber-300">Backtest Lab</p>
+                  <p className="text-gray-400 text-xs mt-0.5">Test strategies on simulated NASDAQ100 price history, or play a paper-trading session day by day.</p>
+                </div>
+                <ChevronDown size={16} className="text-amber-400 flex-shrink-0 -rotate-90" />
+              </div>
+            </Link>
             <div className="bg-red-500/5 border border-red-500/20 rounded-xl px-4 py-3 flex items-start gap-2.5">
               <AlertTriangle size={15} className="text-red-400 flex-shrink-0 mt-0.5" />
               <p className="text-xs text-red-200/80 leading-relaxed">

@@ -19,6 +19,7 @@ import Feed from './pages/Feed';
 import Knowledge from './pages/Knowledge';
 import CheatSheet from './pages/CheatSheet';
 import Dating from './pages/Dating';
+import Backtest from './pages/Backtest';
 import ApiKeySetup from './components/ApiKeySetup';
 import { getApiKey } from './lib/anthropic';
 
@@ -70,6 +71,7 @@ export default function App() {
         <Route path="/knowledge" element={<Knowledge />} />
         <Route path="/cheatsheet" element={<CheatSheet />} />
         <Route path="/dating" element={<Dating />} />
+        <Route path="/backtest" element={<Backtest />} />
       </Routes>
     </HashRouter>
   );
