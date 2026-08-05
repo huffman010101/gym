@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, Eye, ChevronDown, Heart, BookOpen, ListChecks } from 'lucide-react';
+import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, Eye, ChevronDown, Heart, BookOpen, ListChecks, Compass } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 import MorningRoutine from '../components/MorningRoutine';
@@ -8,9 +8,10 @@ import NightRoutine from '../components/NightRoutine';
 import HighValue from '../components/HighValue';
 import Security from '../components/Security';
 
-type Tab = 'security' | 'charisma' | 'highvalue' | 'aura' | 'stoic' | 'icons' | 'confidence' | 'focus' | 'morning' | 'night' | 'selftalk' | 'secret';
+type Tab = 'code' | 'security' | 'charisma' | 'highvalue' | 'aura' | 'stoic' | 'icons' | 'confidence' | 'focus' | 'morning' | 'night' | 'selftalk' | 'secret';
 
 const TABS: { id: Tab; label: string }[] = [
+  { id: 'code', label: 'The Code' },
   { id: 'security', label: 'Security' },
   { id: 'charisma', label: 'Charisma' },
   { id: 'highvalue', label: 'High Value' },
@@ -68,7 +69,7 @@ export default function Mind() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['security', 'charisma', 'highvalue', 'aura', 'stoic', 'icons', 'confidence', 'focus', 'morning', 'night', 'selftalk', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'security';
+    return (['code', 'security', 'charisma', 'highvalue', 'aura', 'stoic', 'icons', 'confidence', 'focus', 'morning', 'night', 'selftalk', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'code';
   });
   const [pw, setPw] = useState('');
   const [unlocked, setUnlocked] = useState(false);
@@ -121,6 +122,56 @@ export default function Mind() {
             </button>
           ))}
         </div>
+
+        {/* ============ THE CODE (whole-section takeaway) ============ */}
+        {tab === 'code' && (
+          <div className="fade-up stagger space-y-4">
+            <div className="card-premium p-5">
+              <h3 className="font-bold mb-2 flex items-center gap-2"><Compass size={16} className="text-pink-400" /> The Code — one page, the whole section</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Eleven tabs is a lot to hold in your head. This pulls the single highest-leverage move out of each one —
+                the thing that, if you only did that and nothing else here, would move you the most. Everything else in
+                Mind is the deeper version of one of these eleven lines.
+              </p>
+            </div>
+
+            <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
+              <div className="space-y-4">
+                {[
+                  ['Listen like it\'s the only thing happening', 'Full eye contact, phone away, use their name, react to what they actually said. From Charisma — this single habit does more for how people experience you than anything else in this whole section.'],
+                  ['The sacred pause', 'One slow breath between what happens and how you respond. From Stoic — this is where every regrettable text, outburst and bad decision gets stopped before it happens.'],
+                  ['Keep your word to yourself', 'Said you\'d train at 7, train at 7. From Security — every kept promise is a deposit, every broken one a withdrawal, and your self-belief is just the balance.'],
+                  ['Speak less, let output answer for you', 'Say 70% of what you could. Don\'t announce plans, reveal results. From Aura and High Value — restraint reads as more secure than any amount of explaining.'],
+                  ['Standards over moods, every time', 'Train when unmotivated, kind when irritated, work when tired. From Stoic\'s code — moods are weather, standards are climate, and this is the entire difference between men you respect and men you don\'t.'],
+                  ['Effort before reward, no exceptions', 'Phone after the work block, not before. From Focus & Discipline — motivation follows action, it never leads it, and this single sequencing rule rewires the rest.'],
+                  ['Do one scared thing daily', 'A hard conversation, a cold finish, a rejection risked on purpose. From Confidence — courage precedes confidence, never the reverse, so this is the actual rep.'],
+                  ['Complain never, without an action attached', 'If something\'s wrong, say what you\'re doing about it or say nothing. From Aura\'s positivity work — problem-solvers signal power, complainers signal helplessness.'],
+                  ['How you lose is your real reputation', 'Grace under a bad result outlasts almost every win. From Icons — Federer\'s whole legend is built on this one trait.'],
+                  ['Protect how the day starts and ends', 'No phone the first and last 30 minutes; an honest 3-line review each night. From Morning/Night Routine — these two windows set the baseline everything else runs on.'],
+                  ['Treat people who can\'t do anything for you well', 'Waiters, juniors, strangers. From Stoic\'s code — this is the most reliable character test that exists, and it costs nothing to pass.'],
+                ].map(([t, d], i) => (
+                  <div key={t} className="flex gap-3">
+                    <span className="text-pink-400/70 font-black text-sm mt-0.5 w-5 flex-shrink-0">{i + 1}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-sm text-gray-200">{t}</p>
+                      <p className="text-gray-500 text-xs leading-relaxed mt-0.5">{d}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-pink-500/15 to-[#111] border border-pink-500/30 rounded-2xl p-5">
+              <h3 className="font-bold text-pink-300 mb-2">How to actually use this</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Don't try to run all eleven at once — that's how nothing sticks. Pick the one that's the biggest gap for
+                you right now, run it for a month until it's automatic, then add the next. Same rule the Icons tab
+                gives for absorbing a trait from someone you admire: one at a time, actually installed, beats eleven
+                held loosely.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* ============ CHARISMA ============ */}
         {tab === 'charisma' && (
