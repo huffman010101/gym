@@ -129,31 +129,35 @@ export default function Mind() {
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2 flex items-center gap-2"><Compass size={16} className="text-pink-400" /> The Code — one page, the whole section</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Eleven tabs is a lot to hold in your head. This pulls the single highest-leverage move out of each one —
-                the thing that, if you only did that and nothing else here, would move you the most. Everything else in
-                Mind is the deeper version of one of these eleven lines.
+                Twelve tabs is a lot to hold in your head. This is exactly one line per tab — the single highest-leverage
+                move from each, nothing skipped and nothing doubled up. Everything else in Mind is the deeper version of
+                one of these twelve.
               </p>
             </div>
 
             <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
               <div className="space-y-4">
                 {[
-                  ['Listen like it\'s the only thing happening', 'Full eye contact, phone away, use their name, react to what they actually said. From Charisma — this single habit does more for how people experience you than anything else in this whole section.'],
-                  ['The sacred pause', 'One slow breath between what happens and how you respond. From Stoic — this is where every regrettable text, outburst and bad decision gets stopped before it happens.'],
-                  ['Keep your word to yourself', 'Said you\'d train at 7, train at 7. From Security — every kept promise is a deposit, every broken one a withdrawal, and your self-belief is just the balance.'],
-                  ['Speak less, let output answer for you', 'Say 70% of what you could. Don\'t announce plans, reveal results. From Aura and High Value — restraint reads as more secure than any amount of explaining.'],
-                  ['Standards over moods, every time', 'Train when unmotivated, kind when irritated, work when tired. From Stoic\'s code — moods are weather, standards are climate, and this is the entire difference between men you respect and men you don\'t.'],
-                  ['Effort before reward, no exceptions', 'Phone after the work block, not before. From Focus & Discipline — motivation follows action, it never leads it, and this single sequencing rule rewires the rest.'],
-                  ['Do one scared thing daily', 'A hard conversation, a cold finish, a rejection risked on purpose. From Confidence — courage precedes confidence, never the reverse, so this is the actual rep.'],
-                  ['Complain never, without an action attached', 'If something\'s wrong, say what you\'re doing about it or say nothing. From Aura\'s positivity work — problem-solvers signal power, complainers signal helplessness.'],
-                  ['How you lose is your real reputation', 'Grace under a bad result outlasts almost every win. From Icons — Federer\'s whole legend is built on this one trait.'],
-                  ['Protect how the day starts and ends', 'No phone the first and last 30 minutes; an honest 3-line review each night. From Morning/Night Routine — these two windows set the baseline everything else runs on.'],
-                  ['Treat people who can\'t do anything for you well', 'Waiters, juniors, strangers. From Stoic\'s code — this is the most reliable character test that exists, and it costs nothing to pass.'],
-                ].map(([t, d], i) => (
+                  ['Keep your word to yourself', 'Said you\'d train at 7, train at 7. From Security — every kept promise is a deposit, every broken one a withdrawal, and your self-belief is just the balance.', 'Security'],
+                  ['Listen like it\'s the only thing happening', 'Full eye contact, phone away, use their name, react to what they actually said. From Charisma — this single habit does more for how people experience you than anything else in this section.', 'Charisma'],
+                  ['Your life is the actual source, not a technique', 'Body, frame, warmth are all downstream of what you\'re actually building. From High Value — non-neediness can\'t be performed, it\'s a by-product of a genuinely full week.', 'High Value'],
+                  ['Speak less, let output answer for you', 'Say 70% of what you could. Don\'t announce plans, reveal results. From Aura — restraint reads as more secure than any amount of explaining.', 'Aura'],
+                  ['The sacred pause', 'One slow breath between what happens and how you respond. From Stoic — this is where every regrettable text, outburst and bad decision gets stopped before it happens.', 'Stoic'],
+                  ['How you lose is your real reputation', 'Grace under a bad result outlasts almost every win. From Icons — Federer\'s whole legend is built on this one trait.', 'Icons'],
+                  ['Do one scared thing daily', 'A hard conversation, a cold finish, a rejection risked on purpose. From Confidence — courage precedes confidence, never the reverse, so this is the actual rep.', 'Confidence'],
+                  ['Effort before reward, no exceptions', 'Phone after the work block, not before. From Focus & Discipline — motivation follows action, it never leads it, and this single sequencing rule rewires the rest.', 'Focus & Discipline'],
+                  ['Win the first hour, phone-free', 'Feet on the floor, water, light outside, then a real deep work block. From Morning Routine — this sets the ceiling on how the whole day goes before it\'s properly started.', 'Morning Routine'],
+                  ['Phone leaves the room 30 minutes before lights out', 'Every night, no exceptions. From Night Routine — this is the one step the rest of the wind-down actually depends on.', 'Night Routine'],
+                  ['Talk to yourself like a coach, not a critic', 'Catch the thought, name it, reframe it — in second person. From Self-Talk — "you\'ve got this" measurably outperforms "I\'ve got this" because it creates distance from the emotion.', 'Self-Talk'],
+                  ['Hold your frame', 'Your version of reality doesn\'t move because someone tested it. From Secret — the concept underneath everything else in that section, and the one that generalises furthest beyond it.', 'Secret'],
+                ].map(([t, d, from], i) => (
                   <div key={t} className="flex gap-3">
                     <span className="text-pink-400/70 font-black text-sm mt-0.5 w-5 flex-shrink-0">{i + 1}</span>
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-sm text-gray-200">{t}</p>
+                      <div className="flex items-baseline justify-between gap-2">
+                        <p className="font-semibold text-sm text-gray-200">{t}</p>
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-pink-400/50 flex-shrink-0">{from}</span>
+                      </div>
                       <p className="text-gray-500 text-xs leading-relaxed mt-0.5">{d}</p>
                     </div>
                   </div>
@@ -164,9 +168,9 @@ export default function Mind() {
             <div className="bg-gradient-to-br from-pink-500/15 to-[#111] border border-pink-500/30 rounded-2xl p-5">
               <h3 className="font-bold text-pink-300 mb-2">How to actually use this</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Don't try to run all eleven at once — that's how nothing sticks. Pick the one that's the biggest gap for
+                Don't try to run all twelve at once — that's how nothing sticks. Pick the one that's the biggest gap for
                 you right now, run it for a month until it's automatic, then add the next. Same rule the Icons tab
-                gives for absorbing a trait from someone you admire: one at a time, actually installed, beats eleven
+                gives for absorbing a trait from someone you admire: one at a time, actually installed, beats twelve
                 held loosely.
               </p>
             </div>
