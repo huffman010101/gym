@@ -1,12 +1,16 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, LineChart, ChevronDown, AlertTriangle, Play, RotateCcw, TrendingUp, TrendingDown } from 'lucide-react';
+import { ArrowLeft, LineChart, ChevronDown, AlertTriangle, Play, RotateCcw, TrendingUp, TrendingDown, MousePointer2, Minus, Square, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, Trash2, X } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import { generateNasdaq100Series } from '../lib/backtestData';
 import { STRATEGIES, runBacktest } from '../lib/backtest';
 import type { StrategyId, BacktestResult } from '../lib/backtest';
+import CandlestickChart from '../components/CandlestickChart';
+import type { Tool, Annotation } from '../components/CandlestickChart';
 
-type Mode = 'backtest' | 'paper';
+type Mode = 'backtest' | 'chart' | 'paper';
+
+const ANNOTATIONS_KEY = 'gymforge_chart_annotations';
 
 function Fold({ title, tag, children }: { title: string; tag: string; children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -120,6 +124,38 @@ export default function Backtest() {
   const sessionSlice = session ? candles.slice(session.startIdx - SESSION_LOOKBACK, session.startIdx + session.dayIndex + 1) : [];
   const sessionBuyHoldValue = session ? 10000 / candles[session.startIdx].close * currentPrice() : 0;
 
+  // ===== Chart / annotation state =====
+  const [tool, setTool] = useState<Tool>('cursor');
+  const [viewSize, setViewSize] = useState(150);
+  const [viewStart, setViewStart] = useState(Math.max(candles.length - 150, 0));
+  const [annotations, setAnnotations] = useState<Annotation[]>(() => {
+    try {
+      const raw = localStorage.getItem(ANNOTATIONS_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch { return []; }
+  });
+
+  useEffect(() => {
+    localStorage.setItem(ANNOTATIONS_KEY, JSON.stringify(annotations));
+  }, [annotations]);
+
+  function addAnnotation(a: Annotation) {
+    setAnnotations(prev => [...prev, a]);
+  }
+  function removeAnnotation(id: string) {
+    setAnnotations(prev => prev.filter(a => a.id !== id));
+  }
+  function zoom(factor: number) {
+    setViewSize(v => {
+      const next = Math.min(Math.max(Math.round(v * factor), 20), candles.length);
+      setViewStart(s => Math.min(Math.max(s, 0), candles.length - next));
+      return next;
+    });
+  }
+  function pan(direction: number) {
+    setViewStart(s => Math.min(Math.max(s + direction * Math.round(viewSize * 0.4), 0), candles.length - viewSize));
+  }
+
   return (
     <main className="min-h-screen bg-[#0a0a0a] bg-gradient-to-b from-amber-950/30 via-[#0a0a0a] to-[#0a0a0a] text-white pb-24">
       <div className="max-w-2xl mx-auto px-5 pt-6">
@@ -149,10 +185,10 @@ export default function Backtest() {
         </div>
 
         <div className="flex gap-1.5 mb-6 bg-white/5 rounded-xl p-1">
-          {(['backtest', 'paper'] as Mode[]).map(m => (
+          {(['backtest', 'chart', 'paper'] as Mode[]).map(m => (
             <button key={m} onClick={() => setMode(m)}
               className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${mode === m ? 'bg-amber-500 text-black' : 'text-gray-400'}`}>
-              {m === 'backtest' ? 'Backtest' : 'Paper Trade'}
+              {m === 'backtest' ? 'Backtest' : m === 'chart' ? 'Chart' : 'Paper Trade'}
             </button>
           ))}
         </div>
@@ -243,6 +279,68 @@ export default function Backtest() {
                   </div>
                 </Fold>
               </>
+            )}
+          </div>
+        )}
+
+        {mode === 'chart' && (
+          <div className="fade-up stagger space-y-4">
+            <div className="bg-[#111] border border-white/8 rounded-2xl p-3">
+              <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+                <div className="flex gap-1.5">
+                  {([
+                    { id: 'cursor' as Tool, icon: MousePointer2, label: 'Cursor' },
+                    { id: 'hline' as Tool, icon: Minus, label: 'Line' },
+                    { id: 'box' as Tool, icon: Square, label: 'Box' },
+                  ]).map(t => (
+                    <button key={t.id} onClick={() => setTool(t.id)}
+                      className={`p-2 rounded-lg border transition-colors ${tool === t.id ? 'bg-amber-500/20 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-gray-400'}`}
+                      title={t.label}>
+                      <t.icon size={16} />
+                    </button>
+                  ))}
+                </div>
+                <div className="flex gap-1.5">
+                  <button onClick={() => pan(-1)} className="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-400"><ChevronLeft size={16} /></button>
+                  <button onClick={() => zoom(1.5)} className="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-400" title="Zoom out"><ZoomOut size={16} /></button>
+                  <button onClick={() => zoom(1 / 1.5)} className="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-400" title="Zoom in"><ZoomIn size={16} /></button>
+                  <button onClick={() => pan(1)} className="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-400"><ChevronRight size={16} /></button>
+                </div>
+              </div>
+              <CandlestickChart candles={candles} viewStart={viewStart} viewSize={viewSize} tool={tool} annotations={annotations} onAdd={addAnnotation} />
+              <p className="text-[10px] text-gray-600 mt-2 leading-relaxed">
+                {tool === 'cursor' && 'Cursor mode — pick Line or Box to draw. Use the arrows to pan and zoom.'}
+                {tool === 'hline' && 'Tap/click anywhere on the chart to drop a horizontal line at that price.'}
+                {tool === 'box' && 'Drag on the chart to draw a box over a range of candles and prices.'}
+              </p>
+            </div>
+
+            <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl px-4 py-3">
+              <p className="text-xs text-amber-200/85 leading-relaxed">
+                This is candlestick price action from the same simulated series as the backtester — mark up support/resistance
+                levels and consolidation zones the way you would in TradingView to test a discretionary read, then flip to
+                Backtest to see if a similar rules-based version of that idea actually holds up over the full history.
+              </p>
+            </div>
+
+            {annotations.length > 0 && (
+              <Fold title="Your annotations" tag={`${annotations.length} on chart`}>
+                <div className="space-y-2">
+                  {annotations.map(a => (
+                    <div key={a.id} className="flex items-center justify-between bg-white/[0.03] rounded-lg px-3 py-2">
+                      <p className="text-xs text-gray-300">
+                        {a.type === 'hline'
+                          ? `Horizontal line @ ${a.price.toFixed(2)}`
+                          : `Box · ${candles[Math.min(a.i1, candles.length - 1)]?.date ?? ''} → ${candles[Math.min(a.i2, candles.length - 1)]?.date ?? ''} · ${a.p1.toFixed(1)}–${a.p2.toFixed(1)}`}
+                      </p>
+                      <button onClick={() => removeAnnotation(a.id)} className="text-gray-600 hover:text-red-400"><X size={14} /></button>
+                    </div>
+                  ))}
+                  <button onClick={() => setAnnotations([])} className="w-full flex items-center justify-center gap-1.5 text-xs text-gray-500 hover:text-red-400 py-2">
+                    <Trash2 size={13} /> Clear all
+                  </button>
+                </div>
+              </Fold>
             )}
           </div>
         )}
