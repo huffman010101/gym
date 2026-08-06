@@ -6,6 +6,8 @@ export type Annotation =
   | { id: string; type: 'hline'; price: number }
   | { id: string; type: 'box'; i1: number; i2: number; p1: number; p2: number };
 
+export interface Overlay { price: number; color: string; label: string }
+
 interface Props {
   candles: Candle[];
   viewStart: number;
@@ -13,20 +15,22 @@ interface Props {
   tool: Tool;
   annotations: Annotation[];
   onAdd: (a: Annotation) => void;
+  overlays?: Overlay[];
   width?: number;
   height?: number;
 }
 
 const PAD = { top: 10, right: 54, bottom: 20, left: 6 };
 
-export default function CandlestickChart({ candles, viewStart, viewSize, tool, annotations, onAdd, width = 800, height = 380 }: Props) {
+export default function CandlestickChart({ candles, viewStart, viewSize, tool, annotations, onAdd, overlays = [], width = 800, height = 380 }: Props) {
   const svgRef = useRef<SVGSVGElement>(null);
   const dragStart = useRef<{ x: number; y: number } | null>(null);
   const [draft, setDraft] = useState<{ x1: number; y1: number; x2: number; y2: number } | null>(null);
 
   const visible = candles.slice(viewStart, viewStart + viewSize);
   const highs = visible.map(c => c.high), lows = visible.map(c => c.low);
-  const rawMax = Math.max(...highs), rawMin = Math.min(...lows);
+  const overlayPrices = overlays.map(o => o.price);
+  const rawMax = Math.max(...highs, ...overlayPrices), rawMin = Math.min(...lows, ...overlayPrices);
   const range = (rawMax - rawMin) || 1;
   const maxPrice = rawMax + range * 0.06;
   const minPrice = rawMin - range * 0.06;
@@ -104,6 +108,16 @@ export default function CandlestickChart({ candles, viewStart, viewSize, tool, a
           <g key={i}>
             <line x1={x} y1={priceToY(c.high)} x2={x} y2={priceToY(c.low)} stroke={color} strokeWidth={1} />
             <rect x={x - candleW / 2} y={bodyTop} width={candleW} height={Math.max(bodyBottom - bodyTop, 0.8)} fill={color} />
+          </g>
+        );
+      })}
+
+      {overlays.map((o, i) => {
+        const y = priceToY(o.price);
+        return (
+          <g key={`ov-${i}`}>
+            <line x1={PAD.left} y1={y} x2={width - PAD.right} y2={y} stroke={o.color} strokeWidth={1.3} strokeDasharray="2 2" />
+            <text x={PAD.left + 4} y={y - 4} fontSize={9} fill={o.color} fontWeight="bold">{o.label} {o.price.toFixed(1)}</text>
           </g>
         );
       })}

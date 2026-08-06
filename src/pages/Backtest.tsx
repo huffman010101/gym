@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, LineChart, ChevronDown, AlertTriangle, Play, RotateCcw, TrendingUp, TrendingDown, MousePointer2, Minus, Square, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, Trash2, X } from 'lucide-react';
+import { ArrowLeft, LineChart, ChevronDown, AlertTriangle, Play, Pause, RotateCcw, TrendingUp, TrendingDown, MousePointer2, Minus, Square, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, Trash2, X, StepForward, Gauge } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import { generateNasdaq100Series } from '../lib/backtestData';
 import { STRATEGIES, runBacktest } from '../lib/backtest';
@@ -8,7 +8,11 @@ import type { StrategyId, BacktestResult } from '../lib/backtest';
 import CandlestickChart from '../components/CandlestickChart';
 import type { Tool, Annotation } from '../components/CandlestickChart';
 
-type Mode = 'backtest' | 'chart' | 'paper';
+type Mode = 'backtest' | 'chart' | 'replay' | 'paper';
+
+interface RpPosition { side: 'long' | 'short'; entry: number; units: number; sl: number; tp: number; entryIdx: number }
+interface RpTrade { side: 'long' | 'short'; entry: number; exit: number; pnl: number; reason: string; bars: number }
+interface RpSession { startIdx: number; revealed: number; balance: number; position: RpPosition | null; trades: RpTrade[] }
 
 const ANNOTATIONS_KEY = 'gymforge_chart_annotations';
 
@@ -156,6 +160,88 @@ export default function Backtest() {
     setViewStart(s => Math.min(Math.max(s + direction * Math.round(viewSize * 0.4), 0), candles.length - viewSize));
   }
 
+  // ===== Replay (FXReplay-style) state =====
+  const RP_LOOKBACK = 60;
+  const SPEEDS = [1000, 500, 200];
+  const [rp, setRp] = useState<RpSession | null>(null);
+  const [rpPlaying, setRpPlaying] = useState(false);
+  const [rpSpeedIdx, setRpSpeedIdx] = useState(1);
+  const [rpView, setRpView] = useState(120);
+  const [slPct, setSlPct] = useState(1.0);
+  const [tpPct, setTpPct] = useState(2.0);
+  const rpRef = useRef(rp);
+  rpRef.current = rp;
+
+  function newReplay() {
+    const maxStart = candles.length - RP_LOOKBACK - 100;
+    const startIdx = RP_LOOKBACK + Math.floor(Math.random() * (maxStart - RP_LOOKBACK));
+    setRp({ startIdx, revealed: 0, balance: 10000, position: null, trades: [] });
+    setRpPlaying(false);
+  }
+
+  function rpCurrentIdx(s: RpSession) { return s.startIdx + s.revealed; }
+  function rpPrice(s: RpSession) { return candles[rpCurrentIdx(s)].close; }
+
+  function closePosition(s: RpSession, exit: number, reason: string): RpSession {
+    const p = s.position!;
+    const pnl = (p.side === 'long' ? exit - p.entry : p.entry - exit) * p.units;
+    return {
+      ...s,
+      balance: s.balance + pnl,
+      position: null,
+      trades: [...s.trades, { side: p.side, entry: p.entry, exit, pnl, reason, bars: rpCurrentIdx(s) - p.entryIdx }],
+    };
+  }
+
+  function stepBar() {
+    setRp(prev => {
+      if (!prev) return prev;
+      if (rpCurrentIdx(prev) >= candles.length - 1) { setRpPlaying(false); return prev; }
+      let s: RpSession = { ...prev, revealed: prev.revealed + 1 };
+      const bar = candles[rpCurrentIdx(s)];
+      const p = s.position;
+      if (p) {
+        // Conservative: if both SL and TP are inside the bar's range, assume SL hit first.
+        const slHit = p.side === 'long' ? bar.low <= p.sl : bar.high >= p.sl;
+        const tpHit = p.side === 'long' ? bar.high >= p.tp : bar.low <= p.tp;
+        if (slHit) s = closePosition(s, p.sl, 'stop loss');
+        else if (tpHit) s = closePosition(s, p.tp, 'take profit');
+      }
+      return s;
+    });
+  }
+
+  useEffect(() => {
+    if (!rpPlaying) return;
+    const id = setInterval(stepBar, SPEEDS[rpSpeedIdx]);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rpPlaying, rpSpeedIdx]);
+
+  function openTrade(side: 'long' | 'short') {
+    setRp(prev => {
+      if (!prev || prev.position) return prev;
+      const price = rpPrice(prev);
+      const sl = side === 'long' ? price * (1 - slPct / 100) : price * (1 + slPct / 100);
+      const tp = side === 'long' ? price * (1 + tpPct / 100) : price * (1 - tpPct / 100);
+      return { ...prev, position: { side, entry: price, units: prev.balance / price, sl, tp, entryIdx: rpCurrentIdx(prev) } };
+    });
+  }
+
+  function manualClose() {
+    setRp(prev => (prev && prev.position) ? closePosition(prev, rpPrice(prev), 'manual') : prev);
+  }
+
+  const rpEnded = rp ? rpCurrentIdx(rp) >= candles.length - 1 : false;
+  const rpOpenPnl = rp?.position ? (rp.position.side === 'long' ? rpPrice(rp) - rp.position.entry : rp.position.entry - rpPrice(rp)) * rp.position.units : 0;
+  const rpWins = rp ? rp.trades.filter(t => t.pnl > 0).length : 0;
+  const rpChartStart = rp ? Math.max(rp.startIdx - RP_LOOKBACK, rpCurrentIdx(rp) - rpView + 1) : 0;
+  const rpOverlays = rp?.position ? [
+    { price: rp.position.entry, color: '#e5e7eb', label: rp.position.side === 'long' ? 'LONG' : 'SHORT' },
+    { price: rp.position.sl, color: '#f87171', label: 'SL' },
+    { price: rp.position.tp, color: '#34d399', label: 'TP' },
+  ] : [];
+
   return (
     <main className="min-h-screen bg-[#0a0a0a] bg-gradient-to-b from-amber-950/30 via-[#0a0a0a] to-[#0a0a0a] text-white pb-24">
       <div className="max-w-2xl mx-auto px-5 pt-6">
@@ -185,10 +271,10 @@ export default function Backtest() {
         </div>
 
         <div className="flex gap-1.5 mb-6 bg-white/5 rounded-xl p-1">
-          {(['backtest', 'chart', 'paper'] as Mode[]).map(m => (
+          {(['backtest', 'chart', 'replay', 'paper'] as Mode[]).map(m => (
             <button key={m} onClick={() => setMode(m)}
-              className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${mode === m ? 'bg-amber-500 text-black' : 'text-gray-400'}`}>
-              {m === 'backtest' ? 'Backtest' : m === 'chart' ? 'Chart' : 'Paper Trade'}
+              className={`flex-1 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${mode === m ? 'bg-amber-500 text-black' : 'text-gray-400'}`}>
+              {m === 'backtest' ? 'Backtest' : m === 'chart' ? 'Chart' : m === 'replay' ? 'Replay' : 'Paper'}
             </button>
           ))}
         </div>
@@ -341,6 +427,144 @@ export default function Backtest() {
                   </button>
                 </div>
               </Fold>
+            )}
+          </div>
+        )}
+
+        {mode === 'replay' && (
+          <div className="fade-up stagger space-y-4">
+            {!rp && (
+              <div className="card-premium p-5 text-center">
+                <p className="text-gray-300 font-bold mb-1">Bar replay — the FXReplay drill</p>
+                <p className="text-gray-500 text-sm leading-relaxed mb-4">
+                  You get dropped at a random date with the future hidden. Play the chart forward bar by bar,
+                  go long or short with a stop loss and take profit, and see if your read survives contact with
+                  what actually happens next. £10,000 starting balance, full-balance positions.
+                </p>
+                <button onClick={newReplay} className="bg-amber-500 hover:bg-amber-400 text-black font-bold rounded-xl px-6 py-3 inline-flex items-center gap-2">
+                  <Play size={16} /> Drop Me Somewhere Random
+                </button>
+              </div>
+            )}
+
+            {rp && (
+              <>
+                <div className="bg-[#111] border border-white/8 rounded-2xl p-3">
+                  <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+                    <div className="flex gap-1.5">
+                      <button onClick={() => setRpPlaying(p => !p)} disabled={rpEnded}
+                        className={`p-2 rounded-lg border transition-colors ${rpPlaying ? 'bg-amber-500/20 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-gray-300'} disabled:opacity-30`}
+                        title={rpPlaying ? 'Pause' : 'Play'}>
+                        {rpPlaying ? <Pause size={16} /> : <Play size={16} />}
+                      </button>
+                      <button onClick={stepBar} disabled={rpEnded} className="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-300 disabled:opacity-30" title="Step one bar">
+                        <StepForward size={16} />
+                      </button>
+                      <button onClick={() => setRpSpeedIdx(i => (i + 1) % SPEEDS.length)} className="px-2.5 py-2 rounded-lg bg-white/5 border border-white/10 text-gray-300 text-xs font-bold flex items-center gap-1" title="Speed">
+                        <Gauge size={14} /> {['1x', '2x', '5x'][rpSpeedIdx]}
+                      </button>
+                    </div>
+                    <div className="flex gap-1.5 items-center">
+                      <button onClick={() => setRpView(v => Math.min(v + 40, 300))} className="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-400" title="Zoom out"><ZoomOut size={15} /></button>
+                      <button onClick={() => setRpView(v => Math.max(v - 40, 40))} className="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-400" title="Zoom in"><ZoomIn size={15} /></button>
+                      <button onClick={newReplay} className="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-400" title="New random date"><RotateCcw size={15} /></button>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between mb-1 px-1">
+                    <p className="text-[10px] text-gray-500">{candles[rpCurrentIdx(rp)].date} · bar {rp.revealed + 1}</p>
+                    <p className="text-[10px] font-bold text-amber-400">{rpPrice(rp).toFixed(2)}</p>
+                  </div>
+                  <CandlestickChart
+                    candles={candles.slice(0, rpCurrentIdx(rp) + 1)}
+                    viewStart={rpChartStart}
+                    viewSize={Math.min(rpView, rpCurrentIdx(rp) + 1 - rpChartStart)}
+                    tool={tool} annotations={annotations} onAdd={addAnnotation}
+                    overlays={rpOverlays} height={340}
+                  />
+                  <div className="flex gap-1.5 mt-2">
+                    {([
+                      { id: 'cursor' as Tool, icon: MousePointer2 },
+                      { id: 'hline' as Tool, icon: Minus },
+                      { id: 'box' as Tool, icon: Square },
+                    ]).map(t => (
+                      <button key={t.id} onClick={() => setTool(t.id)}
+                        className={`p-1.5 rounded-lg border transition-colors ${tool === t.id ? 'bg-amber-500/20 border-amber-500/50 text-amber-300' : 'bg-white/5 border-white/10 text-gray-500'}`}>
+                        <t.icon size={13} />
+                      </button>
+                    ))}
+                    <p className="text-[10px] text-gray-600 self-center ml-1">Same drawing tools — mark levels while it plays</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-4 gap-2">
+                  <StatCard label="Balance" value={fmtMoney(rp.balance)} positive={rp.balance >= 10000} />
+                  <StatCard label="Open P&L" value={rp.position ? fmtMoney(rpOpenPnl) : '—'} positive={rp.position ? rpOpenPnl >= 0 : undefined} />
+                  <StatCard label="Trades" value={`${rp.trades.length}`} />
+                  <StatCard label="Win rate" value={rp.trades.length ? `${Math.round(rpWins / rp.trades.length * 100)}%` : '—'} />
+                </div>
+
+                {!rp.position ? (
+                  <div className="bg-[#111] border border-white/8 rounded-2xl p-4 space-y-3">
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-[11px] font-semibold text-gray-400 block mb-1">Stop loss (% from entry)</label>
+                        <input type="number" value={slPct} min={0.2} max={10} step={0.1} onChange={e => setSlPct(Number(e.target.value))}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-gray-200" />
+                      </div>
+                      <div>
+                        <label className="text-[11px] font-semibold text-gray-400 block mb-1">Take profit (% from entry)</label>
+                        <input type="number" value={tpPct} min={0.2} max={20} step={0.1} onChange={e => setTpPct(Number(e.target.value))}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-gray-200" />
+                      </div>
+                    </div>
+                    <p className="text-[11px] text-gray-600">Risk:reward {`1:${(tpPct / slPct).toFixed(1)}`} — SL and TP are placed automatically and close the trade the bar they're touched.</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button onClick={() => openTrade('long')} disabled={rpEnded}
+                        className="bg-emerald-500/15 border border-emerald-500/40 disabled:opacity-30 text-emerald-300 font-bold rounded-xl py-3 flex items-center justify-center gap-2">
+                        <TrendingUp size={16} /> Long
+                      </button>
+                      <button onClick={() => openTrade('short')} disabled={rpEnded}
+                        className="bg-red-500/15 border border-red-500/40 disabled:opacity-30 text-red-300 font-bold rounded-xl py-3 flex items-center justify-center gap-2">
+                        <TrendingDown size={16} /> Short
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-[#111] border border-white/8 rounded-2xl p-4 flex items-center justify-between gap-3">
+                    <div>
+                      <p className={`font-bold text-sm ${rp.position.side === 'long' ? 'text-emerald-300' : 'text-red-300'}`}>
+                        {rp.position.side.toUpperCase()} from {rp.position.entry.toFixed(2)}
+                      </p>
+                      <p className="text-[11px] text-gray-500">SL {rp.position.sl.toFixed(2)} · TP {rp.position.tp.toFixed(2)}</p>
+                    </div>
+                    <button onClick={manualClose} className="bg-white/10 hover:bg-white/15 text-gray-200 font-bold rounded-xl px-4 py-2.5 text-sm">
+                      Close Now
+                    </button>
+                  </div>
+                )}
+
+                {rpEnded && (
+                  <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl px-4 py-3">
+                    <p className="text-xs text-amber-200/90">End of the data — hit the reset button for a new random date.</p>
+                  </div>
+                )}
+
+                {rp.trades.length > 0 && (
+                  <Fold title="Closed trades" tag={`${rp.trades.length} · ${fmtMoney(rp.balance - 10000)} net`}>
+                    <div className="space-y-2 max-h-64 overflow-y-auto">
+                      {[...rp.trades].reverse().map((t, i) => (
+                        <div key={i} className="flex items-center justify-between bg-white/[0.03] rounded-lg px-3 py-2">
+                          <div>
+                            <p className="text-xs text-gray-300">{t.side.toUpperCase()} {t.entry.toFixed(2)} → {t.exit.toFixed(2)}</p>
+                            <p className="text-[10px] text-gray-600">{t.reason} · {t.bars} bars</p>
+                          </div>
+                          <p className={`font-bold text-sm ${t.pnl >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>{t.pnl >= 0 ? '+' : ''}{fmtMoney(t.pnl).replace('£', '£')}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </Fold>
+                )}
+              </>
             )}
           </div>
         )}
