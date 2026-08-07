@@ -209,16 +209,10 @@ export default function HighValue() {
         ['Standards you would actually enforce', 'A standard you would never act on is a preference. Know what you would walk away from before you are in a position where walking is hard.'],
       ]} />
 
-      <Fold title="An Instagram people watch" tag="The signalling side — see Looks → Style for the visuals" items={[
-        ['Show the life, do not announce it', 'Photos of you doing things beat photos of you posing. A picture from a match, a trip, a session with friends says more than any caption claiming you are interesting.'],
-        ['Other people in your photos', 'Social proof is the one signal you cannot self-report, and it is the strongest thing on your grid. A profile of nothing but solo mirror selfies says the opposite of what it is trying to say.'],
-        ['Post less than you want to', 'Frequency reads as needing the response. One strong post a week beats five average ones, and the restraint itself signals you are not fishing.'],
-        ['Never post the low moments', 'Vague-posting, sad-posting, anything aimed at a specific person who will know it is about them. It is the most visible neediness there is and it is instantly read as such.'],
-        ['Visible effort is the killer', 'Obvious thirst traps, gym mirror selfies as your entire identity, heavily edited photos. The effort is legible, and legible effort asking for a response is the thing you are trying to avoid.'],
-        ['Spend attention carefully', 'Viewing every story within seconds, liking every post, replying instantly to every story. Attention is the currency — spending all of it on one person makes yours worth nothing.'],
-        ['Stories are the life, the grid is the highlights', 'Stories can be loose, real-time and unpolished. The grid should be the small number of things you would show a stranger. Do not invert them.'],
-        ['The honest warning', 'An audience is not a life. If you are building the grid instead of the thing the grid is meant to show, that is visible too — and it is the same neediness wearing a different outfit. The best profiles are a by-product of a life worth photographing, not a project.'],
-        ['Stop checking who viewed', 'Refreshing the viewer list is the neediness loop with a nicer interface. If you would not admit to doing it, that is your answer.'],
+      <Fold title="An Instagram people watch" tag="The principle — full guide in Looks → Style" items={[
+        ['The one rule underneath all of it', 'A high-value profile is evidence of a life, not an advert for one. Every specific tactic is downstream of that, and none of them work if the life is not there.'],
+        ['Why it belongs to this section at all', 'A grid is just non-neediness made visible. Posting constantly, chasing likes, deleting underperformers and checking who viewed are the same outcome-dependence discussed above, wearing a different outfit.'],
+        ['The full breakdown is in Looks → Style', 'Profile setup, the first nine tiles, post ideas, what kills it, and a 30-day reset — all in one place there rather than split across two sections.'],
       ]} />
 
       <Block title="Build it in this order" items={[

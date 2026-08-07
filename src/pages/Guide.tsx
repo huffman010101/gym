@@ -693,24 +693,20 @@ export default function Guide() {
                 ['Level up your environments', 'Seek the room where you\'re NOT the most accomplished person. Your circle\'s average ambition becomes yours — choose accordingly.'],
               ]} />
             </Fold>
-            <Fold title="Money — the income hierarchy" tag="Skills ranked by time-to-first-income">
-              <Pairs items={[
-                ['The core principle', 'Income is a lagging indicator of value delivered. Skills, connections and execution capacity are the three variables — all developable. Order at your stage: high-value skill → first income → network → business mechanics. Investing before income is premature.'],
-                ['Tier 1 (0–3 months to income): Copywriting', '£500–5k/mo early → £3–15k/mo pro. Learn: The Copywriter\'s Handbook (Bly), swipe files, rewrite real ads daily. Start with free portfolio work, pitch small businesses directly.'],
-                ['Tier 1: Social Media Management', '£500–2k/mo early → £3–8k with 5+ clients. Build your own account first as proof, pick one platform + one niche.'],
-                ['Tier 1: Video Editing', '£800–3k early → £4–12k specialised. DaVinci (free). Edit free for 10–100k-follower creators, build a reel, specialise and raise rates hard.'],
-                ['Tier 2 (2–8 months): Web Design & Paid Ads', 'Webflow University (free) to pro standard in 4–8 weeks; £1–5k/project. Media buying: Meta Blueprint, performance deals — one large client can be £5k+/month.'],
-                ['Personal brand — highest ceiling, longest runway', 'One platform, 12 months consistent. Monetise: products → consulting → sponsorships. It amplifies every other path — it IS leverage.'],
-                ['The freelance ladder', 'Skill (4–8 wks, 2–4h/day) → portfolio (2–3 free pieces for people with audiences) → clients (20 researched outreaches/week, 1 client/month at first) → raise rates each client until pushback → productise or agency.'],
-                ['The four money rules', 'Spend less than you earn, always · emergency fund (3–6 months) before investing · then automatic index funds (global/S&P in an ISA) · but at your stage the highest-return investment is SKILLS — a £200 book that adds £5k/year income returns 2,500%.'],
-              ]} />
-            </Fold>
-            <Fold title="Reading List" tag="The foundation shelf">
-              <Pairs items={[
-                ['People skills', 'How to Win Friends and Influence People (Carnegie) · The Charisma Myth (Fox Cabane) · Never Split the Difference (Voss) · Models (Manson) · Influence (Cialdini).'],
-                ['Mindset & growth', 'Mindset (Dweck) · The Courage to Be Disliked (Kishimi & Koga) · Man\'s Search for Meaning (Frankl) · Atomic Habits (Clear) · The 48 Laws of Power (Greene — study it to understand dynamics).'],
-              ]} />
-            </Fold>
+            <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-3 space-y-1.5">
+              <p className="text-gray-400 text-xs leading-relaxed">
+                Earning money and what to read both used to sit here — they belong in their own sections, so they
+                live there properly instead of as a summary inside a looks-and-social protocol.
+              </p>
+              <div className="flex flex-wrap gap-2 pt-1">
+                <Link to="/money?tab=skills" className="text-[11px] font-bold bg-amber-500/10 border border-amber-500/25 text-amber-200 px-3 py-1.5 rounded-full">
+                  Money → Skills
+                </Link>
+                <Link to="/uni?tab=smarter" className="text-[11px] font-bold bg-amber-500/10 border border-amber-500/25 text-amber-200 px-3 py-1.5 rounded-full">
+                  Uni → Get Smarter (reading list)
+                </Link>
+              </div>
+            </div>
             <div className="bg-[#111] border border-amber-500/20 rounded-2xl p-5">
               <h3 className="font-bold text-amber-300 mb-2 flex items-center gap-2"><Sparkles size={15} /> The Non-Negotiable Daily Stack</h3>
               <div className="flex flex-wrap gap-1.5">

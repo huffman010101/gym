@@ -1315,21 +1315,33 @@ export default function LooksMax() {
 
             <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
               <h2 className="font-bold text-base mb-1">Taking the Photo on iPhone</h2>
-              <p className="text-gray-600 text-xs mb-3">The camera app has more control than most people use. A few taps before you shoot beats any amount of editing after.</p>
-              <div className="space-y-2">
+              <p className="text-gray-600 text-xs mb-3">Every setting below is either DO or AVOID — no ambiguity. A few taps before you shoot beats any amount of editing after.</p>
+              <div className="space-y-2.5">
                 {[
-                  ['Turn the grid on', 'Settings → Camera → Grid. Gives you rule-of-thirds lines live, so you can actually place yourself instead of guessing. Leave it on permanently.'],
-                  ['Tap-and-hold to lock exposure and focus', 'Tap once to focus, then press and hold the same spot until "AE/AF LOCK" appears. This stops the phone re-exposing for the background every time you move — critical outdoors or with a bright sky behind you.'],
-                  ['Drag the sun icon to control brightness manually', 'After locking focus, a small sun slider appears next to the yellow box — drag it up or down to fine-tune exposure before you shoot, rather than fixing a blown-out or dark shot in editing.'],
-                  ['HDR / Smart HDR: leave it on auto', 'It balances bright skies with a shadowed face automatically. Only worth overriding if a specific shot looks flat or over-processed on review.'],
-                  ['Use the 1x or 3x lens, never ultra-wide for people', 'The 0.5x ultra-wide lens distorts faces and bodies badly up close — it is built for landscapes. 1x is natural, 3x (or the portrait lens) flatters faces by compressing perspective, which is why professional portraits are shot on longer lenses.'],
-                  ['Portrait mode for a clean single-subject shot', 'Blurs the background and keeps the focus on you. Check the depth slider (f-stop, top corner) afterward — the default is often too aggressive and cuts into hair or shoulders unnaturally at f/2.8-4 is usually safer than f/1.4.'],
-                  ['Use the volume button or a timer, not a shaky reach', 'Either button works as a shutter and is more stable than tapping the screen. For self-timer shots, use the 3s or 10s timer with the phone properly propped, not held.'],
-                  ['Clean the lens', 'Pocket lint and fingerprints cause a soft, hazy look that no edit fixes properly. Ten seconds with a t-shirt before any shoot that matters.'],
-                ].map(([t, d]) => (
-                  <div key={t}>
-                    <p className="font-semibold text-sm text-gray-200">{t}</p>
-                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  ['Grid', true, 'ON — permanently', 'Settings → Camera → Grid. Gives you live rule-of-thirds lines so you can place yourself instead of guessing.'],
+                  ['Lens choice', true, '1x for normal, 3x for portraits', '3x (or the dedicated portrait lens) compresses perspective and flatters the face — it is why pro portraits use long lenses.'],
+                  ['Ultra-wide (0.5x) on people', false, 'NEVER for photos of you', 'It visibly distorts faces and bodies — wider nose, stretched edges. It is a landscape lens. Only use it for scenery.'],
+                  ['Front (selfie) camera', false, 'AVOID for anything that matters', 'Wider and lower-quality than the rear camera, and it distorts your features. Hand the phone over or use a timer with the rear camera.'],
+                  ['AE/AF Lock', true, 'ON — tap and hold to set it', 'Tap to focus, then hold until "AE/AF LOCK" appears. Stops the phone re-exposing every time you shift, which is what ruins outdoor shots with bright sky behind you.'],
+                  ['Exposure slider (the sun icon)', true, 'Adjust manually before shooting', 'After locking focus, drag the little sun up or down. Getting brightness right in-camera always beats rescuing it in editing.'],
+                  ['Smart HDR', true, 'Leave ON (auto)', 'Balances a bright sky against a shadowed face automatically. Only turn it off if a specific shot looks flat or over-processed.'],
+                  ['Portrait mode', true, 'ON for single-subject shots — but check the depth', 'Blurs the background and isolates you. Open the f-stop control afterwards: f/2.8–4 looks natural, f/1.4 is too aggressive and eats into hair and shoulders.'],
+                  ['Shutter', true, 'Volume button or 3s/10s timer', 'Both are steadier than tapping the screen. For timer shots prop the phone properly — never balance-and-hope.'],
+                  ['Burst mode', true, 'Use it — 10-15 frames minimum', 'Hold the shutter (or slide left) for a burst. One frame in fifteen will have the right expression; one single shot almost never does.'],
+                  ['Zooming in with your fingers', false, 'AVOID — move closer instead', 'Digital zoom between the real lenses just crops and softens the image. Physically step closer, or switch to the actual 3x lens.'],
+                  ['Flash', false, 'OFF — almost always', 'Direct phone flash flattens your face, blows out skin and kills all depth. Find better light instead; the only exception is total darkness where the shot is unusable otherwise.'],
+                  ['Dirty lens', false, 'Wipe it every time', 'Pocket lint and fingerprints create a hazy, soft look no edit properly fixes. Ten seconds with a t-shirt.'],
+                ].map(([t, good, verdict, d]) => (
+                  <div key={t as string} className="flex gap-2.5">
+                    <span className={`mt-0.5 flex-shrink-0 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-black ${good ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
+                      {good ? '✓' : '✕'}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-sm text-gray-200">
+                        {t as string} — <span className={good ? 'text-emerald-400' : 'text-red-400'}>{verdict as string}</span>
+                      </p>
+                      <p className="text-gray-500 text-xs leading-relaxed">{d as string}</p>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -1337,17 +1349,77 @@ export default function LooksMax() {
 
             <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
               <h2 className="font-bold text-base mb-1">Editing: Settings That Actually Help</h2>
-              <p className="text-gray-600 text-xs mb-3">Small, consistent adjustments. The goal is correcting the photo, not transforming it — see "editing correct, don't transform" above.</p>
+              <p className="text-gray-600 text-xs mb-3">Native Photos app only — Edit → the sliders icon. Most "influencer" photos are four sliders, not a filter. Numbers below are actual slider values, in the order to apply them.</p>
+              <div className="space-y-2.5">
+                {[
+                  ['Exposure', true, '±10 to 20', 'Overall brightness. Do this first — everything else builds on it being right.'],
+                  ['Brilliance', true, '+10 to 20', 'Lifts shadow detail without blowing out the highlights. The most underused slider on the phone.'],
+                  ['Contrast', true, '+10 to 15', 'Adds punch. Combined with a shadow lift, this is the single biggest "why does this look better" change.'],
+                  ['Shadows', true, '+10 to 20', 'Stops faces looking muddy in anything but perfect light.'],
+                  ['Warmth', true, '+5 to 10', 'A touch warmer flatters skin. Cold blue-tinted photos read as unedited phone-flash shots.'],
+                  ['Sharpness', true, '+5 to 10 max', 'A small bump rescues a slightly soft shot — and that is the ceiling.'],
+                  ['Vignette', true, '10 to 15, or skip it', 'Very subtle only — it pulls the eye toward you. Anything heavier looks dated.'],
+                  ['Crop & straighten', true, 'Always last', 'Recompose for rule-of-thirds and headroom, and straighten the horizon. A tilted horizon reads as sloppy.'],
+                  ['Preset filters (Vivid, Dramatic etc.)', false, 'AVOID', 'They hit every value at once and stamp an obvious, dated look on the photo. Manual sliders take 30 seconds more and look ten times better.'],
+                  ['Beauty / face-tune filters', false, 'NEVER', 'Skin smoothing and face reshaping are spotted instantly, and they destroy trust the moment someone meets you in person. If skin is the real issue, fix it at source — Blueprint → Skin & Acne Protocol.'],
+                  ['Heavy saturation', false, 'AVOID', 'Cranking saturation turns skin orange and is the fastest way to make a good photo look amateur. If you want more colour, use Vibrance sparingly instead.'],
+                  ['Over-editing generally', false, 'The tell everyone notices', 'If someone can see it was edited, you went too far. The target is "he just photographs well", not "he knows Lightroom".'],
+                ].map(([t, good, verdict, d]) => (
+                  <div key={t as string} className="flex gap-2.5">
+                    <span className={`mt-0.5 flex-shrink-0 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-black ${good ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
+                      {good ? '✓' : '✕'}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-sm text-gray-200">
+                        {t as string} — <span className={good ? 'text-emerald-400' : 'text-red-400'}>{verdict as string}</span>
+                      </p>
+                      <p className="text-gray-500 text-xs leading-relaxed">{d as string}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-500/15 to-[#111] border border-purple-500/30 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-1 text-purple-200">A High-Value Instagram</h2>
+              <p className="text-gray-400 text-xs mb-3 leading-relaxed">
+                The whole thing rests on one rule: <span className="text-purple-200 font-semibold">a high-value profile is
+                evidence of a life, not an advert for one.</span> Everything below is downstream of that. If the life
+                is not there yet, build the life first — the grid follows it easily and never works in reverse.
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="bg-emerald-500/8 border border-emerald-500/25 rounded-xl p-2.5">
+                  <p className="font-black text-[11px] text-emerald-300 mb-1.5">Screams high value</p>
+                  <ul className="space-y-1">
+                    {['Doing things, not posing', 'Other people in frame', 'Places, travel, competition', 'Posts rarely, all good', 'Looks effortless', 'Ignores the comments'].map(x => (
+                      <li key={x} className="text-[10.5px] text-gray-300 leading-snug">· {x}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="bg-red-500/8 border border-red-500/25 rounded-xl p-2.5">
+                  <p className="font-black text-[11px] text-red-300 mb-1.5">Screams trying</p>
+                  <ul className="space-y-1">
+                    {['Gym mirror selfies ×9', 'Always alone in frame', 'Same room, same wall', 'Posts daily, all filler', 'Visibly staged', 'Deletes low-like posts'].map(x => (
+                      <li key={x} className="text-[10.5px] text-gray-400 leading-snug">· {x}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-1">The Build — profile, grid, cadence</h2>
+              <p className="text-gray-600 text-xs mb-3">In order. Do the profile once, then it is just feeding the grid.</p>
               <div className="space-y-2">
                 {[
-                  ['The native Photos app edit tool is enough', 'Tap Edit → the sliders icon. You do not need a separate app to get a clean result — most "influencer" photos are three or four native sliders, not a filter.'],
-                  ['Exposure and Brilliance first', 'Exposure sets overall brightness; Brilliance lifts shadow detail without blowing out highlights. Small moves — +/-10 to 20 on the slider — go a long way before it looks edited.'],
-                  ['Contrast up slightly, Shadows up slightly', 'A small contrast boost (around +10-15) adds punch. Lifting shadows a touch (+10-20) stops faces looking muddy in anything but perfect light. Both together is the single biggest "why does this look better" move.'],
-                  ['Warmth: nudge toward your skin tone, not away from it', 'A tiny warmth increase (+5-10) generally flatters skin. Cold, blue-tinted photos read as unedited phone-flash shots.'],
-                  ['Sharpness: barely touch it', 'A small bump (+5-10) can help on a slightly soft shot. Overdone sharpening creates a harsh, artificial edge around hair and skin texture — the most common tell of a bad edit.'],
-                  ['Vignette: light, if at all', 'A very subtle vignette (10-15) pulls the eye toward the centre/subject. Heavy vignettes look dated and try-hard.'],
-                  ['Skip beauty filters entirely', 'Skin-smoothing and face-reshape filters (Facetune-style apps) are detectable at a glance and undercut trust the moment someone meets you in person. If skin is a genuine concern, that is what the Skin & Acne Protocol in the Guide is for — fix it at the source, not in post.'],
-                  ['Crop last', 'Recompose using the crop tool to apply the rule-of-thirds and headroom guidance above if you did not nail it in-camera. Straighten the horizon while you are there — a tilted horizon is a small detail that reads as sloppy.'],
+                  ['Profile photo', 'A clear, well-lit shot of your face — 3x lens, natural light, slight smile. Not a group photo, not sunglasses, not a landscape. It is the one image everyone sees at 40 pixels wide, so it has to read instantly.'],
+                  ['Bio: one line, specific, no emoji soup', 'What you actually do plus one human detail. "Economics @ [uni] · football · lifting" beats any quote, any set of emojis, any "living my best life". Vague bios read as having nothing to say.'],
+                  ['The first nine tiles are your whole profile', 'Almost nobody scrolls past row three. Those nine should show: your face clearly (2), you doing something (3), you with other people (2), and something that is not about you at all (2) — a place, a view, a match. That mix alone reads as a full life.'],
+                  ['One visual lane, held consistently', 'Similar light, similar edit, similar tones across posts. Not a filter — just the same editing approach every time. Consistency is what separates a profile that looks considered from a camera roll dump.'],
+                  ['Cadence: 1-2 posts a week, maximum', 'Posting daily guarantees filler, and filler is what makes a profile look try-hard. Fewer, better posts read as selective — which is the whole signal.'],
+                  ['Grid vs stories — never invert them', 'Grid = the small number of things you would show a stranger. Stories = loose, real-time, unpolished, disposable. Putting polished content in stories and raw content on the grid gets it exactly backwards.'],
+                  ['Captions: short or nothing', 'One line, dry, or no caption at all. Long explanatory captions about your journey undercut the photo. Let the image carry it.'],
+                  ['Highlights: 3-4 max, cleanly named', 'Training, travel, a hobby, maybe friends. Fifteen highlight bubbles is clutter — it reads as archiving your life for an audience rather than living it.'],
                 ].map(([t, d]) => (
                   <div key={t}>
                     <p className="font-semibold text-sm text-gray-200">{t}</p>
@@ -1358,15 +1430,58 @@ export default function LooksMax() {
             </div>
 
             <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
-              <h2 className="font-bold text-base mb-1">Social Media Presence</h2>
-              <p className="text-gray-600 text-xs mb-3">Your grid is your first impression before you ever speak. Curate it like an outfit.</p>
+              <h2 className="font-bold text-base mb-1">Post Ideas That Actually Signal</h2>
+              <p className="text-gray-600 text-xs mb-3">Steal these directly. Each one communicates something a posed selfie cannot.</p>
               <div className="space-y-2">
                 {[
-                  ['Consistent aesthetic', 'Pick a visual lane that matches the KERS direction — editorial, muscle-fit, colour-blocked — and let every post live in it. Same tones, similar lighting, coherent grid. Random memes + gym pics + night blur = no signal.'],
-                  ['Bio: one clear signal', 'Specific beats vague. What you do or train + one personality note. "Aesthetic lifting · Building KERS" says more than a paragraph of emojis and quotes.'],
-                  ['Posting cadence', 'Training content, style/fit content, the occasional life highlight. Quality over frequency — 1-2 strong posts a week beats daily filler. Never overshare: mystery is content too.'],
-                  ['Photo curation', 'Golden-hour or window light, rear camera, shot from chest height (not below-chin selfies). Outfit coordinated with your archetype and colours from this tab. Delete the bottom 50% of what you shoot — the grid only keeps bangers.'],
-                  ['Stories vs grid', 'Grid = curated highlights that sell the aesthetic. Stories = looser, real-time, personality. Don\'t invert them.'],
+                  ['Mid-action sport', 'Playing football, padel, sparring — shot by someone else, ideally mid-movement. Signals competence and a physical life in one frame. Ask a mate to take 20 during a game; two will be excellent.'],
+                  ['The post-match / post-session group shot', 'You and the lads after playing, all still kitted up. Social proof plus activity plus genuine expressions — one of the highest-signal photos available and it costs nothing to take.'],
+                  ['Somewhere that is not your bedroom', 'A city, a coastline, a bar, a pitch, a gym that is not the same corner every time. Varied backgrounds are what make a life look big; the same bedroom wall makes it look small.'],
+                  ['Doing the hobby, not announcing it', 'Hands on the ball, at the wheel, cooking, at a desk mid-work. Process shots beat result shots because they look unstaged.'],
+                  ['A genuinely good outfit, in daylight, full-length', 'One a month, taken by someone else, outdoors, from chest height. This is the shot that shows the wardrobe work from this tab is real.'],
+                  ['A photo where you are laughing at something off-camera', 'Not at the lens. Caught expressions read as real; posed smiles read as performed. This one photo does more for likability than anything else on this list.'],
+                  ['Something with zero people in it', 'A view, food, a pitch at night, a car. It breaks up the grid and quietly says you notice things beyond yourself — a profile that is 100% you reads as self-obsessed however good the photos are.'],
+                  ['A milestone, understated', 'A result, a PB, an offer — stated flatly with no build-up, or just shown. Understating an achievement lands harder than announcing it, every time.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-1">The Things That Kill It</h2>
+              <p className="text-gray-600 text-xs mb-3">Every one of these is legible effort — and legible effort asking for a response is the opposite of the signal you want.</p>
+              <div className="space-y-2">
+                {[
+                  ['Gym mirror selfies as your identity', 'One occasionally is fine. A grid of them says the gym is the only thing in your life and that you took every photo yourself. Get someone else to shoot you training instead — it changes the read completely.'],
+                  ['Obvious thirst traps', 'Shirtless with a caption pretending it is about something else. Everyone clocks it, and it moves you from "interesting" to "available" instantly.'],
+                  ['Sad-posting or vague-posting', 'Cryptic lyrics, moody captions aimed at one specific person who will know. The most visible neediness there is, and it is read as such by everyone including the target.'],
+                  ['Deleting posts that underperformed', 'It means the like count is running your decisions. Post it because you liked it; let it sit there regardless of the number.'],
+                  ['Checking who viewed your story', 'The neediness loop with a nicer interface. If you would not admit to doing it, that is your answer.'],
+                  ['Spending all your attention on one person', 'Viewing every story within seconds, liking every post. Attention is the currency — spend all of it in one place and yours is worth nothing.'],
+                  ['Buying followers or engagement', 'The ratio is visible and the comments are obviously fake. It reliably makes you look less credible, not more.'],
+                  ['Building the grid instead of the life', 'The honest warning: if the profile is the project rather than the record, that is visible too — and it is the same neediness in a different outfit.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#111] border border-purple-500/25 rounded-2xl p-4">
+              <h2 className="font-bold text-base mb-1 text-purple-200">The 30-day reset</h2>
+              <div className="space-y-2">
+                {[
+                  ['Week 1 — clear the deck', 'Archive (do not delete) anything that is low quality, thirsty, or from a version of you that no longer applies. Getting to nine strong tiles by removal is faster than by posting.'],
+                  ['Week 1 — fix the fixed bits', 'New profile photo, one-line bio, highlights cut down to three or four. Twenty minutes, done once.'],
+                  ['Weeks 2-4 — shoot deliberately', 'Every time you play, travel, go out or wear something good, get someone to take 15 photos. You are building a bank, not posting live. Most of them will be bad and that is the point.'],
+                  ['Weeks 2-4 — post twice a week from the bank', 'Never post the day you shoot. Pick the best frame a few days later when you are less attached to it — your judgement is far better cold.'],
+                  ['The ongoing rule', 'Live the week, capture a bit of it, post the best of that. In that order. The moment it inverts and you are doing things to post them, the signal dies and everyone can tell.'],
                 ].map(([t, d]) => (
                   <div key={t}>
                     <p className="font-semibold text-sm text-gray-200">{t}</p>
