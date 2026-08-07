@@ -581,35 +581,48 @@ export default function Uni() {
         {tab === 'sleep' && (
           <div className="fade-up stagger space-y-4">
             <div className="card-premium p-5">
-              <h3 className="font-bold mb-2 flex items-center gap-2"><Moon size={16} className="text-sky-400" /> Sleep Is the Master Metric</h3>
+              <h3 className="font-bold mb-2 flex items-center gap-2"><Moon size={16} className="text-sky-400" /> Sleep Is Where Revision Becomes Memory</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Every section of this app — muscle, skin, face, brain, mood, testosterone, patience with people — runs on sleep.
-                Deep, consistent sleep is the closest thing to a legal performance drug. Here's the full protocol.
+                Studying puts information into a temporary buffer. Sleep is the process that files it permanently —
+                which means an all-nighter does not just make you tired, it deletes most of what you stayed up to learn.
+                This tab is sleep as a <span className="text-sky-300 font-semibold">study tool</span>; the wind-down
+                ritual itself lives in Mind → Night Routine.
               </p>
             </div>
-            <Block title="The Non-Negotiables" items={[
-              ['Same wake time, 7 days a week', 'The single most powerful sleep intervention. Your circadian rhythm is a clock — moving it 3 hours at weekends is self-inflicted jet lag (that Monday tiredness is literal jet lag).'],
-              ['Morning light, evening dark', 'Sunlight within 30 min of waking anchors the clock and triggers the melatonin release ~16h later. The morning walk is a sleeping pill you take at 7am.'],
-              ['Caffeine cutoff: 8-10h before bed', 'Half of your 2pm coffee is still in your blood at 8pm. It doesn\'t stop you falling asleep — it silently deletes your deep sleep. Last coffee by early afternoon.'],
-              ['Cool, dark, quiet cave', '17-19°C room (cool triggers sleep onset), blackout curtains or eye mask, earplugs if needed. Warm hands/feet + cool room = fastest sleep onset combo.'],
-              ['Alcohol honesty', 'It knocks you out then wrecks REM and deep sleep for the whole night. "I sleep fine when drinking" = you\'re unconscious, not asleep.'],
+
+            <Block title="Why sleep IS revision" items={[
+              ['Consolidation happens overnight, not at the desk', 'During deep sleep your brain replays the day\'s new material and moves it from short-term storage into long-term memory. Revision without sleep is loading a file and never hitting save.'],
+              ['You need sleep BEFORE learning as well as after', 'A tired brain forms weaker memories in the first place — studies consistently show a sleep-deprived night before studying reduces how much you take in, on top of the damage to consolidation afterwards.'],
+              ['REM does the understanding, deep sleep does the facts', 'Deep sleep (early night) handles raw factual recall — definitions, formulas, dates. REM (late night, the part you cut by waking early) handles connecting ideas and problem-solving. Cutting either end of the night costs you a different kind of learning.'],
+              ['This is why spaced revision works', 'Reviewing across several nights beats one long session largely because each night of sleep in between does a round of filing. The sleep is not downtime between study sessions — it is part of the method.'],
             ]} />
-            <Block title="Blue Light & Red Light — what's real" items={[
-              ['The mechanism is real', 'Blue-spectrum light (phones, laptops, big ceiling lights) suppresses melatonin and delays your body clock. Evening screens genuinely push sleep later and thin it out.'],
-              ['Blue-blocking glasses — worth it, with caveats', 'Evidence is decent for AMBER/RED-tinted lenses worn 2-3h before bed (clear "blue-blocking" lenses filter too little to matter). £15-30 amber glasses are a legit tool for unavoidable evening screen time — not a licence to doomscroll till 1am.'],
-              ['Software layer too', 'Night Shift/f.lux at maximum warmth from sunset, brightness right down, dark mode. Better: screens off 30-60 min before bed entirely — the CONTENT (dopamine, stress) harms sleep as much as the light.'],
-              ['Evening environment', 'After sunset switch to lamps low in the room (light below eye level), warm bulbs (2700K or lower). Bright overhead white light at 10pm tells your brain it\'s noon.'],
-              ['Red light therapy panels', 'Different thing — decent early evidence for skin (collagen) and recovery, NOT required for sleep. If curious: 10-20 min red panel sessions are the looksmax angle, but it\'s optional-tier, not core.'],
+
+            <Block title="Exam period — the honest rules" items={[
+              ['Never pull an all-nighter before an exam', 'The single worst study decision available. You lose the consolidation of everything you just revised AND sit the exam with impaired recall, attention and decision-making. Sleeping and knowing 80% beats being awake and able to access 50%.'],
+              ['A bad night before is survivable — a bad week is not', 'One poor night costs you some sharpness. A fortnight of 5-hour nights during revision genuinely erodes how much of the material ever gets stored. Protect the run-up more than the night itself.'],
+              ['Front-load your hardest material earlier in the day', 'You take in new, difficult content best when rested. Leave lighter review, past papers you have seen before, and admin for the evening dip.'],
+              ['Review the hardest topic last thing before bed', 'Material studied shortly before sleep gets preferentially consolidated. Ten minutes on the topic you keep forgetting, right before the wind-down, is a genuinely free win.'],
+              ['Do not shift your wake time during exam season', 'Waking at 5am for an exam you have never woken up at 5am for means sitting it in a physiological fog. Move your wake time gradually in the week beforehand instead.'],
             ]} />
-            <Block title="Deep Sleep Maximisers" items={[
-              ['The wind-down ramp (60 min)', 'Same order nightly trains a sleep trigger: dim lights → hot shower (the after-drop in body temp induces sleepiness) → skincare → read paper book → bed. Boring by design.'],
-              ['Empty the brain onto paper', 'Tomorrow\'s 3 priorities + anything circling your head, written down. Rumination is the #1 sleep killer for driven people — paper holds it overnight so your head doesn\'t.'],
-              ['Breathing to switch off', 'Physiological sighs ×3, then 4-7-8 breathing (in 4, hold 7, out 8) in bed. Long exhales activate the rest state — it\'s a dimmer switch you control.'],
-              ['Magnesium glycinate 200-400mg', 'The one supplement with real support for sleep depth (see supplement stack). Skip melatonin pills as a nightly crutch — useful for jet lag, badly dosed for daily use.'],
-              ['Eating & training timing', 'Last big meal 2-3h before bed; train hard but not within ~2h of sleep. A small carb-containing dinner actually helps sleep onset — don\'t fear it.'],
-              ['If you can\'t sleep in 20 min', 'Get up, dim light, read something dull, return when sleepy. Lying awake frustrated trains your brain that bed = stress. Bed is for sleep only (no scrolling, no Netflix in bed).'],
-              ['Naps: 20 or 90', '20-min power nap (before 3pm) or full 90-min cycle. The 45-minute nap wakes you mid-deep-sleep feeling worse — that\'s nap grogginess, not nap failure.'],
+
+            <Block title="Naps, caffeine and the study day" items={[
+              ['Naps: 20 minutes or 90, never 45', 'A 20-minute nap before 3pm restores alertness with no grogginess. A full 90-minute cycle gives you an extra round of consolidation — genuinely useful mid-revision. Waking at 45 minutes drags you out of deep sleep and feels worse than not napping.'],
+              ['The nap-after-learning trick', 'A short nap directly after a heavy study block measurably improves retention of what you just covered. If you have the time in a long revision day, it beats pushing straight into the next hour tired.'],
+              ['Caffeine cutoff: 8-10 hours before bed', 'Half of a 2pm coffee is still in you at 8pm. It rarely stops you falling asleep — it quietly strips out the deep sleep doing your consolidation. During exam season this matters more than usual: last coffee by early afternoon.'],
+              ['Alcohol destroys the filing, not just the morning', 'It knocks you out then suppresses REM for the whole night. A night out mid-revision-week costs you the consolidation of that day\'s work, not just the next morning.'],
+              ['Do not revise in bed', 'It trains your brain that bed is a place for effort and stress, which makes falling asleep harder exactly when you need it most. Desk for work, bed for sleep — the separation is doing real work.'],
             ]} />
+
+            <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
+              <p className="text-gray-400 text-xs leading-relaxed mb-2">
+                The actual wind-down protocol — the 90-minute ramp, light, temperature, breathing, phone out of the
+                room, what to do when you cannot sleep — is one routine and lives in one place rather than being
+                repeated here.
+              </p>
+              <Link to="/mind?tab=night" className="inline-block text-[11px] font-bold bg-sky-500/10 border border-sky-500/25 text-sky-200 px-3 py-1.5 rounded-full">
+                Mind → Night Routine
+              </Link>
+            </div>
           </div>
         )}
       </div>

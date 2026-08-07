@@ -27,6 +27,8 @@ const INDEX: Entry[] = [
   { label: 'Stretching & Posture Routine', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'stretching posture stretch mobility apt anterior pelvic tilt rounded shoulders forward head' },
   { label: 'Running for Debloat', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'running cardio debloat zone 2 face fat sharp jawline steps' },
   { label: 'Zygos Pop Protocol', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'zygos cheekbones pop gua sha lymphatic hollow cheeks' },
+  { label: 'Football: Home Drills (solo, no pitch)', section: 'Football', path: '/football?tab=home', keywords: 'football home drills solo alone wall ball mastery juggling touch cones garden practice training weak foot no equipment' },
+  { label: 'Football: Becoming Elite', section: 'Football', path: '/football?tab=elite', keywords: 'football elite best player ever improve fastest separate professional mentality deliberate practice two footed scanning' },
   // Gym
   { label: 'The Program — Upper & Lower', section: 'Gym', path: '/programs', keywords: 'program programme workout routine split upper body lower body aesthetic functional combat power speed explosive strength push pull squat deadlift sprint jump' },
   { label: 'Workout Plan (AI)', section: 'Gym', path: '/plan', keywords: 'training split programme exercises workout plan quiz' },

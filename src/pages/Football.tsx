@@ -4,16 +4,18 @@ import { ArrowLeft, Zap, Target, Users, Activity, ChevronDown, Trophy } from 'lu
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 
-type Tab = 'plan' | 'speed' | 'shooting' | 'skills' | 'position' | 'setpieces' | 'physical' | 'gym';
+type Tab = 'plan' | 'home' | 'speed' | 'shooting' | 'skills' | 'position' | 'setpieces' | 'physical' | 'elite' | 'gym';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'plan', label: 'The Plan' },
+  { id: 'home', label: 'Home Drills' },
   { id: 'speed', label: 'Speed' },
   { id: 'shooting', label: 'Shooting' },
   { id: 'skills', label: 'Every Metric' },
   { id: 'position', label: 'By Position' },
   { id: 'setpieces', label: 'Set Pieces' },
   { id: 'physical', label: 'Physicality' },
+  { id: 'elite', label: 'Becoming Elite' },
   { id: 'gym', label: 'Gym' },
 ];
 
@@ -64,7 +66,7 @@ export default function Football() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['plan', 'speed', 'shooting', 'skills', 'position', 'setpieces', 'physical', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'plan';
+    return (['plan', 'home', 'speed', 'shooting', 'skills', 'position', 'setpieces', 'physical', 'elite', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'plan';
   });
 
   return (
@@ -96,6 +98,146 @@ export default function Football() {
             </button>
           ))}
         </div>
+
+        {/* ===== HOME DRILLS ===== */}
+        {tab === 'home' && (
+          <div className="fade-up stagger space-y-4">
+            <div className="card-premium p-5">
+              <h3 className="font-bold mb-2">What you can genuinely build alone</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Being honest about the ceiling: decision-making, positioning and reading the game only improve in real
+                matches. But <span className="text-emerald-300 font-semibold">touch, control, both feet, ball mastery
+                and striking technique</span> are all pure repetition — and repetition is exactly what you can do alone
+                in a garden, a garage or against any wall. That is a huge share of what separates players.
+              </p>
+            </div>
+
+            <Block title="You need almost nothing" items={[
+              ['A ball and a wall', 'A wall is the best training partner available — it returns every pass instantly, never gets tired, and forces a first touch every single time. A garage door, a garden fence, a park wall.'],
+              ['Space: about 3 × 3 metres', 'Every ball-mastery drill below fits in a space smaller than a bedroom. You do not need a pitch to get a better touch.'],
+              ['Optional, under £20', 'A set of cones (or just shoes, cans, socks), and a size 4 or futsal ball — the smaller heavier ball makes control harder, so a normal ball feels easy afterwards.'],
+              ['Boots off is fine', 'Trainers or barefoot on grass are both fine for touch work. Only shooting really benefits from boots.'],
+            ]} />
+
+            <Fold title="Ball mastery — 10 min, every day" tag="The base layer everything else sits on" items={[
+              ['Toe taps — 3 × 30s', 'Ball still, tap the top of it alternating feet, fast and light on the balls of your feet. Builds the foot speed and rhythm behind every close-control move.'],
+              ['Inside-inside rolls — 3 × 30s', 'Push the ball side to side using the inside of each foot, staying low. This is the exact motion of shifting a ball away from a defender.'],
+              ['Sole rolls (V-pulls) — 3 × 30s each foot', 'Roll the ball across with the sole, pull it back diagonally with the same foot. The most-used escape move in tight areas.'],
+              ['Figure of eights — 2 × 45s', 'Weave the ball between your legs in a figure of eight using the inside of both feet. Brutal for coordination, brilliant for close control.'],
+              ['Juggling — 5 min, targets not time', 'Not just showing off: it builds soft feet and air control. Progress: 20 with each foot, then alternating feet, then thigh-foot-thigh, then no bounce for 50.'],
+              ['Why this works', 'Ten minutes daily is roughly 60 hours a year of pure touch repetition. That is the difference between a heavy first touch and a clean one, and it is entirely available to you at home.'],
+            ]} />
+
+            <Fold title="Wall work — the highest-value solo drill there is" tag="15-20 min, 3-4× a week" items={[
+              ['One-touch returns — 3 × 2 min', 'Pass against the wall and return it first time with the same foot. Then swap feet. Sounds basic; it is the single best drill for a reliable first touch under pressure.'],
+              ['Two-touch: control then pass — 3 × 2 min', 'Take a deliberate first touch away from where the ball came from, then pass. This trains the habit of touching INTO space rather than stopping the ball dead.'],
+              ['Weak foot only — 5 min minimum', 'Every session. The weak foot is the biggest single upgrade available to most players and it is trained almost entirely through boring repetition like this.'],
+              ['Turn and pass — 3 × 2 min', 'Pass to the wall, take the return with the back foot, turn 180°, pass to a target (a cone, a mark). Trains receiving on the half-turn, which is what separates midfielders.'],
+              ['Volleys and half-volleys — 5 min', 'Throw the ball against the wall so it comes back in the air, strike the return. Cleanest way to practise the technique that produces the best goals.'],
+              ['Add a constraint to make it real', 'Say the number of touches out loud before the ball arrives, or set a 3-second limit per rep. Pressure is what makes wall work transfer to matches instead of staying a party trick.'],
+            ]} />
+
+            <Fold title="Cone work — dribbling and agility" tag="Any five objects will do" items={[
+              ['Straight-line slalom — 5 reps', 'Cones a metre apart, weave through using both feet, ball never more than a step ahead. Speed comes later; clean touches first.'],
+              ['Figure-of-eight around two cones', 'Two cones three metres apart, dribble a figure of eight. Forces sharp direction changes with the ball at your feet.'],
+              ['Skill move at the cone — 10 each side', 'Dribble at a single cone and execute one move (step-over, body feint, drag-back, cut inside) at pace, then accelerate two steps past it. The acceleration AFTER the move is the part most players skip and the part that actually beats defenders.'],
+              ['The 1v1 rule', 'Pick ONE move and drill it until it is automatic before adding a second. A player with one unstoppable move beats a player with six they cannot do at speed — see the Every Metric tab for the full toolbox.'],
+              ['Reaction starts', 'Ball at your feet, phone playing a random beep, explode into a 5-metre dribble on the sound. Adds the reaction element that pure cone work lacks.'],
+            ]} />
+
+            <Fold title="Solo finishing and striking" tag="Garden, park or against a wall" items={[
+              ['Technique before power, always', 'Non-kicking foot planted beside the ball, ankle locked, strike through the middle with the laces, follow through toward the target. Ten slow correct reps beat fifty wild ones.'],
+              ['Target practice against a wall', 'Chalk or tape a target. 20 strikes each foot, aiming for the same spot. Accuracy is a trained skill, not a talent.'],
+              ['Placement over power — 20 reps', 'Side-foot finishes into a small target from 10-12 metres. Most goals are passed in, not blasted.'],
+              ['Weak-foot finishing — half of every session', 'Non-negotiable if you want to be complete. Defenders show you onto your weak foot precisely because most players cannot use it.'],
+              ['First-touch-then-finish', 'Throw the ball up or off the wall, take one controlling touch, finish on the second. This is how goals actually arrive — almost never from a static ball.'],
+            ]} />
+
+            <Fold title="Fitness you can do without a pitch" tag="Football-specific, no equipment" items={[
+              ['Shuttle runs — 6 × 20m', 'Two marks 20m apart (a garden, a street, a park). Sprint, turn, sprint back. Football is repeated sprints with turns, not steady jogging.'],
+              ['Zig-zag sprints', 'Cones or markers in a zig-zag, sprint through changing direction hard. Trains the deceleration and cutting that actually causes injuries when untrained.'],
+              ['Nordic curls and Copenhagen planks', 'The two best injury-prevention exercises for footballers, both doable at home with no kit. Full detail in the Gym tab and The Program.'],
+              ['Jump work — 3 × 5', 'Broad jumps, single-leg hops, quick pogo hops. Builds the elastic strength behind sprinting and jumping for headers.'],
+              ['Wall-sit into sprint', 'Wall sit 30 seconds, then immediately sprint 20m. Trains producing power with tired legs, which is the last 15 minutes of every match.'],
+            ]} />
+
+            <div className="bg-[#111] border border-emerald-500/25 rounded-2xl p-5">
+              <h3 className="font-bold text-emerald-300 mb-3">The 30-minute home session</h3>
+              <div className="space-y-2">
+                {[
+                  ['0-5 min — Ball mastery', 'Toe taps, rolls, V-pulls. Wakes the feet up.'],
+                  ['5-10 min — Juggling', 'Both feet, targets not time.'],
+                  ['10-20 min — Wall work', 'One-touch, two-touch, turns. Half of it weak foot.'],
+                  ['20-27 min — Cones or finishing', 'Alternate days: dribbling one day, striking the next.'],
+                  ['27-30 min — Sprints or jumps', 'Short, sharp, full recovery between reps.'],
+                  ['Frequency', '4-5× a week is realistic and enough. Every day for two weeks then nothing for a month is worth far less than 20 minutes most days for a year.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ===== BECOMING ELITE ===== */}
+        {tab === 'elite' && (
+          <div className="fade-up stagger space-y-4">
+            <div className="card-premium p-5">
+              <h3 className="font-bold mb-2">The honest version first</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Nobody can hand you a route to being the best player ever — that involves genetics, timing, academy
+                access and luck nobody controls. What IS fully controllable is becoming
+                <span className="text-emerald-300 font-semibold"> dramatically better than you are now, and the best
+                player in most rooms you walk into</span>. Everything below is the part that is actually in your hands,
+                and almost nobody does all of it.
+              </p>
+            </div>
+
+            <Block title="What actually separates players" items={[
+              ['Volume of touches, over years', 'The strongest single pattern in elite players is not talent — it is having touched a ball vastly more times than everyone else by the time they were 18. This is why the home drills tab matters more than it looks: it is the only lever that adds thousands of touches without needing a team, a coach or a pitch.'],
+              ['Being two-footed', 'The clearest, most achievable separator available. Genuinely comfortable on both feet doubles your options in every situation and removes the single most common way defenders neutralise a player. It costs nothing but boring repetition.'],
+              ['Speed of decision, not speed of feet', 'The best players look like they have more time because they decided before the ball arrived. Scanning — checking your shoulders every few seconds before receiving — is a trainable habit and is what makes a good player look elite.'],
+              ['A game they actually understand', 'Watching football as a student rather than a fan: watching one player for a whole match, seeing why space appears, noticing what a striker does in the 88 minutes without the ball. This is free and almost nobody does it.'],
+              ['Physical durability', 'The most talented player who is injured four months a year loses to the good player who is available every week. Nordics, Copenhagens, sleep, and not skipping the boring prevention work — this is why the gym plan exists.'],
+              ['Ruthless consistency over intensity', 'Two hours of extra work on a motivated Sunday means little. Twenty focused minutes, five days a week, for three years, is transformative. The maths is genuinely that simple and it is why most people never get there.'],
+            ]} />
+
+            <Fold title="The mentality that separates" tag="The half nobody trains" items={[
+              ['Train your weaknesses, play to your strengths', 'Most players spend practice doing what they are already good at because it feels better. An hour on your weak foot or your heading is worth ten on the thing you already do well.'],
+              ['Deliberate practice, not just playing', 'Playing is fun and builds decision-making. But focused repetition on ONE specific weakness, with full attention, is what actually changes ability. Both are needed and most players only do the first.'],
+              ['Judge yourself on performance, not the result', 'Did you make good decisions, track back, take your chances? A goal from a poor performance teaches you nothing; a strong performance in a loss is progress. This is the Stoic "judge yourself on inputs" rule applied to football.'],
+              ['Be the easiest player to coach', 'Take criticism without sulking, apply it immediately, ask questions. Coaches invest their time in players who visibly use it — that extra attention compounds over seasons.'],
+              ['Recover like it is part of training', 'Sleep, protein, and actually taking the rest day. Adaptation happens in recovery, and this is where most young players quietly leave progress on the table.'],
+              ['Handle being dropped without collapsing', 'Every player faces a bad spell, a bad manager, a season on the bench. The ones who come through it are not the most talented — they are the ones whose self-belief was not resting on being picked.'],
+            ]} />
+
+            <Fold title="How to actually improve fastest" tag="A method, not a wish" items={[
+              ['Pick ONE weakness per 6-8 weeks', 'Weak foot, first touch, heading, scanning, finishing. One at a time, drilled in every session, until it stops being a weakness. Trying to fix everything at once fixes nothing.'],
+              ['Film yourself', 'Phone propped up for one home session or one match. You will immediately see things you cannot feel — heavy touches, poor body shape, standing still off the ball. The single fastest feedback loop available to you.'],
+              ['Keep a training log', 'What you drilled, for how long, and one line on how it went. It converts vague effort into visible progression, and it stops you from quietly doing only what you enjoy.'],
+              ['Play with better players wherever possible', 'Being the worst player in a strong session improves you faster than dominating a weak one. It is uncomfortable, which is exactly why it works.'],
+              ['Play other formats', 'Futsal and 5-a-side massively accelerate close control and quick decisions because the ball comes to you constantly in tight space. Many elite players credit futsal specifically.'],
+              ['Get game time above all else', 'If you are not playing, change something — a different team, a different level, a different position. Minutes on a pitch are the one input that has no substitute.'],
+            ]} />
+
+            <div className="bg-[#111] border border-emerald-500/25 rounded-2xl p-5">
+              <h3 className="font-bold text-emerald-300 mb-2">If you want the realistic path</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Touch every day at home. Weak foot in every session. Scan constantly. Watch football like a student.
+                Do the injury-prevention work. Play at the highest level that will have you, as often as possible.
+                Fix one specific weakness at a time and film yourself doing it.
+              </p>
+              <p className="text-gray-400 text-sm leading-relaxed mt-3">
+                Do that for three years and you will be unrecognisable as a player — and you will have done more than
+                almost anyone you play with. Whether it ends in a professional contract is not fully yours to decide;
+                whether you get genuinely, visibly good absolutely is.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* ===== THE PLAN ===== */}
         {tab === 'plan' && (
