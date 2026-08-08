@@ -59,7 +59,12 @@ self.addEventListener('fetch', event => {
   const req = event.request;
   if (req.method !== 'GET' || !req.url.startsWith('http')) return;
 
-  const url = new URL(req.url);
+  let url;
+  try {
+    url = new URL(req.url);
+  } catch (e) {
+    return; // unparseable URL: let the network handle it rather than throwing
+  }
 
   // Cross-origin (Anthropic API, OneSignal CDN): never intercept or cache.
   // Serving a stale AI response would be worse than a clear network error.
@@ -69,9 +74,12 @@ self.addEventListener('fetch', event => {
   // still boots offline. HashRouter means every route lives in index.html.
   if (req.mode === 'navigate') {
     event.respondWith(
-      // cache: 'no-store' so the browser HTTP cache cannot hand back a stale
-      // index.html referencing asset hashes that no longer exist on the server.
-      fetch(new Request(req, { cache: 'no-store' }))
+      // Fetch the URL rather than the Request: `new Request(navigateRequest, …)`
+      // throws TypeError ("invalid request mode navigate") synchronously, which
+      // killed the handler and stopped the app loading at all. Passing the URL
+      // string still lets us set no-store so the HTTP cache cannot serve a
+      // stale index.html pointing at asset hashes that no longer exist.
+      fetch(req.url, { cache: 'no-store', credentials: 'same-origin' })
         .catch(() => fetch(req))
         .then(res => {
           const copy = res.clone();

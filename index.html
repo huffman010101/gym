@@ -94,7 +94,7 @@
     <script type="module" src="/src/main.tsx"></script>
       <script>
       // Last-resort recovery: if the React root is still empty a few seconds
-      // after load, the cached bundle is broken. Unregister the worker, drop the
+      // after load (9s, generous for a slow phone on a cold start), the bundle is broken. Unregister the worker, drop the
       // caches and reload ONCE (flag-guarded, so this can never loop).
       window.addEventListener('load', function () {
         setTimeout(function () {
@@ -118,7 +118,7 @@
               });
             } else { done(); }
           } catch (e) { done(); }
-        }, 4000);
+        }, 9000);
       });
     </script>
 </body>
