@@ -29,6 +29,7 @@ const INDEX: Entry[] = [
   { label: 'Zygos Pop Protocol', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'zygos cheekbones pop gua sha lymphatic hollow cheeks' },
   { label: 'Football: Home Drills (solo, no pitch)', section: 'Football', path: '/football?tab=home', keywords: 'football home drills solo alone wall ball mastery juggling touch cones garden practice training weak foot no equipment' },
   { label: 'Football: Becoming Elite', section: 'Football', path: '/football?tab=elite', keywords: 'football elite best player ever improve fastest separate professional mentality deliberate practice two footed scanning' },
+  { label: 'Book Notes — key takeaways from the classics', section: 'Uni', path: '/uni?tab=books', keywords: 'books book notes summary summaries reading atomic habits carnegie win friends influence people cant hurt me goggins rich dad poor dad psychology of money housel deep work mindset dweck kahneman thinking fast slow never split difference voss cialdini models manson richest man babylon millionaire next door takeaways self improvement' },
   // Gym
   { label: 'The Program — Upper & Lower', section: 'Gym', path: '/programs', keywords: 'program programme workout routine split upper body lower body aesthetic functional combat power speed explosive strength push pull squat deadlift sprint jump' },
   { label: 'Workout Plan (AI)', section: 'Gym', path: '/plan', keywords: 'training split programme exercises workout plan quiz' },
