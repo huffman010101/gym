@@ -134,8 +134,13 @@ export default function LooksMax() {
     if (savedLayering) {
       try {
         const parsed = JSON.parse(savedLayering) as { input: string; result: LayeringResult };
-        setFragInput(parsed.input);
         setLayering(parsed.result);
+        // Only fall back to the input stored alongside an old result if nothing
+        // has been typed since — the live key is the source of truth.
+        if (!localStorage.getItem('gymforge_frag_input') && parsed.input) {
+          setFragInput(parsed.input);
+          localStorage.setItem('gymforge_frag_input', parsed.input);
+        }
       } catch {}
     }
   }, []);
@@ -167,13 +172,35 @@ export default function LooksMax() {
     reader.readAsDataURL(file);
   };
 
-  // Fragrance layering AI state
-  const [fragInput, setFragInput] = useState('');
+  // Fragrance layering AI state.
+  // The collection you type is saved on every keystroke under its own key, NOT
+  // as a side effect of a successful AI call — otherwise a failed or slow
+  // generation loses everything you typed.
+  const [fragInput, setFragInput] = useState(() => {
+    try { return localStorage.getItem('gymforge_frag_input') ?? ''; } catch { return ''; }
+  });
   const [layering, setLayering] = useState<LayeringResult | null>(null);
   const [layeringBusy, setLayeringBusy] = useState(false);
   const [layeringError, setLayeringError] = useState('');
-  const [fragSeason, setFragSeason] = useState('any');
-  const [fragOccasion, setFragOccasion] = useState('any');
+  const [fragSeason, setFragSeason] = useState(() => {
+    try { return localStorage.getItem('gymforge_frag_season') ?? 'any'; } catch { return 'any'; }
+  });
+  const [fragOccasion, setFragOccasion] = useState(() => {
+    try { return localStorage.getItem('gymforge_frag_occasion') ?? 'any'; } catch { return 'any'; }
+  });
+
+  const updateFragInput = (v: string) => {
+    setFragInput(v);
+    try { localStorage.setItem('gymforge_frag_input', v); } catch { /* quota */ }
+  };
+  const updateFragSeason = (v: string) => {
+    setFragSeason(v);
+    try { localStorage.setItem('gymforge_frag_season', v); } catch { /* quota */ }
+  };
+  const updateFragOccasion = (v: string) => {
+    setFragOccasion(v);
+    try { localStorage.setItem('gymforge_frag_occasion', v); } catch { /* quota */ }
+  };
 
   const handleLayering = async (remix = false) => {
     if (!fragInput.trim()) return;
@@ -185,7 +212,13 @@ export default function LooksMax() {
       setLayering(result);
       localStorage.setItem('gymforge_layering', JSON.stringify({ input: fragInput.trim(), result }));
     } catch (e) {
-      setLayeringError(e instanceof Error ? e.message : 'Failed. Check your API key.');
+      const raw = e instanceof Error ? e.message : '';
+      const timedOut = /timeout|timed out|aborted/i.test(raw);
+      setLayeringError(
+        timedOut
+          ? 'That took too long and was cancelled — usually a very long list. Your fragrances are saved: try again, or split the list in half and run it twice.'
+          : raw || 'Failed. Check your API key and connection.'
+      );
     }
     setLayeringBusy(false);
   };
@@ -1641,17 +1674,17 @@ export default function LooksMax() {
                 <Sparkles size={15} className="text-indigo-400" />
                 <h2 className="font-bold text-base">AI Layering Lab</h2>
               </div>
-              <p className="text-gray-500 text-xs mb-3">Type the fragrances you own (one per line or comma-separated) — AI designs your best combos.</p>
+              <p className="text-gray-500 text-xs mb-3">Type the fragrances you own (one per line or comma-separated) — AI designs your best combos. Your list is saved as you type, so it survives a failed or slow generation.</p>
               <textarea
                 value={fragInput}
-                onChange={e => setFragInput(e.target.value)}
+                onChange={e => updateFragInput(e.target.value)}
                 placeholder={'e.g.\nVersace Eros EDT\nDior Sauvage EDP\nJPG Le Male Le Parfum'}
                 rows={3}
                 className="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-500/50 resize-none"
               />
               <div className="flex gap-1.5 mt-2 flex-wrap">
                 {['any', 'summer', 'winter', 'spring', 'autumn'].map(s => (
-                  <button key={s} onClick={() => setFragSeason(s)}
+                  <button key={s} onClick={() => updateFragSeason(s)}
                     className={`px-3 py-1.5 rounded-full text-[11px] font-semibold capitalize transition-all ${
                       fragSeason === s ? 'bg-indigo-500 text-white' : 'bg-white/5 text-gray-500 hover:bg-white/10'
                     }`}>
@@ -1661,7 +1694,7 @@ export default function LooksMax() {
               </div>
               <div className="flex gap-1.5 mt-1.5 flex-wrap">
                 {['any', 'day', 'night', 'date', 'gym', 'formal'].map(o => (
-                  <button key={o} onClick={() => setFragOccasion(o)}
+                  <button key={o} onClick={() => updateFragOccasion(o)}
                     className={`px-3 py-1.5 rounded-full text-[11px] font-semibold capitalize transition-all ${
                       fragOccasion === o ? 'bg-purple-500 text-white' : 'bg-white/5 text-gray-500 hover:bg-white/10'
                     }`}>
@@ -1675,7 +1708,7 @@ export default function LooksMax() {
                   disabled={layeringBusy || !fragInput.trim()}
                   className="flex-1 bg-indigo-500 hover:bg-indigo-600 disabled:opacity-40 text-white py-2.5 rounded-xl text-sm font-bold transition-colors flex items-center justify-center gap-2"
                 >
-                  {layeringBusy ? <><Loader2 size={15} className="animate-spin" /> Mixing…</> : 'Build My Combos'}
+                  {layeringBusy ? <><Loader2 size={15} className="animate-spin" /> Mixing… (up to a minute)</> : 'Build My Combos'}
                 </button>
                 {layering && (
                   <button

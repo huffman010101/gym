@@ -292,6 +292,11 @@ Return ONLY valid JSON, no markdown fences:
 
 Give one combo per fragrance minimum (more if the collection allows great extras). If a fragrance name is unrecognisable, make a sensible assumption and note it.`,
     }],
+  }, {
+    // Bounded so a slow generation fails with a message instead of spinning
+    // forever. Long collections legitimately take 30-60s, hence 90s not 30s.
+    timeout: 90_000,
+    maxRetries: 1,
   });
   const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
   return parse(text) as LayeringResult;
