@@ -6,9 +6,10 @@ import { generateNasdaq100Series } from '../lib/backtestData';
 import { STRATEGIES, runBacktest } from '../lib/backtest';
 import type { StrategyId, BacktestResult } from '../lib/backtest';
 import CandlestickChart from '../components/CandlestickChart';
+import ChartQuiz from '../components/ChartQuiz';
 import type { Tool, Annotation } from '../components/CandlestickChart';
 
-type Mode = 'backtest' | 'chart' | 'replay' | 'paper';
+type Mode = 'backtest' | 'chart' | 'replay' | 'quiz' | 'paper';
 
 interface RpPosition { side: 'long' | 'short'; entry: number; units: number; sl: number; tp: number; entryIdx: number }
 interface RpTrade { side: 'long' | 'short'; entry: number; exit: number; pnl: number; reason: string; bars: number }
@@ -271,10 +272,10 @@ export default function Backtest() {
         </div>
 
         <div className="flex gap-1.5 mb-6 bg-white/5 rounded-xl p-1">
-          {(['backtest', 'chart', 'replay', 'paper'] as Mode[]).map(m => (
+          {(['backtest', 'chart', 'replay', 'quiz', 'paper'] as Mode[]).map(m => (
             <button key={m} onClick={() => setMode(m)}
               className={`flex-1 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${mode === m ? 'bg-amber-500 text-black' : 'text-gray-400'}`}>
-              {m === 'backtest' ? 'Backtest' : m === 'chart' ? 'Chart' : m === 'replay' ? 'Replay' : 'Paper'}
+              {m === 'backtest' ? 'Backtest' : m === 'chart' ? 'Chart' : m === 'replay' ? 'Replay' : m === 'quiz' ? 'Quiz' : 'Paper'}
             </button>
           ))}
         </div>
@@ -568,6 +569,8 @@ export default function Backtest() {
             )}
           </div>
         )}
+
+        {mode === 'quiz' && <ChartQuiz />}
 
         {mode === 'paper' && (
           <div className="fade-up stagger space-y-4">
