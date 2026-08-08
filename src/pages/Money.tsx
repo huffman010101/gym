@@ -329,6 +329,20 @@ export default function Money() {
               ['Your income is still the biggest lever', 'At your stage, going from £500 to £2,000/month income (Skills tab) moves your future far more than optimising which fund you picked. Earn more, invest the difference, keep lifestyle flat.'],
               ['The first £10k is the hardest', 'Progress feels invisible early because your contributions dwarf the growth. Around £100k, growth starts outpacing what you put in. Push through the boring phase — that is the entire game.'],
             ]} />
+            <Fold title="Investing 101 — from absolute zero" tag="The full beginner path, UK edition" items={[
+              ['What a stock actually is', 'A share = a slice of a real company\'s profits and assets. You make money two ways: the price rising (growth) and dividends (profit paid out). You\'re buying businesses, not lottery tickets.'],
+              ['What an index fund is and why it wins', 'One purchase = tiny slices of hundreds of companies (S&P 500 = 500 biggest US firms; a global tracker = the world). No picking winners, near-zero fees, and it has beaten ~90% of professional stock-pickers over 15-year periods. This is the vehicle.'],
+              ['The account order (UK)', '1) Stocks & Shares ISA — £20k/year allowance, ALL gains tax-free forever, open with a low-fee broker (Vanguard, Trading 212, InvestEngine). 2) Employer pension with matching when you work — free money. 3) Only then anything else.'],
+              ['Your first investment, concretely', 'Open ISA → pick ONE global index fund or S&P 500 fund (look for "accumulation" version, fees under 0.25%) → set an automatic monthly buy. That\'s genuinely it. Complexity is a fee-generating illusion.'],
+              ['Crashes are features, not bugs', 'The market drops 30-50% every decade or so. Sellers lock in the loss; buyers get the discount. Automate the monthly buy and never check during crashes — boring wins.'],
+            ]} />
+            <Fold title="Financial Freedom — the actual maths" tag="FIRE numbers made simple" items={[
+              ['The freedom formula', 'Financial freedom = investments × ~4% ≥ your yearly spending. Spend £24k/year? You need ~£600k invested. That\'s the whole equation behind every "FIRE" video.'],
+              ['Your savings RATE is the dial', 'At a 10% savings rate, freedom takes ~50 years. At 30%, ~28 years. At 50%, ~17. Income raises (Skills/Business tabs) move this dial far more than investment genius does.'],
+              ['The three levers, in order', '1) Raise income (biggest lever at your age), 2) hold lifestyle steady as income grows (the hard one), 3) automate investing the gap. Optimising fund choice is lever #47 — ignore the noise.'],
+              ['Milestones that matter', '£1k emergency buffer → 3-month emergency fund → first £10k invested (the hardest) → £100k (compounding takes over from here — Charlie Munger\'s famous line) → your freedom number.'],
+              ['Freedom is bought monthly', 'Every £100 invested ≈ £4-5/year of permanent passive income. Reframe purchases in those terms and impulse spending gets very honest very fast.'],
+            ]} />
           </div>
         )}
 
@@ -352,12 +366,16 @@ export default function Money() {
                 Nothing here is financial advice; it's the map of the territory.
               </p>
             </div>
-            <Block title="The Boring Path That Actually Builds Wealth" items={[
-              ['Index funds — the 80% solution', 'Broad market index funds (e.g. S&P 500 / global trackers) via a Stocks & Shares ISA (tax-free in the UK). Automate monthly buying, never sell on dips, let compounding run for years. This beats most professional traders over a decade.'],
-              ['Pound-cost averaging', 'Fixed amount in monthly regardless of price. Removes emotion — the thing that destroys most investors.'],
-              ['Emergency fund first', '3 months\' expenses in savings BEFORE any investing. Investing money you might need soon forces selling at the worst time.'],
-              ['Your income is the real lever', 'At a young age, going from £500 to £2000/month income (Skills tab) beats any realistic return on a small portfolio. Invest the surplus; don\'t trade instead of earning.'],
-            ]} />
+            <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
+              <p className="text-gray-400 text-xs leading-relaxed mb-2">
+                Before any of this: the boring, evidence-backed path &mdash; index funds in a Stocks &amp; Shares ISA,
+                automated monthly, left alone for decades &mdash; beats most active traders over any long period. That
+                is the default, and it lives in its own tab rather than being restated here.
+              </p>
+              <Link to="/money?tab=invest" className="inline-block text-[11px] font-bold bg-yellow-500/10 border border-yellow-500/25 text-yellow-200 px-3 py-1.5 rounded-full">
+                Money &rarr; Investing
+              </Link>
+            </div>
             <Block title="If You Still Want to Learn Active Trading" items={[
               ['Paper trade for 6 months minimum', 'Demo account, real strategy, full journal of every trade and why. If you can\'t beat the market on paper, you\'ll just lose real money faster.'],
               ['Risk management IS the skill', 'Never risk more than 1-2% of the account per trade. Position sizing, stop losses, risk:reward of at least 1:2. Entries are 20% of it; surviving is 80%.'],
@@ -411,21 +429,6 @@ export default function Money() {
               ['Crypto', 'Highly volatile, 24/7 markets with far less regulation and far more scam density than traditional markets. Treat any allocation as high-risk speculation (a small, capped % of your investable money), never as your core plan.'],
               ['Options', 'Contracts giving the right (not obligation) to buy/sell an asset at a set price by a set date. Powerful for hedging or income generation in experienced hands; a fast way to lose 100% of a position in inexperienced ones — this is genuinely advanced-tier, not a beginner tool.'],
               ['ETFs (Exchange-Traded Funds)', 'A basket of assets (stocks, bonds, commodities) traded like a single stock. This is how most people should access diversification — including the index funds recommended throughout this app.'],
-            ]} />
-            <Fold title="Investing 101 — from absolute zero" tag="The full beginner path, UK edition" items={[
-              ['What a stock actually is', 'A share = a slice of a real company\'s profits and assets. You make money two ways: the price rising (growth) and dividends (profit paid out). You\'re buying businesses, not lottery tickets.'],
-              ['What an index fund is and why it wins', 'One purchase = tiny slices of hundreds of companies (S&P 500 = 500 biggest US firms; a global tracker = the world). No picking winners, near-zero fees, and it has beaten ~90% of professional stock-pickers over 15-year periods. This is the vehicle.'],
-              ['The account order (UK)', '1) Stocks & Shares ISA — £20k/year allowance, ALL gains tax-free forever, open with a low-fee broker (Vanguard, Trading 212, InvestEngine). 2) Employer pension with matching when you work — free money. 3) Only then anything else.'],
-              ['Your first investment, concretely', 'Open ISA → pick ONE global index fund or S&P 500 fund (look for "accumulation" version, fees under 0.25%) → set an automatic monthly buy. That\'s genuinely it. Complexity is a fee-generating illusion.'],
-              ['Compounding, with real numbers', '£200/month at ~8% average: 10 years = £36k, 20 years = £118k, 30 years = £298k — of which only £72k was ever deposited. Time in the market is the whole cheat code, which is why starting at your age is a superpower.'],
-              ['Crashes are features, not bugs', 'The market drops 30-50% every decade or so. Sellers lock in the loss; buyers get the discount. Automate the monthly buy and never check during crashes — boring wins.'],
-            ]} />
-            <Fold title="Financial Freedom — the actual maths" tag="FIRE numbers made simple" items={[
-              ['The freedom formula', 'Financial freedom = investments × ~4% ≥ your yearly spending. Spend £24k/year? You need ~£600k invested. That\'s the whole equation behind every "FIRE" video.'],
-              ['Your savings RATE is the dial', 'At a 10% savings rate, freedom takes ~50 years. At 30%, ~28 years. At 50%, ~17. Income raises (Skills/Business tabs) move this dial far more than investment genius does.'],
-              ['The three levers, in order', '1) Raise income (biggest lever at your age), 2) hold lifestyle steady as income grows (the hard one), 3) automate investing the gap. Optimising fund choice is lever #47 — ignore the noise.'],
-              ['Milestones that matter', '£1k emergency buffer → 3-month emergency fund → first £10k invested (the hardest) → £100k (compounding takes over from here — Charlie Munger\'s famous line) → your freedom number.'],
-              ['Freedom is bought monthly', 'Every £100 invested ≈ £4-5/year of permanent passive income. Reframe purchases in those terms and impulse spending gets very honest very fast.'],
             ]} />
             <Block title="Red Flags — Auto-Skip List" items={[
               ['Signals groups & copy-trading gurus', 'If their signals worked, they wouldn\'t need your £50/month. They earn from subscribers, not markets.'],

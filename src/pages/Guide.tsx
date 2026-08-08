@@ -236,7 +236,7 @@ export default function Guide() {
             </Fold>
             <Fold title="Cheekbone Enhancement">
               <Pairs items={[
-                ['Mewing — indirect cheekbone effect', 'Forward maxillary growth lifts the entire midface, raising cheekbones visually and structurally over years. Permanent structural change.'],
+                ['Mewing — indirect cheekbone effect', 'Correct tongue posture may support forward maxillary growth while the palate is still developing, which lifts the midface. In adults the maxilla is fused, so the visible "cheekbone lift" people report is mostly better posture, less bloat and lower body fat arriving together — see Looks → Methods for the honest version.'],
                 ['Cheek lifter exercise', 'Open mouth into an O, fold upper lip over teeth, smile to lift cheek muscles, hold 1s, lower. 10 reps × 3 sets. Builds the zygomatic muscle.'],
                 ['Gua sha along cheekbone', 'Flat side at corner of mouth, scrape firmly up and out toward the temple. 10 strokes each side every morning. Combined with debloating, reveals structure fast.'],
                 ['Body fat reduction — the core', 'Cheekbones exist for almost everyone — they\'re obscured by fat. 10–12% body fat reveals the structure that was always there. See Fat Loss.'],
@@ -283,7 +283,7 @@ export default function Guide() {
             </div>
             <Fold title="The Jaw Routine" defaultOpen>
               <Pairs items={[
-                ['Mewing — 24 hours per day', 'The single most important jawline habit. Under 25 this produces genuine structural results over 12–18 months that are permanent. Non-negotiable.'],
+                ['Mewing — 24 hours per day', 'Worth doing: it costs nothing, and correct tongue posture genuinely helps how the jaw and neck sit. But be realistic — dramatic bone remodelling in an adult is not on offer, and most reported transformations are posture and leanness. Treat it as free upside, not the plan.'],
                 ['Mastic gum — 20–30 min daily', 'Hypertrophies the masseter. Both sides equally. Jaw angles visibly wider and squarer at 3–6 months — the fastest visible jaw change available.'],
                 ['Chin tucks — 30+ daily', 'Pull chin straight back horizontally, hold 5–10s. Repositions the cervical spine, improves side-profile jaw definition, builds neck flexors. Throughout the day, not just morning.'],
                 ['Neck curls — 3 sets of 12, 3× daily protocol', 'Lie flat, tuck chin, lift head slightly, hold briefly, lower slowly. Builds the front-neck muscles that create jaw-neck separation — one of the most visually important jaw features from any angle.'],
@@ -484,14 +484,13 @@ export default function Guide() {
             <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
               <div className="space-y-3">
                 {[
-                  ['Zinc — 30mg daily', 'Reduces acne (as effective as low-dose antibiotics in some studies). Supports testosterone and immunity.'],
-                  ['Omega-3 Fish Oil — 2–4g daily', 'Cuts the systemic inflammation driving redness, breakouts and retention. Skin hydration and hair quality.'],
-                  ['Vitamin D3 + K2 — 5000IU D3 daily', 'Almost everyone is deficient. Skin clarity, mood, immunity, testosterone. K2 sends calcium to bones, not arteries.'],
-                  ['Magnesium Glycinate — 400mg at night', 'Significantly reduces water retention. Better sleep, lower cortisol — both directly reduce facial puffiness.'],
-                  ['Creatine — 5g daily', 'Muscle performance and retention during fat loss + cognitive benefits. Every day, consistently.'],
-                  ['Biotin — 5000mcg daily', 'Keratin production — hair and nail growth.'],
-                  ['Collagen Peptides — 10g daily', 'Skin elasticity and firmness. Joint health.'],
-                  ['Vitamin B6 — 50mg daily', 'Natural diuretic effect, hormone regulation.'],
+                  ['Creatine — 5g daily', 'The most proven supplement there is: muscle performance and fullness, retention during fat loss, plus cognitive benefits. Every day, no loading phase, no cycling.'],
+                  ['Vitamin D3 + K2 — 2,000–4,000IU with a meal', 'Most people in the UK are deficient. Skin clarity, mood, immunity, testosterone support. K2 sends calcium to bones rather than arteries.'],
+                  ['Omega-3 Fish Oil — 1–2g EPA/DHA daily', 'Cuts the systemic inflammation behind redness, breakouts and retention. Skip it only if you genuinely eat oily fish twice a week.'],
+                  ['Magnesium Glycinate — 200–400mg before bed', 'Deeper sleep and lower cortisol, which is what actually reduces facial puffiness. Sleep is the biggest looks lever; this feeds it.'],
+                  ['Zinc — only if deficient, or a heavy sweater', 'Genuinely helps acne and testosterone when you are short of it. Do NOT megadose daily — it competes with copper absorption over time.'],
+                  ['Everything else is optional', 'Biotin and collagen have thin evidence unless deficient. Skip fat burners, test boosters, BCAAs and greens powders entirely.'],
+                  ['The order that matters', 'Sleep > diet > training > creatine + D3 + omega-3 > everything else. If the first three are not right, no supplement fixes it.'],
                 ].map(([t, d]) => (
                   <div key={t}>
                     <p className="font-semibold text-sm text-amber-300">{t}</p>
@@ -651,7 +650,7 @@ export default function Guide() {
           <div className="fade-up stagger space-y-3">
             <div className="card-premium p-5">
               <h2 className="font-black text-lg mb-1">The Social Edge</h2>
-              <p className="text-gray-400 text-sm leading-relaxed">Confidence, charisma and money are not personality traits — they're learnable skills with clear mechanics. The deep-dive version, from psychology to execution.</p>
+              <p className="text-gray-400 text-sm leading-relaxed">Confidence and charisma are not personality traits — they're learnable skills with clear mechanics. The deep-dive version, from psychology to execution.</p>
             </div>
             <Fold title="Real Confidence — the actual method" tag="Confidence follows action, never precedes it" defaultOpen>
               <Pairs items={[

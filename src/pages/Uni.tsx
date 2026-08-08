@@ -504,7 +504,7 @@ export default function Uni() {
           </div>
         )}
 
-        {/* ===== HIGH-VALUE DAY ===== */}
+        {/* ===== BOOK NOTES ===== */}
         {tab === 'books' && (
           <div className="fade-up stagger space-y-4">
             <div className="card-premium p-5">
@@ -669,6 +669,7 @@ export default function Uni() {
           </div>
         )}
 
+        {/* ===== HIGH-VALUE DAY ===== */}
         {tab === 'day' && (
           <div className="fade-up stagger space-y-4">
             <div className="card-premium p-5">

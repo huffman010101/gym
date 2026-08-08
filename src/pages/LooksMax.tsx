@@ -413,7 +413,7 @@ export default function LooksMax() {
                       'Shape eyebrows professionally every 4-6 weeks',
                       'Mewing 24/7 — correct tongue posture',
                       'Neck & trap training — frames the jaw',
-                      'Mastic gum 30-60 min/day — masseter development',
+                      'Mastic gum 20-30 min/day — masseter development',
                       'Cold compress eyes every morning — reduces puffiness',
                       'Lumify eye drops before important occasions',
                       'Castor oil nightly on brows and lashes',
@@ -825,7 +825,7 @@ export default function LooksMax() {
                   'Face fat is often the last to go — requires overall caloric deficit.',
                 ]} />
                 <ExpandableCard title="Jawline Development" content={[
-                  'Mastic gum (Falim brand) 30-60 min daily — masseter hypertrophy in 2-3 months.',
+                  'Mastic gum (Falim brand) 20-30 min daily — masseter hypertrophy in 2-3 months.',
                   'Neck training: shrugs 4×15, band neck work — frames the jaw.',
                   'Low BF + mewing + mastic gum = maximal natural jawline.',
                   'Sodium reduction before important events removes water retention from face.',
@@ -2067,7 +2067,7 @@ export default function LooksMax() {
                   ]],
                   ['Face', [
                     'Mewing — correct tongue posture 24/7',
-                    'Mastic gum 30-60 min daily (masseter)',
+                    'Mastic gum 20-30 min daily (masseter)',
                     'Niacinamide 10% daily (redness + pigment)',
                     'Vitamin C serum every morning',
                     'SPF 50 every morning without fail',
