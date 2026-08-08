@@ -493,23 +493,22 @@ export default function Football() {
               ['Whoever initiates contact wins', 'The player who braces and delivers contact from a set base beats the player receiving it, almost every time — regardless of who\'s stronger on paper. Being passive in a duel is how strong players still get bodied.'],
               ['Strength you can\'t use is decoration', 'A big squat doesn\'t transfer automatically. You have to practise contact: shoulder-to-shoulder drills, shielding under pressure, jostling in training. Gym builds the engine; duels teach you to drive it.'],
             ]} />
-            <Block title="Building the frame — getting bigger" items={[
-              ['Eat in a surplus, properly', '300-500 kcal above maintenance daily. Most footballers chronically undereat and wonder why they never fill out. If your weight isn\'t moving on the scale, you are not in a surplus — no matter what you think you ate.'],
-              ['Protein: 1.6-2.2g per kg bodyweight', 'This is what turns training into muscle rather than just fatigue. Spread across 3-4 meals. This number matters more than any supplement you could buy.'],
-              ['Target 0.25-0.5kg per week', 'Faster than that and you\'re mostly adding fat, which costs you speed. Weigh yourself weekly (same time, same conditions) and adjust food up or down from there.'],
-              ['Don\'t fear the scale going up', 'A well-built 80kg beats a lean 68kg in every duel, and if you keep sprinting and jumping in your training you won\'t lose speed — the gym section is built to add mass without making you slow.'],
-              ['Sleep 8h+ or none of it works', 'Growth happens in recovery. Undersleeping while eating in a surplus mostly makes you fatter, not stronger.'],
-            ]} />
-            <Block title="The lifts that build a body people bounce off" items={[
-              ['Trap bar deadlift or back squat — 4×5', 'Your base of total-body force. Everything else in this list is built on top of this number going up.'],
-              ['Hip thrust — 3×6-8', 'The collision muscle. Glutes drive acceleration, jumping, and the force you deliver through a shoulder in a duel.'],
-              ['Weighted carries (farmer\'s + suitcase) — 3×40m', 'The most underrated exercise for football physicality. Carrying heavy load while staying upright IS shielding the ball. Suitcase carries (one side only) train exactly the anti-lean strength you need when someone leans on you.'],
-              ['Bulgarian split squat — 3×6-8/leg', 'Duels happen on one leg. Single-leg strength under load is what stops you getting knocked off balance mid-stride.'],
-              ['Neck work — 3×15', 'Non-negotiable for aerial dominance. A strong neck means more power through a header and staying upright through contact. Almost no amateur player trains this — it\'s free separation.'],
-              ['Bench press + overhead press — 4×5-6', 'Upper body strength for arm-barring, holding someone off, and winning the shoulder battle. Pressing strength is how you create space with your arms legally.'],
-              ['Rows + weighted pull-ups — 4×6', 'Back strength for shielding, pulling, and holding position when someone is climbing all over you.'],
-              ['Med ball rotational throws — 4×5/side', 'Explosive rotational power — the difference between a soft shoulder barge and one that genuinely moves someone.'],
-            ]} />
+            <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-3 space-y-2">
+              <p className="text-gray-400 text-xs leading-relaxed">
+                Adding the mass itself is an eating-and-recovery problem, and the numbers live in one place rather
+                than being restated here. The one football-specific rule on top of them: gain slowly (roughly
+                0.25-0.5kg a week) and never drop sprint and jump work while you do it &mdash; mass that costs you
+                speed is a downgrade in duels, not an upgrade.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <Link to="/programs?tab=recovery" className="inline-block text-[11px] font-bold bg-emerald-500/10 border border-emerald-500/25 text-emerald-200 px-3 py-1.5 rounded-full">
+                  Programs &rarr; Recovery
+                </Link>
+                <button onClick={() => setTab('gym')} className="text-[11px] font-bold bg-emerald-500/10 border border-emerald-500/25 text-emerald-200 px-3 py-1.5 rounded-full">
+                  Go to Gym &rarr; the lifts
+                </button>
+              </div>
+            </div>
             <Block title="How to actually use your body in a duel" items={[
               ['Get side-on and low', 'Never square-on and upright — that\'s a body waiting to be moved. Turn sideways, bend the knees, wide base, weight low. A low centre of gravity is worth 10kg of bodyweight.'],
               ['The arm bar', 'Forearm across their chest (not a push — a frame), feeling exactly where they are. Legal, and it lets you control their distance while keeping your eyes on the ball.'],
@@ -537,9 +536,7 @@ export default function Football() {
             ]} />
             <Block title="Slotting this into your week" items={[
               ['3 gym sessions minimum', 'Two heavy lower/full-body sessions plus one upper. See the Gym tab for the full structure — that programme is already built for this.'],
-              ['Carries and neck every session', 'They\'re quick, they\'re the ones everyone skips, and they\'re the ones that show up most in duels. Two minutes each, non-negotiable.'],
-              ['Practise contact in training', 'Ask for 1v1 shielding drills, back-to-goal work, and aerial duels in training. Gym strength that never meets a real opponent stays theoretical.'],
-              ['Keep sprinting while you bulk', 'Sprint and jump work is what stops added mass turning into slowness. Never drop the speed work during a gaining phase.'],
+              ['Practise contact in training', 'Ask for 1v1 shielding drills, back-to-goal work, and aerial duels in training. Gym strength that never meets a real opponent stays theoretical — this is the step almost everyone skips, and it is the one this tab is actually about.'],
               ['Give it 3-6 months', 'Meaningful mass and strength changes take a season, not a month. Track weight, main lifts, and how duels actually feel — all three should trend up together.'],
             ]} />
           </div>
@@ -592,6 +589,13 @@ export default function Football() {
               ['Jump training 2×/week', 'Box jumps or broad jumps 4×4, resetting fully between reps. Converts raw strength into explosive power — the quality that actually shows up in sprints and jumps for headers.'],
               ['Medicine ball throws', 'Rotational throws against a wall, 3×6 each side. Trains the hip rotation that powers a driven shot and a long throw-in.'],
               ['Core anti-rotation', 'Pallof press and side planks 3×30s. A strong core lets your hip power transfer into the ball instead of leaking through a wobbly torso.'],
+            ]} />
+            <Block title="Contact Strength — the lifts that win duels" items={[
+              ['Weighted carries (farmer\'s + suitcase) — 3×40m', 'The most underrated football lift. Carrying heavy load while staying upright IS shielding the ball, and suitcase carries (load on one side only) train exactly the anti-lean strength you need when someone hangs off you.'],
+              ['Neck work — 3×15', 'Free separation, because almost no amateur trains it. A strong neck means more power through a header and staying upright through contact. Note: if you are also running the Blueprint\'s jaw work, that already includes neck training — count it rather than doubling up.'],
+              ['Bench press + overhead press — 4×5-6', 'Pressing strength is how you legally create space with your arms — arm-barring, holding a defender off, winning the shoulder battle. This is the half of the body football players skip.'],
+              ['Rows + weighted pull-ups — 4×6', 'Back strength for shielding and holding position. Pull volume should at least match your pressing volume, or the shoulders pay for it.'],
+              ['Where to put it', 'Carries and neck at the end of any session (two minutes each). Press and pull on the Wednesday power day or as a separate short upper session — do not let them eat the lower-body work, which is still the priority.'],
             ]} />
             <Block title="Get Faster & Stronger on the Ball — a simple weekly split" items={[
               ['Mon — Heavy lower body', 'Squats + Romanian deadlifts + core. Strength day, full recovery between sets.'],

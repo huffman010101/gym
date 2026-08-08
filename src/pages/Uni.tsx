@@ -486,13 +486,18 @@ export default function Uni() {
               ['The Feynman technique', 'Explain the concept out loud as if to a 12-year-old. Every place you stall or use jargon you can\'t unpack = a gap. Fix the gap, repeat. If you can\'t teach it, you don\'t know it.'],
               ['Interleaving', 'Mix problem types within a session (ABCABC, not AAABBB). Feels harder, tests better — exams mix topics, so should practice.'],
               ['Past papers are the syllabus', 'Examiners repeat patterns. 5 past papers under timed conditions teach you what actually gets asked — the single highest-ROI revision activity.'],
+              ['Structure the block, not the hours', 'One 90-minute revision block = one topic, and it ends with recall or a past-paper question, not with rereading. "Studied for 4 hours" measures nothing; "closed the book and could reproduce it" measures everything.'],
             ]} />
-            <Block title="Focus — the real intelligence multiplier" items={[
-              ['Deep work blocks', '90 minutes, phone in another room (physically — willpower loses to proximity), one task, then a 15-min break. Two real blocks beat 8 hours of distracted "studying".'],
-              ['The 5-minute rule', 'Can\'t start? Commit to just 5 minutes. Starting is the only hard part — momentum does the rest.'],
-              ['Attention is trainable', 'Every time you notice drift and return to the task, that\'s one rep. Meditation (10 min/day, any app) is literally attention gym — measurable focus gains in 2 weeks.'],
-              ['Environment design', 'Same desk, same playlist (no lyrics), water ready, notifications off. Your brain learns "this setup = work mode" and drops into focus faster each time.'],
-            ]} />
+            <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
+              <p className="text-gray-400 text-xs leading-relaxed mb-2">
+                Focus itself &mdash; deep work blocks, phone in another room, the 5-minute rule, environment design,
+                attention training &mdash; is the Mind section's subject, not restated here. Learn the system there and
+                point it at the revision above.
+              </p>
+              <Link to="/mind?tab=focus" className="inline-block text-[11px] font-bold bg-sky-500/10 border border-sky-500/25 text-sky-200 px-3 py-1.5 rounded-full">
+                Mind &rarr; Focus &amp; Discipline
+              </Link>
+            </div>
             <Block title="Raw Brainpower — what actually moves it" items={[
               ['Exercise is cognition fuel', 'Cardio + lifting increase BDNF (brain fertiliser), memory and processing speed. The gym section is literally making you smarter.'],
               ['Sleep consolidates memory', 'Learning happens awake; remembering is built asleep. All-nighters DELETE the material you crammed. (Sleep Lab tab.)'],

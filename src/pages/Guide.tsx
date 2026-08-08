@@ -228,11 +228,21 @@ export default function Guide() {
                 ['Key 4 — Tongue press exercise (active component)', 'Push tongue hard into the roof of the mouth 5 seconds, release. 10 reps, 2–3× daily. Add fist under chin pressing downward simultaneously — targets the suprahyoid for jaw-neck separation.'],
               ]} />
             </Fold>
-            <Fold title="Masseter Development" tag="Jaw width and squareness — responds fast">
+            <Fold title="Masseter Development — why it works" tag="The mechanism; the protocol lives in Jaw">
               <Pairs items={[
-                ['Mastic gum — 20–30 minutes daily', 'The hardest gum available, real resistance. Chew EQUALLY on both sides — asymmetric chewing creates facial asymmetry. Visible definition at 3 months; significant at 6. Brands: Falim (Turkish, very firm) or authentic Greek mastic.'],
-                ['Chin tucks — 30+ daily', 'Stand against wall, pull chin straight back until head touches, hold 5–10s. Fixes forward head posture (which destroys side-profile jaw definition) and develops the jaw-neck framing muscles.'],
+                ['The masseter is a muscle, so it hypertrophies', 'It sits on the outer angle of the mandible. Loading it under real resistance thickens it like any other muscle, and because it is directly under thin skin, that thickness reads as a wider, squarer lower face. This is muscle, not bone — which is why it is the fastest visible jaw change and also why it fades if you stop.'],
+                ['Chewing load also reaches the bone', 'Bone remodels along the lines of force it habitually receives. Hard chewing loads the mandible and the muscle attachments on it, so the effect is partly muscle bulk and partly denser, more pronounced bone at those attachment sites — most of it while you are still under 25.'],
+                ['Head position decides what any of it looks like', 'Forward head posture flattens the angle between jaw and neck no matter how developed the masseter is. Correcting neck position is a structural change to your profile, not a cosmetic one — which is why it sits alongside the chewing work rather than after it.'],
               ]} />
+              <div className="mt-4 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
+                <p className="text-gray-400 text-xs leading-relaxed mb-2">
+                  The actual doses &mdash; mastic gum, chin tucks, neck curls, gua sha &mdash; are all in one place in the
+                  Jaw tab rather than split across two.
+                </p>
+                <button onClick={() => setTab('jaw')} className="text-[11px] font-bold bg-amber-500/10 border border-amber-500/25 text-amber-200 px-3 py-1.5 rounded-full">
+                  Go to Jaw &rarr; The Jaw Routine
+                </button>
+              </div>
             </Fold>
             <Fold title="Cheekbone Enhancement">
               <Pairs items={[
