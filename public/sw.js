@@ -18,7 +18,10 @@ try {
   // Push notifications unavailable — the rest of the worker still works.
 }
 
-const CACHE = 'gymforge-v3';
+// Bump this on any release that must invalidate cached assets. The activate
+// handler deletes all caches that are not this one, so a bump is the only
+// reliable way to evict stale hashed JS from a device pinned to an old build.
+const CACHE = 'gymforge-v4';
 
 // Replaced at build time by scripts/inject-sw-precache.mjs
 const PRECACHE = self.__GYMFORGE_PRECACHE__ || ['./', './index.html'];
@@ -66,7 +69,10 @@ self.addEventListener('fetch', event => {
   // still boots offline. HashRouter means every route lives in index.html.
   if (req.mode === 'navigate') {
     event.respondWith(
-      fetch(req)
+      // cache: 'no-store' so the browser HTTP cache cannot hand back a stale
+      // index.html referencing asset hashes that no longer exist on the server.
+      fetch(new Request(req, { cache: 'no-store' }))
+        .catch(() => fetch(req))
         .then(res => {
           const copy = res.clone();
           caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
