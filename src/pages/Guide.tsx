@@ -547,7 +547,7 @@ export default function Guide() {
               <Pairs items={[
                 ['Skin', 'Cleanser + niacinamide + moisturiser + SPF every morning · Benzoyl Peroxide 2.5% on cheeks/jaw every night.'],
                 ['Structure', '10-min posture routine every morning · begin mewing as resting posture NOW · gua sha + ice roller every morning.'],
-                ['Inputs', 'Cut dairy completely for 30 days · zinc 30mg + omega-3 3g daily · 3–4L water · scalp massage with rosemary oil.'],
+                ['Inputs', 'Cut dairy completely for 30 days · creatine 5g + D3 2,000–4,000IU + omega-3 1–2g daily · 3–4L water · scalp massage with rosemary oil.'],
               ]} />
             </Fold>
             <Fold title="Weeks 2–4 — Layer In">
