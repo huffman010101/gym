@@ -1,5 +1,6 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import ErrorBoundary from './components/ErrorBoundary';
 import Home from './pages/Home';
 import Quiz from './pages/Quiz';
 import Plan from './pages/Plan';
@@ -48,7 +49,8 @@ export default function App() {
   }, []);
 
   return (
-    <HashRouter>
+    <ErrorBoundary>
+      <HashRouter>
       <OfflineBanner />
       {!hasKey && <ApiKeySetup onSet={() => setHasKey(true)} />}
       <Routes>
@@ -74,5 +76,6 @@ export default function App() {
         <Route path="/backtest" element={<Backtest />} />
       </Routes>
     </HashRouter>
+    </ErrorBoundary>
   );
 }

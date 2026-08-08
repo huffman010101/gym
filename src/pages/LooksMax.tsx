@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
-import { analyseFace, suggestLayering } from '../lib/generators';
+import { analyseFace, suggestLayering, isValidLayering, isValidFaceAnalysis } from '../lib/generators';
 import type { FaceAnalysisResult, LayeringResult } from '../lib/generators';
 import {
   ArrowLeft, ChevronDown, ChevronUp, Check, Sparkles, Scissors, Smile, User,
@@ -128,13 +128,20 @@ export default function LooksMax() {
     setDermaroll(loadDermaroll());
     const saved = localStorage.getItem('gymforge_face_scan');
     if (saved) {
-      try { setScanResult(JSON.parse(saved) as FaceAnalysisResult); } catch {}
+      // Discard anything malformed rather than loading it into state — a bad
+      // shape here used to blank the whole page on every visit.
+      try {
+        const parsed = JSON.parse(saved);
+        if (isValidFaceAnalysis(parsed)) setScanResult(parsed);
+        else localStorage.removeItem('gymforge_face_scan');
+      } catch { localStorage.removeItem('gymforge_face_scan'); }
     }
     const savedLayering = localStorage.getItem('gymforge_layering');
     if (savedLayering) {
       try {
-        const parsed = JSON.parse(savedLayering) as { input: string; result: LayeringResult };
-        setLayering(parsed.result);
+        const parsed = JSON.parse(savedLayering) as { input: string; result: unknown };
+        if (isValidLayering(parsed.result)) setLayering(parsed.result);
+        else localStorage.removeItem('gymforge_layering');
         // Only fall back to the input stored alongside an old result if nothing
         // has been typed since — the live key is the source of truth.
         if (!localStorage.getItem('gymforge_frag_input') && parsed.input) {
@@ -1725,7 +1732,7 @@ export default function LooksMax() {
               )}
               {layering && (
                 <div className="mt-4 space-y-3">
-                  {layering.combos.map(c => (
+                  {(layering.combos ?? []).map(c => (
                     <div key={c.name} className="bg-black/30 border border-indigo-500/15 rounded-xl p-3.5">
                       <div className="flex items-center justify-between mb-1.5">
                         <p className="font-bold text-sm text-indigo-300">{c.name}</p>

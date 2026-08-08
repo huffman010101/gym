@@ -19,6 +19,42 @@ function parse(text: string): unknown {
   }
 }
 
+/*
+ * parse() only guarantees "this was valid JSON" — not that it has the shape the
+ * UI expects. A truncated-but-parseable response used to be saved to
+ * localStorage and then crash the render on every visit (a blank screen that
+ * survived reloads). These guards reject bad shapes before anything is stored.
+ */
+const INCOMPLETE = 'The AI response came back incomplete. Tap Regenerate to try again.';
+
+function nonEmptyArray(v: unknown): boolean {
+  return Array.isArray(v) && v.length > 0;
+}
+
+export function isValidLayering(v: unknown): v is LayeringResult {
+  if (!v || typeof v !== 'object') return false;
+  const combos = (v as { combos?: unknown }).combos;
+  if (!nonEmptyArray(combos)) return false;
+  return (combos as unknown[]).every(
+    c => !!c && typeof c === 'object' && typeof (c as { name?: unknown }).name === 'string'
+  );
+}
+
+export function isValidFaceAnalysis(v: unknown): v is FaceAnalysisResult {
+  if (!v || typeof v !== 'object') return false;
+  const o = v as Record<string, unknown>;
+  if (!nonEmptyArray(o.haircuts) || !nonEmptyArray(o.facialHair) || !nonEmptyArray(o.tips)) return false;
+  const r = o.skincareRoutine as Record<string, unknown> | undefined;
+  if (!r || typeof r !== 'object') return false;
+  return Array.isArray(r.morning) && Array.isArray(r.evening) && Array.isArray(r.weekly);
+}
+
+export function isValidStudyPack(v: unknown): v is StudyPack {
+  if (!v || typeof v !== 'object') return false;
+  const o = v as Record<string, unknown>;
+  return Array.isArray(o.timetable) && Array.isArray(o.prioritySheet) && Array.isArray(o.summarySheet);
+}
+
 export async function generateWorkoutPlan(
   q: Record<string, unknown>
 ): Promise<WorkoutPlan> {
@@ -299,7 +335,9 @@ Give one combo per fragrance minimum (more if the collection allows great extras
     maxRetries: 1,
   });
   const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
-  return parse(text) as LayeringResult;
+  const result = parse(text);
+  if (!isValidLayering(result)) throw new Error(INCOMPLETE);
+  return result;
 }
 
 export async function planAdvice(tasks: string[], notes: string): Promise<string[]> {
@@ -414,7 +452,9 @@ Timetable: 7-14 days, realistic 2-4h/day, built on active recall + spaced repeti
     }],
   });
   const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
-  return parse(text) as StudyPack;
+  const packResult = parse(text);
+  if (!isValidStudyPack(packResult)) throw new Error(INCOMPLETE);
+  return packResult;
 }
 
 export interface FaceAnalysisResult {
@@ -489,7 +529,9 @@ Return ONLY valid JSON (no markdown fences):
   const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
   const clean = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
   const match = clean.match(/\{[\s\S]*\}/);
-  return JSON.parse(match ? match[0] : clean) as FaceAnalysisResult;
+  const faceResult = JSON.parse(match ? match[0] : clean);
+  if (!isValidFaceAnalysis(faceResult)) throw new Error(INCOMPLETE);
+  return faceResult;
 }
 
 export interface GeneratedKnowledgeCard {

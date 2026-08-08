@@ -4,7 +4,7 @@ import { ArrowLeft, GraduationCap, Brain, Sun, Briefcase, Moon, Loader2, AlertCi
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 import BookNotes from '../components/BookNotes';
-import { generateStudyPack, generateSubjectConcepts, type SubjectConcept } from '../lib/generators';
+import { generateStudyPack, generateSubjectConcepts, isValidStudyPack, type SubjectConcept } from '../lib/generators';
 import { extractFile, combine, MAX_TOTAL_CHARS, type Extracted } from '../lib/extractText';
 import type { StudyPack } from '../lib/generators';
 
@@ -134,8 +134,12 @@ export default function Uni() {
     try {
       const saved = localStorage.getItem('gymforge_studypack');
       if (saved) {
-        const parsed = JSON.parse(saved) as { course: string; modules: string; examInfo: string; pack: StudyPack };
-        setCourse(parsed.course); setModules(parsed.modules); setExamInfo(parsed.examInfo); setPack(parsed.pack);
+        const parsed = JSON.parse(saved) as { course: string; modules: string; examInfo: string; pack: unknown };
+        setCourse(parsed.course); setModules(parsed.modules); setExamInfo(parsed.examInfo);
+        // A malformed pack would crash the render on every visit — drop it and
+        // keep the course details, which are still useful.
+        if (isValidStudyPack(parsed.pack)) setPack(parsed.pack);
+        else localStorage.removeItem('gymforge_studypack');
       } else {
         // Course details may have been saved by My Subject without a full pack.
         const light = localStorage.getItem('gymforge_course_details');
