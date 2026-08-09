@@ -51,6 +51,8 @@ const INDEX: Entry[] = [
   { label: 'Rotational Pallof press — full progression', section: 'Gym', path: '/programs?tab=core', keywords: 'pallof press rotational rotation anti rotation core cable band half kneeling overhead trunk obliques how to' },
   { label: 'Defined back & upper back detail', section: 'Gym', path: '/programs?tab=pull', keywords: 'back definition defined lean back upper back traps rhomboids rear delts erectors v taper footballer swimmer thickness squeeze stretch' },
   { label: 'Weighted pull-ups & chin-ups progression', section: 'Gym', path: '/programs?tab=pull', keywords: 'weighted pull ups chin ups dip belt negatives progression reps load lats grip elbow neutral grip' },
+  { label: 'Why a lighter athlete feels stronger & denser', section: 'Gym', path: '/programs?tab=explosive', keywords: 'dense muscle hard feel strong powerful lighter than me footballer athletic density relative strength strength to weight neural drive tendon stiffness force transfer trunk grip isometrics immovable why is he stronger' },
+  { label: 'Weak ankles — how to start training legs', section: 'Gym', path: '/programs?tab=legs', keywords: 'weak ankles ankle stability sprain rolled ankle start training legs beginner leg press hack squat heels elevated dorsiflexion calf raise tibialis peroneal balance single leg plyometrics landing progression footwear' },
   // Combat
   { label: 'Striking Fundamentals', section: 'Combat', path: '/combat?tab=fundamentals', keywords: 'stance jab punch boxing defence slip block clinch striking fight' },
   { label: 'Takedowns', section: 'Combat', path: '/combat?tab=takedowns', keywords: 'takedown double leg single leg body lock trip sweep sprawl wrestle wrestling' },
