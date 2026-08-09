@@ -47,6 +47,10 @@ const INDEX: Entry[] = [
   { label: 'Food Log & Macros', section: 'Gym', path: '/food', keywords: 'food eat calories macros protein diet nutrition meals fuel' },
   { label: 'Physique AI Review', section: 'Gym', path: '/physique', keywords: 'physique photos progress body ai review muscle' },
   { label: 'Skin Photo AI Routine', section: 'Gym', path: '/physique', keywords: 'skin photo analysis personalised skincare routine ai scan' },
+  { label: 'Lower ab pooch — why it sticks out when you tense', section: 'Gym', path: '/programs?tab=core', keywords: 'lower abs pooch pouch belly sticks out bulge tense brace bearing down bloat anterior pelvic tilt rib flare bottom two abs top four transverse abdominis vacuum diastasis' },
+  { label: 'Rotational Pallof press — full progression', section: 'Gym', path: '/programs?tab=core', keywords: 'pallof press rotational rotation anti rotation core cable band half kneeling overhead trunk obliques how to' },
+  { label: 'Defined back & upper back detail', section: 'Gym', path: '/programs?tab=pull', keywords: 'back definition defined lean back upper back traps rhomboids rear delts erectors v taper footballer swimmer thickness squeeze stretch' },
+  { label: 'Weighted pull-ups & chin-ups progression', section: 'Gym', path: '/programs?tab=pull', keywords: 'weighted pull ups chin ups dip belt negatives progression reps load lats grip elbow neutral grip' },
   // Combat
   { label: 'Striking Fundamentals', section: 'Combat', path: '/combat?tab=fundamentals', keywords: 'stance jab punch boxing defence slip block clinch striking fight' },
   { label: 'Takedowns', section: 'Combat', path: '/combat?tab=takedowns', keywords: 'takedown double leg single leg body lock trip sweep sprawl wrestle wrestling' },
