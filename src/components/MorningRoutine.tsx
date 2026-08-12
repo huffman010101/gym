@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Sun, ChevronDown, CheckCircle2, XCircle } from 'lucide-react';
 
 /*
@@ -185,6 +186,38 @@ export default function MorningRoutine() {
         ['Do not stack it on an empty stomach if it makes you jittery', 'With or just after food is gentler and lasts longer.'],
         ['If you train in the morning', 'Coffee 30-45 min before is genuinely performance-enhancing. Just still hydrate first.'],
       ]} />
+
+      <Block title="Supplements — what actually belongs in the morning" items={[
+        ['Take with breakfast, not on an empty stomach', 'Vitamin D3 (2,000-4,000IU) and omega-3 (1-2g EPA/DHA) are fat-soluble — taken with the protein breakfast at 45-60 min they absorb properly. Taken with water on an empty stomach you waste most of the D3 and get fish burps from the omega-3.'],
+        ['Creatine 5g — timing genuinely does not matter', 'Morning is only the best time because it is the time you will not forget. Stir it into your water or your shake. It works by saturating your muscles over weeks, so the only thing that matters is that you take it every single day, including rest days.'],
+        ['Magnesium is a NIGHT supplement, not a morning one', 'Magnesium glycinate 200-400mg goes before bed, not now — it supports sleep depth and relaxation. Taking it in the morning wastes the main reason to take it.'],
+        ['Caffeine is a supplement too — treat it like one', 'It is on the list above for a reason: 60-90 minutes after waking, 100-200mg, and the protocol below is the rest of it.'],
+        ['What you do not need in the morning', 'Fat burners, test boosters, BCAAs and greens powders do nothing that your breakfast and your sleep are not already doing. Zinc only if you are actually deficient or a heavy sweater. Do not build a ten-pill morning ritual — it is procrastination dressed as optimisation.'],
+        ['The whole thing takes 20 seconds', 'Creatine in the water, D3 and omega-3 with the eggs. If you cannot remember it, keep them next to the kettle. The full reasoning and the complete stack lives in Looks → Methods → Supplement stack; this is only the morning slice of it.'],
+      ]} />
+
+      <div className="bg-[#111] border border-emerald-500/25 rounded-2xl p-5">
+        <h3 className="font-bold text-emerald-300 mb-2">The morning is only the setup — the work block is the point</h3>
+        <p className="text-gray-500 text-xs leading-relaxed mb-3">
+          Everything above exists to hand you one clean 90-minute block at 60 min+. If you get to that block and
+          still cannot start, the problem is not your morning — it is the task. Three fixes, in order:
+        </p>
+        <div className="space-y-2 mb-3">
+          {[
+            ['Shrink the task until it is stupid', '"Write the essay" is unstartable. "Open the doc and write the title" is not. Shrink it until starting feels almost embarrassing, because starting is the only part that is actually hard.'],
+            ['The 5-minute contract', 'Commit to five minutes and give yourself full permission to stop after them. You almost never will — the resistance is at the start, not in the middle.'],
+            ['Design the environment, not the willpower', 'Phone in another room, one tab, materials already out from last night. Willpower loses to convenience every time, so make the right thing the easy thing before you sit down.'],
+          ].map(([t, d]) => (
+            <div key={t}>
+              <p className="font-semibold text-sm text-gray-200">{t}</p>
+              <p className="text-gray-500 text-xs leading-relaxed">{d}</p>
+            </div>
+          ))}
+        </div>
+        <Link to="/mind?tab=focus" className="inline-block text-xs font-bold bg-emerald-500/15 text-emerald-300 px-3 py-1.5 rounded-full">
+          Full method → Mind · Focus &amp; Discipline
+        </Link>
+      </div>
 
       <Fold title="The mistakes that undo all of it" tag="Fix these before adding anything" items={[
         ['Snoozing', 'You start a sleep cycle you cannot complete. That grogginess is fragmented sleep, and it can last hours.'],

@@ -450,6 +450,34 @@ export default function Money() {
                 This is general information, not personal tax advice.
               </p>
             </div>
+            <Fold title="Actually do this — opening a Stocks & Shares ISA" tag="Start to finish, about 20 minutes" items={[
+              ['1. Check you are eligible', 'You must be 18+ and a UK resident. You get one £20,000 allowance per tax year across ALL your ISAs combined — it resets every 6 April and does not roll over, so an unused year is gone.'],
+              ['2. Pick a platform', 'For a beginner investing small monthly amounts, the main considerations are platform fee and fund choice. Trading 212 and InvestEngine charge no platform fee on their basic offerings. Vanguard is the classic low-cost option but only sells its own funds. Hargreaves Lansdown has the best interface and the highest fees. Any of them is fine — the fee difference on £100/month is pennies, so do not spend three weeks comparing.'],
+              ['3. What you need to hand', 'Your National Insurance number, a debit card or bank details, and photo ID. It is an online form and usually takes 10-15 minutes to be approved.'],
+              ['4. Choose ONE fund', 'This is where people freeze. A global tracker is the default sensible answer — something like a FTSE Global All Cap or an all-world index fund. Two things to check: pick the ACCUMULATION version (dividends reinvest automatically) and check the ongoing charge is under about 0.25%.'],
+              ['5. Set the monthly direct debit', 'Pick an amount you will not need back and a date just after payday. £50 a month started now beats £500 a month started in five years. Then turn the notifications off.'],
+              ['6. Then genuinely ignore it', 'The single most common way to lose money is checking during a crash and selling. Set it, and look once or twice a year. That is the whole strategy — see the Investing tab for why.'],
+              ['A caveat worth knowing', 'A Stocks & Shares ISA is for money you will not need for 5+ years, because markets can fall for years at a time. Short-term money belongs in a Cash ISA or savings account instead.'],
+            ]} />
+
+            <Fold title="Actually do this — your payslip, tax code and refunds" tag="Where students and first jobs lose money" items={[
+              ['Read your payslip once, properly', 'Gross pay is before deductions. You should see income tax, National Insurance and possibly pension and student loan lines. Your tax code sits somewhere on it — for most people on one job with no complications it should be 1257L.'],
+              ['If your tax code is wrong you are probably overpaying', 'Codes starting BR, D0, or ending in W1/M1 or X mean you are being taxed at a flat rate or on an emergency basis. This is extremely common when you start a first job, a second job, or a summer job. It is not a fine — it is just HMRC not having your details yet.'],
+              ['How to fix it', 'Log into your Personal Tax Account on gov.uk (you will need to set up a Government Gateway ID). You can see your tax code, check what HMRC thinks you earn, and correct it. Usually it self-corrects on the next payslip and the overpayment comes back automatically through payroll.'],
+              ['Claiming back overpaid tax', 'If you overpaid in a previous tax year — very common if you worked only part of the year, e.g. a summer job — you can claim it back for the last four years. Do it directly through gov.uk. Never use a "tax refund company" that takes a percentage; they do the same free form and keep a cut.'],
+              ['Students are not automatically tax-free', 'A persistent myth. Students pay tax exactly like everyone else — you just often earn under the £12,570 Personal Allowance across the year, so you owe nothing. But if you earn heavily in a single month, PAYE can tax you as though that rate continues all year, and you claim it back.'],
+              ['Student loan repayments', 'These start only once you earn over the threshold for your plan, and are taken automatically from your payslip as a percentage of income above it. It behaves more like a graduate tax than a debt, and it is written off after a set period — which is why aggressively overpaying it early is usually a bad idea.'],
+            ]} />
+
+            <Fold title="Actually do this — side income and self assessment" tag="If you earn anything outside a payslip" items={[
+              ['The £1,000 trading allowance', 'You can earn up to £1,000 a tax year from self-employment or side income without declaring it or paying tax on it. Freelancing, reselling, tutoring, content — all counts toward this. Under £1,000 and you genuinely do not need to do anything.'],
+              ['Over £1,000 — you must register', 'Register for Self Assessment on gov.uk. Deadline: 5 October following the end of the tax year you started earning. Registering does not mean you will owe much — you still get your Personal Allowance — it just means you have to declare it.'],
+              ['The dates that matter', 'The tax year runs 6 April to 5 April. Online return deadline is 31 January after the tax year ends, and payment is due the same day. Missing 31 January triggers an automatic £100 penalty even if you owe zero tax, which is the most avoidable fine in the system.'],
+              ['Keep records from day one', 'A spreadsheet with date, what it was for, amount in, amount out. Keep receipts for anything you might claim as an expense. Doing this as you go takes minutes; reconstructing a year of it in January takes a weekend.'],
+              ['You can deduct genuine costs', 'Equipment, software, a proportion of phone and internet if used for the work. Deducting reduces the profit you are taxed on. Be honest about the split — this is exactly what gets checked.'],
+              ['Put tax aside as you earn it', 'The classic first-year mistake is spending everything and getting a bill in January. Move roughly 30% of side income into a separate savings pot the moment it lands and treat it as not yours.'],
+            ]} />
+
             <Block title="How income tax actually works" items={[
               ['You are NOT taxed at one rate on everything', 'This is the single biggest misunderstanding. Tax is charged in bands — only the money inside each band is taxed at that band\'s rate. Earning £1 into the higher band does not re-tax your whole salary.'],
               ['Personal Allowance — £12,570', 'The first £12,570 you earn is tax-free.'],
@@ -541,6 +569,16 @@ export default function Money() {
                 The section below is the part that does not expire — learn to read it and you never need anyone to tell you what is happening.
               </p>
             </div>
+            <Fold title="Actually do this — turning economic news into decisions" tag="The 'so what do I do' layer" items={[
+              ['Once a month, check three numbers', 'CPI inflation (ons.gov.uk), Bank Rate (bankofengland.co.uk), and your own savings account rate. Two minutes. If your easy-access account pays less than inflation, your cash is shrinking in real terms and you should move it — that is the single most common, most fixable money mistake.'],
+              ['When rates are HIGH (like now, 3.75%)', 'Savings pay well: move emergency cash into the best easy-access or a Cash ISA rather than a current account paying 0.1%. Do NOT lock into a long fixed-rate savings bond if rates are still being voted up. Avoid taking on new variable-rate debt. Keep investing monthly anyway — high rates depress share prices, which means you are buying cheaper.'],
+              ['When rates start FALLING', 'Savings rates drop fast, usually before the cut is even announced. That is the moment to fix a savings rate if you have cash you will not touch for a year. Mortgage deals improve — if your fix ends within six months, start getting quotes, because most lenders let you lock a rate up to six months ahead and switch down for free if rates fall further.'],
+              ['Diarise your mortgage/fix end date', 'The rate you are on today is irrelevant; the rate on the day your fix ends is what matters. Put the date in your calendar with a six-month-before reminder. Rolling onto a lender\'s standard variable rate by accident is the most expensive passive mistake in UK personal finance.'],
+              ['Use inflation in every pay conversation', 'A 3% rise with 2.6% inflation is a 0.4% real rise. Going into a review knowing the current CPI figure — and saying it out loud — reframes the conversation from "more please" to "keeping pace". Ask for above inflation and justify it with what you delivered.'],
+              ['Watch Budget day, ignore the rest of politics', 'The one date that actually changes your finances is the Chancellor\'s Budget: ISA allowance, income tax thresholds, CGT and dividend allowances, pension rules. Read a summary the next morning and check only whether anything you use has changed. Everything else in the political cycle is noise for your money.'],
+              ['What NOT to do with any of this', 'Do not sell, pause your monthly investing, or move to cash because of an inflation print, a rate decision, or a scary headline. Macro forecasting is where amateurs and professionals both lose. This information exists so you understand what you are seeing and price your savings and debt correctly — not so you can time markets.'],
+              ['The 15-minute version', 'Emergency fund in the best-paying easy-access account. Everything long-term in a monthly direct debit into a global index fund inside an ISA. Mortgage end date in the calendar. Check CPI and Bank Rate monthly. That is the entire practical output of this whole section.'],
+            ]} />
             <Block title="Inflation — what it actually is" items={[
               ['The definition', 'How fast prices rise. 2.6% inflation means what cost £100 a year ago costs £102.60 now. CPI is the headline measure; CPIH also includes housing costs.'],
               ['Why 2% is the target', 'Mild inflation encourages spending and investing rather than hoarding cash. Zero risks deflation (people delay purchases, the economy stalls); high inflation destroys savings and planning.'],
