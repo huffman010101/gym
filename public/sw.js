@@ -21,7 +21,7 @@ try {
 // Bump this on any release that must invalidate cached assets. The activate
 // handler deletes all caches that are not this one, so a bump is the only
 // reliable way to evict stale hashed JS from a device pinned to an old build.
-const CACHE = 'gymforge-v4';
+const CACHE = 'gymforge-v5';
 
 // Replaced at build time by scripts/inject-sw-precache.mjs
 const PRECACHE = self.__GYMFORGE_PRECACHE__ || ['./', './index.html'];
@@ -70,27 +70,50 @@ self.addEventListener('fetch', event => {
   // Serving a stale AI response would be worse than a clear network error.
   if (url.origin !== self.location.origin) return;
 
-  // Page navigations: network first, fall back to the cached shell so the app
-  // still boots offline. HashRouter means every route lives in index.html.
+  // Page navigations: try the network briefly, then fall back to the cached
+  // shell so the app still boots offline. HashRouter means every route lives
+  // in index.html.
   if (req.mode === 'navigate') {
+    const cachedShell = () =>
+      caches.match(req)
+        .then(hit => hit || caches.match('./index.html'))
+        .then(hit => hit || caches.match('./'))
+        .then(hit => hit || new Response('Offline', { status: 503, headers: { 'Content-Type': 'text/plain' } }));
+
+    // Declared offline: do not even attempt the network. On iOS a navigation
+    // fetch with no connection can sit for many seconds before rejecting,
+    // which is indistinguishable from "the app won't open".
+    if (self.navigator && self.navigator.onLine === false) {
+      event.respondWith(cachedShell());
+      return;
+    }
+
+    // Fetch the URL rather than the Request: `new Request(navigateRequest, …)`
+    // throws TypeError ("invalid request mode navigate") synchronously, which
+    // killed the handler and stopped the app loading at all. Passing the URL
+    // string still lets us set no-store so the HTTP cache cannot serve a
+    // stale index.html pointing at asset hashes that no longer exist.
+    //
+    // NETWORK_TIMEOUT bounds a flaky connection (one bar of signal, captive
+    // wifi that accepts the socket and never answers). Without it the request
+    // hangs until the platform's own timeout — the app looks broken while a
+    // perfectly good cached copy sits unused.
+    const NETWORK_TIMEOUT = 3500;
+    const network = fetch(req.url, { cache: 'no-store', credentials: 'same-origin' })
+      .then(res => {
+        // Never cache or serve an error page as the app shell: a captive
+        // portal or a 404 would otherwise be stored as the whole app.
+        if (!res.ok) throw new Error('bad status ' + res.status);
+        const copy = res.clone();
+        caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
+        return res;
+      });
+    const timeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('network timeout')), NETWORK_TIMEOUT));
+
     event.respondWith(
-      // Fetch the URL rather than the Request: `new Request(navigateRequest, …)`
-      // throws TypeError ("invalid request mode navigate") synchronously, which
-      // killed the handler and stopped the app loading at all. Passing the URL
-      // string still lets us set no-store so the HTTP cache cannot serve a
-      // stale index.html pointing at asset hashes that no longer exist.
-      fetch(req.url, { cache: 'no-store', credentials: 'same-origin' })
-        .catch(() => fetch(req))
-        .then(res => {
-          const copy = res.clone();
-          caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
-          return res;
-        })
-        .catch(() =>
-          caches.match(req)
-            .then(hit => hit || caches.match('./index.html'))
-            .then(hit => hit || new Response('Offline', { status: 503, headers: { 'Content-Type': 'text/plain' } }))
-        )
+      Promise.race([network, timeout])
+        .catch(() => cachedShell())
     );
     return;
   }

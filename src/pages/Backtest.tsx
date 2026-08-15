@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, LineChart, ChevronDown, AlertTriangle, Play, Pause, RotateCcw, TrendingUp, TrendingDown, MousePointer2, Minus, Square, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, Trash2, X, StepForward, Gauge } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import { generateNasdaq100Series } from '../lib/backtestData';
@@ -72,7 +72,11 @@ const fmtPct = (v: number) => `${v >= 0 ? '+' : ''}${v.toFixed(1)}%`;
 const fmtMoney = (v: number) => `£${v.toLocaleString('en-GB', { maximumFractionDigits: 0 })}`;
 
 export default function Backtest() {
-  const [mode, setMode] = useState<Mode>('backtest');
+  const [searchParams] = useSearchParams();
+  const [mode, setMode] = useState<Mode>(() => {
+    const m = searchParams.get('mode');
+    return (['backtest', 'chart', 'replay', 'quiz', 'paper'] as const).includes(m as Mode) ? (m as Mode) : 'backtest';
+  });
   const candles = useMemo(() => generateNasdaq100Series(), []);
 
   const [strategyId, setStrategyId] = useState<StrategyId>('ma_cross');

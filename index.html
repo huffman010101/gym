@@ -100,6 +100,11 @@
         setTimeout(function () {
           var root = document.getElementById('root');
           if (root && root.children.length > 0) return;
+          // NEVER run the destructive path while offline. Dropping the caches
+          // and unregistering the worker is only survivable if a fresh copy
+          // can be refetched — offline it deletes the one thing keeping the
+          // app openable, and the reload then lands on nothing at all.
+          if (navigator.onLine === false) return;
           try {
             if (sessionStorage.getItem('gymforge_recovered')) return;
             sessionStorage.setItem('gymforge_recovered', '1');
