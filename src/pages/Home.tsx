@@ -8,6 +8,7 @@ import MorningReminder from '../components/MorningReminder';
 import DailyRoutines from '../components/DailyRoutines';
 import AccountabilityBot from '../components/AccountabilityBot';
 import NotifyPrompt from '../components/NotifyPrompt';
+import OfflineStatus from '../components/OfflineStatus';
 
 
 
@@ -236,6 +237,8 @@ export default function Home() {
           </div>
         </section>
       )}
+
+      <OfflineStatus />
 
       <footer className="border-t border-white/5 px-6 py-6 text-center text-gray-700 text-sm">
         <div className="flex items-center justify-center gap-2">
