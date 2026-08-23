@@ -4,14 +4,16 @@ import { ArrowLeft, Shield, Swords, Hand, AlertTriangle, Target, Users, Zap, Che
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 
-type Tab = 'fundamentals' | 'takedowns' | 'ground' | 'chokes' | 'drills' | 'strategy' | 'gym';
+type Tab = 'fundamentals' | 'hips' | 'takedowns' | 'ground' | 'chokes' | 'drills' | 'arts' | 'strategy' | 'gym';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'fundamentals', label: 'Fundamentals' },
+  { id: 'hips', label: 'Hips' },
   { id: 'takedowns', label: 'Takedowns' },
   { id: 'ground', label: 'Ground Game' },
   { id: 'chokes', label: 'Submissions' },
   { id: 'drills', label: 'Drills' },
+  { id: 'arts', label: 'The Arts' },
   { id: 'strategy', label: 'Strategy' },
   { id: 'gym', label: 'Strength & Power' },
 ];
@@ -116,7 +118,7 @@ export default function Combat() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['fundamentals', 'takedowns', 'ground', 'chokes', 'drills', 'strategy', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'fundamentals';
+    return (['fundamentals', 'hips', 'takedowns', 'ground', 'chokes', 'drills', 'arts', 'strategy', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'fundamentals';
   });
 
   return (
@@ -378,6 +380,86 @@ export default function Combat() {
         )}
 
         {/* ============ STRATEGY ============ */}
+        {tab === 'hips' && (
+          <div className="fade-up stagger space-y-3">
+            <SectionTitle icon={Zap} title="Using your hips" sub="The one thing that separates people who look like they know what they're doing from people who don't." />
+
+            <div className="bg-gradient-to-br from-red-500/12 to-[#111] border border-red-500/25 rounded-2xl p-5">
+              <h3 className="font-black text-red-300 mb-2">One principle, two completely different jobs</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                In striking, your hips are an <span className="text-gray-200 font-semibold">engine</span> — they rotate to
+                generate speed that travels out through your fist or shin. In grappling, your hips are a
+                <span className="text-gray-200 font-semibold"> lever and a wedge</span> — they create space, deny space,
+                and act as the fulcrum you throw or sweep someone around. Same joint, opposite instructions. People who
+                are strong but feel ineffective are almost always doing one of these with their arms instead.
+              </p>
+            </div>
+
+            <SectionTitle icon={Target} title="Boxing and striking — the hip as an engine" />
+
+            <Fold title="The rear hip drives every power shot" tag="Cross, rear hook, rear kick, rear elbow" items={[
+              ['The sequence, in order', 'Push the floor with the rear foot → the rear heel spins outward → the hip turns → the trunk follows → the shoulder → the fist arrives last. If your fist moves before your hip does, you are arm-punching, and the shot has your arm weight behind it instead of your bodyweight.'],
+              ['The heel is the tell', 'Watch anyone\'s rear heel on a cross. If it stays flat and pointing backwards, the hip could not rotate and the punch has nothing on it. The heel turning out is what allows the hip to open. Film yourself: this is the single fastest fault to spot and fix.'],
+              ['Rotate around a fixed axis, do not lunge', 'Your spine is the axle. The hip rotates around it; your head should not travel forward past your lead knee. Lunging shifts your weight over your lead foot, which is how you end up falling into shots and getting countered.'],
+              ['Connect the hip to the FLOOR, not the air', 'Force is only produced against the ground. A punch thrown while stepping, jumping or backing up has almost nothing behind it, no matter how hard the hip turns — because the hip has nothing to push against.'],
+              ['Lead hook — the same thing mirrored', 'Lead hip and lead heel turn INTO the shot as the lead foot pivots. The arm stays a fixed frame; the power is the pivot. A lead hook thrown with a flat lead foot is an arm punch by definition.'],
+              ['Relax, then arrive', 'Tension in the shoulder slows the whip and cuts the hip out of the chain. Stay loose through the throw and stiffen only at impact — this is what actually delivers your bodyweight rather than your arm weight.'],
+            ]} />
+
+            <Fold title="Hips in defence and movement" tag="Where most people forget the hips exist entirely" items={[
+              ['Slipping is a hip movement', 'A slip is a small hip rotation that moves your head off the centre line, not a lean or a duck with the neck. Rotating from the hips keeps your feet under you and — crucially — leaves you loaded to counter. Leaning takes you off balance and gives you nothing back.'],
+              ['Rolling under hooks', 'Bend the knees, rotate the hips, and travel in a U-shape under the punch, coming up on the other side already turned into your counter. If the movement happens above the waist, you end up dipping your head forward into knees and uppercuts.'],
+              ['Pivoting off the line', 'Every pivot is driven by the hips turning the whole body around the lead foot. This is how you create angles rather than backing straight up — and backing straight up is how people get walked down and hit.'],
+              ['Level changes come from the hips and knees', 'Drop by bending the knees and sitting the hips, keeping the chest tall. Bending at the waist to change level puts your head down in front of you, which is a guillotine or a knee waiting to happen.'],
+              ['Absorbing body shots', 'Turning the hip slightly into an incoming body shot lets you take it on a braced oblique instead of an exposed liver. Small rotation, big difference.'],
+            ]} />
+
+            <SectionTitle icon={Users} title="Grappling — the hip as a lever, a wedge and a weapon" />
+
+            <Fold title="Hip escapes — the single most important movement in grappling" tag="Shrimping, and why it is the answer to being on the bottom" items={[
+              ['What it actually is', 'On your side, frame against them, post a foot, push off the floor and drive your HIPS away from them — not your shoulders. Almost every escape from bottom (mount, side control, knee-on-belly) is this movement plus a detail.'],
+              ['Hips move first, shoulders follow', 'The most common error is pushing with the arms and dragging the hips along. Arms are a frame that creates the gap; hips are what travel through it. If your shoulders move and your hips do not, you have gone nowhere and burnt energy.'],
+              ['Get on your side, always', 'You cannot move flat on your back — a flat person is a pinned person. Turning onto your side is the precondition for every escape, and it is the position you should return to by default any time you are underneath.'],
+              ['Small repeated escapes beat one giant one', 'A few inches at a time, taken repeatedly, beats an explosive bridge-and-scramble that gasses you. Grappling from bottom is patient inch-work.'],
+              ['Drill it daily', 'Ten minutes of shrimps, bridges and technical stand-ups on your floor at home compounds faster than almost anything else you can do without a partner. The full solo routine is in the Drills tab.'],
+            ]} />
+
+            <Fold title="Bridging and hip heists — generating force from your back" tag="How a smaller person moves a bigger one" items={[
+              ['The bridge (upa)', 'Feet planted close to your hips, drive through the HEELS and throw your hips as high as possible, turning toward one shoulder. Your hips and legs are the strongest thing you own — this is why a bridge can move someone far heavier than a bench press ever could.'],
+              ['Bridge into space, not into them', 'A bridge straight up just lifts them and sets them back down. A bridge angled toward a direction where they have no post is what takes them over. Trap their arm and leg on that side first, or you are just doing hip thrusts under a person.'],
+              ['The hip heist', 'From bottom, post on one hand and the opposite foot, then whip your hips through underneath you to turn onto your knees or come to your feet. The movement that gets you up without giving up your back.'],
+              ['Combine, do not repeat', 'Bridge to make them post their weight one way, then shrimp the other way. Attacking twice in the same direction is how you get flattened; the bridge creates the reaction that makes the shrimp work.'],
+              ['This is why hip thrusts are in the programme', 'End-range hip extension under load is exactly the bridging pattern. Programs → Legs covers the loading; here is where it gets used.'],
+            ]} />
+
+            <Fold title="Hip pressure on top — being heavy without being strong" tag="Why some training partners feel like a car is parked on you" items={[
+              ['Weight goes through the hips, not the arms', 'In side control, drop your hips low and drive them into them while your chest pins their far shoulder. People who post on their hands to hold position are holding themselves UP, which makes them feel light and gives away leverage.'],
+              ['Hips down, toes on the mat, drive', 'Sprawled legs, hips low, weight going forward and down through your hip bones. This is the difference between being on top of someone and being on top of someone in a way they cannot breathe under.'],
+              ['Kill the hips to kill the escape', 'Every bottom escape starts with them moving their hips. Control their hips — with a knee, a hip-to-hip connection, a cross-face that stops them turning — and their escapes stop working before they start.'],
+              ['Guard passing is a hip battle', 'Passing is about getting your hips past their hips while stopping them from re-inserting a knee or a foot in the gap. Pressure passing keeps hips low and connected; speed passing gets hips around the outside. Both are decided at hip level, not by hand fighting.'],
+              ['Mount: hips forward and low', 'Climb the hips high toward their armpits and grip with the knees. High mount takes their escape leverage away entirely; sitting back on the hips with your weight over your feet gives them room to bridge.'],
+              ['Hip-to-hip in the clinch', 'Getting your hip inside and under theirs is what makes throws and trips available. Whoever has the lower, more connected hip usually wins the exchange — this is the whole game in judo and greco.'],
+            ]} />
+
+            <Fold title="Hips in takedowns and the clinch" tag="Where the hip is the fulcrum you throw around" items={[
+              ['Level change with the hips, chest up', 'Drop your hips by bending the knees, keep the chest tall, then drive the hips FORWARD through them on the penetration step. Everything about a double leg is hip drive; the arms are only there to hold on to what your hips already moved.'],
+              ['Finish through, not into', 'The finish is your hips driving through their centre while your feet keep moving. Stopping the hips and pulling with the arms is why takedowns stall against resisting opponents.'],
+              ['Hip in for throws', 'Hip throws, uchi mata and harai goshi all work by getting your hip lower than theirs and beneath their centre of mass, then rotating. If your hip is behind or beside them instead of under them, you are lifting with your back — which is both weak and how backs get hurt.'],
+              ['The sprawl is a hip drop', 'Hips down and back hard, legs kicked out behind, weight through the hips onto their head and shoulders. Sprawling with the chest while the hips stay high does nothing — they simply drive under you.'],
+              ['Hip control in the clinch', 'Underhooks let you control their hips at range. An underhook plus a lowered hip is the setup for most of the clinch offence in MMA — and denying theirs is most of the defence.'],
+            ]} />
+
+            <Block title="How to actually train this" items={[
+              ['Solo, daily, 10 minutes', 'Shrimps, bridges, technical stand-ups, hip heists. Free, no partner, and it builds the hip-first default that everything else depends on.'],
+              ['On the bag, one round of hips only', 'Cross and lead hook only, watching the heel spin on every rep. No combinations, no speed — just the rotation, until it stops feeling like a thing you have to remember.'],
+              ['Positional sparring from bottom', 'Start under side control or mount and try only to escape. It forces hip movement under real resistance, which is the only place it becomes reflex.'],
+              ['Film it side-on', 'Both striking and grappling. You cannot feel a flat rear heel or a shoulder-led shrimp, but you can see both instantly.'],
+              ['Mobility matters here', 'Restricted hip internal and external rotation limits both the punch and the guard. Ninety-ninety hip switches, cossack squats and deep squat holds, five minutes daily — Programs → Recovery has the routine.'],
+              ['The strength that supports it', 'Hip thrusts, rotational med ball throws and Pallof work are the gym expressions of everything on this page. They are in Programs → Explosive and Programs → Legs — this tab is the technique, that is the engine.'],
+            ]} />
+          </div>
+        )}
+
         {tab === 'drills' && (
           <div className="fade-up stagger space-y-3">
             <SectionTitle icon={Target} title="Technique drills" sub="How the technique in the other tabs actually gets into your body. Solo, on the bag, and with a partner." />
@@ -454,6 +536,120 @@ export default function Combat() {
               ['1-2×/week — positional sparring', 'Chosen deliberately around your worst position, which is the one you least want to pick.'],
               ['1×/week — free sparring', 'Controlled, with a stated goal, and a hard stop. This is a test of your training, not the training itself.'],
             ]} />
+          </div>
+        )}
+
+        {tab === 'arts' && (
+          <div className="fade-up stagger space-y-3">
+            <SectionTitle icon={Swords} title="The martial arts, honestly" sub="What each one actually teaches, what it costs you, and where to start." />
+
+            <div className="bg-gradient-to-br from-red-500/12 to-[#111] border border-red-500/25 rounded-2xl p-5">
+              <h3 className="font-black text-red-300 mb-2">The one question that sorts every art</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Does the school practise against a <span className="text-gray-200 font-semibold">fully resisting opponent
+                who is genuinely trying to stop you</span>? Arts that spar or roll live — boxing, wrestling, BJJ, judo,
+                Muay Thai, sambo — produce skill that works under pressure, because it is tested every session. Arts that
+                practise only against compliant partners produce skill that has never been tested, and the gap only shows
+                up when it is too late to matter. That single question tells you more than any lineage, belt or history.
+              </p>
+            </div>
+
+            <SectionTitle icon={Users} title="The grappling arts" />
+
+            <Fold title="Brazilian Jiu-Jitsu (BJJ)" tag="Ground fighting, submissions, the great equaliser" items={[
+              ['What it teaches', 'Controlling and submitting someone on the ground using position, leverage and joint locks or chokes. The core claim — that a smaller trained person can control a larger untrained one on the ground — is genuinely true, and it is the closest thing to a cheat code that martial arts offers.'],
+              ['Gi vs no-gi', 'Gi uses the jacket for grips: slower, more technical, more control-based. No-gi is faster, closer to MMA, and grips rely on the body itself. Do both if you can; if you only want MMA, weight it toward no-gi, but the gi will make your details sharper.'],
+              ['What a first class is like', 'Warm-up, technique of the day drilled with a partner, then rolling (live sparring) at the end. You will be submitted repeatedly by smaller people and it will be humbling. That is the normal, correct experience and it is not a sign you are bad at it.'],
+              ['Grading and timeline', 'White, blue, purple, brown, black, with stripes in between. Blue belt typically takes 1-2 years of consistent training; black belt commonly takes 10 or more. It is one of the slowest grading systems in martial arts, deliberately.'],
+              ['The honest limitation', 'On its own it does not address strikes, and going to the ground with multiple opponents or on concrete is a bad idea. Superb art, incomplete self-defence system by itself — which is exactly why it is one half of MMA rather than all of it.'],
+              ['Gear and cost', 'A gi (£60-120) or rashguard and shorts for no-gi, plus a mouthguard. Typically £60-100/month in the UK. Trim your nails — it is the most common thing new people get told off for.'],
+            ]} />
+
+            <Fold title="Wrestling" tag="The highest-leverage base in MMA" items={[
+              ['What it teaches', 'Taking someone down, staying on top, and refusing to be taken down. It also builds a conditioning base and a mentality that transfers to everything else — wrestling rooms are famously the hardest training environments in sport.'],
+              ['Why it matters most in MMA', 'Wrestling decides WHERE the fight happens: standing or on the ground. Whoever controls that usually controls the fight. If you are choosing one grappling base purely to be good at MMA, wrestling is the answer.'],
+              ['Freestyle, Greco-Roman, folkstyle', 'Freestyle allows attacks on the legs. Greco-Roman is upper-body only — brilliant for clinch and throws, and the best possible training for MMA cage work. Folkstyle (mostly American) emphasises control and riding on top.'],
+              ['The catch in the UK', 'Wrestling clubs are far less common here than in the US or Eastern Europe. Look for MMA gyms with a dedicated wrestling coach, university clubs, or a judo/sambo club as a substitute. This scarcity is the single biggest practical obstacle to a British MMA career.'],
+              ['What a session is like', 'Hard. Long warm-ups, drilling entries hundreds of times, live goes. Expect to be exhausted and expect mat burn. The technical rate of return per hour is very high.'],
+              ['Gear', 'Wrestling shoes, a mouthguard, and headgear if you value your ears. Very cheap by martial arts standards.'],
+            ]} />
+
+            <Fold title="Judo" tag="Throws, grip fighting, and the most transferable clinch skill there is" items={[
+              ['What it teaches', 'Throwing someone using their balance and momentum, plus grip fighting, pins and some submissions. A well-timed judo throw is the most spectacular thing in martial arts and it works because it uses their movement rather than your strength.'],
+              ['Why it complements everything', 'Judo owns the clinch — exactly the range between striking and the ground where most real altercations and many MMA exchanges happen. Judo players also learn to fall properly (ukemi), which is a genuinely useful life skill.'],
+              ['Timeline and grading', 'Coloured belts to black; black belt typically 4-6 years. Widely available in the UK through a well-organised club system, and usually cheaper than BJJ or MMA gyms.'],
+              ['The adaptation needed for MMA', 'Competition judo relies heavily on gi grips that do not exist in MMA, and its rules discourage leg grabs. The throws still work, but the entries have to be rebuilt around body locks and underhooks rather than sleeve and lapel.'],
+              ['Physical cost', 'You will be thrown, repeatedly, from day one. Learn to breakfall properly before anything else, and be honest with your coach about any back or shoulder issues.'],
+            ]} />
+
+            <Fold title="Sambo, catch wrestling and the rest" tag="Worth knowing they exist" items={[
+              ['Sambo', 'Soviet-developed blend of judo throws and submission grappling; Combat Sambo adds striking, which makes it about the closest single traditional art to MMA. Excellent leglock culture. Rare in the UK but outstanding if you find a real coach.'],
+              ['Catch wrestling', 'Submission wrestling with a brutal, pin-and-punish flavour. Historically important, currently niche, and quality varies enormously by coach.'],
+              ['Sumo', 'Genuinely elite at balance, leverage and explosive clinch entries, though the ruleset limits transfer. Nobody is suggesting you take it up — but do not laugh at the athleticism.'],
+              ['The general rule', 'Any grappling art where you regularly go live against someone resisting will make you meaningfully harder to handle. The specific label matters far less than whether the room does live rounds.'],
+            ]} />
+
+            <SectionTitle icon={Hand} title="The striking arts" />
+
+            <Fold title="Boxing" tag="The best hands in the world, and the most refined footwork" items={[
+              ['What it teaches', 'Punching, defensive head movement, footwork and distance management at a level no other art touches. Boxers hit harder and are far harder to hit than practitioners of arts that split their attention across more weapons.'],
+              ['Why it is the best striking starting point', 'Fastest route to being genuinely dangerous with your hands, and its footwork and distance sense transfer to everything. Most great MMA strikers have a boxing layer underneath whatever else they do.'],
+              ['The MMA adjustment', 'Boxing stance is narrower and more side-on than an MMA stance, which is fine for punching and terrible for defending takedowns and leg kicks. Learn boxing, then widen and square the stance for MMA — do not skip the adjustment.'],
+              ['What a session looks like', 'Shadowboxing, bag work, pads, technical sparring. A good boxing gym will not let you spar hard for weeks, and that is a sign of quality, not gatekeeping.'],
+              ['The cost, honestly', 'Head trauma. Boxing sparring means repeated head impacts, and that risk is cumulative. Control the dose deliberately — technical sparring, good headgear where appropriate, and never spar concussed.'],
+            ]} />
+
+            <Fold title="Muay Thai and kickboxing" tag="Eight limbs, and the best clinch in striking" items={[
+              ['What Muay Thai teaches', 'Punches, elbows, knees, kicks and the plum clinch. Shin conditioning, brutally effective low kicks, and a clinch game that no other striking art has. It is arguably the most complete stand-up striking system there is.'],
+              ['Why it fits MMA so well', 'Leg kicks, knees and clinch knees are all legal in MMA and all under-defended by pure boxers. The upright stance and heavy kicks do have to be adapted — a heavily loaded lead leg is a takedown invitation.'],
+              ['Kickboxing (Dutch style especially)', 'Punch-kick combination heavy, with less clinch and no elbows. Dutch-style kickboxing has some of the best combination striking in the world and is often more available locally than authentic Muay Thai.'],
+              ['What to expect early', 'Sore shins, and a lot of pad work. Shin conditioning is a slow adaptation through repeated moderate contact on pads and bags — not by hitting trees or bats, which is folklore that will just injure you.'],
+              ['Gear', 'Shin guards, gloves, mouthguard, and hand wraps. Around £100 to get started properly.'],
+            ]} />
+
+            <Fold title="Karate, Taekwondo and the traditional strikers" tag="Real skills, often oversold, occasionally underrated" items={[
+              ['What is genuinely good', 'Kyokushin karate spars hard with full-contact body shots and produces genuinely tough strikers. Point karate produces exceptional explosive distance closing — Lyoto Machida and Stephen Thompson made that work at the highest level of MMA. Taekwondo produces the best kicking speed and variety anywhere.'],
+              ['What is oversold', 'Styles where sparring is light point-tag or non-existent, where kata is the main content, or where the syllabus is built around grading fees. These produce fitness and discipline — real benefits — but not fighting skill, and it is worth being honest with yourself about which you are buying.'],
+              ['The distance question', 'Traditional strikers often excel at long range and struggle badly once someone closes in and clinches, because the ruleset never made them solve that problem. Anything you learn here needs a grappling layer added.'],
+              ['How to judge a specific club', 'Watch a class before joining. Is there live sparring against resistance? Do senior students get hit and have to adapt? Is the instructor willing to spar? Those answers matter more than the style name on the door.'],
+            ]} />
+
+            <Fold title="The self-defence question, and what to be sceptical of" tag="Said plainly, because this is where people get sold things" items={[
+              ['Arts that do not pressure-test', 'Aikido, wing chun and similar arts contain interesting principles but are typically practised with compliant partners, and their practitioners have not performed well when tested against resisting opponents. Train them if you enjoy them — just do not mistake them for a fighting skill you can rely on.'],
+              ['"Too deadly to spar"', 'This claim is always a red flag. Eye gouges and groin strikes are not a system, and every effective art has found a safe way to practise its techniques against resistance. If a school cannot pressure-test anything, it cannot verify anything.'],
+              ['Krav Maga and reality-based systems', 'Quality varies enormously. Good schools pressure-test drills against resisting partners and are genuinely useful; poor ones are choreography with aggressive branding. The live-resistance test sorts them.'],
+              ['McDojo warning signs', 'Long contracts, expensive mandatory gradings on a fixed schedule, black belts awarded to young children, no sparring, an instructor who never rolls or spars, and claims of unbeaten lineages.'],
+              ['What actually works for self-defence', 'Awareness, de-escalation and leaving. Then, if it is genuinely unavoidable: the ability to punch, to not be taken down, to get back to your feet, and the fitness to run. Boxing plus wrestling covers most of that. This is also stated in the Strategy tab, and it is worth repeating.'],
+              ['Weapons and multiple attackers change everything', 'No unarmed art solves those reliably. Anyone claiming otherwise is selling something. Distance and exit are the answer.'],
+            ]} />
+
+            <SectionTitle icon={Target} title="Choosing and starting" />
+
+            <Block title="What to train, in what order" items={[
+              ['If you want to do MMA', 'Wrestling or BJJ as your base, plus boxing or Muay Thai for striking, then MMA classes to integrate them. Two to three sessions a week of each is plenty at the start — the integration is a skill in itself and it is easy to become two separate half-fighters.'],
+              ['If you want one art only', 'BJJ for the deepest technical rabbit hole and the lowest injury rate; boxing for the fastest route to being genuinely dangerous; Muay Thai for the most complete striking; wrestling for the most transferable athleticism.'],
+              ['If you are starting from zero and unsure', 'Do a month of BJJ and a month of boxing, then pick the room you actually enjoyed. Consistency beats optimal selection by a wide margin — the best art is the one you will still be doing in three years.'],
+              ['Order within a session', 'Technical work while fresh, hard rounds later. Order within a week: hard sparring on a day you are recovered, not the day after heavy legs. The full scheduling logic is in Programs → The Week.'],
+              ['How long until you are competent', 'Roughly 6-12 months of twice-weekly training before you stop feeling completely lost, 2-3 years before you are genuinely useful, and it never stops after that. Anyone promising faster is selling.'],
+              ['Do not gym-hop', 'One good coach for two years beats five gyms for four months each. Depth compounds; breadth at the start just produces confusion.'],
+            ]} />
+
+            <Block title="How to pick a gym — the checklist" items={[
+              ['Watch a class first', 'Any decent gym will let you. Look for live sparring, people of varied ages and sizes, and beginners being coached rather than punished.'],
+              ['Look at how sparring is run', 'Is intensity controlled and agreed? Are new people protected? A gym where beginners get beaten up is not tough, it is badly run, and it has a high injury rate and a revolving door.'],
+              ['Check the coach\'s actual record and lineage', 'For BJJ, who awarded their black belt. For boxing, who they have trained. Not because credentials are everything, but because the fraudulent end of this industry is large.'],
+              ['Cleanliness is a real safety issue', 'Mats cleaned daily, a no-training-with-skin-infections rule that is enforced. Ringworm and staph are common in badly run grappling gyms.'],
+              ['Trial before contract', 'Almost all good gyms offer a free or cheap trial week. Anyone demanding a 12-month commitment before you have trained once is telling you something.'],
+              ['The vibe test', 'You will spend hours in close physical contact with these people. If the room feels egotistical or unsafe on the trial, it will not improve once you have paid.'],
+            ]} />
+
+            <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
+              <p className="text-gray-400 text-xs leading-relaxed">
+                The technique tabs here are references for what you learn in those rooms, not a substitute for them.
+                Nothing on this page replaces a coach watching you move — particularly for throws and takedowns, where
+                the errors that matter are ones you cannot feel yourself.
+              </p>
+            </div>
           </div>
         )}
 
