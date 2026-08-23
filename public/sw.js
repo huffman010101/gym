@@ -21,7 +21,7 @@ try {
 // Bump this on any release that must invalidate cached assets. The activate
 // handler deletes all caches that are not this one, so a bump is the only
 // reliable way to evict stale hashed JS from a device pinned to an old build.
-const CACHE = 'gymforge-v6';
+const CACHE = 'gymforge-v7';
 
 // Replaced at build time by scripts/inject-sw-precache.mjs
 const PRECACHE = self.__GYMFORGE_PRECACHE__ || ['./', './index.html'];

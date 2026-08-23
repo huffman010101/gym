@@ -252,6 +252,62 @@ export default function Programs() {
               ['Sunday off, properly', 'Not a light gym day. Muscle is built during recovery, and this is the day that makes the other six count.'],
             ]} />
 
+            <div className="bg-gradient-to-br from-orange-500/12 to-[#111] border border-orange-500/25 rounded-2xl p-5">
+              <h3 className="font-black text-orange-300 mb-2">Folding the fight and football power work into this split</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                The Combat and Football sections each describe the qualities an athlete needs — force production,
+                rate of force development, elastic strength, rotational power, deceleration. Those are
+                <span className="text-gray-200 font-semibold"> qualities, not extra sessions</span>. Almost all of them
+                already have a home in the five days you are running. The mapping below adds nothing to your week
+                except intent and a handful of finishers, because the fastest way to ruin this programme is to bolt a
+                second programme onto it.
+              </p>
+            </div>
+
+            <Fold title="What each quality maps onto — day by day" tag="No new sessions, just the right work on the right day" items={[
+              ['Maximal strength → Big Leg Day (Tue) + Pull (Wed)', 'Already there. Squat or trap bar heavy, hip thrusts, weighted pull-ups. This is the base that everything explosive is built on, and it is the reason the leg day sits early in the week while you are fresh.'],
+              ['Rate of force development → Explosive Day (Thu)', 'Already there: med ball throws, box and broad jumps, sprints. The only thing to change is the strictness of the rule — 100% intent, full recovery, stop when quality drops. This day is the fighter/footballer day.'],
+              ['Elastic / reactive strength → Explosive Day (Thu), first 10 minutes', 'The commonly missing piece. Pogo hops and low hurdle hops before the heavier jumps, 3×8 each with short stiff contacts. Costs five minutes and is what makes footwork, re-shots and cutting cheap instead of exhausting.'],
+              ['Rotational power → Push (Mon) + Explosive (Thu)', 'Push day already finishes with rotational core; Thursday opens with rotational throws. Between them you get one heavy-intent rotational session and one power-speed one, which is the right split for punching and shooting power.'],
+              ['Trunk stiffness / anti-rotation → Pull (Wed) + carries', 'Pallof holds and heavy suitcase carries are already on Pull day. Treat them as a main lift, not a cooldown — this is the transmission that decides whether hip force actually reaches your fist or your foot.'],
+              ['Deceleration and landing → Explosive Day (Thu), added', 'The genuinely missing quality. Add drop-and-stick landings and lateral bounds with a 2-second held landing. Braking ability IS agility, and it is also the main protection against the knee and ankle injuries that cutting sports cause.'],
+              ['Neck and grip → Pull (Wed)', 'Already there. Keep them if you do any combat sport — they are the two things that no other day in the week covers.'],
+              ['Aerobic base → Sat/Sun, easy, separate from lifting', 'Zone 2 work is not a gym session and should not feel like one. 30-45 min easy on a rest-ish day. It powers recovery between bursts, which is what round three and the 80th minute actually depend on.'],
+            ]} />
+
+            <Fold title="The four finishers worth actually adding" tag="Total added time: about 20 minutes across the whole week" items={[
+              ['Mon (Push) — Med ball chest pass, 3×5', 'Explosive horizontal pushing before your rotational core. Two minutes, and it is the pressing equivalent of a jump — pure intent, no fatigue cost.'],
+              ['Wed (Pull) — Heavy suitcase carry, 3×30m each side', 'If it is not already the last thing you do, make it so. Anti-lateral-flexion strength plus grip plus breathing under load.'],
+              ['Thu (Explosive) — Pogos before the jumps, drop-and-stick after', 'The elastic and braking bookends described above. Five minutes total, and they are the two qualities the day was missing.'],
+              ['Fri (Shoulders) — Overcoming isometrics, 3×5s', 'Push as hard as possible against an immovable pin or a locked-out position. Builds the ability to produce maximum tension without moving — the quality behind feeling immovable in a clinch or a duel, and almost nobody trains it.'],
+              ['That is the whole addition', 'Four finishers. Do not add more. If you find yourself wanting a sixth and seventh session to fit everything in, that is the signal you have crossed from training into collecting.'],
+            ]} />
+
+            <Fold title="If you also train MMA and play football" tag="The honest version, including what has to give" items={[
+              ['Count the hard sessions honestly', 'Five gym days plus two MMA sessions plus a match is eight hard sessions. That is more than most people recover from, and the failure mode is not dramatic — it is a slow flattening where nothing gets worse but nothing improves either.'],
+              ['Your sport IS the explosive day', 'A football match or a hard sparring session contains sprinting, cutting, jumping and rotational output. If you did either this week, cut the Thursday sprints and lateral bounds and keep only the throws, jumps and the isometric/carry work.'],
+              ['Drop to four gym days before you drop quality', 'Push, Big Leg Day, Pull, Shoulders — and let sport cover explosive entirely. Four good days beats six mediocre ones every time, and this is the version to run in a busy block or a fight camp.'],
+              ['Never lift heavy legs the day before a match or hard sparring', 'The 48-hour rule. Big Leg Day and the Explosive day both need two clear days before anything competitive.'],
+              ['Order within a day: skill first, always', 'If a sport session and a lift land on the same day, do the technical session while fresh and lift afterwards, ideally separated by a few hours. Skill practised tired builds tired-looking skill.'],
+              ['Fight camp changes the whole calculation', 'In camp, lifting drops to two short maintenance sessions — fewer sets, same intensity — because the job is holding onto strength while sparring volume climbs. The full camp structure and taper is in Combat → Strength & Power; this split is your off-camp default, not your camp plan.'],
+            ]} />
+
+            <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
+              <p className="text-gray-400 text-xs leading-relaxed mb-2">
+                The reasoning behind these qualities — the kinetic chain, effective mass, the five qualities that transfer,
+                energy systems and fight-camp periodisation — lives in the Combat section rather than being repeated here.
+                This tab is the schedule; that one is the why.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <Link to="/combat?tab=gym" className="inline-block text-[11px] font-bold bg-red-500/10 border border-red-500/25 text-red-200 px-3 py-1.5 rounded-full">
+                  Combat &rarr; Strength &amp; Power
+                </Link>
+                <Link to="/football?tab=speed" className="inline-block text-[11px] font-bold bg-emerald-500/10 border border-emerald-500/25 text-emerald-200 px-3 py-1.5 rounded-full">
+                  Football &rarr; Speed
+                </Link>
+              </div>
+            </div>
+
             <Block title="Weekly volume per muscle" items={[
               ['Chest — 12-14 hard sets', 'All on Push. Comfortably inside the 10-20 set range that research associates with maximum growth.'],
               ['Back — 14-16 sets', 'Pull day, plus indirect work from rows and carries elsewhere. Back tolerates and benefits from high volume.'],
@@ -442,6 +498,20 @@ export default function Programs() {
                 { name: 'CORE — Sport rotational', sets: 'see Core tab', why: 'Med ball slams and rotational throws for reps. Same pattern as your sport, trained for power rather than size.' },
               ]}
             />
+            <Block title="The three additions that complete this day" items={[
+              ['Pogo hops — 3×8, FIRST, before the jumps', 'Straight-ish legs, bouncing on the balls of the feet, minimal knee bend, shortest possible ground contact. This is elastic/reactive strength — the tendon quality that returns energy on every sprint step, cut and re-shot. It goes first because it also primes the nervous system for everything after it. Progress to single-leg once double-leg contacts are quick and silent.'],
+              ['Drop-and-stick landings — 3×5, after the jumps', 'Step off a low box (30cm), land in a quarter squat and FREEZE for two full seconds. Knees track over the toes, no inward collapse, no sound. This is deceleration training — the ability to absorb force, which is what actually limits how fast you can change direction, and the main protection against the knee and ankle injuries that cutting sports cause. If you cannot land silently and hold it, you have no business doing depth jumps yet.'],
+              ['Sled push or heavy march — 3×20m, at the end', 'Heavy enough that you are grinding, not sprinting. This trains impulse — big force sustained over a few tenths of a second while the feet keep driving — which is exactly what a takedown, a clinch drive and a shoulder-to-shoulder duel are. No eccentric component, so it costs almost nothing in soreness. A heavy loaded march or a hill walk with a weight vest works if you have no sled.'],
+            ]} />
+
+            <Fold title="Two versions of this day — pick by what you are training for" tag="Same structure, different emphasis" items={[
+              ['Football bias', 'Keep the full sprint work: acceleration sprints and flying sprints are the point. Lateral bounds and drop-and-stick get an extra set. Cut the med ball throws to 2 sets. Add reactive cuts — a partner points or calls a direction and you go — because pre-planned cone work never trains the decision half.'],
+              ['Fight bias', 'Med ball work leads and gets 4-5 sets: rotational throws, shot-put throws and overhead slams. Keep the broad jumps (horizontal power = shot and sprawl power), cut flying sprints to 2, and add the sled push, which is the closest gym analogue to driving a takedown through someone.'],
+              ['Both in the same week?', 'You do not need two explosive days. Run one, biased toward whichever sport you actually played or trained less of that week — the sport itself supplies the other. Two nervous-system days plus five gym days plus sport is how people end up chronically flat.'],
+              ['The warm-up does not change', 'Regardless of bias, the full warm-up is non-negotiable before any sprinting. Cold hamstrings and maximum sprints is the single most reliable way to tear something.'],
+              ['Order never changes either', 'Most explosive and most technical first, always: pogos → throws → jumps → sprints → bounds/landings → sled. Anything fatiguing done early ruins everything after it, and the whole day is built on being fresh.'],
+            ]} />
+
             <Fold title="Why a lighter athlete feels denser and stronger than you" tag="The thing you noticed with your mate — explained" items={[
               ['First, the unglamorous truth: it is mostly body fat', 'The single biggest reason someone feels hard and muscular to the touch is how little fat sits between your hand and their muscle. The exact same arm under 8mm of subcutaneous fat versus 18mm feels like a completely different arm. He is not necessarily carrying more muscle than you — you may simply be feeling yours through a thicker layer. If you want to feel like that, getting leaner will do more than any exercise change.'],
               ['Second: resting tone from years of sprinting', 'Sport at speed builds genuinely stiffer tendons, fascia and connective tissue, plus a higher baseline of resting neural drive. That is what people are actually describing as "dense" — it comes from thousands of hours of sprinting, cutting, jumping and landing, not from lifting. It is why footballers, sprinters and gymnasts all feel similar and bodybuilders often do not.'],

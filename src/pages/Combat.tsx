@@ -641,14 +641,27 @@ export default function Combat() {
 
             <SectionTitle icon={Zap} title="The plan" sub="How it fits together across a week and across a camp." />
 
-            <Block title="Weekly template — realistic amateur version" items={[
-              ['Monday — Skill (striking) + Max strength', 'Technical striking session, then lift 2-3 hours later if you can: trap bar, hip thrust, weighted chin, carries. Hard lifting on the same day as hard skill work is fine; hard lifting the day BEFORE hard sparring is not.'],
-              ['Tuesday — Skill (grappling) + Zone 2', 'Wrestling or BJJ, then easy aerobic work, or move the Zone 2 to the morning. Keep it genuinely easy.'],
-              ['Wednesday — Power + neck/trunk', 'Med ball throws, trap bar jumps, bounds, then Pallof and neck work. Short session — 40 minutes done properly beats 90 minutes of grinding.'],
-              ['Thursday — Skill + technical drilling', 'Lower intensity. This is the day to drill the thing you were bad at on Monday and Tuesday rather than adding more fatigue.'],
-              ['Friday — Sparring', 'The most important session of the week, so everything before it is arranged to leave you fresh for it. Controlled intensity, specific goals, not a war.'],
-              ['Saturday — Max strength #2 + fight conditioning', 'Squat, press, Nordics, Copenhagen, then hard rounds or intervals if you recovered well from Friday. If you did not, drop the conditioning — that decision is not weakness, it is the plan working.'],
-              ['Sunday — Full rest or a walk', 'Genuinely off. Adaptation happens here, and skipping rest days is the most common way keen amateurs stall.'],
+            <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-4">
+              <p className="text-gray-300 text-sm font-semibold mb-1.5">Your weekly schedule lives in Programs, not here</p>
+              <p className="text-gray-400 text-xs leading-relaxed mb-3">
+                You already run a Push / Big Leg Day / Pull / Explosive / Shoulders split. Everything above is a set of
+                QUALITIES, and almost all of them already have a home in those five days — so the answer is not a second
+                programme competing with the first. Programs → The Week maps each quality onto the day it belongs on,
+                lists the four finishers worth adding, and covers what to cut when MMA and football are also in the week.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <Link to="/programs?tab=week" className="inline-block text-[11px] font-bold bg-orange-500/10 border border-orange-500/25 text-orange-200 px-3 py-1.5 rounded-full">
+                  Programs &rarr; The Week
+                </Link>
+                <Link to="/programs?tab=explosive" className="inline-block text-[11px] font-bold bg-orange-500/10 border border-orange-500/25 text-orange-200 px-3 py-1.5 rounded-full">
+                  Programs &rarr; Explosive Day
+                </Link>
+              </div>
+            </div>
+
+            <Block title="The two rules that decide whether it works alongside the split" items={[
+              ['Never lift heavy legs within 48 hours of hard sparring', 'Big Leg Day and the Explosive day both need two clear days before anything competitive. This is the constraint that actually shapes the week — arrange everything else around it.'],
+              ['Skill first, lifting second, on any shared day', 'If a session and a lift land on the same day, do the technical work fresh and lift after, separated by a few hours where possible. Skill practised tired builds tired-looking skill.'],
             ]} />
 
             <Fold title="Fight camp structure — how a pro periodises it" tag="What changes as the fight gets closer" items={[
