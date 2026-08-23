@@ -4,15 +4,16 @@ import { ArrowLeft, Shield, Swords, Hand, AlertTriangle, Target, Users, Zap, Che
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 
-type Tab = 'fundamentals' | 'takedowns' | 'ground' | 'chokes' | 'strategy' | 'gym';
+type Tab = 'fundamentals' | 'takedowns' | 'ground' | 'chokes' | 'drills' | 'strategy' | 'gym';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'fundamentals', label: 'Fundamentals' },
   { id: 'takedowns', label: 'Takedowns' },
   { id: 'ground', label: 'Ground Game' },
   { id: 'chokes', label: 'Submissions' },
+  { id: 'drills', label: 'Drills' },
   { id: 'strategy', label: 'Strategy' },
-  { id: 'gym', label: 'Gym' },
+  { id: 'gym', label: 'Strength & Power' },
 ];
 
 function Step({ n, title, desc }: { n: number; title: string; desc: string }) {
@@ -56,6 +57,49 @@ function Technique({ name, tag, steps, keyDetail }: {
   );
 }
 
+function Block({ title, items }: { title: string; items: [string, string][] }) {
+  return (
+    <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
+      <h3 className="font-bold text-gray-100 mb-3">{title}</h3>
+      <div className="space-y-3">
+        {items.map(([t, d]) => (
+          <div key={t}>
+            <p className="font-semibold text-sm text-gray-200">{t}</p>
+            <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Fold({ title, tag, items }: { title: string; tag: string; items: [string, string][] }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="bg-[#111] border border-white/8 rounded-2xl overflow-hidden">
+      <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between px-5 py-4 text-left">
+        <div>
+          <p className="font-bold text-gray-100">{title}</p>
+          <p className="text-xs text-red-400/70 mt-0.5">{tag}</p>
+        </div>
+        <ChevronDown size={18} className={`text-gray-600 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
+      </button>
+      <div className={`collapse-wrap ${open ? 'open' : ''}`}>
+        <div className="collapse-inner">
+          <div className="collapse-content px-5 pb-5 space-y-3">
+            {items.map(([t, d]) => (
+              <div key={t}>
+                <p className="font-semibold text-sm text-gray-200">{t}</p>
+                <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SectionTitle({ icon: Icon, title, sub }: { icon: typeof Shield; title: string; sub?: string }) {
   return (
     <div className="mb-4 mt-8 first:mt-0">
@@ -72,7 +116,7 @@ export default function Combat() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['fundamentals', 'takedowns', 'ground', 'chokes', 'strategy', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'fundamentals';
+    return (['fundamentals', 'takedowns', 'ground', 'chokes', 'drills', 'strategy', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'fundamentals';
   });
 
   return (
@@ -334,6 +378,85 @@ export default function Combat() {
         )}
 
         {/* ============ STRATEGY ============ */}
+        {tab === 'drills' && (
+          <div className="fade-up stagger space-y-3">
+            <SectionTitle icon={Target} title="Technique drills" sub="How the technique in the other tabs actually gets into your body. Solo, on the bag, and with a partner." />
+
+            <div className="bg-gradient-to-br from-red-500/12 to-[#111] border border-red-500/25 rounded-2xl p-5">
+              <h3 className="font-black text-red-300 mb-2">The rule that decides whether drilling works</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Reps do not make permanent — <span className="text-gray-200 font-semibold">correct reps against progressively
+                more resistance</span> make permanent. Mindless volume on a bag or a compliant partner builds a technique
+                that evaporates the moment someone fights back. Every drill below has a stated intent and a way to add
+                resistance. One focus per round, corrected between rounds, is worth more than an hour of freestyling.
+              </p>
+            </div>
+
+            <Block title="Shadowboxing — the highest-value thing you can do alone" items={[
+              ['Do it with an opponent in your head', 'The single difference between useful and useless shadowboxing. Picture a specific person at a specific range, react to what they do, and let their reactions dictate yours. Flailing at air builds bad habits at speed.'],
+              ['Round 1 — footwork only', 'No punches. Move in, out and at angles, pivot off the lead, cut angles off the rear. Feet only, checked in a mirror or on film for whether they ever cross or go flat.'],
+              ['Round 2 — one technique, 50+ reps', 'The thing you were worst at this week. Jab only, or double jab-cross, or level change to shot. Slow at first, speed as it cleans up.'],
+              ['Round 3 — defence and counters', 'Slip, roll, catch, frame, then counter immediately. React to imagined attacks so the defensive movement always ends in an offensive one, because that is the habit you want in a fight.'],
+              ['Round 4 — free, at fight pace', 'Everything, at intent, with clean breathing. Exhale on every strike.'],
+              ['Film one round a week', 'On your phone, side-on. You will see three things you cannot feel: your chin lifting, your hands dropping on the way back, and your feet stopping when you punch. That is a full month of corrections in ninety seconds of footage.'],
+            ]} />
+
+            <Block title="Bag work — protocols, not just hitting" items={[
+              ['Heavy bag — power rounds', '3 min: single hard shots with full sequencing and full reset between them. Hit through the bag, not at it. Feel the rear heel spin and the floor drive. Quality over quantity: 30 genuinely hard, correct shots beats 300 arm punches.'],
+              ['Heavy bag — volume rounds', '3 min: combinations at 70%, continuous movement, never square up. This is conditioning that is also skill work — the specific quality that keeps your output up in round three.'],
+              ['Double-end bag — timing and accuracy', 'The best solo tool for timing, because it moves unpredictably and punishes a lazy guard by hitting you back. Jab, slip, counter. 10 minutes here does more for accuracy than an hour on the heavy bag.'],
+              ['The bag does not teach distance', 'A bag never moves away or hits back, so range and timing must be built with a partner or a double-end bag. This is why bag-only fighters look sharp on pads and get outboxed in sparring.'],
+              ['Kick and knee rounds', 'Round kicks with the shin, turning the standing foot fully so the hip clears. Check that you return to stance every time rather than admiring the kick — the return is the part that gets punished.'],
+              ['Wall drills for elbows and clinch strikes', 'Elbows and short knees into pads or a wall pad at close range, from a real clinch position with the head controlled, not standing off it.'],
+            ]} />
+
+            <Block title="Wrestling drills you can do alone" items={[
+              ['Penetration step — 3×20 each side', 'From stance: level change with the CHEST UP, drive the lead knee down and forward between their feet, back knee follows, stand up through them. Do it slowly and correctly first. This one movement is most of a double leg and most of a single.'],
+              ['Sprawl reps — 3×15', 'Hips down and back, legs kicked out behind, chest pressure onto the imagined head. Then immediately circle to an angle rather than staying square. Sprawls that stop at the sprawl teach you to survive, not to counter.'],
+              ['Shot-to-sprawl — 3×10', 'Alternate: shoot, recover, sprawl, recover. This is the actual rhythm of a wrestling exchange and it is also brutal conditioning that costs no equipment.'],
+              ['Stand-ups and hip heists — 3×10 each side', 'From bottom: post, frame, hip heist to your feet without turning your back. The most under-drilled skill in MMA, and the one that decides whether being taken down costs you a round.'],
+              ['Wall or dummy shots', 'A grappling dummy or a padded wall lets you drill the finish, not just the entry. If you have neither, drill the entry on air, but be aware the finish is the part you are missing.'],
+              ['Duck-unders and arm drags on a post', 'A door frame or heavy bag works as a stand-in for a body. Arm drag, duck under, take the back position. Reps here transfer directly to the clinch.'],
+            ]} />
+
+            <Block title="Ground solo drills — 10 minutes daily beats an hour weekly" items={[
+              ['Shrimping / hip escapes — 3×10 each side', 'The single most important solo movement in grappling. On your side, frame, push off the floor and move your hips AWAY. Almost every escape from bottom is this movement.'],
+              ['Bridging — 3×10 each side', 'Drive through the heels, lift the hips high, turn to the shoulder. Combine with a shrimp for the full upa escape from mount.'],
+              ['Technical stand-up — 3×10 each side', 'Post on one hand and the opposite foot, hips up, sweep the leg through, stand facing them. How you get up in a fight without giving up your back.'],
+              ['Granby rolls and inversions — 3×5', 'Rolling over the shoulder, never the head or neck. Builds the spinal mobility that makes guard retention possible. Start slowly and stop if the neck loads at all.'],
+              ['Guard retention drills', 'On your back, legs in the air, moving from one guard position to another continuously for 60 seconds. Unglamorous and directly responsible for not getting passed.'],
+              ['Movement flow — 3 min continuous', 'String them together: shrimp, bridge, technical stand-up, sit-through, repeat. Also excellent aerobic work that carries no impact cost.'],
+            ]} />
+
+            <Block title="Partner drills — where the real learning happens" items={[
+              ['Positional sparring — the most underused tool', 'Start in a specific position (bottom mount, back taken, pressed against the cage) and go live from there, reset on escape or submission. Fixes bad positions vastly faster than free rolling, because free rolling lets you avoid your weaknesses.'],
+              ['Constraint games', 'Sparring with an artificial rule: jab only, no hands (kicks and clinch only), one partner attacking and the other only defending, or grappling with one hand behind the back. Constraints force problem-solving that free sparring lets you dodge.'],
+              ['Flow rolling at 30%', 'Continuous, cooperative movement with no muscling and no finishing. Builds transitions, timing and volume of exposure without the cost. Most technical improvement in grappling happens here rather than in hard rounds.'],
+              ['Pad work with call-outs', 'The holder calls combinations reactively rather than counting out a fixed sequence, and occasionally throws back. Reactive pads train timing; memorised pad combos mostly train pad combos.'],
+              ['Takedown entries against light resistance', 'Partner gives 30-50% resistance and is allowed to defend. Ramp the resistance over weeks. A takedown that only works on a compliant partner is not a takedown yet.'],
+              ['Timed hard sparring, planned in advance', 'Decide the intensity and the goal BEFORE the round starts, and agree it with your partner. "Rounds where nobody knows the intensity" is how injuries and unnecessary head trauma happen.'],
+            ]} />
+
+            <Fold title="How to actually learn a new technique" tag="The sequence that makes it stick" items={[
+              ['1. Understand the mechanism', 'Why does it work — what does it take away, where does the force go? A technique you can explain is one you can adapt when it half-fails. One you only copied is one you abandon the first time it does not work.'],
+              ['2. Slow correct reps, ~50 of them', 'Deliberately slow, no resistance, checking each position. Speed at this stage just builds an error faster. Get corrected by a coach here, before it is habitual.'],
+              ['3. Add resistance in steps', '30% resistance, then 50%, then 70%. Each step will break the technique somewhere new — that is the point, and the break tells you exactly what to fix.'],
+              ['4. Live, in a constrained round', 'Positional sparring where you can only attempt that technique. Expect it to fail a lot at first.'],
+              ['5. Free sparring, unplanned', 'It is genuinely yours when it appears without you deciding to use it. That is typically hundreds of reps over weeks, not one session.'],
+              ['Two or three techniques at a time, not ten', 'Adding a new move every session is why people have a hundred half-techniques and no weapons. Pick a small number, drill them to the point of automation, then add. Depth beats breadth in every combat sport.'],
+            ]} />
+
+            <Block title="Structuring your own week of drills" items={[
+              ['Daily — 10 min solo ground movement', 'Shrimps, bridges, technical stand-ups. Costs nothing, needs no partner, and compounds.'],
+              ['3×/week — 15 min shadowboxing', 'Structured in rounds as above, filmed once a week.'],
+              ['3×/week — bag or pad work', 'One power round, one volume round, one defensive round minimum.'],
+              ['2-3×/week — partner drilling at the gym', 'Technique of the week, ramped through the resistance steps.'],
+              ['1-2×/week — positional sparring', 'Chosen deliberately around your worst position, which is the one you least want to pick.'],
+              ['1×/week — free sparring', 'Controlled, with a stated goal, and a hard stop. This is a test of your training, not the training itself.'],
+            ]} />
+          </div>
+        )}
+
         {tab === 'strategy' && (
           <div className="fade-up stagger space-y-3">
             <SectionTitle icon={Target} title="Fighting Bigger & Stronger" sub="Size is real — but it's rented, and technique owns the building." />
@@ -434,35 +557,126 @@ export default function Combat() {
         {/* ============ GYM ============ */}
         {tab === 'gym' && (
           <div className="fade-up stagger space-y-3">
-            <SectionTitle icon={Zap} title="Strength & Conditioning for Fighters" sub="Technique wins exchanges — strength and a bigger engine let you win the fight." />
-            <div className="bg-[#111] border border-white/8 rounded-2xl p-5 space-y-3">
-              {[
-                ['Lower body power', 'Squats or trap bar deadlifts 4×5, hip thrusts 3×6. Takedowns, sprawls and kicks all come from the hips and legs — a weak lower body loses scrambles.'],
-                ['Explosiveness', 'Box jumps or broad jumps 3×5 twice a week. Converts strength into the burst you need to shoot a takedown or explode off the cage.'],
-                ['Grip & pulling strength', 'Pull-ups, rows, and dead hangs 3×/week. Grappling is a grip fight — the person who tires first in the clinch loses control.'],
-                ['Neck strengthening', 'Neck bridges and resisted neck rotations 2×/week — protects you from strikes and chokes and adds real toughness in the clinch.'],
-                ['Core under rotation', 'Landmine rotations and Pallof presses 3×8 each side. Punching power and hip-driven sweeps both run through a braced, rotating core.'],
-              ].map(([t, d]) => (
-                <div key={t}>
-                  <p className="font-bold text-sm text-gray-200">{t}</p>
-                  <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
-                </div>
-              ))}
+            <SectionTitle icon={Zap} title="Force production for fighting" sub="Where power actually comes from, what transfers, and the plan that builds it." />
+
+            <div className="bg-gradient-to-br from-red-500/12 to-[#111] border border-red-500/25 rounded-2xl p-5">
+              <h3 className="font-black text-red-300 mb-2">Read this first — the one idea that organises everything</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                You do not punch with your arm, and you do not lift someone with your back. Every hard thing you do in a
+                fight is <span className="text-gray-200 font-semibold">force pushed into the floor, passed up through the
+                hips and trunk, and delivered out of a limb</span>. That means three separate qualities have to be trained,
+                and they are not the same thing: how much force you can produce at all (max strength), how fast you can
+                express it (rate of force development), and how well your trunk transmits it instead of leaking it
+                (stiffness and anti-rotation). A stronger bench does almost nothing for your cross. A faster hip turn
+                through a braced trunk does.
+              </p>
             </div>
-            <SectionTitle icon={Zap} title="Weekly Split (in-season friendly)" />
-            <div className="bg-[#111] border border-white/8 rounded-2xl p-5 space-y-3">
-              {[
-                ['Mon — Heavy strength', 'Squats/deadlifts + pull-ups + core. Full recovery between sets — this is the base everything else builds on.'],
-                ['Wed — Power & explosiveness', 'Jump training + medicine ball throws + neck work. Short, sharp, high intent — never train power tired.'],
-                ['Fri — Conditioning', '4×4 min hard intervals or 6×30s max-effort bag rounds with 90s rest. Fight rounds are decided by whoever\'s legs and hands still work in round 3.'],
-                ['Recovery matters', 'Sleep 8h+, especially after sparring days. Strength and skill both compound off recovery — grinding without it just builds injuries.'],
-              ].map(([t, d]) => (
-                <div key={t}>
-                  <p className="font-bold text-sm text-gray-200">{t}</p>
-                  <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
-                </div>
-              ))}
-            </div>
+
+            <Fold title="The kinetic chain — how a punch actually generates force" tag="The physics, because it changes what you train" items={[
+              ['It starts at the floor', 'Ground reaction force. You push into the mat with the rear leg, and the floor pushes back. No floor contact, no power — which is exactly why punches thrown off the back foot, jumping, or while being walked backwards have almost nothing on them.'],
+              ['Proximal to distal sequencing', 'Force travels legs → hips → trunk → shoulder → fist, each segment accelerating and then decelerating to pass energy to the next, like a whip. The hand is the last and lightest link. Elite strikers are not stronger in the arm — they sequence better and time the segments so the peaks stack.'],
+              ['Rotation is the engine', 'Rear leg drive turns into hip rotation, hip rotation into trunk rotation. The single biggest contributor to cross and hook power is hip and trunk rotational velocity. This is why rotational medicine ball work and anti-rotation core work matter far more for a fighter than crunches ever will.'],
+              ['Effective mass — the bit people miss', 'Force at impact depends on the mass BEHIND the fist at the moment of contact. A relaxed arm that stiffens at impact, with the shoulder locked and the whole body connected to the ground, lands vastly heavier than a tense arm thrown at the same speed. This is why "relax, then snap" is coached everywhere: relaxation lets the whip work, and the late stiffening delivers your bodyweight instead of your arm weight.'],
+              ['Impulse — force applied over time', 'Takedowns, clinch drives and sweeps are impulse problems, not peak-force problems. You need a big force sustained for a few tenths of a second while your feet keep driving. That is a different quality from a maximal squat, and it is trained with sleds, bear crawls and live drilling against resistance.'],
+              ['Why this makes bodybuilding a poor fit', 'Muscle that is not connected to the sequence is dead weight you have to carry and fuel for 15 minutes. Adding size for its own sake costs you conditioning and your weight class. Train the qualities, and let the size arrive as a side effect.'],
+            ]} />
+
+            <Fold title="The five qualities that actually transfer" tag="Everything in your programme should be one of these" items={[
+              ['1. Maximal strength — the ceiling', 'You cannot express force you cannot produce. Below roughly a 1.5× bodyweight squat or 2× bodyweight trap-bar deadlift, general strength IS your limiting factor and getting stronger will make you a better fighter. Above it, extra maximal strength buys less and less, and the training focus should shift to speed and skill.'],
+              ['2. Rate of force development (RFD)', 'How fast you can turn strength on. A fight gives you about 0.1-0.2 seconds to produce force in a punch or a shot — far less time than a heavy squat takes. RFD is trained with intent: light-to-moderate loads moved as fast as humanly possible, jumps, throws, and Olympic-lift derivatives.'],
+              ['3. Elastic / reactive strength', 'Your tendons store and return energy. This is what makes level changes, re-shots, scrambles and rebounding footwork cheap instead of exhausting. Trained with plyometrics — pogos, bounds, hurdle hops, depth jumps — and it is the quality most fighters neglect entirely.'],
+              ['4. Rotational power and trunk stiffness', 'The transmission. If your trunk gives way under rotation, force generated by the hips never arrives at the fist. Both halves matter: the ability to rotate fast (med ball throws, cable rotations) and the ability to REFUSE to rotate (Pallof, suitcase carries, anti-rotation holds).'],
+              ['5. Repeatability — the engine', 'Producing a great punch once is training. Producing it in the last minute of round three is fighting. That is a conditioning quality, and it is trained separately, mostly aerobically, which surprises people who assume fight conditioning means constant suffering.'],
+            ]} />
+
+            <SectionTitle icon={Zap} title="The exercise menu" sub="Chosen for transfer, not for how hard they feel. Sets × reps and the intent that makes each one work." />
+
+            <Block title="Maximal strength — 2×/week, the base" items={[
+              ['Trap bar deadlift — 4×3-5 @ 80-88%', 'The single best general strength lift for a fighter: heavy loading of the whole posterior chain with a far lower spinal cost than a conventional pull. Drive the floor away, do not yank. This is your takedown and sprawl strength.'],
+              ['Back or front squat — 4×4-6', 'Front squat if your trunk gives out first, back squat if your legs do. Go to depth you can control without the pelvis tucking. Half squats have their place for speed work, but build the full-range base first.'],
+              ['Barbell hip thrust — 3×6-8', 'Trains hip extension at the exact end range that finishes takedowns, bridges people off you, and drives the rear hip through a cross. Squeeze hard at the top for a full second; bouncing the bar is wasted work.'],
+              ['Weighted chin-up — 4×4-6', 'Grappling is decided by pulling. Add weight once you can do 10-12 clean bodyweight reps. Full hang each rep — the bottom is where the arm-bar-resisting strength lives.'],
+              ['Push press or incline press — 3×5', 'Overhead pressing under a leg drive mirrors framing, posting and pushing off the cage. Incline over flat bench: it is closer to a punching angle and far kinder to the front of the shoulder.'],
+              ['Heavy carries — 3×40m', 'Farmer\'s or suitcase carries. Trains grip, trunk stiffness and breathing under load in one, and the suitcase (single-side) version is anti-rotation training that also happens to be conditioning.'],
+            ]} />
+
+            <Block title="Speed and power — 2×/week, always fresh, never tired" items={[
+              ['Rotational med ball throw — 4×3 each side', 'The most fight-specific power exercise there is. Load the rear hip, then throw the ball into a wall as violently as possible, letting the rear heel spin exactly as it does on a cross. Use a 3-5kg ball: heavier does not mean more power, it means slower and less like a punch.'],
+              ['Med ball shot-put throw — 4×3 each side', 'From a staggered stance, drive with the rear leg and push the ball through your target line. This is the straight-punch pattern with resistance, and it teaches leg-drive-first sequencing better than any cue.'],
+              ['Overhead slam — 3×5', 'Trains the trunk to produce force in flexion at speed — the pattern behind a hard elbow, a bodylock finish and passing pressure. Slam it with intent to break the floor.'],
+              ['Trap bar jump — 4×3 @ 20-30% 1RM', 'Loaded jumps sit exactly in the middle of the force-velocity curve and are one of the best-evidenced ways to build lower-body power. Light load, maximum intent, land soft, full rest.'],
+              ['Broad jump / bound — 4×3', 'Horizontal power, which is what a shot and a sprawl actually are. Vertical jumps alone miss the plane that fighting lives in.'],
+              ['Pogo hops and hurdle hops — 3×8', 'Short ground contacts, stiff ankles, minimal knee bend. This is the elastic quality that makes footwork and re-shots cheap. Quality dies fast — stop the set the moment contacts get slow and mushy.'],
+              ['The rule that makes all of this work', 'Every rep is at 100% intent, with FULL recovery (2-3 min). Power training done tired becomes conditioning, and conditioning done at power weights becomes injury. If reps are slowing down, the set is over.'],
+            ]} />
+
+            <Block title="Rotation and trunk — 3×/week, the transmission" items={[
+              ['Pallof press — 3×8 each side', 'The foundational anti-rotation exercise: resist the pull rather than producing movement. Full progression with kneeling, split and overhead variations is in Programs → Core & Abs.'],
+              ['Cable or landmine rotation — 3×8 each side', 'Rotate from the HIPS with the ribs stacked, not by twisting the lower back. The lumbar spine only safely rotates a few degrees in total — the rotation you want comes from the hips and the thoracic spine.'],
+              ['Half-kneeling chop and lift — 3×10 each', 'Removes the legs so the trunk has to do the work, and it exposes exactly which side of you is leaking force. Almost everyone has a clearly worse side; that side gets an extra set.'],
+              ['Suitcase carry — 3×30m each side', 'Load on one side only, walk without leaning. Anti-lateral-flexion strength, which is what keeps you upright when someone is dragging you sideways in the clinch.'],
+              ['Hollow body and side plank holds — 3×30-45s', 'Braced positions under time. Unglamorous and directly responsible for whether hip force arrives at your fist or dissipates through a soft midsection.'],
+              ['Thoracic mobility — daily 5 min', 'Rotation you do not have is force you cannot produce. Open-book rotations, thread-the-needle, and foam roller extensions. A stiff upper back forces the lower back to rotate instead, which is how backs get hurt.'],
+            ]} />
+
+            <Block title="Neck, grip and the durability work" items={[
+              ['Neck — 3×/week, this is not optional', 'A stronger neck reduces head acceleration when you get hit, which is the mechanism behind concussion. Isometric holds in four directions (30s each), then harness or band work 2×15 for flexion, extension and both sides. Build slowly over months; the neck responds to consistency, not intensity, and aggressive bridging on a fresh neck is how people get hurt.'],
+              ['Grip — the clinch decider', 'Fat-bar or towel hangs 3×max, gi or rope pull-ups, and plate pinches. Grip endurance loses more clinch exchanges than grip strength does, so train holds for time, not just heavy singles.'],
+              ['Nordic hamstring curls — 3×5, 2×/week', 'Cuts hamstring injury risk substantially and protects you in the exact positions where legs get extended fast. Lower slowly, cheat back up with your hands.'],
+              ['Copenhagen adductor plank — 3×20s each side', 'Groin strains are one of the most common and most annoying grappling injuries, and this is the best-evidenced prevention exercise for them. Start with the short-lever (knee-supported) version.'],
+              ['Ankles and feet', 'Every level change, pivot and kick lands on an ankle. If yours are weak, the full ramp-up progression is in Programs → Legs — do that before adding heavy plyometrics, not after.'],
+              ['Shoulders — external rotation and scapular work', 'Face pulls, band external rotations, and controlled dumbbell work 2×/week. Armbars, kimuras and posting all stress the shoulder, and the joint gets no protection from anything else you do.'],
+            ]} />
+
+            <SectionTitle icon={Zap} title="Conditioning — building the engine" sub="Fight conditioning is mostly aerobic. This surprises people who think it should mostly hurt." />
+
+            <Fold title="The energy systems, and what each one is for" tag="Stop doing hard intervals for everything" items={[
+              ['Alactic power (0-10s)', 'The explosive burst: a takedown entry, a scramble, a flurry. Trained with 6-10s maximum efforts and LONG rests (60-90s+), never to fatigue. Fatiguing this system trains something else entirely.'],
+              ['Glycolytic (10s-2min)', 'The burning, gasping system. The one everyone over-trains because it feels like "real" conditioning. Some exposure is necessary so it does not shock you in a fight, but a lot of it wrecks recovery, blunts strength gains and eats the skill sessions that actually matter. One session a week is usually plenty.'],
+              ['Aerobic (everything else)', 'This is the big one. It powers your steady output, and crucially it drives how fast you RECOVER between bursts, within a round and between rounds. Round three is an aerobic problem. Most amateurs are aerobically underdeveloped and try to fix it with more sprints, which makes it worse.'],
+              ['Zone 2 — 2-3×/week, 30-60 min', 'Easy running, cycling or rowing at a pace where you could hold a conversation. Boring, and it is the single highest-return conditioning work a fighter can do. It builds the aerobic base without adding fatigue that costs you sparring quality.'],
+              ['Hard intervals — 1×/week', '4×4 minutes hard with 3 min easy, or 8-10×1 min hard with 1 min easy. This raises your ceiling. Once a week is enough; twice is usually a recovery problem in disguise.'],
+              ['Fight-specific conditioning — 1-2×/week', 'The most transferable version is simply hard rounds of your sport: 5×5 min bag or pad rounds with 1 min rest, or positional grappling rounds starting in bad positions. Same energy demand, and you get skill reps for free.'],
+            ]} />
+
+            <SectionTitle icon={Zap} title="The plan" sub="How it fits together across a week and across a camp." />
+
+            <Block title="Weekly template — realistic amateur version" items={[
+              ['Monday — Skill (striking) + Max strength', 'Technical striking session, then lift 2-3 hours later if you can: trap bar, hip thrust, weighted chin, carries. Hard lifting on the same day as hard skill work is fine; hard lifting the day BEFORE hard sparring is not.'],
+              ['Tuesday — Skill (grappling) + Zone 2', 'Wrestling or BJJ, then easy aerobic work, or move the Zone 2 to the morning. Keep it genuinely easy.'],
+              ['Wednesday — Power + neck/trunk', 'Med ball throws, trap bar jumps, bounds, then Pallof and neck work. Short session — 40 minutes done properly beats 90 minutes of grinding.'],
+              ['Thursday — Skill + technical drilling', 'Lower intensity. This is the day to drill the thing you were bad at on Monday and Tuesday rather than adding more fatigue.'],
+              ['Friday — Sparring', 'The most important session of the week, so everything before it is arranged to leave you fresh for it. Controlled intensity, specific goals, not a war.'],
+              ['Saturday — Max strength #2 + fight conditioning', 'Squat, press, Nordics, Copenhagen, then hard rounds or intervals if you recovered well from Friday. If you did not, drop the conditioning — that decision is not weakness, it is the plan working.'],
+              ['Sunday — Full rest or a walk', 'Genuinely off. Adaptation happens here, and skipping rest days is the most common way keen amateurs stall.'],
+            ]} />
+
+            <Fold title="Fight camp structure — how a pro periodises it" tag="What changes as the fight gets closer" items={[
+              ['Off-camp (no fight booked) — build', '10-16 weeks. This is where strength and size are actually built, because you have the recovery budget for it. Heavier lifting, more volume, lower sparring intensity, aerobic base. Nobody gets meaningfully stronger during a camp; they just try not to lose it.'],
+              ['Camp weeks 8-5 — convert', 'Strength volume drops, power and speed work rises, skill work becomes fight-specific (game-planning for a style), sparring volume climbs. Lifting shifts to maintenance: fewer sets, same intensity — that is the combination that preserves strength on minimal fatigue.'],
+              ['Camp weeks 4-2 — sharpen', 'Peak sparring, hardest fight-specific conditioning, minimal gym work (2 short sessions, heavy but very low volume). Everything here is about being sharp, not about being fitter — fitness is already banked by now.'],
+              ['Final 7-10 days — taper', 'Volume drops sharply, intensity stays. Short, crisp, high-quality sessions. Fatigue clears faster than fitness fades, which is exactly why a taper makes you better rather than rusty. No hard sparring in the last 10 days — the risk is all downside.'],
+              ['The interference effect, managed', 'Heavy endurance work blunts strength adaptation when they are stacked too close. Where you have the choice, separate lifting and hard conditioning by 6+ hours, or put them on different days. Where you do not have the choice, put the quality you are prioritising FIRST in the day.'],
+              ['Deload every 4th week', 'Cut volume roughly in half, keep intensity. Most training injuries and plateaus are just accumulated fatigue that never got cleared.'],
+            ]} />
+
+            <Block title="Benchmarks — how you know it is working" items={[
+              ['Trap bar deadlift 2× bodyweight (3RM)', 'A reasonable general strength ceiling for a fighter. Past this, more maximal strength has diminishing returns and your training time is better spent on speed and skill.'],
+              ['Standing broad jump ≥ your height', 'A clean, simple test of horizontal power that needs no equipment. Test it every 6 weeks in the same shoes on the same surface.'],
+              ['Rotational med ball throw — track the distance', 'Same ball, same spot, same rules, every 6 weeks, both sides. Improvement here is the closest gym proxy you have for punching power, and a big left-right gap tells you which side to work.'],
+              ['10-12 strict bodyweight chin-ups before adding load', 'The entry requirement for weighted work, and a decent proxy for grappling pulling strength.'],
+              ['Zone 2 pace at a fixed heart rate', 'Run or row at the same heart rate every few weeks and see if you are covering more distance. Rising output at the same heart rate is aerobic fitness improving, and it is a far better signal than how tired a session made you feel.'],
+              ['The honest one — round three', 'Can you still produce technically clean, hard work in the third round of hard sparring? Everything above is a proxy for that. That is the actual test.'],
+            ]} />
+
+            <Fold title="Going pro — the honest picture" tag="Worth knowing before you organise your life around it" items={[
+              ['The path', 'Amateur record first (most sensible routes want 5+ amateur fights), then regional pro shows, then a regional promotion title, then possibly a bigger organisation. Realistically 4-8 years from starting to any meaningful pro level, with full-time training for most of it.'],
+              ['The money reality', 'Regional pro purses are commonly a few hundred to a couple of thousand pounds per fight, with maybe 2-4 fights a year, out of which come coaching fees, camp costs, medicals and licensing. Almost everyone below the top tier has another job or another income. Plan for that rather than being surprised by it.'],
+              ['The brain-health trade-off, stated plainly', 'Repeated head impacts carry a real, evidenced risk of long-term neurological damage, and that risk comes mostly from cumulative sparring exposure rather than fights. Control it deliberately: technical and light sparring most of the time, hard sparring rarely and with a purpose, never spar concussed, and take head-knock recovery seriously. This is the single most important decision you will make in the sport, and it is yours to make with the facts.'],
+              ['What actually separates people', 'Not talent and not toughness — training age, coaching quality, injury avoidance and consistency over years. The fighters who make it are usually the ones who were still training normally in year five, having avoided the big injuries and the burnout.'],
+              ['Wrestling is the highest-leverage base', 'Across MMA, wrestling ability most reliably decides where the fight takes place, and whoever decides that usually wins. If you are starting from scratch and want maximum return per hour, wrestle.'],
+              ['Get a coach and get in rooms', 'None of this replaces a real coach watching you move. Use this section to understand WHY your coach is asking for something and to organise your own training around the sessions — not as a substitute for the sessions.'],
+            ]} />
           </div>
         )}
       </div>
