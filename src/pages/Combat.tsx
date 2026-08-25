@@ -4,7 +4,7 @@ import { ArrowLeft, Shield, Swords, Hand, AlertTriangle, Target, Users, Zap, Che
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 
-type Tab = 'fundamentals' | 'hips' | 'takedowns' | 'ground' | 'chokes' | 'drills' | 'arts' | 'strategy' | 'gym';
+type Tab = 'fundamentals' | 'hips' | 'takedowns' | 'ground' | 'chokes' | 'drills' | 'arts' | 'strategy' | 'gym' | 'tough';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'fundamentals', label: 'Fundamentals' },
@@ -16,6 +16,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'arts', label: 'The Arts' },
   { id: 'strategy', label: 'Strategy' },
   { id: 'gym', label: 'Strength & Power' },
+  { id: 'tough', label: 'Toughness' },
 ];
 
 function Step({ n, title, desc }: { n: number; title: string; desc: string }) {
@@ -118,7 +119,7 @@ export default function Combat() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['fundamentals', 'hips', 'takedowns', 'ground', 'chokes', 'drills', 'arts', 'strategy', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'fundamentals';
+    return (['fundamentals', 'hips', 'takedowns', 'ground', 'chokes', 'drills', 'arts', 'strategy', 'gym', 'tough'] as const).includes(t as Tab) ? (t as Tab) : 'fundamentals';
   });
 
   return (
@@ -732,6 +733,95 @@ export default function Combat() {
                 </div>
               ))}
             </div>
+            <SectionTitle icon={Target} title="Other opponent types" sub="The archetypes you actually meet, and the answer to each." />
+
+            <Fold title="Someone more skilled than you" tag="The hardest problem, and the most useful to solve" items={[
+              ['Accept the honest baseline', 'If they are genuinely more skilled, you will probably lose a clean technical exchange. Your goal is not to out-box a better boxer — it is to change the game to one they have practised less. Refusing to accept this is why people lose badly instead of narrowly.'],
+              ['Take away their preferred range', 'Every skilled fighter has a range where their skill compounds. A slick boxer wants mid-range; a good grappler wants the clinch. Identify it in the first thirty seconds, then live anywhere else — even if the alternative is less comfortable for you too.'],
+              ['Force scrambles and chaos', 'Skill advantages are largest in clean, predictable exchanges and smallest in scrambles. Grip fighting, clinch work, broken rhythm and constant position changes cost them more than they cost you.'],
+              ['Volume and pressure over precision', 'You will not out-time them. You can sometimes out-work them. Constant forward pressure with a high guard, body work and clinch entries makes technical fighters uncomfortable and drains the composure their skill depends on.'],
+              ['Break the rhythm deliberately', 'Skilled fighters read patterns. Change tempo, throw on odd counts, feint without following, pause mid-combination. Predictability is what they are feeding on.'],
+              ['Steal something every round', 'Even in a loss: one clean entry, one takedown, one good exchange. Training with better people is the fastest way to improve, and the correct mindset is data collection, not survival. Ego here costs you years.'],
+            ]} />
+
+            <Fold title="Someone smaller and faster" tag="Being the bigger one is its own problem" items={[
+              ['Do not chase — cut the ring', 'Chasing a faster person means running into counters all night. Move diagonally to cut off their escape routes rather than following them in a straight line. Take away space, not distance.'],
+              ['Make them come to you', 'A jab held out as a wall, feints, and patience. Faster fighters are usually more comfortable initiating; take that away and many of them stall.'],
+              ['Your weight is the weapon — use the clinch', 'Chest-to-chest, underhooks, and lean. Speed matters much less at zero distance, and this is where your size actually converts into an advantage instead of just being mass you carry.'],
+              ['Expect uppercuts and low entries', 'Smaller fighters come in low and underneath. Keep your elbows in and your chin down, and meet their entries with knees or a frame rather than reaching down for them.'],
+              ['Body work, not head hunting', 'Their head is a moving target; their body is not, and it does not move as fast. Body shots also slow legs, which is what their whole game runs on.'],
+              ['Do not gas trying to catch them', 'The classic loss for a bigger fighter: three rounds of chasing, empty by round two. Set a pace you can hold and let them come to you.'],
+            ]} />
+
+            <Fold title="The aggressive brawler" tag="Wild, forward, hits hard, no defence" items={[
+              ['The danger is real even though it is untrained', 'Wild swings from a big committed person hurt, and unpredictability is genuinely hard to read. Do not be dismissive because it is technically bad — untrained aggression has ended plenty of trained fighters.'],
+              ['Circle away from the power hand', 'They load one side. Move away from it, not into it. This alone defuses most of the danger.'],
+              ['Meet them with straight shots', 'Their punches loop; straight lines get there first. A jab or straight down the middle as they wind up lands before their swing arrives.'],
+              ['Or tie them up immediately', 'Clinch, underhooks, walk them to a wall. A brawler with no space and no leverage becomes a much smaller problem, and they usually have no idea what to do there.'],
+              ['Let them empty the tank', 'All-out aggression is expensive. If you survive the first thirty to sixty seconds intact, the situation often changes completely.'],
+            ]} />
+
+            <Fold title="The wrestler / grappler, and the pure striker" tag="Two opposite problems" items={[
+              ['Against a wrestler — the fight starts before the shot', 'Takedown defence is mostly positioning: stay at range or in the clinch, not in the middle. Keep your hips back, chest up, elbows in. React to level changes, not to hand feints.'],
+              ['Against a wrestler — punish entries', 'Every shot they miss costs them. Sprawl, front headlock, then knees or a guillotine threat. Make shooting expensive and the frequency drops.'],
+              ['Against a wrestler — get up immediately', 'If you are taken down, the priority is standing up, not playing guard. Every second underneath is damage and lost rounds. Wall walks and technical stand-ups are the drills that matter.'],
+              ['Against a pure striker — close the distance or take it down', 'Do not stand in their range trading. Level change behind a punch, clinch, and take the fight where their training stops.'],
+              ['Against a pure striker — the clinch is the great equaliser', 'Most strikers with no grappling become passengers the moment underhooks are in and their base is broken.'],
+              ['The general principle', 'Every specialist has a range where they are dangerous and a range where they are lost. Find the second one and stay there.'],
+            ]} />
+
+            <Fold title="Southpaws and the stance problem" tag="Why an orthodox fighter suddenly looks clumsy" items={[
+              ['Win the outside foot', 'The whole open-stance game is decided by whose lead foot is on the outside. Get yours outside theirs and your rear hand has a clear line while theirs does not. Lose it and everything they throw arrives first.'],
+              ['Circle away from their power hand', 'Against a southpaw that means circling to your left, away from their left cross. Circling the wrong way is the single most common orthodox error and it walks you straight into the shot.'],
+              ['The lead hand fight', 'Open stance turns the lead hands into a wrestling match — pawing, parrying, controlling. Whoever controls the other\'s lead hand controls the exchange.'],
+              ['Best weapons in open stance', 'Rear straight down the middle, lead hook over their lead hand, and rear low kick to the outside of their lead leg. These are the shots the angle gives you for free.'],
+              ['Train it deliberately', 'Ask for southpaw partners on purpose. Most people are bad against southpaws purely from lack of exposure, and that is fixable in weeks rather than years.'],
+            ]} />
+
+            <SectionTitle icon={Shield} title="The street — the honest version" sub="Different rules, different stakes, and mostly a different skill set from the gym." />
+
+            <div className="bg-amber-500/8 border border-amber-500/25 rounded-2xl p-5">
+              <h3 className="font-black text-amber-300 mb-2">Read this before the tactics below</h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                There is no winning a street fight — there are only degrees of losing. The realistic outcomes are a
+                criminal record, a hospital visit, a life-changing head injury from concrete, or a knife you never saw.
+                People die from a single punch and an unlucky fall onto a kerb with genuine regularity. Being trained
+                changes the odds inside the fight; it changes almost nothing about those consequences, and it can make
+                things worse legally because a court may hold a trained person to what they should have known.
+                <span className="text-amber-200 font-semibold"> Everything below assumes you have already failed to
+                leave, and leaving remains the only actual win.</span>
+              </p>
+            </div>
+
+            <Fold title="Not being scared — what fear actually is and how to work with it" tag="The part you asked about, and the part nobody explains" items={[
+              ['You will not eliminate fear, and you should not want to', 'The adrenaline dump is a physiological response you do not get to switch off. It is also useful — it is speed, strength and pain tolerance being handed to you. The goal is to FUNCTION while afraid, not to feel nothing. Anyone claiming they feel nothing is lying or has a problem.'],
+              ['Know what it does to your body so it does not surprise you', 'Tunnel vision, auditory exclusion (you stop hearing things), time distortion, shaking hands, loss of fine motor control, and the legs-like-jelly feeling. All normal, all temporary. Most of the panic in a confrontation is people being frightened BY their own fear response because nobody told them it was coming.'],
+              ['Gross motor skills only', 'Fine motor control degrades sharply under adrenaline. Under real stress you get simple, big movements: straight punches, elbows, knees, clinch, sprawl. This is why your training should have a small number of very well-drilled tools rather than a large catalogue.'],
+              ['Breathe — the one thing you can consciously control', 'Combat/box breathing: in for four, hold four, out for four, hold four. It genuinely lowers heart rate and restores peripheral vision. Practise it when you are calm so it is available when you are not.'],
+              ['The only real cure is exposure', 'Sparring is graduated exposure to the fear of being hit. That is most of its value — far more than the techniques. Someone who has sparred for two years is not braver, they are just no longer surprised. This is why the gym answers the question "how do I stop being scared" better than any mindset content can.'],
+              ['Fear of the confrontation, not the fight', 'Most of what people call fear is social: fear of looking weak, of backing down in front of others. That is ego, and it is what actually gets people into fights they could have walked away from. Separating the two is the single most valuable thing on this page.'],
+              ['After the adrenaline: the crash', 'Shaking, nausea, exhaustion, sometimes tears, and often a delayed emotional hit hours later. Also normal. If a confrontation genuinely affects you afterwards, that is worth talking to someone about rather than sitting on.'],
+            ]} />
+
+            <Fold title="Before it starts — where it is actually won" tag="Awareness, de-escalation, and the exit" items={[
+              ['Awareness is 90% of it', 'Most incidents are avoidable minutes before they happen. Head up, phone away in unfamiliar places, notice who is around and where the exits are. Predatory violence selects for distraction and isolation — being visibly aware moves you out of the selection set entirely.'],
+              ['The fence — hands up, non-threatening, ready', 'Hands open and up around chest height, palms out, body angled slightly. It looks placating and it is actually a guard, and it maintains the distance you need. Never let someone close inside arm\'s reach while you have your hands down.'],
+              ['De-escalate with your ego switched off', 'Calm voice, low tone, no insults, no sarcasm, no staring contest. "You\'re right, my fault, I\'m leaving." Being able to say that in front of other people is the highest form of composure this section describes, and it is far harder than throwing a punch.'],
+              ['Watch for the pre-fight tells', 'The distance close, the glance around for witnesses, the shoulders dropping or squaring, the hands hiding or rising, sudden stillness after agitation, the "what did you say?" step in. When those stack up, the decision window is closing.'],
+              ['Leave early and unapologetically', 'The moment you feel it turning, go. Not after one more sentence. The chance to leave is a door that closes, and people usually notice it only once it has.'],
+              ['Know the UK legal position', 'You may use force that is reasonable in the circumstances as you honestly believed them to be, including pre-emptive force if you genuinely believe an attack is imminent. What you may NOT do is continue once the threat has stopped, or pursue. That distinction — defending versus continuing — is what decides most prosecutions. This is a summary, not legal advice.'],
+            ]} />
+
+            <Fold title="If it is genuinely unavoidable" tag="Assuming you cannot leave" items={[
+              ['Do not wait to be hit', 'If you have genuinely reached the point where an attack is imminent and there is no exit, waiting to react hands them the first shot. In UK law reasonable pre-emptive force is lawful — the honest framing is that this is a judgement about imminence you have to make and account for.'],
+              ['Simple, gross-motor tools only', 'Straight punch, elbow, knee, clinch, and get to a wall. Nothing fine, nothing flashy, nothing that requires the opponent to cooperate. Everything you would do under adrenaline should already be automatic.'],
+              ['Do not go to the ground on purpose, ever', 'The ground is the worst place in a street context — concrete, his friends, no referee. Everything you know about the ground should be used to GET UP, not to play guard. This is the single biggest difference between the gym and the street.'],
+              ['Assume there is a second person', 'Almost never one-on-one when it matters. Keep moving, never let anyone get behind you, never back yourself into a group. Fighting one person while three watch is a fight you are already losing.'],
+              ['Assume a weapon until proven otherwise', 'Watch the hands. A hand that stays hidden, goes to a waistband or pocket, or leads the other person forward is the highest-priority thing in the situation. Against a weapon there is no technique — there is distance, an object between you, and leaving. Anyone teaching you knife disarms as a primary plan is selling you confidence, not safety.'],
+              ['The exit is the objective, not the win', 'Create enough space or disruption to leave, then leave. Standing over someone to prove a point is how a self-defence case becomes an assault charge, and how a fight becomes a death.'],
+              ['Afterwards', 'Leave the area, call the police yourself first if it was serious — the first person to report is treated very differently from the one who fled — get medical attention for any head impact, and write down what happened while it is fresh. Do not post about it.'],
+            ]} />
+
             <SectionTitle icon={Zap} title="Fight IQ Essentials" />
             <div className="bg-[#111] border border-white/8 rounded-2xl p-5 space-y-3">
               {[
@@ -886,6 +976,99 @@ export default function Combat() {
               ['Wrestling is the highest-leverage base', 'Across MMA, wrestling ability most reliably decides where the fight takes place, and whoever decides that usually wins. If you are starting from scratch and want maximum return per hour, wrestle.'],
               ['Get a coach and get in rooms', 'None of this replaces a real coach watching you move. Use this section to understand WHY your coach is asking for something and to organise your own training around the sessions — not as a substitute for the sessions.'],
             ]} />
+          </div>
+        )}
+
+        {tab === 'tough' && (
+          <div className="fade-up stagger space-y-3">
+            <SectionTitle icon={Shield} title="Conditioning the body" sub="Shins, forearms, body and hands — what genuinely adapts, what doesn't, and how to do it without wrecking yourself." />
+
+            <div className="bg-gradient-to-br from-red-500/12 to-[#111] border border-red-500/25 rounded-2xl p-5">
+              <h3 className="font-black text-red-300 mb-2">What "conditioning" actually is — three real mechanisms, and one myth</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Bone responds to repeated moderate stress by remodelling denser and thicker along the lines of load —
+                that is real, it is why experienced kickers have visibly different shins, and it takes
+                <span className="text-gray-200 font-semibold"> months to years, not weeks</span>. Nerve endings in
+                repeatedly stressed tissue become less sensitive, so the same impact hurts less. And trained muscle,
+                braced at the right moment, absorbs and distributes force that would otherwise reach something fragile.
+                What does NOT happen is bone becoming immune to breaking, or a body being trainable to shrug off
+                anything. Every method below is a slow adaptation with a real injury cost if rushed — and the people who
+                rushed it are the ones with permanent nerve damage and arthritis in their forties.
+              </p>
+            </div>
+
+            <SectionTitle icon={Zap} title="Shin conditioning" />
+
+            <Block title="How it is actually done" items={[
+              ['Kick things, progressively — that is the whole method', 'Heavy bag and Thai pads, with volume and force built up over months. This is how every legitimate Muay Thai camp does it. There is no shortcut and no secret drill; the stimulus is simply repeated moderate impact with enough recovery between sessions for the bone to remodel.'],
+              ['Start on soft, move to hard', 'Thai pads and a soft bag first. Only progress to a heavy, firm bag once light work stops being uncomfortable. Weeks 1-4: light-to-moderate kicks, maybe 50-100 per session, 2-3×/week. Then build force and volume gradually across months.'],
+              ['Technique protects the shin more than toughness does', 'Kick with the middle-to-lower shin at an angle, turning the standing foot fully so the hip clears and the shin lands with the whole leg behind it. Kicking with the ankle, the foot, or a square hip is how shins get hurt regardless of conditioning.'],
+              ['Rolling — the mild, useful version', 'Rolling a bottle, rolling pin or hard foam along the shin for a few minutes desensitises nerve endings and helps with soreness. Moderate pressure. This is a supplement to kicking, not a replacement for it, and rolling hard enough to bruise achieves nothing except bruising.'],
+              ['Rest is where the adaptation happens', 'Bone remodels during recovery, not during impact. Hard shin work needs 48+ hours between sessions. Daily hammering produces microdamage faster than it can be repaired, which is the direct route to a stress fracture.'],
+              ['The timeline, honestly', 'Noticeable desensitisation in 2-3 months of consistent work. Meaningful bone adaptation over 1-2 years. Anyone promising conditioned shins in six weeks is describing bruises, not adaptation.'],
+            ]} />
+
+            <Block title="What NOT to do — the folklore that injures people" items={[
+              ['Do not hit your shins with bats, bottles or rolling pins to "break down" bone', 'This is a persistent myth, often falsely attributed to old Thai practice. Deliberately damaging bone does not build it back stronger in any controlled way — it causes periostitis, bone bruising, permanent nerve damage and stress fractures. The adaptation comes from KICKING, which loads the bone through its whole structure the way it is actually used.'],
+              ['Do not kick trees, walls or concrete', 'Same reasoning, worse consequences. No serious camp does this.'],
+              ['Sharp, localised or lingering pain is a stop sign', 'Aching after a hard session is normal. A specific painful spot, pain that worsens over days, pain at rest or at night, or pain when you press one point are signs of periostitis or a stress fracture. Stop, rest for weeks not days, and see a doctor if it persists. Training through this is how people lose a year.'],
+              ['Numbness is not a trophy', 'Permanently numb shins mean nerve damage, not achievement. Desensitisation should plateau at "this no longer hurts much", not "I cannot feel this limb".'],
+              ['Shin guards in sparring are not weakness', 'You cannot condition your way out of a shin-on-shin clash at full power. Guards in sparring are how professionals stay able to train next week.'],
+            ]} />
+
+            <SectionTitle icon={Shield} title="The rest of the body" />
+
+            <Fold title="Forearms — for checking and blocking" tag="The most under-trained conditioning" items={[
+              ['Why it matters', 'Blocking head kicks and hard hooks with the forearms is standard, and untrained forearms bruise, go numb and stop working within a round. Same adaptation as shins, milder.'],
+              ['How', 'Blocking drills with a partner throwing at increasing power onto your guard, and light forearm-to-forearm clashing during pad work. Build over months exactly like shins.'],
+              ['Technique first again', 'Take impact on the meat of the forearm with the elbow tight, not on the wrist or the point of the elbow. A well-positioned block hurts far less than a conditioned but badly placed one.'],
+            ]} />
+
+            <Fold title="Taking body shots" tag="What is trainable, and what is genuinely not" items={[
+              ['Bracing is the trainable part', 'A braced abdominal wall distributes force. An unbraced one lets it reach organs. This is why the timing matters more than the muscle: exhale sharply and brace at the moment of impact, and take it on the obliques or the tensed rectus rather than a soft, inhaling midsection.'],
+              ['The muscle itself does adapt', 'Thicker, stronger abdominal and oblique muscle genuinely provides more armour. That is a hypertrophy problem, and it is already covered — Programs → Core & Abs has the loaded work.'],
+              ['Progressive body sparring, with a partner', 'Body-shot-only rounds at controlled power, building over months. Medicine ball drops onto a braced midsection are a legitimate old-school method — light ball, controlled height, and never while relaxed or unprepared.'],
+              ['What cannot be trained away — say it plainly', 'The liver and the solar plexus are not conditionable in any meaningful sense. A clean liver shot drops trained professionals, and no amount of abdominal work changes that. The answer to body shots is elbows down, hips turned and not being there — defence, not toughness.'],
+              ['Never let someone hit you unprepared as a "test"', 'The tensing has to be conscious and timed. Being hit while relaxed is how organs get damaged, and the party-trick version of this has genuinely killed people.'],
+            ]} />
+
+            <Fold title="Hands, knuckles and the chin" tag="Where conditioning is mostly the wrong answer" items={[
+              ['Hands break easily — that is a technique problem, not a toughness one', 'The boxer\'s fracture (broken fifth metacarpal) comes from landing on the little-finger side with a bent wrist. The fix is wrapping properly, a straight wrist, and landing on the first two knuckles. No amount of conditioning survives bad alignment.'],
+              ['Knuckle push-ups — modest and fine', 'On a mat, not concrete. Mildly toughens the skin and trains a straight wrist under load. Harmless and slightly useful.'],
+              ['Makiwara and iron-palm work — high risk, low return', 'Traditional striking-post training does thicken tissue, and it also has a well-known association with arthritis and joint damage later in life. For someone training modern combat sports with gloves and wraps, the trade is not worth it.'],
+              ['Bare-knuckle reality', 'In a street context the hand is the thing most likely to break, which is exactly why elbows, knees and the clinch matter so much more than punching power there.'],
+              ['The chin cannot be conditioned — full stop', 'There is no such thing as training your brain to absorb impact. What genuinely helps is neck strength, which reduces how much your head accelerates when struck — that is in Strength & Power and it is the real version of this idea. Anyone doing drills where they get hit in the head to "toughen up" is accumulating brain injury for nothing, and the evidence on cumulative head impacts is not ambiguous.'],
+            ]} />
+
+            <SectionTitle icon={Zap} title="Being solid — the whole-body version" />
+
+            <Block title="What actually makes someone feel immovable" items={[
+              ['It is mostly leanness, force transfer and tension — not size', 'The full explanation of why a lighter athlete can feel harder and stronger than a heavier one is in Programs → Explosive ("Why a lighter athlete feels denser and stronger than you"). It is the most useful thing in the app on this question and it is not repeated here.'],
+              ['Isometrics are the specific answer to "solid"', 'Overcoming isometrics — pushing maximally against something immovable for 5 seconds — build the ability to produce enormous tension without moving. That is the quality behind feeling like a wall in a clinch. Three sets of 5 seconds, 2×/week, in a couple of positions.'],
+              ['Loaded carries', 'Heavy farmer\'s and suitcase carries train grip, trunk stiffness and breathing under load simultaneously. If you only added one thing for general physical solidity, this is it.'],
+              ['The neck, again', 'Nothing changes how physically formidable someone looks and is more than a developed neck, and it is protective rather than cosmetic. Three sessions a week, light, controlled, built over months.'],
+              ['Grip', 'Force you cannot transmit through your hands does not exist. Dead hangs, fat-bar holds, and not using straps for everything.'],
+              ['Relative strength over bodyweight', 'Weighted chin-ups, dips and split squats — strength per kilo. Adding mass without adding force makes you slower and more tired, not harder to handle.'],
+              ['Conditioning is what makes it usable', 'Being strong for ninety seconds and then empty is not being solid. The aerobic base in Strength & Power is what lets any of the above still be there in round three.'],
+            ]} />
+
+            <Fold title="Pain tolerance and mental toughness — the honest account" tag="Trainable, but not the way people think" items={[
+              ['It is mostly familiarity, not willpower', 'People who cope well with being hurt are usually people for whom the sensation is familiar and no longer alarming. Graduated exposure through sparring does this. Grinding through arbitrary suffering does not transfer nearly as well as people assume.'],
+              ['Specificity applies to toughness too', 'Cold showers and hard conditioning build some general discomfort tolerance, and the evidence for transfer to a completely different stressor is weak. If you want to be tough at being punched, the training is being punched, progressively, in a controlled room.'],
+              ['Breathing is the technique', 'Composure under pain is largely a breathing skill. Panic, breath-holding and tensing everything is what turns a hard moment into a finished one. Slow exhale, keep working.'],
+              ['Know the difference between pain and damage', 'Sore shins, a dead leg, a rib that aches — pain. Sharp localised bone pain, a joint that gives way, anything neurological, any head knock — damage. Training through the first is normal; training through the second ends careers, and the ability to tell them apart is a skill worth more than any amount of grit.'],
+              ['The unglamorous truth about toughness', 'It is mostly showing up consistently for years, not doing something extreme once. The tough people in any gym are the ones still there in year five, not the ones doing the hardest single session.'],
+            ]} />
+
+            <div className="bg-amber-500/8 border border-amber-500/25 rounded-2xl p-5">
+              <p className="text-gray-300 text-sm leading-relaxed">
+                <span className="font-bold text-amber-300">The limit worth stating.</span> Every method here has a dose
+                where it builds you and a dose where it takes something permanent. Retired fighters with arthritic
+                hands, numb shins and neurological symptoms did not get there by being weak — they got there by doing
+                too much of this, too hard, for too long, usually while young enough to believe it was free. Build
+                slowly, take the rest days, wear the guards, and never let anyone talk you into a "test".
+              </p>
+            </div>
           </div>
         )}
       </div>
