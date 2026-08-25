@@ -455,7 +455,7 @@ export default function Combat() {
               ['On the bag, one round of hips only', 'Cross and lead hook only, watching the heel spin on every rep. No combinations, no speed — just the rotation, until it stops feeling like a thing you have to remember.'],
               ['Positional sparring from bottom', 'Start under side control or mount and try only to escape. It forces hip movement under real resistance, which is the only place it becomes reflex.'],
               ['Film it side-on', 'Both striking and grappling. You cannot feel a flat rear heel or a shoulder-led shrimp, but you can see both instantly.'],
-              ['Mobility matters here', 'Restricted hip internal and external rotation limits both the punch and the guard. Ninety-ninety hip switches, cossack squats and deep squat holds, five minutes daily — Programs → Recovery has the routine.'],
+              ['Mobility matters here', 'Restricted hip internal and external rotation limits both the punch and the guard. Ninety-ninety hip switches, cossack squats and deep squat holds, five minutes daily — Programs → Mobility has the routine.'],
               ['The strength that supports it', 'Hip thrusts, rotational med ball throws and Pallof work are the gym expressions of everything on this page. They are in Programs → Explosive and Programs → Legs — this tab is the technique, that is the engine.'],
             ]} />
           </div>

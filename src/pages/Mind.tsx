@@ -149,7 +149,7 @@ export default function Mind() {
                   ['Win the first hour, phone-free', 'Feet on the floor, water, light outside, then a real deep work block. From Morning Routine — this sets the ceiling on how the whole day goes before it\'s properly started.', 'Morning Routine'],
                   ['Phone leaves the room 30 minutes before lights out', 'Every night, no exceptions. From Night Routine — this is the one step the rest of the wind-down actually depends on.', 'Night Routine'],
                   ['Talk to yourself like a coach, not a critic', 'Catch the thought, name it, reframe it — in second person. From Self-Talk — "you\'ve got this" measurably outperforms "I\'ve got this" because it creates distance from the emotion.', 'Self-Talk'],
-                  ['Hold your frame', 'Your version of reality doesn\'t move because someone tested it. From Secret — the concept underneath everything else in that section, and the one that generalises furthest beyond it.', 'Secret'],
+                  ['Hold your frame', 'Your version of reality doesn\'t move because someone tested it. From Aura — non-reactivity rather than dominance, and the concept that generalises furthest across everything else here.', 'Aura'],
                 ].map(([t, d, from], i) => (
                   <div key={t} className="flex gap-3">
                     <span className="text-pink-400/70 font-black text-sm mt-0.5 w-5 flex-shrink-0">{i + 1}</span>
@@ -315,6 +315,35 @@ export default function Mind() {
                 to be noticed. High-value reads as "this person is complete without my approval." Every habit below feeds that signal.
               </p>
             </div>
+            <Card icon={Sparkles} title="Frame — what it actually is" items={[
+              ['The definition', 'Frame is whose interpretation of the situation the interaction runs on. Two people always arrive with slightly different versions of "what is happening here" — who is impressive, what is a big deal, whether this is a problem. Whichever version holds is the frame the conversation runs on, and it is settled by who is more certain, not who is louder.'],
+              ['It is non-reactivity, not dominance', 'The single biggest misunderstanding. Frame is not staring people down, refusing to back off, or winning every exchange. It is that your read on reality does not move because someone poked it. The calmest person in the room usually has the strongest frame, and the person working hardest to prove they have one does not.'],
+              ['It comes from somewhere real or it collapses', 'Frame is downstream of actually having standards, a full life and something you are building. You cannot perform it for long — under sustained pressure it reverts to whatever is underneath. This is why the gym, the work and the standards matter more than any technique on this page.'],
+              ['The willingness to lose the interaction', 'The root of frame is being genuinely willing to be disliked, disagreed with, or to walk away. The moment you need a specific outcome from someone, they have the frame by default — and everyone can sense it. Non-neediness is not an attitude you adopt, it is a consequence of having other options.'],
+            ]} />
+            <Card icon={Sparkles} title="Holding it — and the tells that you have not" items={[
+              ['Over-explaining is the main tell', 'Justifying a decision nobody challenged, adding reasons after "no", explaining why you were late three times. One sentence, no apology tour. If they want more, they will ask.'],
+              ['Changing your opinion under mild pressure', 'Someone raises an eyebrow and you soften what you said. Notice it. You are allowed to hold a view someone else finds boring, wrong or uncool — that is most of what frame looks like in practice.'],
+              ['Nervous laughter and rushed speech', 'Laughing to fill your own sentences, speeding up when someone goes quiet, trailing off. Slow down. The pause is the frame; rushing to fill it hands it over.'],
+              ['Answer the question asked, not the accusation implied', 'When someone says "you actually go the gym that much?", the frame-loss answer is a defence. The frame-hold answer is a plain one: "yeah, five days." No justification, no joke to soften it.'],
+              ['Agree and amplify when teased', 'Take the tease further than they did, with a grin. It shows the comment could not land anywhere painful, and it ends the test instantly. Getting defensive confirms it landed; being humourless is worse.'],
+              ['Do not accept a framing you disagree with just to be agreeable', 'The most common quiet loss: someone characterises you or the situation wrongly and you go along with it to avoid friction. You can reject a premise warmly — "nah, that is not really it" — and carry on.'],
+              ['With authority figures too', 'A lecturer, a boss, someone senior. Respect their position without shrinking. Ask the question, state the disagreement, hold eye contact. Deference and self-erasure are not the same thing, and people in authority notice the difference immediately.'],
+            ]} />
+            <Card icon={Sparkles} title="The failure mode nobody warns you about" items={[
+              ['Rigid is not strong', 'Refusing to ever update, treating every disagreement as a test to be won, never conceding a point — that is not frame, it is fragility with a hard shell. Genuine security can say "you are right, I had not thought of that" without losing anything, because its sense of itself was never resting on being right.'],
+              ['Frame is not a licence to be unpleasant', 'A lot of online frame content is repackaged manipulation — never apologise, never explain, treat warmth as weakness. It produces men who are difficult to be around and mistake that for strength. Warmth and frame are not opposites; the most impressive people have both.'],
+              ['Apologising when you are wrong is a frame move', 'Direct, once, no grovelling and no over-explaining: "that was my fault, I have sorted it." Someone who can do that cleanly is demonstrating more security than someone who cannot admit anything.'],
+              ['Testing is usually not hostility', 'Teasing, mild challenges and provocative opinions are how people check whether you are solid — often unconsciously and often affectionately. Reading it as an attack is itself a frame loss. Treat it as a question, answer it lightly.'],
+              ['You will lose it sometimes, and that is fine', 'Everyone gets rattled — by an authority figure, an ex, a moment that matters too much. Frame is not a permanent state, it is a thing you notice and return to. Noticing you lost it, mid-conversation, is the actual skill.'],
+            ]} />
+            <Card icon={Sparkles} title="Building it, rather than performing it" items={[
+              ['Keep promises to yourself', 'Every session you said you would do and did, every deadline you hit alone, is evidence you are someone whose word means something. Frame is the accumulated confidence of a person who does not let himself down, and there is no shortcut through it.'],
+              ['Decide your standards before the moment', 'What you will and will not do, tolerate, or laugh along with — decided in advance, calmly. Almost every frame loss happens because someone had not decided, so they improvised, and improvising under social pressure defaults to appeasing.'],
+              ['Get competent at something hard', 'Competence you have earned is unshakeable in a way that no amount of body language ever is. This is why the training, the degree and the skills belong in a section about presence.'],
+              ['Spend less time needing an audience', 'The more of your week is genuinely yours — training, work, things you would do with nobody watching — the less any single interaction can move you. Non-neediness is arithmetic, not attitude.'],
+              ['Where else this shows up in the app', 'The dating-specific application is in the Secret tab; not needing approval is covered in Confidence; and the physical meaning of "frames" in grappling — an entirely different thing that shares the word — is in Combat.'],
+            ]} />
             <Card icon={Sparkles} title="The Bond Habits" items={[
               ['Unshakeable under small chaos', 'Order is wrong, train\'s cancelled, someone\'s rude — your reaction is a raised eyebrow and a plan, never a flap. Composure in trivial moments is what people extrapolate to everything else.'],
               ['Decisive by default', 'Order without re-reading the menu three times. Pick the restaurant. Choose the plan. Decisiveness in small things builds the aura of a man who knows what he wants in big things.'],

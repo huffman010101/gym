@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ChevronDown, Dumbbell, Utensils, Flame, Activity } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 
-type Tab = 'week' | 'push' | 'pull' | 'shoulders' | 'legs' | 'explosive' | 'core' | 'recovery' | 'posture' | 'rules';
+type Tab = 'week' | 'push' | 'pull' | 'shoulders' | 'legs' | 'explosive' | 'core' | 'mobility' | 'recovery' | 'posture' | 'rules';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'week', label: 'The Week' },
@@ -13,6 +13,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'legs', label: 'Legs' },
   { id: 'explosive', label: 'Explosive' },
   { id: 'core', label: 'Core & Abs' },
+  { id: 'mobility', label: 'Mobility' },
   { id: 'recovery', label: 'Recovery' },
   { id: 'posture', label: 'Posture' },
   { id: 'rules', label: 'How to Run It' },
@@ -151,7 +152,7 @@ export default function Programs() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['week', 'push', 'pull', 'shoulders', 'legs', 'explosive', 'core', 'recovery', 'posture', 'rules'] as const)
+    return (['week', 'push', 'pull', 'shoulders', 'legs', 'explosive', 'core', 'mobility', 'recovery', 'posture', 'rules'] as const)
       .includes(t as Tab) ? (t as Tab) : 'week';
   });
 
@@ -629,6 +630,68 @@ export default function Programs() {
         )}
 
         {/* ===== RECOVERY ===== */}
+        {tab === 'mobility' && (
+          <div className="fade-up stagger space-y-4">
+            <div className="card-premium p-5">
+              <h3 className="font-bold mb-2">Flexibility, mobility, and the difference that matters</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                <span className="text-gray-200 font-semibold">Flexibility</span> is how far a joint can be moved
+                passively — someone pushing your leg up. <span className="text-gray-200 font-semibold">Mobility</span> is
+                how far you can move it yourself, under control, with strength available at the end of the range. Only
+                the second one shows up in a kick, a squat, a guard retention or a sprint. Passive range you cannot
+                control is not useful and is arguably a liability, which is why almost everything below is
+                strength-through-range rather than sitting in a stretch.
+              </p>
+            </div>
+
+            <Fold title="Why you feel tight — and why it is usually not short muscles" tag="This changes what you should do about it" items={[
+              ['Tightness is mostly a nervous-system setting', 'Short-term flexibility gains come from increased STRETCH TOLERANCE — your nervous system deciding the position is safe — not from muscle physically lengthening. This is why you can gain 20 degrees in one session and lose it by tomorrow, and why warm muscles stretch further.'],
+              ['"Tight" often means weak', 'A muscle with no strength at long lengths gets protectively guarded by your nervous system. Hamstrings that feel permanently tight are frequently hamstrings that are weak at end range. Stretching them feels good and changes little; loading them at length changes it properly.'],
+              ['Tight can also mean overworked or protective', 'A joint guarding an unstable neighbour will feel tight. Chronically tight hip flexors in someone who sits all day, or a stiff lower back doing the rotating that stiff hips refuse to do, are both examples. Chase the cause, not the sensation.'],
+              ['Real tissue change is possible but slow', 'Long-term, consistent loaded stretching does produce structural adaptation — added sarcomeres and altered tissue stiffness. That is a months-to-years process, not a session.'],
+              ['So the rule is', 'Use stretching to open a range, then immediately use strength to own it. Range you do not load, you do not keep.'],
+            ]} />
+
+            <Block title="The methods, and when each one is right" items={[
+              ['Dynamic mobility — BEFORE training', 'Controlled movement through a full range: leg swings, arm circles, 90/90 switches, walking lunges with a twist, cat-cow. 5-10 minutes. This raises tissue temperature and prepares the range you are about to use. This is the correct pre-session choice.'],
+              ['Static stretching — AFTER training, or its own session', '30-60 second holds, breathing out into the position, 5+ days a week for a range you actually want to change. Two or three times a week maintains; once a week does very little.'],
+              ['The pre-lifting caveat, stated accurately', 'Long static holds (60s+) immediately before maximal strength or sprint work cause a small, short-lived drop in force output. It is a modest effect and it clears within about ten minutes of warming up — so it is not a disaster, it is simply not the best use of those minutes. Dynamic before, static after.'],
+              ['Contract-relax (PNF) — the fastest way to add range', 'Get into a stretch, contract the stretched muscle against resistance for 5-10 seconds at moderate effort, relax and move deeper. Repeat 3-4 times. Reliably produces more range in one session than passive holding, and it is the technique most worth learning.'],
+              ['Loaded stretching — the version that lasts', 'Strength work through the fullest range you can control: deep front squats, Romanian deadlifts to a real stretch, deficit split squats, Cossack squats, full-range dumbbell pullovers, deep dips. This is how you convert borrowed range into range you own, and it doubles as your training.'],
+              ['End-range control drills', 'CARs (slow, maximal-effort circles at one joint), 90/90 hip lift-offs, and active straight-leg raises. Unimpressive-looking and they are what makes new range usable under speed and load.'],
+              ['Yoga — useful, not magic', 'A good class is consistent structured mobility plus breathing, and consistency is most of the battle. It is not a substitute for loading the range, and it will not fix a strength problem that presents as tightness.'],
+            ]} />
+
+            <Block title="The daily 10 minutes — what to actually do" items={[
+              ['1. 90/90 hip switches — 10 each side', 'Sit with both knees at 90 degrees, one leg in front, one out to the side. Rotate the knees down to the other side without using your hands. Trains internal AND external hip rotation, which is the single most valuable range for kicking, guard, squat depth and punching power.'],
+              ['2. Deep squat hold — 60-90s', 'Heels down, elbows inside knees gently pushing them out, chest up. Add a slow rock side to side. If your heels lift, hold a doorframe or put a small plate under them and work toward flat over weeks.'],
+              ['3. Couch stretch — 60s each side', 'Rear foot elevated against a wall or sofa, front foot planted, hips tucked under and squeezed. The most effective hip-flexor and quad stretch there is, and the direct antidote to sitting all day.'],
+              ['4. Thoracic rotation — 10 each side', 'Open-books lying on your side, or quadruped rotations with a hand behind the head. Rotation you do not have in the upper back gets stolen from the lower back — which is both weaker at it and where people get hurt.'],
+              ['5. Shoulder pass-throughs and hangs — 10 + 30s', 'Broomstick pass-throughs with a wide grip, narrowing over weeks, then a dead hang. Restores overhead range and is genuinely protective for the shoulder under pressing and armbars.'],
+              ['6. Adductor rock-backs — 10 each side', 'Quadruped with one leg out to the side, rock the hips back. Groin range that most people only discover they lack when they try to kick head-height or defend a leglock.'],
+              ['When to do it', 'Any time — it is low-fatigue and does not need to sit near training. Evening in front of the TV is the version people actually keep doing. Consistency beats the perfect slot.'],
+            ]} />
+
+            <Fold title="Priorities for what you actually train" tag="If you only fix three things, fix these" items={[
+              ['Ankles — first, given yours', 'Restricted dorsiflexion limits squat depth, changes how you land, and pushes load into the knee. It is also the joint you have already flagged as weak. Do the full progression in the Legs tab before adding range work on top — strength first, then range.'],
+              ['Hips — the highest return for you', 'Internal and external rotation drive kicking height, guard retention, squat depth and the hip turn behind a cross. 90/90 work and the couch stretch daily. The technical side of using that range is in Combat → Hips.'],
+              ['Thoracic spine — for punching and pressing', 'Rotation and extension. A stiff upper back caps your rotational power and forces the lower back to compensate. Two minutes of open-books daily is a genuinely disproportionate return.'],
+              ['Hamstrings and adductors — load them long', 'RDLs and Cossack squats do more for kicking range and groin durability than passive stretching, and they build the Copenhagen-style resilience that prevents the most annoying grappling injuries.'],
+              ['Shoulders — range under control', 'Overhead range matters for pressing and for surviving armbars and kimuras. Hangs, pass-throughs and controlled end-range work; avoid aggressive passive cranking, which is how shoulders get irritated.'],
+              ['Neck — mobility as well as strength', 'Slow controlled rotations through a full range, gently. Strength work is in Combat; range matters too, and stiff necks take strikes worse.'],
+            ]} />
+
+            <Block title="Honest expectations and the myths" items={[
+              ['Timeline', 'Noticeable change in 2-4 weeks of near-daily work. Meaningful, durable change in 3-6 months. Splits or head-height kicks, if you want them, are a year-plus project from a stiff starting point — and entirely achievable.'],
+              ['Use it or lose it', 'Range is maintained by being used. Stop for a month and most of what you gained goes. Two or three short sessions a week maintains what daily work built.'],
+              ['Stretching does not meaningfully prevent injury', 'The evidence for static stretching as injury prevention is weak. What DOES reduce injury is strength at long muscle lengths — Nordics, Copenhagens, RDLs, full-range training. Stretch for the range you need; strengthen for the durability.'],
+              ['It does not reduce soreness much either', 'Stretching after training feels pleasant and has a small effect on DOMS at best. Sleep, food and easy movement do far more — that is in the Recovery tab.'],
+              ['Do not stretch a fresh injury or a hypermobile joint', 'Pulling on a strain makes it worse. And if you are already very flexible, more passive range is the last thing you need — your problem is control and strength, not length.'],
+              ['Pain is not the target', 'A strong stretch sensation, breathing normally, is right. Sharp, pinching or nerve-like sensation is not, and forcing it is how people damage hamstring tendons and hip labrums.'],
+            ]} />
+          </div>
+        )}
+
         {tab === 'recovery' && (
           <div className="fade-up stagger space-y-4">
             <div className="card-premium p-5">
