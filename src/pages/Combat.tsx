@@ -19,6 +19,22 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'tough', label: 'Toughness' },
 ];
 
+
+function Tldr({ points }: { points: string[] }) {
+  return (
+    <div className="bg-gradient-to-br from-red-500/12 to-[#111] border border-red-500/30 rounded-2xl p-4">
+      <p className="text-[10px] font-black uppercase tracking-[0.15em] text-red-300 mb-2">If you only read one thing</p>
+      <ul className="space-y-1.5">
+        {points.map(p => (
+          <li key={p} className="text-gray-300 text-[13px] leading-relaxed flex gap-2">
+            <span className="text-red-400 flex-shrink-0">•</span><span>{p}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 function Step({ n, title, desc }: { n: number; title: string; desc: string }) {
   return (
     <div className="flex items-start gap-3">
@@ -656,6 +672,11 @@ export default function Combat() {
 
         {tab === 'strategy' && (
           <div className="fade-up stagger space-y-3">
+            <Tldr points={[
+              'Avoiding and leaving is the win. Everything tactical here assumes you already failed to leave.',
+              'Every opponent type reduces to one question: what range are they dangerous at, and how do you live somewhere else?',
+              'In the street, never go to the ground on purpose, assume a second person, and watch the hands.',
+            ]} />
             <SectionTitle icon={Target} title="Fighting Bigger & Stronger" sub="Size is real — but it's rented, and technique owns the building." />
             <div className="bg-[#111] border border-white/8 rounded-2xl p-5 space-y-3">
               {[
@@ -843,6 +864,12 @@ export default function Combat() {
         {/* ============ GYM ============ */}
         {tab === 'gym' && (
           <div className="fade-up stagger space-y-3">
+            <Tldr points={[
+              'Power comes from the floor through the hips, not from the arm. Train rotation and the trunk that transmits it.',
+              'Get strong (trap bar ~2× bodyweight), then train speed while fresh — never power when tired.',
+              'Fight conditioning is mostly aerobic. Zone 2 twice a week does more than more hard intervals.',
+              'Neck work three times a week, built slowly. It is protective, not cosmetic.',
+            ]} />
             <SectionTitle icon={Zap} title="Force production for fighting" sub="Where power actually comes from, what transfers, and the plan that builds it." />
 
             <div className="bg-gradient-to-br from-red-500/12 to-[#111] border border-red-500/25 rounded-2xl p-5">
@@ -1045,7 +1072,7 @@ export default function Combat() {
             <Block title="What actually makes someone feel immovable" items={[
               ['It is mostly leanness, force transfer and tension — not size', 'The full explanation of why a lighter athlete can feel harder and stronger than a heavier one is in Programs → Explosive ("Why a lighter athlete feels denser and stronger than you"). It is the most useful thing in the app on this question and it is not repeated here.'],
               ['Isometrics are the specific answer to "solid"', 'Overcoming isometrics — pushing maximally against something immovable for 5 seconds — build the ability to produce enormous tension without moving. That is the quality behind feeling like a wall in a clinch. Three sets of 5 seconds, 2×/week, in a couple of positions.'],
-              ['Loaded carries', 'Heavy farmer\'s and suitcase carries train grip, trunk stiffness and breathing under load simultaneously. If you only added one thing for general physical solidity, this is it.'],
+              ['Loaded carries', 'If you only added one thing for general physical solidity, this is it. Sets and reps are in Strength & Power.'],
               ['The neck, again', 'Nothing changes how physically formidable someone looks and is more than a developed neck, and it is protective rather than cosmetic. Three sessions a week, light, controlled, built over months.'],
               ['Grip', 'Force you cannot transmit through your hands does not exist. Dead hangs, fat-bar holds, and not using straps for everything.'],
               ['Relative strength over bodyweight', 'Weighted chin-ups, dips and split squats — strength per kilo. Adding mass without adding force makes you slower and more tired, not harder to handle.'],

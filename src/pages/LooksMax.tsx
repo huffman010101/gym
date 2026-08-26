@@ -9,7 +9,7 @@ import {
   Activity, Eye,
 } from 'lucide-react';
 
-type LooksTab = 'scan' | 'hair' | 'face' | 'techniques' | 'style' | 'grooming' | 'fragrance' | 'tracker';
+type LooksTab = 'scan' | 'hair' | 'face' | 'skin' | 'techniques' | 'style' | 'grooming' | 'fragrance' | 'tracker';
 
 const todayKey = () => `gymforge_looksmax_checklist_${new Date().toISOString().split('T')[0]}`;
 
@@ -65,6 +65,100 @@ function daysSinceStr(dateStr: string): string {
 
 interface ExpandCard { title: string; content: string[]; badge?: string; accent?: string; }
 
+function GStep({ n, title, desc, products }: { n: string; title: string; desc: string; products?: string[] }) {
+  return (
+    <div className="flex items-start gap-3">
+      <div className="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/25 flex items-center justify-center flex-shrink-0 text-purple-400 font-black text-[11px] mt-0.5">{n}</div>
+      <div className="flex-1">
+        <p className="font-semibold text-sm text-gray-200">{title}</p>
+        <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
+        {products && (
+          <div className="flex flex-wrap gap-1.5 mt-1.5">
+            {products.map(p => <span key={p} className="text-[10px] bg-white/5 border border-white/10 text-gray-400 px-2 py-0.5 rounded-full">{p}</span>)}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function GFold({ title, tag, children, defaultOpen = false }: { title: string; tag?: string; children: React.ReactNode; defaultOpen?: boolean }) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div className="bg-[#111] border border-white/8 rounded-2xl overflow-hidden press">
+      <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between px-5 py-4 text-left">
+        <div>
+          <p className="font-bold text-gray-100">{title}</p>
+          {tag && <p className="text-xs text-purple-400/70 mt-0.5">{tag}</p>}
+        </div>
+        <ChevronDown size={18} className={`text-gray-600 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
+      </button>
+      <div className={`collapse-wrap ${open ? 'open' : ''}`}>
+        <div className="collapse-inner">
+          <div className="collapse-content px-5 pb-5 space-y-3">{children}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function GPairs({ items }: { items: [string, string][] }) {
+  return (
+    <div className="space-y-3">
+      {items.map(([t, d]) => (
+        <div key={t}>
+          <p className="font-semibold text-sm text-gray-200">{t}</p>
+          <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function GCallout({ title, text, tone = 'amber' }: { title: string; text: string; tone?: 'amber' | 'red' | 'emerald' }) {
+  const tones = {
+    amber: 'bg-purple-500/5 border-purple-500/20 text-purple-200/85',
+    red: 'bg-red-500/5 border-red-500/20 text-red-200/85',
+    emerald: 'bg-emerald-500/5 border-emerald-500/20 text-emerald-200/85',
+  };
+  return (
+    <div className={`border rounded-xl px-4 py-3 ${tones[tone]}`}>
+      <p className="text-xs leading-relaxed"><span className="font-bold">{title}:</span> {text}</p>
+    </div>
+  );
+}
+
+function GLists({ left, right, leftTitle, rightTitle }: { left: string[]; right: string[]; leftTitle: string; rightTitle: string }) {
+  return (
+    <div className="grid md:grid-cols-2 gap-3">
+      <div className="bg-black/30 border border-red-500/15 rounded-xl p-4">
+        <p className="text-xs font-bold text-red-300 mb-2">{leftTitle}</p>
+        {left.map((l, i) => <p key={i} className="text-gray-400 text-xs leading-relaxed mb-1.5">• {l}</p>)}
+      </div>
+      <div className="bg-black/30 border border-emerald-500/15 rounded-xl p-4">
+        <p className="text-xs font-bold text-emerald-300 mb-2">{rightTitle}</p>
+        {right.map((l, i) => <p key={i} className="text-gray-400 text-xs leading-relaxed mb-1.5">• {l}</p>)}
+      </div>
+    </div>
+  );
+}
+
+
+function Tldr({ points }: { points: string[] }) {
+  return (
+    <div className="bg-gradient-to-br from-purple-500/12 to-[#111] border border-purple-500/30 rounded-2xl p-4">
+      <p className="text-[10px] font-black uppercase tracking-[0.15em] text-purple-300 mb-2">If you only read one thing</p>
+      <ul className="space-y-1.5">
+        {points.map(p => (
+          <li key={p} className="text-gray-300 text-[13px] leading-relaxed flex gap-2">
+            <span className="text-purple-400 flex-shrink-0">•</span><span>{p}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 function ExpandableCard({ title, content, badge, accent = 'text-gray-400' }: ExpandCard) {
   const [open, setOpen] = useState(false);
   return (
@@ -111,7 +205,7 @@ export default function LooksMax() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<LooksTab>(() => {
     const t = params.get('tab');
-    return (['scan', 'hair', 'face', 'techniques', 'style', 'grooming', 'fragrance', 'tracker'] as const).includes(t as LooksTab) ? (t as LooksTab) : 'scan';
+    return (['scan', 'hair', 'face', 'skin', 'techniques', 'style', 'grooming', 'fragrance', 'tracker'] as const).includes(t as LooksTab) ? (t as LooksTab) : 'scan';
   });
   const [checklist, setChecklist] = useState<Record<string, boolean>>(loadChecklist());
   const [dermaroll, setDermaroll] = useState(loadDermaroll());
@@ -252,6 +346,7 @@ export default function LooksMax() {
     { id: 'scan', label: 'AI Scan', icon: Camera },
     { id: 'hair', label: 'Hair', icon: Scissors },
     { id: 'face', label: 'Face', icon: Smile },
+    { id: 'skin', label: 'Skin', icon: Droplets },
     { id: 'techniques', label: 'Methods', icon: Sparkles },
     { id: 'style', label: 'Style', icon: Sun },
     { id: 'grooming', label: 'Groom', icon: User },
@@ -617,6 +712,41 @@ export default function LooksMax() {
                   </div>
                 ))}
               </div>
+          <div className="fade-up stagger space-y-3">
+            <div className="card-premium p-5">
+              <h2 className="font-black text-lg mb-1"><span className="text-purple-400">05</span> Hair & Scalp</h2>
+              <p className="text-gray-400 text-sm leading-relaxed">Thick, dark hair with natural wave and good density is a genuine asset — currently unstyled. The right products and routine unlock it dramatically. Scalp health is the foundation for growth, thickness and texture.</p>
+            </div>
+            <GFold title="Scalp Health" defaultOpen>
+              <GPairs items={[
+                ['Scalp massage — 5–10 min daily', 'Fingertips only, never nails. Firm circles across the whole scalp. Clinically shown to increase hair thickness over time via blood flow.'],
+                ['Rosemary oil — 3× weekly, the most important growth tool', 'Clinically proven as effective as Minoxidil for growth and thickness. 3–4 drops in jojoba carrier, massage in, leave 30+ min or overnight. Compounds over months.'],
+                ['Dermaroller 0.5mm — weekly', 'Micro-stimulation triggers the growth response. Apply rosemary oil immediately after. Dermaroller + rosemary + massage together beat any single tool by far.'],
+                ['Scalp scrub — weekly', 'Removes buildup, dead skin and oil that clog follicles. Briogeo Scalp Revival or DIY brown sugar + conditioner.'],
+              ]} />
+            </GFold>
+            <GFold title="Washing Routine">
+              <GPairs items={[
+                ['Maximum 3× per week', 'Daily washing strips the oils that define your wave pattern. If using Nizoral for dandruff: 2–3×/week with a gentler shampoo on off-days.'],
+                ['Shampoo scalp only, conditioner lengths only', 'Dragging shampoo through lengths strips them; conditioner on scalp causes grease. Cold water final rinse seals the cuticle — shinier, more defined waves.'],
+                ['Microfibre towel or old t-shirt — scrunch, never rub', 'Regular towels cause the friction that makes waves frizzy. Scrunching forms the wave. Never heat-dry without a diffuser.'],
+              ]} />
+            </GFold>
+            <GFold title="Products for Wavy Hair">
+              <GPairs items={[
+                ['Define waves', 'Verb Ghost Whip or Verb Curl Cream — apply to damp hair, scrunch upward, air dry.'],
+                ['Light hold + shine', 'Verb Ghost Oil — small amount through damp lengths.'],
+                ['Structured texture', 'Uppercut Deluxe Clay — DRY hair only, for control.'],
+                ['Deep condition — weekly', 'Olaplex No.3 or K18 Mask — towel-dry hair, 20–30 min, rinse.'],
+              ]} />
+              <GCallout tone="red" title="Never" text="Heavy clay or pomade on damp wavy hair — it collapses the wave pattern entirely and looks greasy. Clay goes on dry hair only. Damp hair gets curl cream, ghost oil or mousse." />
+            </GFold>
+            <GFold title="Haircut Guidance — longer/narrower face">
+              <GLists leftTitle="AVOID" rightTitle="ASK FOR"
+                left={['Slicked back — elongates the face further.', 'High volume on top — adds vertical length.', 'Growing out unshaped — unkempt, not intentional.', 'Raised square back — width in the wrong place, draws eyes to the crown.']}
+                right={['French Crop — horizontal fringe adds width, reduces perceived length.', 'Textured Crop with mid fade — works with the wave, clean sides.', 'Say: "Textured top with movement, low-to-mid taper, texturise the top to define the wave. Flat taper at the back — don\'t square it off."', 'Bring reference photos. Always.']} />
+            </GFold>
+          </div>
             </div>
           </>
         )}
@@ -878,15 +1008,105 @@ export default function LooksMax() {
                   'SPF 50 daily: prevents new sun damage accumulating.',
                 ]} />
               </div>
+          <div className="fade-up stagger space-y-3">
+            <div className="card-premium p-5">
+              <h2 className="font-black text-lg mb-1"><span className="text-purple-400">04</span> Jawline Enhancement</h2>
+              <p className="text-gray-400 text-sm leading-relaxed">A strong jawline = low body fat revealing the bone + masseter size + correct tongue posture guiding bone development + zero facial bloat. All four are actionable.</p>
+            </div>
+            <GFold title="The Jaw Routine" defaultOpen>
+              <GPairs items={[
+                ['Mewing — 24 hours per day', 'Worth doing: it costs nothing, and correct tongue posture genuinely helps how the jaw and neck sit. But be realistic — dramatic bone remodelling in an adult is not on offer, and most reported transformations are posture and leanness. Treat it as free upside, not the plan.'],
+                ['Mastic gum — 20–30 min daily', 'Hypertrophies the masseter. Both sides equally. Jaw angles visibly wider and squarer at 3–6 months — the fastest visible jaw change available.'],
+                ['Chin tucks — 30+ daily', 'Pull chin straight back horizontally, hold 5–10s. Repositions the cervical spine, improves side-profile jaw definition, builds neck flexors. Throughout the day, not just morning.'],
+                ['Neck curls — 3 sets of 12, 3× daily protocol', 'Lie flat, tuck chin, lift head slightly, hold briefly, lower slowly. Builds the front-neck muscles that create jaw-neck separation — one of the most visually important jaw features from any angle.'],
+                ['Gua sha along jawline — daily', 'Sequence: open the lymph drain at the collarbone FIRST (10 downward presses). Then scrape from centre of chin outward along the jawline to the ear, 10 strokes each side. Does the most for the jaw of any single morning tool.'],
+              ]} />
+            </GFold>
+            <GCallout tone="amber" title="The Biggest Lever" text="Reducing body fat reveals the jawline more than any exercise, gum or practice. Everything else enhances what fat loss reveals. The hierarchy: fat loss → debloating → mewing/bone → masseter development." />
+          </div>
             </div>
           </>
         )}
 
         {/* ===== GROOMING TAB ===== */}
         {/* ===== METHODS / TECHNIQUES TAB ===== */}
+        {tab === 'skin' && (
+          <div className="fade-up stagger space-y-3">
+            <div className="card-premium p-5">
+              <h2 className="font-black text-lg mb-1"><span className="text-purple-400">01</span> Skin & Acne Protocol</h2>
+              <p className="text-gray-400 text-sm leading-relaxed">For active acne on cheeks and jaw (bacterial + hormonal), post-inflammatory marks, congested pores, blackheads, milia and uneven texture. The underlying tone is strong — clearing breakouts and fading marks creates a dramatic difference fast.</p>
+            </div>
+            <GCallout tone="amber" title="The SPF Rule" text="SPF 50 every single morning without exception — indoors, cloudy days, all of it. UV penetrates glass. Without SPF, every dark mark gets re-damaged daily and never fully fades. Retinol also sharply increases sun sensitivity. This single step decides whether everything else works." />
+            <GFold title="Morning Routine" tag="6 steps, in order" defaultOpen>
+              <GStep n="01" title="Cleanse" desc="Lukewarm water — never hot (strips the barrier). Circular motions for a full 60 seconds. Pat dry, never rub." products={['CeraVe Foaming Cleanser', 'La Roche-Posay Toleriane']} />
+              <GStep n="02" title="Niacinamide 10%" desc="Most versatile morning ingredient. Shrinks pores, controls oil, fades dark spots, calms redness, strengthens the barrier. Wait 60 seconds before next step." products={['The Ordinary 10% Niacinamide + Zinc']} />
+              <GStep n="03" title="Vitamin C Serum" desc="The most important morning ingredient after SPF. Brightens tone, fades hyperpigmentation, protects from UV, boosts collagen. Wait 60 seconds." products={['Timeless 20% Vit C + E Ferulic', 'Skinceuticals CE Ferulic (premium)']} />
+              <GStep n="04" title="Eye Cream" desc="Tap in with ring finger only — minimum pressure. Never rub the under-eye area." products={['The Ordinary Caffeine 5% + EGCG', 'The Inkey List Caffeine']} />
+              <GStep n="05" title="Moisturise" desc="Even oily skin needs this. Skipping causes the skin to overproduce sebum in compensation, making oiliness and acne worse." products={['CeraVe Moisturising Cream', 'Neutrogena Hydro Boost']} />
+              <GStep n="06" title="SPF 50 — always last" desc="Reapply every 2 hours outdoors. Without this, every other product is half as effective and dark marks actively worsen." products={['LRP Anthelios Invisible Fluid', 'Isntree Watery Sun Gel']} />
+            </GFold>
+            <GFold title="Night Routine" tag="8 steps — actives alternate">
+              <GStep n="01" title="Oil Cleanse (first cleanse)" desc="Massage oil into DRY face for 90 seconds. Add water to emulsify, rinse. Dissolves sunscreen, sebum and pollution — your second cleanser cannot work without this." products={['Skin1004 Centella Cleansing Oil', 'DHC Deep Cleansing Oil']} />
+              <GStep n="02" title="Second Cleanse" desc="Same as morning. Now actually cleaning the skin beneath surface debris." />
+              <GStep n="3A" title="BHA — 3× per week" desc="The only ingredient that enters the pore and dissolves blockages from within. Essential for blackheads. Results at 4–6 weeks. NEVER with Benzoyl Peroxide or retinol on the same night." products={["Paula's Choice 2% BHA Liquid"]} />
+              <GStep n="3B" title="Benzoyl Peroxide 2.5% — alternate nights" desc="Thin layer over the full cheek and jaw area — not just spots. Kills acne bacteria. BP nights and BHA nights alternate — never both together." products={['LRP Effaclar Duo 2.5%']} />
+              <GStep n="04" title="Targeted treatments (pick by concern)" desc="Alpha Arbutin — best for post-acne dark marks. Azelaic Acid — kills bacteria AND fades marks, reduces redness. Tranexamic Acid — exceptional for stubborn red marks." products={['The Ordinary Alpha Arbutin 2%', 'Azelaic Acid 10%', 'Tranexamic Acid']} />
+              <GStep n="05" title="Retinol — build up slowly" desc="The most proven long-term skin transformer. Milia clear gradually with retinol — do not squeeze them. You will purge initially — push through, it's normal." products={['CeraVe Resurfacing Retinol', 'The Ordinary Retinol 0.2% in Squalane']} />
+              <GStep n="06" title="Moisturise" desc="Seals everything in and reduces retinol irritation significantly." />
+              <GStep n="07" title="Face oils" desc="2 drops squalane + 2 drops rosehip, warmed between palms, pressed gently in. Rosehip fades scars and marks; squalane locks moisture without clogging. After moisturiser." products={['The Ordinary Squalane', 'The Ordinary Rosehip Oil']} />
+              <GStep n="08" title="Slugging — 2–3× per week, absolute last step" desc="Thin layer of Vaseline over everything. Locks in every product underneath. Wake up with softer, plumper, clearer skin. Doesn't break you out when done over a complete routine." products={['Vaseline Original', 'Aquaphor']} />
+            </GFold>
+            <GFold title="Retinol Build-Up Schedule" tag="Rushing this = wrecked skin barrier">
+              <GPairs items={[
+                ['Weeks 1–2 — twice per week', 'Skin adjusting. Mild dryness is normal.'],
+                ['Weeks 3–4 — 3× per week', 'May see purging — temporary breakout increase. Push through it.'],
+                ['Month 2 — every other night', 'Texture improving, pores refining. Marks beginning to fade noticeably.'],
+                ['Month 3+ — nightly', 'Full benefits: smooth texture, clear pores, faded marks. Now consider stepping up to 0.3–0.5%.'],
+              ]} />
+            </GFold>
+            <GFold title="Tretinoin — the prescription step up from retinol" tag="Stronger, faster, and needs more respect">
+              <GPairs items={[
+                ['What it actually is', 'Retinol is over-the-counter and your skin has to convert it into retinoic acid before it works — a slow, weak process. Tretinoin IS retinoic acid already, applied directly. That is the entire difference, and it is why it works faster and harder than any strength of retinol.'],
+                ['How to get it in the UK', 'Prescription-only — it is not sold over the counter. Options: your GP (can prescribe but often reluctant for cosmetic use), a private dermatologist, or an online prescriber (Skin + Me, Dermatica, ZAVA) who assesses your skin via photos and posts it out. The online route is the fastest for most people.'],
+                ['Strengths', '0.025% is the standard starting strength, 0.05% and 0.1% are stronger. Cream is gentler than gel — start with 0.025% cream unless a dermatologist says otherwise. Going in strong is the single most common way people wreck their skin barrier.'],
+                ['When to actually switch from retinol', 'Once you have run 0.2-0.5% retinol nightly for several months with no further improvement, or if you want faster results and are willing to manage more irritation. If you are still purging on retinol, you are not ready for tretinoin — fix the barrier first.'],
+                ['The build-up is slower than retinol\'s', 'Once every 3 nights for 2-3 weeks, then every other night for a month, then nightly — and only once your skin tolerates each step without persistent redness or flaking. Rushing tretinoin causes real, sometimes weeks-long irritation, not just mild dryness.'],
+                ['Purging is real and can be worse than retinol\'s', 'Tretinoin speeds up cell turnover, which can bring existing microcomedones to the surface faster — expect a possible flare around weeks 2-6 before skin clears. This is genuinely different from a bad reaction; a true purge happens in areas you already tend to break out, and it resolves.'],
+                ['The moisturiser sandwich — the actual irritation fix', 'Moisturiser first, wait 20 minutes, apply a pea-sized amount of tretinoin (whole face, not just problem areas), then more moisturiser on top once it has absorbed. This "buffers" the dose without meaningfully reducing efficacy, and it is the single best tool for surviving the first month.'],
+                ['SPF is not optional, it is mandatory', 'Tretinoin thins the outer skin layer and increases sun sensitivity significantly more than retinol does. Skipping SPF while on tretinoin will burn skin that is already compromised and can undo months of progress in one exposure.'],
+                ['Never combine carelessly', 'Not on the same night as BHA, benzoyl peroxide or AHA — stack the irritation and you get a wrecked barrier, not faster results. Space actives across different nights, exactly as with retinol.'],
+                ['Pregnancy and general safety', 'Not for use during pregnancy or if trying to conceive — this applies to all retinoids. Otherwise well-studied and dermatologist-standard for acne and ageing when used correctly.'],
+                ['Realistic timeline', 'Weeks 2-6: possible purge, redness, flaking — the hard part. Month 2-3: skin adjusting, texture visibly improving. Month 4-6: clearer skin, faded marks, refined pores — noticeably ahead of what retinol alone would have achieved by then.'],
+              ]} />
+            </GFold>
+            <GFold title="Weekly Additions & Daily Habits">
+              <GPairs items={[
+                ['Clay mask — 1× per week', 'Aztec Secret with ACV, 10 minutes, deep pore cleanse.'],
+                ['AHA exfoliation — 1× per week', 'The Ordinary Glycolic 7%. Resurfaces skin. Never with BHA on the same night.'],
+                ['Hydrating sheet mask', 'Korean hyaluronic acid masks for intense moisture.'],
+                ['Pillowcase every 2–3 days', 'Bacteria accumulate rapidly.'],
+                ['Clean phone screen daily', 'Direct skin contact transfers significant bacteria.'],
+                ['Never touch your face', 'All day. And ice roll every morning — reduces redness and puffiness immediately.'],
+              ]} />
+            </GFold>
+            <GFold title="Diet — Direct Skin Impact">
+              <GLists leftTitle="REMOVE" rightTitle="ADD"
+                left={['Dairy — most directly linked to cheek/jaw acne. Eliminate 30 days and observe.', 'High glycemic foods — white bread, sugar, pasta. Insulin spikes drive sebum.', 'Alcohol — dehydrates skin, destroys sleep, accelerates ageing.', 'Processed foods — systemically inflammatory.']}
+                right={['Fatty fish (salmon, sardines) — omega-3 for barrier and anti-inflammation.', 'Spearmint tea 2 cups daily — reduces androgens driving hormonal acne.', 'Green tea — antioxidants, mildly reduces DHT.', 'Berries, avocado, sweet potato — antioxidants and vitamin A.']} />
+            </GFold>
+            <GCallout tone="red" title="If skin doesn't clear in 8 weeks" text="See a dermatologist. Topical antibiotics (clindamycin), prescription azelaic acid, or oral antibiotics clear what topicals cannot. Low-dose Accutane is the permanent solution for persistent hormonal/bacterial acne. Don't manage it for years when effective solutions exist." />
+          </div>
+        )}
+
         {tab === 'techniques' && (
           <>
             <div className="bg-gradient-to-br from-purple-950/40 to-pink-950/20 border border-purple-500/20 rounded-2xl p-4">
+            <Tldr points={[
+              'Body fat is the single biggest face changer — 10-14% is where a jawline appears. Nothing else here competes with it.',
+              'Sleep 8h, SPF every day, and creatine + D3 + omega-3. That is the whole supplement argument.',
+              'Debloat for events: cut late salt and alcohol, sleep with your head raised, cold water on the face in the morning.',
+              'Skip anything promising bone change in adulthood. Mewing is a long game with modest, honest limits.',
+            ]} />
               <div className="flex items-center gap-2 mb-1">
                 <Sparkles size={15} className="text-purple-400" />
                 <h2 className="font-bold text-base text-purple-300">The Techniques Encyclopedia</h2>
@@ -1083,6 +1303,41 @@ export default function LooksMax() {
                   If you ever get sharp pain, numbness or tingling down the arm (rather than a stretch/work feeling), stop and see a physio — that's a different issue.
                 </p>
               </div>
+          <div className="fade-up stagger space-y-3">
+            <div className="card-premium p-5">
+              <h2 className="font-black text-lg mb-1"><span className="text-purple-400">11</span> Execution Order</h2>
+              <p className="text-gray-400 text-sm leading-relaxed">Consistency over perfection: 70% of this for 6 months beats 100% for 2 weeks then stopping. Start with the highest-leverage habits, layer in more over time.</p>
+            </div>
+            <GFold title="Week 1 — Start Now" tag="The foundations" defaultOpen>
+              <GPairs items={[
+                ['Skin', 'Cleanser + niacinamide + moisturiser + SPF every morning · Benzoyl Peroxide 2.5% on cheeks/jaw every night.'],
+                ['Structure', '10-min posture routine every morning · begin mewing as resting posture NOW · gua sha + ice roller every morning.'],
+                ['Inputs', 'Cut dairy completely for 30 days · creatine 5g + D3 2,000–4,000IU + omega-3 1–2g daily · 3–4L water · scalp massage with rosemary oil.'],
+              ]} />
+            </GFold>
+            <GFold title="Weeks 2–4 — Layer In">
+              <GPairs items={[
+                ['Skin', 'Add Vitamin C (AM) · BHA 3×/week (alternating with BP nights) · Alpha Arbutin for marks · Azelaic Acid for redness.'],
+                ['Grooming', 'Eyebrows threaded · proper haircut with reference photos.'],
+                ['Structure', 'Mastic gum daily · face pulls every gym session · neck training every other day.'],
+              ]} />
+            </GFold>
+            <GFold title="Month 2+ — Full Protocol">
+              <GPairs items={[
+                ['Skin', 'Begin retinol 2×/week, build gradually · squalane + rosehip nightly · slugging 2–3×/week · weekly clay mask + AHA. If not clearing — dermatologist.'],
+                ['Hair & body', 'Dermaroller weekly · full supplement stack · stomach vacuums fasted every morning.'],
+              ]} />
+            </GFold>
+            <GFold title="Expected Timeline" tag="What happens when">
+              <GPairs items={[
+                ['Weeks 1–2', 'Skin more hydrated and cleaner. Puffiness down from gua sha + diet. More groomed appearance from threading and haircut.'],
+                ['Weeks 4–6', 'Active breakouts reducing. Dark marks starting to fade. Brow/lash growth visible from castor oil. Posture noticeably improving.'],
+                ['Month 3', 'Skin significantly clearer. Masseter definition beginning. Posture habitual. Jawline more defined from fat loss + debloating. Hair visibly improved.'],
+                ['Month 6', 'Skin clear, marks faded, retinol full effect. Jaw noticeably more defined. Posture transformed — side profile dramatically better. Bone changes from mewing becoming visible. You will look like a genuinely different person to someone who knew you 6 months ago.'],
+              ]} />
+            </GFold>
+            <GCallout tone="emerald" title="The Combination Effect" text="Clearing skin + fixing posture + debloating + building jaw muscle + reducing body fat all reinforce each other. None in isolation produces what all together produce. Your strongest natural features are simply obscured — this guide systematically removes every layer of obscurity." />
+          </div>
             </div>
             <ExpandableCard badge="FEMALE GAZE" title="What women actually notice — the real ranking" content={[
               'The looksmax forums rank jaw angles and canthal tilt. Women, when actually surveyed and observed, rank differently. Here\'s the honest list, roughly in order:',
@@ -1119,6 +1374,11 @@ export default function LooksMax() {
         {tab === 'style' && (
           <>
             <div className="bg-gradient-to-br from-amber-950/40 to-orange-950/20 border border-amber-500/20 rounded-2xl p-4">
+            <Tldr points={[
+              'Fit beats brand and price every time. A £20 tee that fits beats a £200 one that does not.',
+              'Get things altered — a £10-15 tailor is the highest-return money in this whole section.',
+              'Neutral base, one point of interest. Shoes and outerwear are where spending actually shows.',
+            ]} />
               <div className="flex items-center gap-2 mb-1">
                 <Sun size={15} className="text-amber-400" />
                 <h2 className="font-bold text-base text-amber-300">Colour & Style Lab</h2>
@@ -1660,6 +1920,48 @@ export default function LooksMax() {
                   </div>
                 ))}
               </div>
+          <div className="fade-up stagger space-y-3">
+            <div className="card-premium p-5">
+              <h2 className="font-black text-lg mb-1"><span className="text-purple-400">06</span> Grooming & Detail</h2>
+              <p className="text-gray-400 text-sm leading-relaxed">Brows, facial hair, lips, under-eyes, teeth — the details that decide whether the whole reads as deliberate.</p>
+            </div>
+            <GFold title="Eyebrows" tag="Strong thick brows = asset. Make them deliberate." defaultOpen>
+              <GPairs items={[
+                ['Get threaded monthly — not waxed', 'Threading is more precise. Tell them: keep masculine and full, clean the middle gap, define the arch slightly, strays from UNDER the brow bone only — nothing from the top. Every 3–4 weeks, £5–10.'],
+                ['Brush up with a spoolie + clear brow gel daily', 'Brushed-up brows look intentional, full and defined. 20 seconds. Boy Brow by Glossier (clear).'],
+                ['Castor oil nightly', 'Clean spoolie, every night. Density and growth visible within 4–6 weeks.'],
+              ]} />
+            </GFold>
+            <GFold title="Facial Hair">
+              <GPairs items={[
+                ['Clean shave', 'Most intentional while coverage is developing. Shows the jawline clearly. Maintain daily or every 2 days.'],
+                ['Light stubble (1–2mm)', 'Trimmer with guard. Define the neckline and cheek line SHARPLY — that\'s what makes it intentional. Every 2–3 days.'],
+                ['Full beard', 'Commit through the 4–6 week awkward phase. Topical Minoxidil on the face increases coverage if patchy. Shape weekly.'],
+              ]} />
+              <GCallout tone="amber" title="Neckline Rule" text="Two fingers above the Adam's apple, curved ear to ear. Never a straight horizontal line. Sharp edges are the difference between groomed and unkempt. Always fade the beard into sideburns and hairline." />
+            </GFold>
+            <GFold title="Lips">
+              <GPairs items={[
+                ['Nightly', 'Aquaphor or CeraVe Healing Ointment as a lip mask. Wake up noticeably softer.'],
+                ['Daytime', 'SPF lip balm — Jack Black Intense Therapy or EOS. And do NOT lick your lips — saliva dries them further.'],
+                ['Weekly + hyperpigmentation', 'Exfoliate: Vaseline + soft toothbrush, circles, 60s (or brown sugar + honey + coconut oil scrub). Vitamin C carefully at the lip border fades discolouration; daily SPF prevents further darkening.'],
+              ]} />
+            </GFold>
+            <GFold title="Under Eyes">
+              <GPairs items={[
+                ['AM — caffeine serum', 'Tap with ring finger only, never rub. Reduces puffiness and darkening. The Ordinary Caffeine 5% + EGCG.'],
+                ['Nightly — castor oil on the lash line', 'Clean spoolie. Visibly thicker lashes in 6–8 weeks.'],
+                ['Morning — gua sha under eye, outward only', 'Very gentle strokes toward the temple. Moves lymph, kills overnight puffiness. Never inward or pressing down.'],
+              ]} />
+            </GFold>
+            <GFold title="Teeth">
+              <GPairs items={[
+                ['Daily', 'Electric toothbrush 2× + floss every night.'],
+                ['Whitening', 'Strips 2–3× per year — HiSmile or Crest Whitestrips.'],
+                ['Warning', 'Gum recession cannot be reversed — never brush hard at the gum line.'],
+              ]} />
+            </GFold>
+          </div>
             </div>
           </>
         )}

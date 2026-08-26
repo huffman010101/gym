@@ -206,7 +206,7 @@ export default function HighValue() {
         ['The one clean test that is not a game', 'Propose something specific — a day, a thing, a time. Genuine interest makes time. Ambivalence produces vague replies and no counter-offer. One clear invitation tells you more than a week of texting.'],
         ['If you have to decode it, that is the answer', 'Real interest is rarely subtle for long. Spending hours interpreting a message is itself the information.'],
         ['Screen her too', 'This runs both ways and most men forget it entirely. How does she treat staff? Do her words match her actions? Is she the same when it is inconvenient? How does she talk about people who are not there? You are choosing as well.'],
-        ['Standards you would actually enforce', 'A standard you would never act on is a preference. Know what you would walk away from before you are in a position where walking is hard.'],
+        ['Standards you would actually enforce', 'A standard you would never act on is a preference. Worked through properly in Mind → Security.'],
       ]} />
 
       <Fold title="An Instagram people watch" tag="The principle — full guide in Looks → Style" items={[

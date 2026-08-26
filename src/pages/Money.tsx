@@ -17,6 +17,22 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'mindset', label: 'Money Rules' },
 ];
 
+
+function Tldr({ points }: { points: string[] }) {
+  return (
+    <div className="bg-gradient-to-br from-yellow-500/12 to-[#111] border border-yellow-500/30 rounded-2xl p-4">
+      <p className="text-[10px] font-black uppercase tracking-[0.15em] text-yellow-300 mb-2">If you only read one thing</p>
+      <ul className="space-y-1.5">
+        {points.map(p => (
+          <li key={p} className="text-gray-300 text-[13px] leading-relaxed flex gap-2">
+            <span className="text-yellow-400 flex-shrink-0">•</span><span>{p}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 function Block({ title, items, accent = 'text-yellow-300' }: { title: string; items: [string, string][]; accent?: string }) {
   return (
     <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
@@ -307,7 +323,7 @@ export default function Money() {
               ['3. Set a monthly direct debit', 'Automate it for the day after payday so it leaves before you can spend it. Automation beats motivation — this single step is why some people build wealth and others intend to.'],
               ['4. Then do nothing', 'Do not check it daily. Do not switch funds because something else did better last year. The strategy IS leaving it alone. Rebalance once a year at most.'],
               ['Accumulation vs Income units', 'Acc reinvests dividends for you (best while building wealth). Inc pays them out as cash (useful when you eventually live off it). Pick Acc now.'],
-              ['Lifetime ISA — worth knowing', 'If you are under 40 and saving for a FIRST home: the government adds 25% on up to £4,000/year, so £1,000 free per year. Huge. But withdrawing for anything other than a first home or age 60 carries a penalty that can leave you worse off. Only use it if the goal genuinely is a first home.'],
+              ['Lifetime ISA — worth knowing', 'A 25% government bonus on up to £4,000/year, for a first home or age 60 only — withdraw for anything else and the penalty can leave you worse off. Full rules in the Tax tab.'],
             ]} />
             <Fold title="When to invest" tag="The timing question, answered properly" items={[
               ['Time IN the market beats timing the market', 'Missing just the ~10 best days over a couple of decades can cut your total return dramatically — and those days cluster right after crashes, exactly when scared people are sitting in cash. Staying invested is the whole strategy.'],
@@ -349,6 +365,11 @@ export default function Money() {
         {/* ===== TRADING ===== */}
         {tab === 'trading' && (
           <div className="fade-up stagger space-y-4">
+            <Tldr points={[
+              'The boring path — a global index fund inside an ISA, monthly, left alone — beats most active traders. That is the default.',
+              'If you still trade: one setup, 1-2% risk per trade, and 100 journalled trades before you judge whether you have an edge.',
+              'Risk management is the skill. Entries are roughly 20% of it; surviving is the rest.',
+            ]} />
             <Link to="/backtest" className="block bg-gradient-to-br from-amber-500/15 to-[#111] border border-amber-500/30 rounded-2xl p-4 hover:border-amber-500/50 transition-colors">
               <div className="flex items-center justify-between">
                 <div>

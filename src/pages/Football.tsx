@@ -215,7 +215,7 @@ export default function Football() {
             ]} />
 
             <Fold title="How to actually improve fastest" tag="A method, not a wish" items={[
-              ['Pick ONE weakness per 6-8 weeks', 'Weak foot, first touch, heading, scanning, finishing. One at a time, drilled in every session, until it stops being a weakness. Trying to fix everything at once fixes nothing.'],
+              ['Pick ONE weakness per 6-week block', 'Weak foot, first touch, heading, scanning, finishing — one at a time, drilled every session until it stops being a weakness. The block structure and how to pick is in The Plan tab.'],
               ['Film yourself', 'Phone propped up for one home session or one match. You will immediately see things you cannot feel — heavy touches, poor body shape, standing still off the ball. The single fastest feedback loop available to you.'],
               ['Keep a training log', 'What you drilled, for how long, and one line on how it went. It converts vague effort into visible progression, and it stops you from quietly doing only what you enjoy.'],
               ['Play with better players wherever possible', 'Being the worst player in a strong session improves you faster than dominating a weak one. It is uncomfortable, which is exactly why it works.'],
@@ -293,7 +293,7 @@ export default function Football() {
             ]} />
 
             <Fold title="Deliberate practice — the actual difference" tag="Why some players improve for years and others plateau at 17" items={[
-              ['Pick ONE weakness per 4-6 week block', 'Weak foot. Or first touch under pressure. Or heading. Trying to fix everything fixes nothing. Name the weakness, attack it for six weeks, then reassess.'],
+              ['Pick ONE weakness per 6-week block', 'Weak foot. Or first touch under pressure. Or heading. Trying to fix everything fixes nothing. Name it, attack it for six weeks, then reassess.'],
               ['Practise at match speed and under pressure', 'Cones do not close you down. Once a skill works unopposed, add a defender, a time limit, or a restriction. Skills that only work in isolation do not exist in matches.'],
               ['Use constraints to force the adaptation', 'Weak foot only. One touch. Two-touch maximum. No talking. Constraints make the thing you are avoiding unavoidable, and they work far faster than instruction.'],
               ['Get feedback or you are guessing', 'Video, a coach, or a teammate who will be honest. Practising for months without feedback usually means grooving errors deeper.'],
@@ -420,7 +420,7 @@ export default function Football() {
               ['Disguise', 'Look one way, pass the other; open your hips late. One disguised pass a match changes how defenders treat you all game.'],
             ]} />
             <Fold title="Dribbling & 1v1s — Fundamentals" tag="Beat your man on demand" items={[
-              ['Two touches per stride at speed', 'Close control drills daily: cone weaves, figure-8s, both feet, head up on every third touch.'],
+              ['Two touches per stride at speed', 'The daily close-control drill is in The Plan tab — do it there rather than tracking it in two places.'],
               ['One move mastered > ten known', 'Pick a go-to (body feint, chop, or push-and-go) and drill it until it works at full speed under pressure. Add a counter-move once defenders expect it.'],
               ['Attack the front foot', 'Dribble AT the defender\'s leading foot, shift as their weight commits, explode past. Speed change beats trick complexity — slow-slow-FAST.'],
               ['Change of pace beats change of direction', 'The defender reacts to your speed change more than your angle change. Slow their momentum down with small touches, then explode — the explosion IS the move, the trick just sets it up.'],
@@ -550,14 +550,14 @@ export default function Football() {
               ['One-foot jump with a run-up', 'Always more height than a two-foot standing jump. Even one or two steps of run-up transforms your reach.'],
               ['Get in front and back into them', 'Body position wins headers before anyone jumps. Establish yourself in front of your marker, feel them with your back, then attack the ball.'],
               ['Use your arms for leverage', 'Arms up and out creates space and helps you rise — legal as long as you\'re not pushing off. Every dominant header does this.'],
-              ['Attack the ball, don\'t let it hit you', 'Neck tensed, eyes open, strike through it at the hairline. Whoever attacks the ball wins the duel; whoever waits for it gets beaten and often hurt.'],
+              ['Attack the ball, don\'t let it hit you', 'Whoever attacks the ball wins the duel; whoever waits for it gets beaten and often hurt. Technique is in Every Metric → Heading.'],
               ['Neck strength = header power', 'This is where your neck training pays off — power through a header comes from the neck and trunk snapping through contact, not just the jump.'],
             ]} />
             <Block title="Defending physically — the Khusanov side" items={[
               ['Win the first contact', 'As the ball travels to a striker, make contact early and get touch-tight. A striker who receives with you already leaning on them has no time and no options.'],
               ['Shoulder-to-shoulder is legal, arms are not', 'You can barge shoulder-to-shoulder when contesting the ball. What gets penalised is arms extended, hands pushing, or contact with no attempt to play the ball. Learn that line and live right on it.'],
               ['Read, don\'t lunge', 'Diving in is how strong defenders get embarrassed. Stay side-on, jockey, show them their weak side, and use your strength when the ball is genuinely winnable.'],
-              ['Front-foot defending', 'When the ball goes into a striker\'s feet, be aggressive and tight. When there\'s a ball over the top, drop early. Getting caught in between is what makes defenders look slow.'],
+              ['Front-foot defending', 'Tight when it goes into feet, drop early against a ball over the top. Getting caught in between is what makes defenders look slow. Positional detail is in By Position.'],
               ['Recovery pace covers mistakes', 'Strength without pace gets exposed by any quick forward. Keep the sprint work in the Speed tab going — being big AND fast is what makes Khusanov work.'],
               ['Be relentless, not reckless', 'Constant physical presence across 90 minutes wears strikers down mentally. Late in games they stop wanting the ball. That\'s the real win.'],
             ]} />

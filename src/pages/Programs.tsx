@@ -286,7 +286,7 @@ export default function Programs() {
 
             <Fold title="If you also train MMA and play football" tag="The honest version, including what has to give" items={[
               ['Count the hard sessions honestly', 'Five gym days plus two MMA sessions plus a match is eight hard sessions. That is more than most people recover from, and the failure mode is not dramatic — it is a slow flattening where nothing gets worse but nothing improves either.'],
-              ['Your sport IS the explosive day', 'A football match or a hard sparring session contains sprinting, cutting, jumping and rotational output. If you did either this week, cut the Thursday sprints and lateral bounds and keep only the throws, jumps and the isometric/carry work.'],
+              ['Your sport IS the explosive day', 'A match or hard sparring already contains sprinting, cutting and jumping. Exactly what to cut from Thursday is listed on the Explosive tab.'],
               ['Drop to four gym days before you drop quality', 'Push, Big Leg Day, Pull, Shoulders — and let sport cover explosive entirely. Four good days beats six mediocre ones every time, and this is the version to run in a busy block or a fight camp.'],
               ['Never lift heavy legs the day before a match or hard sparring', 'The 48-hour rule. Big Leg Day and the Explosive day both need two clear days before anything competitive.'],
               ['Order within a day: skill first, always', 'If a sport session and a lift land on the same day, do the technical session while fresh and lift afterwards, ideally separated by a few hours. Skill practised tired builds tired-looking skill.'],

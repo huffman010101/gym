@@ -181,7 +181,6 @@ export default function Home() {
             { to: '/padel',     icon: CircleDot, label: 'Padel',    desc: 'Technique · strategy · wall play',      color: 'text-sky-400',     border: 'hover:border-sky-500/40',     bg: 'bg-sky-500/10' },
             { to: '/money',     icon: Target,   label: 'Money',    desc: 'Skills · business · investing',         color: 'text-yellow-400',  border: 'hover:border-yellow-500/40',  bg: 'bg-yellow-500/10' },
             { to: '/uni',       icon: GraduationCap, label: 'Uni & Brain', desc: 'AI revision · career · sleep · IQ', color: 'text-sky-400', border: 'hover:border-sky-500/40', bg: 'bg-sky-500/10' },
-            { to: '/guide',     icon: Trophy, label: 'The Blueprint', desc: 'Skin · jaw · aura 0→100 · full protocol', color: 'text-amber-400', border: 'hover:border-amber-500/40', bg: 'bg-amber-500/10' },
           ].map(({ to, icon: Icon, label, desc, color, border, bg }) => (
             <Link key={to} to={to}
               className={`bg-gradient-to-br ${bg} to-[#111] border border-white/8 ${border} rounded-2xl p-4 transition-all hover:-translate-y-0.5 group press`}>

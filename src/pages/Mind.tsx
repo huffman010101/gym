@@ -26,6 +26,100 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'secret', label: '🔒 Secret' },
 ];
 
+
+function Tldr({ points }: { points: string[] }) {
+  return (
+    <div className="bg-gradient-to-br from-pink-500/12 to-[#111] border border-pink-500/30 rounded-2xl p-4">
+      <p className="text-[10px] font-black uppercase tracking-[0.15em] text-pink-300 mb-2">If you only read one thing</p>
+      <ul className="space-y-1.5">
+        {points.map(p => (
+          <li key={p} className="text-gray-300 text-[13px] leading-relaxed flex gap-2">
+            <span className="text-pink-400 flex-shrink-0">•</span><span>{p}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function GStep({ n, title, desc, products }: { n: string; title: string; desc: string; products?: string[] }) {
+  return (
+    <div className="flex items-start gap-3">
+      <div className="w-8 h-8 rounded-lg bg-pink-500/10 border border-pink-500/25 flex items-center justify-center flex-shrink-0 text-pink-400 font-black text-[11px] mt-0.5">{n}</div>
+      <div className="flex-1">
+        <p className="font-semibold text-sm text-gray-200">{title}</p>
+        <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
+        {products && (
+          <div className="flex flex-wrap gap-1.5 mt-1.5">
+            {products.map(p => <span key={p} className="text-[10px] bg-white/5 border border-white/10 text-gray-400 px-2 py-0.5 rounded-full">{p}</span>)}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function GFold({ title, tag, children, defaultOpen = false }: { title: string; tag?: string; children: React.ReactNode; defaultOpen?: boolean }) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div className="bg-[#111] border border-white/8 rounded-2xl overflow-hidden press">
+      <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between px-5 py-4 text-left">
+        <div>
+          <p className="font-bold text-gray-100">{title}</p>
+          {tag && <p className="text-xs text-pink-400/70 mt-0.5">{tag}</p>}
+        </div>
+        <ChevronDown size={18} className={`text-gray-600 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
+      </button>
+      <div className={`collapse-wrap ${open ? 'open' : ''}`}>
+        <div className="collapse-inner">
+          <div className="collapse-content px-5 pb-5 space-y-3">{children}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function GPairs({ items }: { items: [string, string][] }) {
+  return (
+    <div className="space-y-3">
+      {items.map(([t, d]) => (
+        <div key={t}>
+          <p className="font-semibold text-sm text-gray-200">{t}</p>
+          <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function GCallout({ title, text, tone = 'amber' }: { title: string; text: string; tone?: 'amber' | 'red' | 'emerald' }) {
+  const tones = {
+    amber: 'bg-pink-500/5 border-pink-500/20 text-pink-200/85',
+    red: 'bg-red-500/5 border-red-500/20 text-red-200/85',
+    emerald: 'bg-emerald-500/5 border-emerald-500/20 text-emerald-200/85',
+  };
+  return (
+    <div className={`border rounded-xl px-4 py-3 ${tones[tone]}`}>
+      <p className="text-xs leading-relaxed"><span className="font-bold">{title}:</span> {text}</p>
+    </div>
+  );
+}
+
+function GLists({ left, right, leftTitle, rightTitle }: { left: string[]; right: string[]; leftTitle: string; rightTitle: string }) {
+  return (
+    <div className="grid md:grid-cols-2 gap-3">
+      <div className="bg-black/30 border border-red-500/15 rounded-xl p-4">
+        <p className="text-xs font-bold text-red-300 mb-2">{leftTitle}</p>
+        {left.map((l, i) => <p key={i} className="text-gray-400 text-xs leading-relaxed mb-1.5">• {l}</p>)}
+      </div>
+      <div className="bg-black/30 border border-emerald-500/15 rounded-xl p-4">
+        <p className="text-xs font-bold text-emerald-300 mb-2">{rightTitle}</p>
+        {right.map((l, i) => <p key={i} className="text-gray-400 text-xs leading-relaxed mb-1.5">• {l}</p>)}
+      </div>
+    </div>
+  );
+}
+
 function Card({ title, items, icon: Icon }: { title: string; items: [string, string][]; icon: typeof Brain }) {
   return (
     <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
@@ -180,6 +274,11 @@ export default function Mind() {
         {/* ============ CHARISMA ============ */}
         {tab === 'charisma' && (
           <div className="fade-up stagger space-y-4">
+            <Tldr points={[
+              'Listen properly: stop queueing your reply, go deeper into their answer, remember a detail and raise it next time.',
+              'Match their energy first, then lead it up a notch. Mismatched energy is what makes interactions feel off.',
+              'Stories run setup → tension → payoff. Cut everything that is none of those three.',
+            ]} />
             <Card icon={Sparkles} title="The Charisma Formula" items={[
               ['Presence', 'Charisma is 90% making people feel like the only person in the room. Phone away, full eye contact, react to what they actually said — not what you were waiting to say.'],
               ['Warmth + Power', 'Warmth alone = nice but forgettable. Power alone = intimidating. Both together = magnetic. Smile easily AND hold your ground on opinions.'],
@@ -307,6 +406,82 @@ export default function Mind() {
         {/* ============ AURA ============ */}
         {tab === 'aura' && (
           <div className="fade-up stagger space-y-4">
+          <div className="fade-up stagger space-y-3">
+            <div className="card-premium p-5">
+              <h2 className="font-black text-lg mb-1">Aura & Presence — Level 0 → 100</h2>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Aura = the gap between what people expect and what they get. It's not mystery — it's a signal: the accumulated
+                product of how you look, move, speak, dress and hold yourself. Most people's problem isn't potential, it's
+                <span className="text-gray-200 font-semibold"> incongruence</span> — strong pieces, inconsistent whole. The job is congruence: every signal pointing the same direction at once.
+              </p>
+            </div>
+            <GFold title="Level 0 → 25 — The Foundation Lock-In" tag="Weeks 1–4 · free · most people never complete this" defaultOpen>
+              <GPairs items={[
+                ['Posture — fix how you occupy space', 'String pulling the crown of your head up, neck long, chin level, shoulders rolled back and down, chest passively open. Trigger: every doorway = posture reset. Unconscious within 2 weeks.'],
+                ['Slow your walk by 20%', 'Fast walking signals anxiety. Longer deliberate strides, arms natural, head level looking ahead. The most immediately visible change on this list.'],
+                ['Voice — lower and slower', 'Speak from the chest (diaphragmatic breath first) · slow speech 20–30% · start sentences in a lower register. Practice: record 60s daily, listen back — the gap between how you sound in your head and on tape is the gap to close.'],
+                ['Eye contact 70/30', 'Hold 70% listening, 50% speaking. Break to the SIDE, never down. When someone finishes talking, hold 1–2s before responding — reads as confidence, intelligence and deliberateness at once.'],
+                ['Grooming baseline', 'Every grooming variable consistent and maintained (see Grooming tab). The discipline of maintenance is itself the signal.'],
+                ['Fix the fit before buying anything', 'Audit the wardrobe for shoulder-seam fit; tailor the 2–3 best pieces (£15–25 each). A tailored basic beats a badly fitting designer piece every time.'],
+              ]} />
+            </GFold>
+            <GFold title="Level 25 → 50 — The Visible Transformation" tag="Weeks 4–12">
+              <GPairs items={[
+                ['Reach 12–13% body fat', 'Where face, physique and aura intersect. The jaw and cheekbone structure becomes prominent — the face moves from "attractive" to "distinctively angular". The single highest-ROI physical intervention.'],
+                ['Build the wardrobe', 'Palette: black, charcoal, navy, camel, off-white. No loud patterns, no logos, no oversized streetwear. Slim body, proportionate shoulder, slightly cropped trousers. Arket, COS, Massimo Dutti, Zara Man (carefully). One statement piece max. Simple watch, no sports rubber straps.'],
+                ['Become harder to impress', 'Stop laughing at everything unfunny. Stop "yeah absolutely" to everything. Let pauses exist. Selective reaction makes your engagement mean something. 2–3 weeks of conscious practice.'],
+                ['Stop seeking validation in real time', 'No checking if the joke landed, no over-explaining, no qualifying everything. Say what you mean, let it land, move on. Practice: one unsoftened true statement per interaction, no reaction check.'],
+                ['Speak less, say more', 'Shorter sentences. Downward inflection. State conclusions, not thought processes. When you have nothing to add — nothing. High-presence silence reads as contemplation.'],
+              ]} />
+            </GFold>
+            <GFold title="Level 50 → 75 — Rooms Start to Notice" tag="Months 3–6 · the compounding begins">
+              <GPairs items={[
+                ['One hero piece per season', 'A quality dark wool overcoat or structured leather jacket is the highest-ROI single item for a tall man — it changes how you enter every room. One good coat beats 10 mediocre pieces.'],
+                ['Curate the circle', 'You\'re perceived partly as the average of your visible circle. Build toward ambitious, disciplined, interesting people — societies, networks, people building things. It raises perceived status AND your actual standards.'],
+                ['Build reference points', 'One non-fiction book/month, genuine expertise in 2–3 areas, travel when possible. Depth fills silence with signal; shallowness fills it with noise.'],
+                ['Shoulder-dominant training', 'V-taper: overhead press, lateral raises, pull-ups, rows, face pulls. Neck training 2×/week — neck thickness frames the jaw. The silhouette signals before the face is visible.'],
+                ['Instagram — intentional curation', '3 posts/week, window light or golden hour, consistent aesthetic — a mood board, not a diary. No ring-light gym selfies. Meaningful social proof by month 6.'],
+                ['Scent as signature', 'ONE consistent daytime scent so you become associated with it; one heavy evening scent that leaves a trail. Fragrance memory is one of the strongest human memory associations.'],
+              ]} />
+            </GFold>
+            <GFold title="Level 75 → 100 — The Compound Effect" tag="Months 6–18 · being it, not doing it">
+              <GPairs items={[
+                ['Become the archetype fully', 'Stop thinking of aura as something you work on — accumulated consistency makes it who you are. Lean, defined, intentional grooming, measured speech, elevated circle, work that matters.'],
+                ['Position in high-value rooms', 'Be the most physically put-together person in the room who ALSO has something to say. At that intersection the status signal amplifies beyond either alone.'],
+                ['Develop a signature', 'One recognisable element — a chain worn consistently, a colour palette, a style of coat. People should be able to picture you without seeing you.'],
+              ]} />
+            </GFold>
+            <GFold title="The 8 Rules of High-Status Behaviour" tag="Memorise these — all free, all learnable">
+              <GPairs items={[
+                ['1. Don\'t over-explain', '"Sorry I\'m late." Full stop. Over-explanation is a bid for approval. State the fact, move on — decisions, opinions, choices, all of it.'],
+                ['2. Comfortable with silence', 'When you\'ve said what you wanted to say — stop. No qualifiers, no "you know?". Silence after a strong statement lets it land. Be the still point in the room.'],
+                ['3. Move toward what you want without asking permission', 'Pick the restaurant. Walk over and introduce yourself. State opinions without "I don\'t know, maybe…". Most people are desperate for someone to just decide. Be that person.'],
+                ['4. Genuinely interested, not performatively interesting', 'Actually curious. Follow-up questions. Remembering what people said three conversations ago. People feel seen and associate that feeling with you.'],
+                ['5. Treat everyone the same regardless of status', 'As attentive to the barman as the CEO. Everyone notices — especially the CEO. It signals security.'],
+                ['6. Don\'t seek reactions', 'No scanning the room after a joke. Say it, share it, move on as if the outcome is irrelevant — because it is.'],
+                ['7. Time visibly valuable', 'Decline without elaborate apology. Arrive when you said, leave when you decide. People want more of time that\'s rationed.'],
+                ['8. Standards, held visibly', 'Don\'t tolerate disrespect, don\'t linger in environments beneath your standards — never aggressively, just clearly true. Visible standards = self-respect = the foundation of every other signal.'],
+              ]} />
+            </GFold>
+            <GFold title="Voice Deep Dive — the hidden multiplier" tag="Weighted more than looks in ongoing interactions">
+              <GPairs items={[
+                ['Pitch', 'Social pressure constricts the throat and raises pitch — your relaxed voice is lower. Diaphragmatic breath in, speak on the exhale in the lower register. Default within 4–6 weeks.'],
+                ['Pace', 'Speak 25% slower than natural. It sounds absurd to you and measured to everyone else. Fast speech = fear of losing attention; slow = expecting to be heard.'],
+                ['Pauses', '1–3 seconds of silence before answering is one of the most powerful status signals in conversation. It says: considered, unhurried, worth waiting for.'],
+                ['Downward inflection', 'End statements going DOWN. Upward = seeking confirmation. The most common low-confidence tell and the easiest to fix.'],
+                ['Daily practice', 'Record 60 seconds every morning, listen back in the evening. Lower, slower, more deliberate. Weekly audible improvement.'],
+              ]} />
+            </GFold>
+            <GFold title="Style System for the Tall Man" tag="Why standard sizing fails and the fix">
+              <GPairs items={[
+                ['Tier 1 — the foundation five', '2 plain crew tees (black, white — quality, not Gildan) · slim dark denim (no distressing) · black/navy chino · clean white Oxford. Fits the shoulder, slim body, trousers at the ankle. Covers 80% of situations.'],
+                ['Tier 2 — the statement layer', 'Dark wool or camel overcoat · one quality leather jacket (minimal hardware) · one quality knit (merino roll-neck or crew, navy/camel). Worn over Tier 1, changes the register instantly.'],
+                ['Tier 3 — details professionals notice', 'Shoes (most-noticed after the face): clean white trainers, Chelsea boots, or loafers — no box-fresh hype shoes. Watch: field or slim dress (Seiko, Tissot). Chain: keep it. Bag: minimal, unbranded.'],
+                ['The tall fit formula', 'Buy for the shoulder seam, tailor the body/waist and lengthen hems (£15–25/piece). Trousers: no break — hem at the ankle bone. £80–120 of tailoring transforms 4–5 pieces and comes before ANY new purchase.'],
+                ['Environment as signal', 'Clean minimal room (one afternoon, £50: declutter, one lamp, a plant, clean surfaces, dark/neutral tones) · be seen in well-designed places · your feed is googled before every significant meeting — curate it.'],
+              ]} />
+            </GFold>
+          </div>
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2 flex items-center gap-2"><Sparkles size={16} className="text-pink-400" /> What "Aura" Actually Is</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -572,7 +747,7 @@ export default function Mind() {
               ['Motivation follows action, it never leads it', 'Waiting to "feel like it" is the trap — dopamine releases DURING progress, not before it. Start any task at 10% effort and motivation typically arrives within 5 minutes. Action first, feeling second, no exceptions.'],
               ['Variable reward is why apps win — use it against them', 'Unpredictable rewards (a great video, a like, a match) are more addictive than predictable ones. You can\'t out-willpower an engineered system — you remove access instead (delete the app, greyscale the phone, log out).'],
               ['Novelty-seeking needs a legal outlet', 'The same brain chemistry that loves infinite scroll loves new skills, new places, new training stimuli. Redirect the craving for "new" into deliberate variety in productive things — new lifts, new topics, new routes — instead of fighting the craving itself.'],
-              ['Protect the morning dopamine baseline', 'Checking your phone first thing spikes dopamine artificially before you\'ve done anything — everything real then feels dull by comparison. No phone for the first 30-60 minutes keeps your baseline low enough that real tasks still feel rewarding.'],
+              ['Protect the morning dopamine baseline', 'No phone for the first 30-60 minutes — it spikes dopamine before you have done anything, and real tasks then feel dull by comparison. Full protocol in the Morning Routine tab.'],
             ]} />
             <Card icon={Brain} title="Deep Work — the actual system" items={[
               ['Define the block, not the day', '90-minute sessions, one single task, phone physically in another room (proximity beats willpower every time). Two real 90-min blocks outperform 8 distracted hours — most people never get level 2 focus, they get the illusion of work.'],
