@@ -156,7 +156,7 @@ export default function Football() {
             <Fold title="Fitness you can do without a pitch" tag="Football-specific, no equipment" items={[
               ['Shuttle runs — 6 × 20m', 'Two marks 20m apart (a garden, a street, a park). Sprint, turn, sprint back. Football is repeated sprints with turns, not steady jogging.'],
               ['Zig-zag sprints', 'Cones or markers in a zig-zag, sprint through changing direction hard. Trains the deceleration and cutting that actually causes injuries when untrained.'],
-              ['Nordic curls and Copenhagen planks', 'The two best injury-prevention exercises for footballers, both doable at home with no kit. Full detail in the Gym tab and The Program.'],
+              ['Nordic curls and Copenhagen planks', 'The two best injury-prevention exercises for footballers, both doable at home with a bench and no other kit. Nordics for hamstrings, Copenhagens for groin — the full Copenhagen progression, form cues and 8-week protocol are in Gym → Programs → Legs.'],
               ['Jump work — 3 × 5', 'Broad jumps, single-leg hops, quick pogo hops. Builds the elastic strength behind sprinting and jumping for headers.'],
               ['Wall-sit into sprint', 'Wall sit 30 seconds, then immediately sprint 20m. Trains producing power with tired legs, which is the last 15 minutes of every match.'],
             ]} />
