@@ -11,7 +11,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'pull', label: 'Pull' },
   { id: 'shoulders', label: 'Shoulders' },
   { id: 'legs', label: 'Legs' },
-  { id: 'explosive', label: 'Explosive' },
+  { id: 'explosive', label: 'Athletic' },
   { id: 'core', label: 'Core & Abs' },
   { id: 'mobility', label: 'Mobility' },
   { id: 'recovery', label: 'Recovery' },
@@ -142,8 +142,8 @@ const DAYS: [string, string, string][] = [
   ['Mon', 'Push', 'Chest, triceps — hypertrophy'],
   ['Tue', 'Big Leg Day', 'Max strength + size — the whole leg, one session'],
   ['Wed', 'Pull', 'Back, biceps, neck — hypertrophy'],
-  ['Thu', 'Explosive / Functional Leg Day', 'Speed, jumps, rotational power'],
-  ['Fri', 'Shoulders + Arms', 'Delts, traps, arms — hypertrophy'],
+  ['Thu', 'Athletic Day', 'Speed, jumps, throws, isometrics — upper and lower'],
+  ['Fri', 'Shoulders + Arms', 'Delts, traps, arms — hypertrophy (+ leg finisher if legs are the priority)'],
   ['Sat', 'Rest / Sport', 'Freed up — padel, football, or genuine rest'],
   ['Sun', 'Rest', 'Full rest — this is where it all happens'],
 ];
@@ -227,6 +227,38 @@ export default function Programs() {
               </div>
             </div>
 
+            <div className="bg-gradient-to-br from-orange-500/12 to-[#111] border border-orange-500/30 rounded-2xl p-5">
+              <h3 className="font-black text-orange-300 mb-2">Your split, and why it is this one</h3>
+              <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                Push · Legs · Pull · Athletic · Shoulders+Arms. Five days. That covers three goals that normally fight
+                each other — a bigger upper body, bigger legs, and being faster and more explosive for football — by
+                giving each one its own slot and never letting a tired session ruin a fresh one.
+              </p>
+              <div className="space-y-2">
+                {[
+                  ['Upper size gets two dedicated days plus a third', 'Push and Pull are pure hypertrophy, and Shoulders+Arms mops up the delts and arms that decide how you look in a t-shirt. That is 2-3 exposures per muscle per week, which is where growth research sits.'],
+                  ['Legs get three exposures, not one', 'The heavy day builds them, the Athletic day teaches you to use them, and your match is the third. Different quality each time — that combination is what makes legs both bigger AND useful, which neither a bodybuilding leg day nor sprint work alone will do.'],
+                  ['The Athletic day is where speed actually comes from', 'Jumps, sprints, throws and isometrics, done completely fresh. Strength built on the other days is potential; this is the day that converts it into being fast. Put it after a hard session and it becomes conditioning instead — which is why it sits two days clear of the leg day.'],
+                  ['Upper body gets trained explosively too', 'Not just legs. Plyo push-ups, med ball throws and explosive pulls are on the Athletic day, because shrugging someone off a ball and holding your ground in a duel is upper-body force production, not just leg strength.'],
+                  ['One rule holds the whole thing together', 'Anything explosive or technical goes FIRST, while you are fresh. Power trained tired is just conditioning with injury risk attached. If you only remember one thing from this tab, remember that.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <Fold title="If bigger legs are the priority right now" tag="What to change, without adding a day" items={[
+              ['Do not add a second leg day', 'With a match and an Athletic day, your legs already take four hard exposures a week. A fifth is where people stop recovering and start getting hurt. The fix is more work in the slots you already have, not another slot.'],
+              ['Add a 15-minute leg finisher to the Shoulders day', 'Leg press 3×12-15, seated leg curl 3×12, calf raises 3×15. High rep, machine-based, low fatigue cost — pure size work with almost no impact on your Athletic day two days later. This is the single best change if legs are lagging.'],
+              ['Make the heavy day genuinely long', 'Leg size comes from volume, and one weekly session has to carry it. Ten to fourteen hard sets across quads and hamstrings, taken close to failure on the isolation work. If you are out of the gym in forty minutes on leg day, that is why they are not growing.'],
+              ['Add the stretch-biased movements', 'Deep squats, Romanian deadlifts to a real stretch, and seated leg curls. Growth is strongly driven by the lengthened position, and this is where most people cut range to move more weight.'],
+              ['Eat for it', 'Legs are the biggest muscle group you own and they will not grow in a deficit while you are also sprinting twice a week. If bigger legs are genuinely the goal, you need to be in a slight surplus — that is the real bottleneck far more often than programming is.'],
+              ['Give it three months before judging', 'Leg growth is slow, and the sprinting and football you do alongside it are actively working against hypertrophy. Progress here is measured in months and centimetres, not weeks.'],
+            ]} />
+
             <div className="bg-amber-500/5 border border-amber-500/20 rounded-2xl px-4 py-3.5">
               <p className="text-xs text-amber-200/85 leading-relaxed">
                 <span className="font-bold">Read this before you start.</span> Six gym days works IF the gym is your main
@@ -241,8 +273,8 @@ export default function Programs() {
               ['Mon — Push', 'Chest and triceps, hypertrophy. Rotational core to finish.'],
               ['Tue — Big Leg Day', 'Squat-led strength and size, the whole leg in one session. Anti-extension core.'],
               ['Wed — Pull', 'Back, biceps, neck. Anti-rotation core and carries.'],
-              ['Thu — Shoulders + Arms', 'Delts and arms. Weighted ab work.'],
-              ['Fri — Explosive / Functional Leg Day', 'Jumps, sprints and rotational power while fresh — your sport can replace part of this if you played this week.'],
+              ['Thu — Athletic Day', 'Jumps, sprints, throws and isometrics while completely fresh, upper body included. Your sport can replace part of this if you played this week.'],
+              ['Fri — Shoulders + Arms', 'Delts and arms, weighted ab work, and the optional 15-minute leg finisher if legs are the priority.'],
               ['Sat/Sun — Sport + one full rest day', 'Football or Muay Thai covers your remaining explosive work. Take at least one genuinely empty day.'],
             ]} />
 
@@ -517,6 +549,25 @@ export default function Programs() {
                 { name: 'CORE — Sport rotational', sets: 'see Core tab', why: 'Med ball slams and rotational throws for reps. Same pattern as your sport, trained for power rather than size.' },
               ]}
             />
+            <Block title="Upper-body power — the half almost everyone skips" items={[
+              ['Why it belongs on this day', 'Holding someone off a ball, winning a shoulder-to-shoulder duel, shoving off in a scramble — that is upper-body force produced fast, and no amount of bench pressing trains the speed half of it. Same principle as jumps for legs: heavy work builds the capacity, this converts it.'],
+              ['Plyometric push-ups — 4×3-5', 'Explode off the floor hard enough that your hands leave it. Land soft with the elbows bending immediately to absorb, then reset fully. Start with hands on a bench to cut the load if you cannot leave the floor cleanly. Quality over count — stop the set the moment you stop leaving the ground.'],
+              ['Med ball chest pass — 4×5', 'Standing or half-kneeling, throw a 3-5kg ball into a wall as hard as you can. Half-kneeling removes the legs so the upper body has to do the work. This is the pressing equivalent of a broad jump.'],
+              ['Med ball overhead slam — 3×5', 'Whole-body extension then violent flexion. Trains the trunk to produce force fast, which is what links your upper and lower body in a duel.'],
+              ['Explosive pull-ups or high pulls — 3×3-5', 'Pull as fast as you can, aiming to get your chest to the bar or the bar moving quickly off the floor. Pulling power is what almost nobody trains and it is half of grappling and every physical duel.'],
+              ['Keep it short and fresh', 'All of this goes early in the session, before the sprints if you are prioritising upper power that week, or straight after the jumps if legs lead. Total time: about ten minutes. Full recovery between sets — this is nervous-system work.'],
+            ]} />
+
+            <Fold title="Isometrics — the quality nobody trains" tag="Two types, two completely different jobs" items={[
+              ['Overcoming isometrics — pushing against something immovable', 'Push or pull as hard as humanly possible against an object that will not move: a loaded bar set on safety pins at a fixed height, a wall, a doorframe, an immovable strap. 3-5 sets of 3-5 seconds at genuine maximum effort. This builds the ability to produce force FAST from a dead stop, which is exactly what a first step and a collision are.'],
+              ['Yielding isometrics — holding a position under load', 'Hold a hard position against gravity and resist it moving: a paused split squat at the bottom, a Copenhagen hold, a mid-range chin-up hold, a wall sit. 3 sets of 20-45 seconds. This builds tendon stiffness and the ability to hold a joint position under someone else pushing on it — the "immovable" feeling.'],
+              ['Why they are worth your time', 'You can produce more force isometrically than you can in any moving rep, with almost no eccentric component — which means high force with very little soreness or recovery cost. That combination is rare, and it is why they fit perfectly in a week that already has football and a heavy leg day in it.'],
+              ['The honest limitation', 'Strength gains from isometrics are strongest around the joint angle you train, and carry over less to angles you did not train. So pick positions that matter: the bottom of a squat, mid-range of a press, the position you actually get stuck in. Do not treat them as a replacement for lifting through a full range.'],
+              ['The four worth doing', 'Overcoming mid-thigh pull (drive a fixed bar upward — full-body force production). Split-squat hold at the bottom (single-leg strength in the position football puts you in). Wall-supported isometric press. Copenhagen hold for the groin, which is already in your Legs tab.'],
+              ['Where to put them', 'Twice a week: the overcoming work here on the Athletic day while fresh, and the yielding holds at the end of a strength day when the fatigue does not matter. Breathe out through the hold — holding your breath through a maximal iso spikes blood pressure hard.'],
+              ['The cue that makes them work', 'Intent is everything. A 4-second push at 80% builds almost nothing; the same 4 seconds at genuine 100% builds a lot. If you can hold a conversation during it, you are not doing it properly.'],
+            ]} />
+
             <Block title="The three additions that complete this day" items={[
               ['Pogo hops — 3×8, FIRST, before the jumps', 'Straight-ish legs, bouncing on the balls of the feet, minimal knee bend, shortest possible ground contact. This is elastic/reactive strength — the tendon quality that returns energy on every sprint step, cut and re-shot. It goes first because it also primes the nervous system for everything after it. Progress to single-leg once double-leg contacts are quick and silent.'],
               ['Drop-and-stick landings — 3×5, after the jumps', 'Step off a low box (30cm), land in a quarter squat and FREEZE for two full seconds. Knees track over the toes, no inward collapse, no sound. This is deceleration training — the ability to absorb force, which is what actually limits how fast you can change direction, and the main protection against the knee and ankle injuries that cutting sports cause. If you cannot land silently and hold it, you have no business doing depth jumps yet.'],
