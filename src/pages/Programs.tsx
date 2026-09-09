@@ -3,9 +3,10 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ChevronDown, Dumbbell, Utensils, Flame, Activity } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 
-type Tab = 'week' | 'push' | 'pull' | 'shoulders' | 'legs' | 'explosive' | 'core' | 'mobility' | 'recovery' | 'posture' | 'rules';
+type Tab = 'plan' | 'week' | 'push' | 'pull' | 'shoulders' | 'legs' | 'explosive' | 'core' | 'mobility' | 'recovery' | 'posture' | 'rules';
 
 const TABS: { id: Tab; label: string }[] = [
+  { id: 'plan', label: '★ The Plan' },
   { id: 'week', label: 'The Week' },
   { id: 'push', label: 'Push' },
   { id: 'pull', label: 'Pull' },
@@ -95,6 +96,44 @@ function Session({ title, tag, block, exercises, open: initial = true }:
   );
 }
 
+/*
+ * The Plan tab is the single gym-facing view: every session's exercises and sets
+ * in one scroll, so nothing needs tab-hopping mid-workout. The exercise NAMES and
+ * SETS are deliberately mirrored from the per-day tabs — those tabs keep the how
+ * and the why, this one is the card you hold. If you change a session, change it
+ * in both or they will drift apart.
+ */
+function DayCard({ day, name, focus, exercises, detailTab, setTab, note }: {
+  day: string; name: string; focus: string; exercises: [string, string][];
+  detailTab: Tab; setTab: (t: Tab) => void; note?: string;
+}) {
+  return (
+    <div className="bg-[#111] border border-white/8 rounded-2xl overflow-hidden">
+      <div className="px-4 py-3 border-b border-white/8 flex items-baseline justify-between gap-2">
+        <div className="min-w-0">
+          <p className="font-black text-gray-100 text-sm">
+            <span className="text-orange-400">{day}</span> · {name}
+          </p>
+          <p className="text-[11px] text-gray-500 mt-0.5">{focus}</p>
+        </div>
+        <button onClick={() => setTab(detailTab)}
+          className="text-[10px] font-bold bg-orange-500/10 border border-orange-500/25 text-orange-200 px-2.5 py-1 rounded-full flex-shrink-0">
+          How &amp; why
+        </button>
+      </div>
+      <div className="divide-y divide-white/5">
+        {exercises.map(([n, s]) => (
+          <div key={n} className="flex items-baseline justify-between gap-3 px-4 py-2">
+            <span className="text-[13px] text-gray-300">{n}</span>
+            <span className="text-[11px] font-bold text-orange-400/90 flex-shrink-0">{s}</span>
+          </div>
+        ))}
+      </div>
+      {note && <p className="text-[11px] text-amber-200/70 leading-relaxed px-4 py-2.5 bg-amber-500/5">{note}</p>}
+    </div>
+  );
+}
+
 function Block({ title, items }: { title: string; items: [string, string][] }) {
   return (
     <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
@@ -152,8 +191,8 @@ export default function Programs() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['week', 'push', 'pull', 'shoulders', 'legs', 'explosive', 'core', 'mobility', 'recovery', 'posture', 'rules'] as const)
-      .includes(t as Tab) ? (t as Tab) : 'week';
+    return (['plan', 'week', 'push', 'pull', 'shoulders', 'legs', 'explosive', 'core', 'mobility', 'recovery', 'posture', 'rules'] as const)
+      .includes(t as Tab) ? (t as Tab) : 'plan';
   });
 
   return (
@@ -208,6 +247,148 @@ export default function Programs() {
         </div>
 
         {/* ===== THE WEEK ===== */}
+        {tab === 'plan' && (
+          <div className="fade-up stagger space-y-4">
+            <div className="bg-gradient-to-br from-orange-500/15 to-[#111] border border-orange-500/30 rounded-2xl p-5">
+              <h3 className="font-black text-orange-300 mb-2">The whole programme, one page</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Built for a footballer's athleticism with a bigger upper body than footballers actually carry —
+                arms and back especially — and legs built on power and strength rather than size for its own sake.
+                Every session is below with its exercises and sets. Open this in the gym and you never need another
+                tab; the other tabs hold the technique detail for when you want it.
+              </p>
+            </div>
+
+            <div className="bg-[#111] border border-white/8 rounded-2xl overflow-hidden">
+              <div className="px-4 py-2.5 border-b border-white/8">
+                <p className="text-[10px] font-black uppercase tracking-[0.15em] text-gray-500">The week</p>
+              </div>
+              <div className="divide-y divide-white/5">
+                {[
+                  ['Mon', 'Push', 'Chest · triceps'],
+                  ['Tue', 'Legs', 'Strength + size'],
+                  ['Wed', 'Pull', 'Back · biceps · neck'],
+                  ['Thu', 'Athletic', 'Speed · jumps · throws · isometrics'],
+                  ['Fri', 'Shoulders + Arms', 'Delts · traps · arms'],
+                  ['Sat', 'Football', 'Your match or session'],
+                  ['Sun', 'Rest', 'Genuinely off'],
+                ].map(([d, n, f]) => (
+                  <div key={d} className={`flex items-center gap-3 px-4 py-2 ${n === 'Rest' ? 'bg-emerald-500/5' : ''}`}>
+                    <span className={`text-[11px] font-black w-8 flex-shrink-0 ${n === 'Rest' ? 'text-emerald-400' : 'text-orange-400'}`}>{d}</span>
+                    <span className={`text-[13px] font-bold flex-1 ${n === 'Rest' ? 'text-emerald-300' : 'text-gray-200'}`}>{n}</span>
+                    <span className="text-[11px] text-gray-600">{f}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <DayCard day="MON" name="Push" focus="Chest and triceps — hypertrophy" detailTab="push" setTab={setTab}
+              exercises={[
+                ['Incline DB press', '4 × 8-10'],
+                ['Flat barbell or machine press', '3 × 8-10'],
+                ['Weighted dips', '3 × 8-10'],
+                ['Cable fly (low to high)', '3 × 12-15'],
+                ['Overhead cable triceps extension', '3 × 10-12'],
+                ['Triceps pushdown', '3 × 12-15'],
+                ['Med ball chest pass', '3 × 5'],
+                ['Core — rotational (Pallof, woodchop)', '3 sets'],
+              ]}
+              note="Med ball chest pass goes FIRST, before the pressing — it is power work, not a finisher."
+            />
+
+            <DayCard day="TUE" name="Legs" focus="Strength and size — the whole leg in one session" detailTab="legs" setTab={setTab}
+              exercises={[
+                ['Back squat', '4 × 5-6'],
+                ['Romanian deadlift', '3 × 8-10'],
+                ['Bulgarian split squat', '3 × 8-10/leg'],
+                ['Hip thrust', '4 × 8-10'],
+                ['Leg press or hack squat', '3 × 10-12'],
+                ['Nordic hamstring curl', '3 × 6-8'],
+                ['Copenhagen plank', '3 × 20-30s/side'],
+                ['Standing calf raise', '4 × 10-15'],
+                ['Seated calf raise', '3 × 12-15'],
+                ['Ankle circuit (see below)', '~8 min'],
+              ]}
+              note="Never within 48 hours before a match. If the game is Sunday, this moves to Monday."
+            />
+
+            <DayCard day="WED" name="Pull" focus="Back, biceps, neck — the day that builds your back" detailTab="pull" setTab={setTab}
+              exercises={[
+                ['Weighted pull-ups', '4 × 6-8'],
+                ['Barbell or Pendlay row', '4 × 8-10'],
+                ['Chest-supported row', '3 × 10-12'],
+                ['Lat pulldown or straight-arm pulldown', '3 × 12-15'],
+                ['Face pulls', '3 × 15-20'],
+                ['Incline DB curl', '3 × 10-12'],
+                ['Hammer curl', '3 × 12'],
+                ['Neck curls + extensions', '3 × 15 each'],
+                ['Suitcase carry', '3 × 30m/side'],
+              ]}
+            />
+
+            <DayCard day="THU" name="Athletic" focus="Speed, jumps, throws, isometrics — upper and lower" detailTab="explosive" setTab={setTab}
+              exercises={[
+                ['Full warm-up + build-up runs', '10-12 min'],
+                ['Pogo hops', '3 × 8'],
+                ['Overcoming isometric (mid-thigh pull)', '4 × 4s'],
+                ['Med ball rotational throw', '4 × 5/side'],
+                ['Plyometric push-up', '4 × 3-5'],
+                ['Box jump or broad jump', '4 × 3'],
+                ['Acceleration sprints', '6 × 20m'],
+                ['Flying sprints', '4 × 30-40m'],
+                ['Lateral bounds (hold each landing)', '3 × 5/side'],
+                ['Drop-and-stick landings', '3 × 5'],
+              ]}
+              note="100% intent, full recovery, stop when quality drops. Skip the bounds and drop-landings until the ankle tests below are clean."
+            />
+
+            <DayCard day="FRI" name="Shoulders + Arms" focus="Delts, traps, arms — the size day" detailTab="shoulders" setTab={setTab}
+              exercises={[
+                ['Seated DB shoulder press', '4 × 8-10'],
+                ['DB lateral raise', '4 × 12-15'],
+                ['Cable lateral raise', '3 × 15'],
+                ['Rear delt fly or reverse pec deck', '4 × 15-20'],
+                ['Barbell or DB shrug', '3 × 12-15'],
+                ['EZ-bar curl', '3 × 10-12'],
+                ['Skull crusher or overhead extension', '3 × 10-12'],
+                ['Core — weighted ab work', '3 sets'],
+              ]}
+              note="Upper body only, which is why it sits the day before a Saturday game. Legs stay fresh."
+            />
+
+            <Fold title="Your ankle — the work, and the tests that gate the jumping" tag="Read before the first Athletic day" items={[
+              ['Why this comes first', 'An unstable ankle changes how you land, and every jump, bound and cut on the Athletic day lands on it. Strength work is safe to start now; the reactive work is not, until the tests below pass. That is the one place in this programme where you hold something back rather than pushing.'],
+              ['Daily — 5 minutes, most days', 'Standing calf raises 3×15 slow, seated calf raises 3×15 (bent knee, hits the soleus the standing version misses), tibialis raises 3×15 (heels forward against a wall, pull the toes up), banded eversion 2×15 each side (band around the outside of the foot, push out against it — this trains the peroneals, the muscles that actually fail in a roll).'],
+              ['Foot intrinsics — the bit almost nobody does', 'Short-foot drill: barefoot, sitting, draw the ball of your foot toward your heel to raise the arch WITHOUT curling the toes. 10 × 5s each side. Then toe splays and big-toe presses. The small muscles inside the foot are your first line of ankle stability and they are usually asleep from years in shoes.'],
+              ['Balance, progressed properly', 'Week 1-2: single-leg stand, eyes open, 3×30s. Week 3-4: eyes closed. Week 5+: eyes closed on a cushion, then have someone lightly push you, then head a ball back while balancing. The progression is what matters — standing on one leg watching TV forever does nothing after the first fortnight.'],
+              ['Hop progressions — earn these in order', 'Two-foot hops in place → single-leg hops in place → single-leg hop-and-stick forward → lateral hop-and-stick → hop-and-stick with a turn. Each one silent and controlled for 10 reps before moving on. This is the bridge between rehab and the Athletic day.'],
+              ['The three tests that unlock plyometrics', 'One: single-leg balance, eyes closed, 30 seconds, no wobble. Two: 10 single-leg hops in place, silent, same spot. Three: single-leg hop forward and stick the landing for 3 seconds without the knee falling inward. Pass all three on BOTH legs and you can do the full Athletic day. Fail any and keep the jumps two-footed for another fortnight.'],
+              ['Compare sides honestly', 'Test the good ankle too. The gap between them is the number that matters, and most people are surprised how big it is. Aim to close it rather than chasing an absolute score.'],
+              ['Taping and bracing', 'For matches while you rebuild, a brace or tape genuinely reduces re-sprain risk and there is no shame in it. It is a bridge, not a fix — keep doing the strength work underneath, because the tape does nothing for the muscles.'],
+              ['If it swells, gives way, or hurts at rest', 'That is not a training problem. Repeated giving-way or pain that lingers needs a physio, because chronic ankle instability sometimes involves ligament damage that exercise alone will not resolve. The full ramp-up progression is in the Legs tab.'],
+            ]} />
+
+            <Fold title="Fitting it around games" tag="The rules, then the layouts" items={[
+              ['The two hard rules', 'No heavy legs and no jumping within 48 hours BEFORE a game. Nothing heavy-legs the day AFTER either — that day is upper body, mobility or off. Everything else is flexible.'],
+              ['Saturday game (the default above)', 'Mon Push · Tue Legs · Wed Pull · Thu Athletic · Fri Shoulders+Arms · Sat GAME · Sun off. Thursday is 48 hours clear, and Friday is upper-only by design so your legs are fresh.'],
+              ['Sunday game', 'Shift everything back a day: Mon Pull · Tue Legs · Wed Push · Thu Athletic · Fri Shoulders+Arms · Sat mobility or off · Sun GAME.'],
+              ['Midweek game (Wednesday)', 'Mon Legs · Tue upper (Push) · Wed GAME · Thu Pull · Fri Athletic · Sat Shoulders+Arms · Sun off. Note the Athletic day moves to Friday because Thursday is the day after a game.'],
+              ['Two games in a week', 'Drop to three gym days: Push, Pull, and one leg day placed as far from both games as possible. Cut the Athletic day entirely — two matches already give you more sprinting, cutting and jumping than any session would. This is not slacking, it is the correct call.'],
+              ['The day after any game', 'Easy movement, mobility, food and sleep. Not a heavy leg day, not sprints. Your legs took 90 minutes of repeated high-speed running and they are more fragile than they feel.'],
+              ['When the week collapses', 'If you only get two sessions: Legs and Pull. They cover the most muscle, the most injury prevention, and the back you want. If you get three: add Push.'],
+            ]} />
+
+            <Fold title="Making the arms and back bigger, specifically" tag="What to change once the basics are running" items={[
+              ['Your back is already the priority', 'Wednesday is nine sets of direct back work across four angles — vertical pulling for width, horizontal rowing for thickness, face pulls for the rear delts that make a back look three-dimensional. That is more than most people ever do. Add load before you add exercises.'],
+              ['Arms get about nine sets each per week', 'Biceps: incline curl and hammer curl on Wednesday, EZ curl on Friday. Triceps: two movements Monday, one Friday. That is a solid amount. If arms are genuinely lagging after three months, add one set to each curl rather than a new day.'],
+              ['The rep range that grows arms', 'Arms respond well to 10-15 reps taken close to failure, with a real stretch at the bottom. Incline curls and overhead extensions are in the programme specifically because they load the stretched position, which is where most of the growth signal is.'],
+              ['Rear delts and traps do more for how you look than arms', 'A thick upper back and capped shoulders change your silhouette more than an inch on your arm. Face pulls and shrugs are not filler.'],
+              ['Footballers stay lean, which is why theirs look small', 'Most footballers could carry more upper body but choose not to — running economy. You want both, which means you need the surplus to build it and the sprint work to keep the athleticism. That is a slower path than picking one, and it is the honest trade you are making.'],
+              ['Judge it in months', 'Arms and back grow slowly, especially alongside football. Take a photo every four weeks in the same light rather than checking the mirror daily.'],
+            ]} />
+          </div>
+        )}
+
         {tab === 'week' && (
           <div className="fade-up stagger space-y-4">
             <div className="bg-[#111] border border-white/8 rounded-2xl overflow-hidden">
