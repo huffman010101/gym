@@ -472,7 +472,7 @@ export default function Combat() {
               ['Positional sparring from bottom', 'Start under side control or mount and try only to escape. It forces hip movement under real resistance, which is the only place it becomes reflex.'],
               ['Film it side-on', 'Both striking and grappling. You cannot feel a flat rear heel or a shoulder-led shrimp, but you can see both instantly.'],
               ['Mobility matters here', 'Restricted hip internal and external rotation limits both the punch and the guard. Ninety-ninety hip switches, cossack squats and deep squat holds, five minutes daily — Programs → Mobility has the routine.'],
-              ['The strength that supports it', 'Hip thrusts, rotational med ball throws and Pallof work are the gym expressions of everything on this page. They are in Programs → Explosive and Programs → Legs — this tab is the technique, that is the engine.'],
+              ['The strength that supports it', 'Hip thrusts, rotational med ball throws and Pallof work are the gym expressions of everything on this page. They are in Programs → Legs + Athletic and Programs → Legs — this tab is the technique, that is the engine.'],
             ]} />
           </div>
         )}
@@ -646,7 +646,7 @@ export default function Combat() {
               ['If you want to do MMA', 'Wrestling or BJJ as your base, plus boxing or Muay Thai for striking, then MMA classes to integrate them. Two to three sessions a week of each is plenty at the start — the integration is a skill in itself and it is easy to become two separate half-fighters.'],
               ['If you want one art only', 'BJJ for the deepest technical rabbit hole and the lowest injury rate; boxing for the fastest route to being genuinely dangerous; Muay Thai for the most complete striking; wrestling for the most transferable athleticism.'],
               ['If you are starting from zero and unsure', 'Do a month of BJJ and a month of boxing, then pick the room you actually enjoyed. Consistency beats optimal selection by a wide margin — the best art is the one you will still be doing in three years.'],
-              ['Order within a session', 'Technical work while fresh, hard rounds later. Order within a week: hard sparring on a day you are recovered, not the day after heavy legs. The full scheduling logic is in Programs → The Week.'],
+              ['Order within a session', 'Technical work while fresh, hard rounds later. Order within a week: hard sparring on a day you are recovered, not the day after heavy legs. The full scheduling logic is in Programs → The Plan.'],
               ['How long until you are competent', 'Roughly 6-12 months of twice-weekly training before you stop feeling completely lost, 2-3 years before you are genuinely useful, and it never stops after that. Anyone promising faster is selling.'],
               ['Do not gym-hop', 'One good coach for two years beats five gyms for four months each. Depth compounds; breadth at the start just produces confusion.'],
             ]} />
@@ -959,14 +959,14 @@ export default function Combat() {
               <p className="text-gray-400 text-xs leading-relaxed mb-3">
                 You already run a Push / Big Leg Day / Pull / Explosive / Shoulders split. Everything above is a set of
                 QUALITIES, and almost all of them already have a home in those five days — so the answer is not a second
-                programme competing with the first. Programs → The Week maps each quality onto the day it belongs on,
+                programme competing with the first. Programs → The Plan maps each quality onto the day it belongs on,
                 lists the four finishers worth adding, and covers what to cut when MMA and football are also in the week.
               </p>
               <div className="flex flex-wrap gap-2">
-                <Link to="/programs?tab=week" className="inline-block text-[11px] font-bold bg-orange-500/10 border border-orange-500/25 text-orange-200 px-3 py-1.5 rounded-full">
+                <Link to="/programs?tab=plan" className="inline-block text-[11px] font-bold bg-orange-500/10 border border-orange-500/25 text-orange-200 px-3 py-1.5 rounded-full">
                   Programs &rarr; The Week
                 </Link>
-                <Link to="/programs?tab=explosive" className="inline-block text-[11px] font-bold bg-orange-500/10 border border-orange-500/25 text-orange-200 px-3 py-1.5 rounded-full">
+                <Link to="/programs?tab=legs" className="inline-block text-[11px] font-bold bg-orange-500/10 border border-orange-500/25 text-orange-200 px-3 py-1.5 rounded-full">
                   Programs &rarr; Explosive Day
                 </Link>
               </div>
@@ -1070,7 +1070,7 @@ export default function Combat() {
             <SectionTitle icon={Zap} title="Being solid — the whole-body version" />
 
             <Block title="What actually makes someone feel immovable" items={[
-              ['It is mostly leanness, force transfer and tension — not size', 'The full explanation of why a lighter athlete can feel harder and stronger than a heavier one is in Programs → Explosive ("Why a lighter athlete feels denser and stronger than you"). It is the most useful thing in the app on this question and it is not repeated here.'],
+              ['It is mostly leanness, force transfer and tension — not size', 'The full explanation of why a lighter athlete can feel harder and stronger than a heavier one is in Programs → Legs + Athletic ("Why a lighter athlete feels denser and stronger than you"). It is the most useful thing in the app on this question and it is not repeated here.'],
               ['Isometrics are the specific answer to "solid"', 'Overcoming isometrics — pushing maximally against something immovable for 5 seconds — build the ability to produce enormous tension without moving. That is the quality behind feeling like a wall in a clinch. Three sets of 5 seconds, 2×/week, in a couple of positions.'],
               ['Loaded carries', 'If you only added one thing for general physical solidity, this is it. Sets and reps are in Strength & Power.'],
               ['The neck, again', 'Nothing changes how physically formidable someone looks and is more than a developed neck, and it is protective rather than cosmetic. Three sessions a week, light, controlled, built over months.'],
