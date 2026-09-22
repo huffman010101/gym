@@ -3,13 +3,12 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ChevronDown, Dumbbell, Utensils, Flame, Activity } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 
-type Tab = 'plan' | 'push' | 'pull' | 'shoulders' | 'legs' | 'core' | 'mobility' | 'recovery' | 'posture' | 'rules';
+type Tab = 'plan' | 'push' | 'pull' | 'legs' | 'core' | 'mobility' | 'recovery' | 'posture' | 'rules';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'plan', label: '★ The Plan' },
   { id: 'push', label: 'Push' },
   { id: 'pull', label: 'Pull' },
-  { id: 'shoulders', label: 'Shoulders' },
   { id: 'legs', label: 'Legs + Athletic' },
   { id: 'core', label: 'Core & Abs' },
   { id: 'mobility', label: 'Mobility' },
@@ -176,12 +175,12 @@ function Fold({ title, tag, items }: { title: string; tag: string; items: [strin
 }
 
 const DAYS: [string, string, string][] = [
-  ['Mon', 'Push', 'Chest, triceps — hypertrophy'],
-  ['Tue', 'Legs + Athletic', 'Jumps and sprints first, then heavy legs — one session'],
-  ['Wed', 'Pull', 'Back, biceps, neck — hypertrophy'],
-  ['Thu', 'Shoulders + Arms', 'Delts, traps, arms — hypertrophy'],
-  ['Fri', 'Rest', 'Ankle rehab and mobility only'],
-  ['Sat', 'Football', 'Your match or session'],
+  ['Mon', 'Push', 'Chest, shoulders, triceps'],
+  ['Tue', 'Legs + Speed', 'Sprints and jumps first, then heavy'],
+  ['Wed', 'Rest', 'Ankle finisher only'],
+  ['Thu', 'Pull', 'Back and biceps'],
+  ['Fri', 'Rest', 'Ankle finisher only'],
+  ['Sat', 'Football', 'Your match'],
   ['Sun', 'Rest', 'Full rest — this is where it all happens'],
 ];
 
@@ -189,7 +188,7 @@ export default function Programs() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['plan', 'push', 'pull', 'shoulders', 'legs', 'core', 'mobility', 'recovery', 'posture', 'rules'] as const)
+    return (['plan', 'push', 'pull', 'legs', 'core', 'mobility', 'recovery', 'posture', 'rules'] as const)
       .includes(t as Tab) ? (t as Tab) : 'plan';
   });
 
@@ -248,12 +247,12 @@ export default function Programs() {
         {tab === 'plan' && (
           <div className="fade-up stagger space-y-4">
             <div className="bg-gradient-to-br from-orange-500/15 to-[#111] border border-orange-500/30 rounded-2xl p-5">
-              <h3 className="font-black text-orange-300 mb-2">The whole programme, one page</h3>
+              <h3 className="font-black text-orange-300 mb-2">Three days. Six exercises each. That is the whole thing.</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Built for a footballer's athleticism with a bigger upper body than footballers actually carry —
-                arms and back especially — and legs built on power and strength rather than size for its own sake.
-                Every session is below with its exercises and sets. Open this in the gym and you never need another
-                tab; the other tabs hold the technique detail for when you want it.
+                Every session runs the same shape: one explosive movement while you are fresh, four or five lifts,
+                then five minutes on your ankle. Explosive work is what makes you faster, and it only works at the
+                start — do it last and it is just tiredness. The ankle bit is at the end of every session because a
+                sprain that has not fully settled needs frequency more than it needs intensity.
               </p>
             </div>
 
@@ -263,13 +262,13 @@ export default function Programs() {
               </div>
               <div className="divide-y divide-white/5">
                 {[
-                  ['Mon', 'Push', 'Chest · triceps'],
-                  ['Tue', 'Legs + Athletic', 'Jumps, sprints, then heavy'],
-                  ['Wed', 'Pull', 'Back · biceps · neck'],
-                  ['Thu', 'Shoulders + Arms', 'Delts · traps · arms'],
-                  ['Fri', 'Rest', 'Ankle rehab + mobility only'],
-                  ['Sat', 'Football', 'Your match or session'],
-                  ['Sun', 'Rest', 'Genuinely off'],
+                  ['Mon', 'Push', 'Chest · shoulders · triceps'],
+                  ['Tue', 'Legs + Speed', 'Sprints, jumps, then heavy'],
+                  ['Wed', 'Rest', 'Ankle work only'],
+                  ['Thu', 'Pull', 'Back · biceps'],
+                  ['Fri', 'Rest', 'Ankle work only'],
+                  ['Sat', 'Football', 'Your match'],
+                  ['Sun', 'Rest', 'Off'],
                 ].map(([d, n, f]) => (
                   <div key={d} className={`flex items-center gap-3 px-4 py-2 ${n === 'Rest' ? 'bg-emerald-500/5' : ''}`}>
                     <span className={`text-[11px] font-black w-8 flex-shrink-0 ${n === 'Rest' ? 'text-emerald-400' : 'text-orange-400'}`}>{d}</span>
@@ -280,119 +279,88 @@ export default function Programs() {
               </div>
             </div>
 
-            <DayCard day="MON" name="Push" focus="Chest and triceps — hypertrophy" detailTab="push" setTab={setTab}
+            <DayCard day="MON" name="Push" focus="Chest, shoulders, triceps" detailTab="push" setTab={setTab}
               exercises={[
-                ['Incline DB press', '4 × 8-10'],
-                ['Flat barbell or machine press', '3 × 8-10'],
-                ['Weighted dips', '3 × 8-10'],
-                ['Cable fly (low to high)', '3 × 12-15'],
-                ['Overhead cable triceps extension', '3 × 10-12'],
-                ['Triceps pushdown', '3 × 12-15'],
                 ['Med ball chest pass', '3 × 5'],
-                ['Core — rotational (Pallof, woodchop)', '3 sets'],
+                ['Incline DB press', '4 × 8-10'],
+                ['Seated DB shoulder press', '3 × 8-10'],
+                ['Weighted dips', '3 × 8-10'],
+                ['Lateral raise', '3 × 12-15'],
+                ['Triceps pushdown', '3 × 12'],
+                ['+ Ankle finisher', '5 min'],
               ]}
-              note="Med ball chest pass goes FIRST, before the pressing — it is power work, not a finisher."
+              note="The med ball throw is the explosive one — hardest possible effort, full rest, and it goes first."
             />
 
-            <DayCard day="TUE" name="Legs + Athletic" focus="One leg day — explosive first, then heavy, then the rest" detailTab="legs" setTab={setTab}
+            <DayCard day="TUE" name="Legs + Speed" focus="The day that makes you faster" detailTab="legs" setTab={setTab}
               exercises={[
                 ['Warm-up + build-up runs', '10 min'],
-                ['Pogo hops (both feet)', '2 × 8'],
-                ['Med ball rotational throw', '3 × 5/side'],
                 ['Box jump or broad jump', '3 × 3'],
                 ['Acceleration sprints', '4 × 20m'],
-                ['— then the heavy work —', ''],
                 ['Trap bar deadlift', '4 × 5'],
-                ['Romanian deadlift', '2 × 8-10'],
                 ['Bulgarian split squat', '3 × 8/leg'],
-                ['Single-leg extension', '2 × 12-15/leg'],
                 ['Nordic hamstring curl', '2 × 5'],
-                ['Copenhagen plank', '2 × 20-30s/side'],
-                ['Standing + seated calf raise', '2 × 12-15 each'],
-                ['Ankle rehab circuit', '~8 min'],
+                ['Calf raises (straight + bent knee)', '2 × 15 each'],
+                ['+ Ankle finisher', '5 min'],
               ]}
-              note="Order is the whole point: jumps and sprints while the nervous system is fresh, heavy lifting after. Never the other way round, and never within 48 hours before a match."
+              note="Jumps and sprints BEFORE the lifting, never after. Warm up properly first — cold hamstrings and sprinting is how people tear something."
             />
 
-            <DayCard day="WED" name="Pull" focus="Back, biceps, neck — the day that builds your back" detailTab="pull" setTab={setTab}
+            <DayCard day="THU" name="Pull" focus="Back and biceps — the day that builds your back" detailTab="pull" setTab={setTab}
               exercises={[
-                ['Weighted pull-ups', '4 × 6-8'],
-                ['Barbell or Pendlay row', '4 × 8-10'],
-                ['Chest-supported row', '3 × 10-12'],
-                ['Lat pulldown or straight-arm pulldown', '3 × 12-15'],
-                ['Face pulls', '3 × 15-20'],
+                ['Explosive pull-up or high pull', '3 × 3'],
+                ['Weighted pull-up', '4 × 6-8'],
+                ['Barbell or chest-supported row', '3 × 8-10'],
+                ['Face pull', '3 × 15'],
                 ['Incline DB curl', '3 × 10-12'],
-                ['Hammer curl', '3 × 12'],
-                ['Neck curls + extensions', '3 × 15 each'],
-                ['Suitcase carry', '3 × 30m/side'],
+                ['Hammer curl', '2 × 12'],
+                ['+ Ankle finisher', '5 min'],
               ]}
             />
 
-            <DayCard day="THU" name="Shoulders + Arms" focus="Delts, traps, arms — the size day" detailTab="shoulders" setTab={setTab}
-              exercises={[
-                ['Seated DB shoulder press', '4 × 8-10'],
-                ['DB lateral raise', '4 × 12-15'],
-                ['Cable lateral raise', '3 × 15'],
-                ['Rear delt fly or reverse pec deck', '4 × 15-20'],
-                ['Barbell or DB shrug', '3 × 12-15'],
-                ['EZ-bar curl', '3 × 10-12'],
-                ['Skull crusher or overhead extension', '3 × 10-12'],
-                ['Core — weighted ab work', '3 sets'],
-              ]}
-              note="Upper body only, which is why it sits the day before a Saturday game. Legs stay fresh."
-            />
-
-            <div className="bg-amber-500/8 border border-amber-500/30 rounded-2xl p-5">
-              <h3 className="font-black text-amber-300 mb-2">Your ankle — sprained about two months ago, still not right</h3>
-              <p className="text-gray-300 text-sm leading-relaxed">
-                Two months and still not settled is worth a professional look, and that is a real recommendation rather
-                than a disclaimer. Most sprains stop hurting long before they are actually rehabbed, people return to
-                sport on an ankle that has lost strength and position sense, and that is why the biggest single risk
-                factor for spraining an ankle is <span className="text-gray-200 font-semibold">having sprained it
-                before</span>. A physio session or two now is cheap compared to the next six months of it going on you.
-                Meanwhile the plan below is what to do, and it is built to be safe if you start where you actually are.
+            <div className="bg-gradient-to-br from-amber-500/12 to-[#111] border border-amber-500/30 rounded-2xl overflow-hidden">
+              <div className="px-4 py-3 border-b border-amber-500/20">
+                <p className="font-black text-amber-300 text-sm">The ankle finisher</p>
+                <p className="text-[11px] text-gray-500 mt-0.5">5 minutes, end of every session, plus rest days if you can</p>
+              </div>
+              <div className="divide-y divide-white/5">
+                {[
+                  ['1. Banded eversion', '2 × 15/side', 'Band round the outside of your foot, push outward against it. Trains the muscles that actually fail when an ankle rolls.'],
+                  ['2. Tibialis raises', '2 × 15', 'Heels forward against a wall, pull your toes up toward your shins. Balances out the calf.'],
+                  ['3. Single-leg balance', '3 × 30s', 'Eyes open first. Once that is easy, eyes closed. Then standing on a cushion. Progress it or it stops doing anything.'],
+                  ['4. Hop and stick', '2 × 5/side', 'Small hop forward, land on one leg, hold 3 seconds without wobbling. Only add this once the balance work is solid.'],
+                ].map(([n, s, how]) => (
+                  <div key={n} className="px-4 py-2.5">
+                    <div className="flex items-baseline justify-between gap-3">
+                      <span className="text-[13px] font-semibold text-gray-200">{n}</span>
+                      <span className="text-[11px] font-bold text-amber-400/90 flex-shrink-0">{s}</span>
+                    </div>
+                    <p className="text-gray-500 text-[11px] leading-relaxed mt-0.5">{how}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="text-[11px] text-amber-200/70 leading-relaxed px-4 py-2.5 bg-amber-500/5">
+                Two months on and still not right is worth getting looked at — especially if it gives way, still swells
+                after playing, or hurts at night. This routine is what to do meanwhile, and it is the part that actually
+                stops the next sprain.
               </p>
             </div>
 
-            <Fold title="Ankle — what to do from here, week by week" tag="Past the acute stage, so the job is loading it properly" items={[
-              ['Where you are now', 'Two months in, this is no longer about rest, ice and swelling. The remaining problem is almost always three things: range of motion you never got back, strength in the muscles that stop a roll, and position sense (proprioception) which is genuinely damaged by a sprain and does not return on its own. All three are trainable.'],
-              ['First — get the dorsiflexion back', 'Kneel with your toes about 10cm from a wall and drive the knee forward over the toes, heel down. If that knee cannot touch the wall, or the injured side is clearly worse than the other, that restriction is changing how you land and squat. Fix with calf stretches held 45s and banded ankle mobilisations, 2×15 each side, daily. This is the piece people skip and it holds everything else back.'],
-              ['Weeks 1-2 — strength, every day, no jumping', 'Standing calf raises 3×15 slow, seated calf raises 3×15 (bent knee — hits the soleus the standing version misses), tibialis raises 3×15 (heels forward against a wall, pull the toes up), and banded eversion 2×15 each side (band around the outside of the foot, push outward against it). That eversion work trains the peroneals, which are the muscles that actually fail when an ankle rolls, and they are the most commonly under-rehabbed thing after a sprain.'],
-              ['Weeks 1-2 — foot intrinsics, the bit almost nobody does', 'Short-foot drill: barefoot, sitting, draw the ball of your foot toward your heel to raise the arch WITHOUT curling the toes. 10 × 5s each side. Then toe splays and big-toe presses. The small muscles inside the foot are your first line of stability and they switch off after an injury.'],
-              ['Weeks 1-3 — balance, progressed, not just repeated', 'Single-leg stand eyes open 3×30s, then eyes closed, then eyes closed on a cushion, then with someone lightly pushing you, then heading a ball back while balancing. This is the proprioception piece and it is the one with the strongest evidence for preventing the next sprain. Standing on one leg forever without progressing does very little after the first fortnight.'],
-              ['Weeks 3-5 — hopping, earned in order', 'Two-foot hops in place → single-leg hops in place → single-leg hop-and-stick forward → lateral hop-and-stick → hop-and-stick with a quarter turn. Ten silent, controlled reps before moving to the next one. This is the bridge between rehab and the athletic work on Tuesday.'],
-              ['The three tests that unlock the jumping and sprinting', 'One: single-leg balance, eyes closed, 30 seconds, no wobble. Two: 10 single-leg hops in place, silent, landing on the same spot. Three: single-leg hop forward, stick the landing 3 seconds, knee not falling inward. Pass all three on BOTH legs and you do the full Tuesday. Fail any and keep Tuesday\'s jumps two-footed and the sprints at 80% for another fortnight.'],
-              ['Always test the good side too', 'The gap between your ankles is the number that matters, not the absolute score. Most people are surprised how big it still is months later — and closing that gap is the actual goal.'],
-              ['Bracing and taping for matches', 'While you rebuild, a brace or tape meaningfully reduces the chance of a re-sprain and there is good evidence behind it. Use it for games without embarrassment. It is a bridge, not a fix — the strength work underneath is what removes the need for it.'],
-              ['See someone if any of these are true', 'It gives way or nearly gives way. It still swells after activity. It hurts at rest or at night. There is tenderness directly on the bone rather than the soft tissue. Or it simply has not improved at all in the last month. Any of those and this stops being a training problem — chronic instability sometimes involves ligament damage that exercise alone will not resolve, and you want to know that now rather than in a year.'],
+            <Fold title="Fitting it around games" tag="Short version: keep legs 48 hours clear" items={[
+              ['The one rule', 'No heavy legs and no sprinting within 48 hours before a game. That is why leg day is Tuesday and the rest of the week is upper body.'],
+              ['Saturday game', 'Mon Push · Tue Legs+Speed · Thu Pull · Sat game. Already sorted — this is the default above.'],
+              ['Sunday game', 'Shift it: Mon Legs+Speed · Tue Push · Thu Pull · Sun game.'],
+              ['Midweek game', 'Do legs the day after the game, never the day before. Push and Pull can go anywhere.'],
+              ['Two games that week', 'Skip leg day entirely. Two matches is already more sprinting and cutting than any session would give you, and your ankle will thank you.'],
+              ['If you only get one session', 'Make it Tuesday. It has the speed work, the heaviest lifting and the ankle rehab in one.'],
             ]} />
 
-            <Fold title="Fitting it around games" tag="The rules, then the layouts" items={[
-              ['The two hard rules', 'No heavy legs and no jumping within 48 hours BEFORE a game. Nothing heavy-legs the day AFTER either — that day is upper body, mobility or off. Everything else is flexible.'],
-              ['Saturday game (the default above)', 'Mon Push · Tue Legs+Athletic · Wed Pull · Thu Shoulders+Arms · Fri ankle rehab and mobility only · Sat GAME · Sun off. Tuesday is three days clear of the game, and Thursday and Friday leave your legs completely fresh.'],
-              ['Sunday game', 'Shift back a day: Mon Pull · Tue Legs+Athletic · Wed Push · Thu Shoulders+Arms · Fri/Sat mobility or off · Sun GAME.'],
-              ['Midweek game (Wednesday)', 'Mon Legs+Athletic · Tue Push · Wed GAME · Thu off or light Pull · Fri Pull · Sat Shoulders+Arms · Sun off. Monday is the only slot that keeps 48 hours before the game.'],
-              ['Two games in a week', 'Drop to three gym days: Push, Pull, and Shoulders+Arms. Cut the leg day entirely that week — two matches already give you more sprinting, cutting and jumping than any session would, and with the ankle still settling that is doubly true. This is not slacking, it is the correct call.'],
-              ['The day after any game', 'Easy movement, ankle rehab, food and sleep. Not a heavy leg day, not sprints. Your legs took 90 minutes of repeated high-speed running and they are more fragile than they feel.'],
-              ['When the week collapses', 'If you only get two sessions: Legs+Athletic and Pull. They cover the most muscle, the most injury prevention, and the back you want. If you get three: add Push.'],
-            ]} />
-
-            <Fold title="Why the week looks like this" tag="The reasoning, once, so it is not spread across tabs" items={[
-              ['One leg day, not two', 'You asked for one, and it works — but be clear about the trade. Legs now get a single gym session plus your match instead of two sessions. You lose a bit of total leg volume; you gain a simpler week, two proper rest days and more recovery for an ankle that is still settling. For where you are right now that is the right side of the trade.'],
-              ['Explosive first, heavy second — never reversed', 'Jumps, throws and sprints need a fresh nervous system, so they open Tuesday. Heavy squatting after them is fine. Heavy squatting BEFORE them turns the jumps into fatigued, sloppy reps that build nothing and risk the ankle. If you are short on time, cut the accessories at the end, never the order at the start.'],
-              ['Upper body gets three days out of four', 'Push, Pull and Shoulders+Arms. That is 2-3 exposures per muscle per week, which is where the growth evidence sits, and it is why the upper body will visibly outpace what most footballers carry.'],
-              ['Two rest days is a feature', 'Friday is deliberately empty apart from ankle work and mobility. With a match on Saturday and four gym days, that is what makes the whole thing repeatable rather than something you abandon in three weeks.'],
-              ['Weekly volume, roughly', 'Chest 12-14 hard sets · back 14-16 · shoulders 16-18 across the week · arms 8-10 each · quads and hamstrings about 8 each plus the match. Back and shoulders are deliberately the highest because they do the most for how you look.'],
-              ['If you also train MMA that week', 'Count it as a hard session, not a bonus. Two MMA sessions on top of this is eight hard efforts a week and something has to come out — drop Shoulders+Arms first, since MMA already loads the shoulders and grip heavily.'],
-            ]} />
-
-            <Fold title="Making the arms and back bigger, specifically" tag="What to change once the basics are running" items={[
-              ['Your back is already the priority', 'Wednesday is nine sets of direct back work across four angles — vertical pulling for width, horizontal rowing for thickness, face pulls for the rear delts that make a back look three-dimensional. That is more than most people ever do. Add load before you add exercises.'],
-              ['Arms get about nine sets each per week', 'Biceps: incline curl and hammer curl on Wednesday, EZ curl on Friday. Triceps: two movements Monday, one Friday. That is a solid amount. If arms are genuinely lagging after three months, add one set to each curl rather than a new day.'],
-              ['The rep range that grows arms', 'Arms respond well to 10-15 reps taken close to failure, with a real stretch at the bottom. Incline curls and overhead extensions are in the programme specifically because they load the stretched position, which is where most of the growth signal is.'],
-              ['Rear delts and traps do more for how you look than arms', 'A thick upper back and capped shoulders change your silhouette more than an inch on your arm. Face pulls and shrugs are not filler.'],
-              ['Footballers stay lean, which is why theirs look small', 'Most footballers could carry more upper body but choose not to — running economy. You want both, which means you need the surplus to build it and the sprint work to keep the athleticism. That is a slower path than picking one, and it is the honest trade you are making.'],
-              ['Judge it in months', 'Arms and back grow slowly, especially alongside football. Take a photo every four weeks in the same light rather than checking the mirror daily.'],
+            <Fold title="Why it is only three days" tag="And what to add if you want more" items={[
+              ['Three gym days plus football is four hard sessions', 'That is a full week for someone playing matches with an ankle still settling. More sessions is not more progress — more sessions you actually recover from is.'],
+              ['Every muscle still gets hit twice', 'Push and Pull cover the upper body directly, and legs get Tuesday plus 90 minutes of running on Saturday. That is enough to keep building.'],
+              ['Six exercises is deliberate', 'Long sessions are the ones you skip. Six movements takes about 50 minutes and you will actually do it every week, which beats a perfect 12-exercise plan you abandon in a fortnight.'],
+              ['If you want a fourth day', 'Add a second Pull-style day rather than more legs — your back and arms are what you said you wanted bigger, and they recover faster than legs do.'],
+              ['If a session feels too easy', 'Add weight, not exercises. The programme stays the same for months; the numbers on it go up.'],
             ]} />
           </div>
         )}
@@ -402,16 +370,15 @@ export default function Programs() {
           <div className="fade-up stagger space-y-4">
             <Session
               title="Monday — Push"
-              tag="Chest & triceps · pure hypertrophy"
+              tag="Chest, shoulders, triceps · explosive first"
               block="Bodybuilding day: 6-12 reps, 1-2 reps left in the tank on most sets, 90-120s rest on compounds and 60s on isolation. Take the last set of each isolation exercise to genuine failure."
               exercises={[
+                { name: 'Med ball chest pass', sets: '3 × 5', targets: 'Chest · shoulders · triceps — power', how: "Half-kneeling or standing a metre from a wall, ball at your chest. Throw it into the wall as hard as you physically can, catch, reset. Half-kneeling takes the legs out so the upper body does the work.", why: 'The explosive movement of the day and the reason it goes first. Pressing heavy builds the capacity; throwing hard is what teaches you to use it fast — which is what shrugging someone off a ball actually is.' },
                 { name: 'Incline DB press', sets: '4 × 8-10', targets: 'Upper chest · front delts · triceps', how: "Bench at 30 degrees — steeper turns it into a shoulder press. Dumbbells start at chest level with wrists stacked over elbows. Lower under control until you feel a stretch across the upper chest, then press up and slightly together without clanging them. Shoulder blades pulled back and down into the bench the whole set.", why: 'Upper chest first while you are freshest — it is the region that most decides how a chest looks in clothes, and the one that lags when you always start flat.' },
-                { name: 'Flat barbell or machine press', sets: '3 × 8-10', targets: 'Mid chest · front delts · triceps', how: "Shoulder blades retracted, slight arch, feet planted. Bar comes down to the lower chest, elbows around 45-60 degrees from your body — not flared to 90. Touch, do not bounce. Press back up in a slight arc toward your face, not straight up.", why: 'Heavy horizontal pressing for overall chest mass. Machine is a legitimate choice here — you can push closer to failure safely without a spotter.' },
+                { name: 'Seated DB shoulder press', sets: '4 × 8-10', targets: 'Front and side delts · triceps · upper traps', how: "Back supported, dumbbells starting at ear height with elbows slightly in front of the body rather than flared straight out to the sides. Press up and slightly in until they nearly touch. Do not lock out and rest at the top — keep tension and come straight back down.", why: 'Overhead pressing for front delt mass and overhead strength. Seated removes leg drive so the delts do the work.' },
                 { name: 'Weighted dips', sets: '3 × 8-10', targets: 'Lower chest · triceps · front delts', how: "Lean the torso forward about 30 degrees to bias the chest — staying upright shifts it to triceps. Lower until your upper arms are roughly parallel to the floor, no deeper if your shoulders complain. Elbows tucked in, not flaring wide. Add weight via a dip belt.", why: 'Lower chest and triceps under a big stretch. Lean forward about 30 degrees to bias the chest rather than sitting upright.' },
-                { name: 'Cable fly (low to high)', sets: '3 × 12-15', targets: 'Chest — especially the inner and upper fibres', how: "Cables set at the lowest pin. Slight bend in the elbows held constant — the arms never change angle, only the shoulders move. Sweep up and across as if hugging someone, squeeze for a beat at the top, then let the arms travel back until you feel a real stretch across the chest.", why: 'Constant tension through a full stretch with no triceps involvement. The stretched position is where most of the growth stimulus lives.' },
-                { name: 'Overhead cable triceps extension', sets: '3 × 10-12', targets: 'Triceps — long head', how: "Face away from the cable, rope overhead, elbows pointing forward and pinned in place. Only the forearms move. Let the rope go behind your head until the triceps are fully stretched, then extend and pull the rope apart slightly at lockout.", why: 'The long head only gets a full stretch with the arm overhead — this is the head that gives arms thickness from the side, and pushdowns alone miss it.' },
+                { name: 'DB lateral raise', sets: '4 × 12-15', targets: 'Side delts — the width builder', how: "Very light. Slight forward lean, tiny bend in the elbows, lead with the elbows rather than the hands as if pouring a jug. Raise to shoulder height only. Lower slowly over 2-3 seconds — most people get nothing from this exercise because they drop the weight.", why: 'THE width exercise. Side delts create the shoulder-to-waist silhouette. Light, strict, no swinging — this is the one lift where ego costs you the most.' },
                 { name: 'Triceps pushdown', sets: '3 × 12-15', targets: 'Triceps — lateral and medial heads', how: "Elbows glued to your ribs, torso upright, no leaning in to cheat the weight down. Push down until the arms are fully locked, spread the rope at the bottom, then control the way back up until the triceps are stretched.", why: 'Finishes the lateral head with high-rep work. Elbows pinned, last set to failure.' },
-                { name: 'CORE — Rotational', sets: 'see Core tab', why: 'Cable woodchops and Pallof press. Punch and shot power comes from resisting and producing rotation, and this is the day for it.' },
               ]}
             />
             <Block title="Push day notes" items={[
@@ -427,18 +394,15 @@ export default function Programs() {
           <div className="fade-up stagger space-y-4">
             <Session
               title="Wednesday — Pull"
-              tag="Back, biceps, neck · hypertrophy + combat"
+              tag="Back and biceps · explosive first"
               block="Width first, then thickness, then arms. Back responds well to high volume — do not be afraid of the set count here. Neck and grip at the end are the combat-specific pieces almost nobody trains."
               exercises={[
+                { name: 'Explosive pull-up or barbell high pull', sets: '3 × 3', targets: 'Lats · traps · biceps — power', how: "Pull-up: from a dead hang, pull as fast as you can, aiming to get your chest to the bar. High pull: light barbell, drive with the hips and pull the bar to chest height with the elbows leading. Full rest between sets — these are speed reps, not a burnout.", why: 'The explosive movement of the day. Pulling power is what almost nobody trains and it is half of every physical duel — so it goes first, while you are completely fresh.' },
                 { name: 'Weighted pull-ups', sets: '4 × 6-8', targets: 'Lats · teres major · biceps · mid back', how: "Slightly wider than shoulder-width, full hang at the bottom with shoulders active rather than dead. Think about pulling your elbows down into your back pockets rather than pulling your chin up. Chest to the bar, controlled descent to a full stretch every rep.", why: 'The best lat width builder there is. Add weight once you can do 10 clean bodyweight reps. Lats are also your clinch and grappling strength.' },
                 { name: 'Barbell or Pendlay row', sets: '4 × 8-10', targets: 'Mid back · lats · rear delts · spinal erectors', how: "Hinge at the hips to around 45 degrees (Pendlay: torso parallel, bar resets on the floor each rep). Brace hard, pull the bar to your lower ribs or navel, elbows driving back not out. No jerking upright to move the weight — if your torso rises, the weight is too heavy.", why: 'Back thickness and the pulling strength behind snapping an opponent down. Strict, hips hinged, no jerking with the lower back.' },
-                { name: 'Chest-supported row', sets: '3 × 10-12', targets: 'Mid traps · rhomboids · lats · rear delts', how: "Chest firmly on the pad so the lower back is fully removed. Pull the handles toward your lower ribs, squeeze the shoulder blades together for a beat, then let the arms travel forward fully to stretch the back at the bottom.", why: 'Same horizontal pull with the lower back removed, so you can push genuinely hard without stealing recovery from your leg days.' },
-                { name: 'Lat pulldown or straight-arm pulldown', sets: '3 × 12-15', targets: 'Lats — width', how: "Pulldown: lean back slightly, pull the bar to your collarbone, elbows down and back. Straight-arm: arms nearly locked, sweep the bar from overhead down to your thighs in an arc using only the lats — the elbow angle never changes.", why: 'Isolates the lats without the biceps failing first. Pure width work — this is the V-taper exercise.' },
                 { name: 'Face pulls', sets: '3 × 15-20', targets: 'Rear delts · external rotators · mid and lower traps', how: "Rope set at roughly face height. Pull the rope apart and toward your forehead, finishing with hands beside your ears and elbows high. Externally rotate at the end so your knuckles face the ceiling. Light weight and a two-second squeeze beats heavy.", why: 'Rear delts and external rotators. This is both a posture exercise and the thing that keeps your shoulders healthy under all the pressing.' },
                 { name: 'Incline DB curl', sets: '3 × 10-12', targets: 'Biceps — long head, under stretch', how: "Bench at 45-60 degrees, arms hanging straight down behind the body line — that stretch is the whole point of the exercise. Curl without letting the elbows drift forward, squeeze at the top, lower slowly to a full stretch.", why: 'Incline puts the biceps long head on stretch, which is where the growth is. Biceps also assist every pull and underhook.' },
                 { name: 'Hammer curl', sets: '3 × 12', targets: 'Brachialis · brachioradialis · forearms', how: "Neutral grip, palms facing each other, held throughout. Elbows fixed at your sides, no swinging. Curl to shoulder height and lower under control. The brachialis sits under the biceps and pushes it up, adding visible arm thickness.", why: 'Brachialis and forearm — arm thickness plus the grip strength that decides clinch battles.' },
-                { name: 'Neck curls + extensions', sets: '3 × 15 each', targets: 'Deep neck flexors · neck extensors · upper traps', how: "Lie on a bench, head off the end. Curls: face up, small plate on a towel on your forehead, tuck the chin toward the chest through a full but comfortable range. Extensions: face down, same setup on the back of the head. Slow, controlled, never a jerk — start with no weight at all for the first two weeks.", why: 'Non-negotiable for combat sports. A strong neck absorbs strikes, resists chokes and reduces knockout risk. Light, controlled, never explosive.' },
-                { name: 'CORE — Anti-rotation + carries', sets: 'see Core tab', why: 'Pallof holds and heavy suitcase carries. Trains the trunk to stay rigid while your limbs work, which is what shielding a ball actually is.' },
               ]}
             />
             <Block title="Pull day notes" items={[
@@ -472,31 +436,6 @@ export default function Programs() {
         )}
 
         {/* ===== SHOULDERS ===== */}
-        {tab === 'shoulders' && (
-          <div className="fade-up stagger space-y-4">
-            <Session
-              title="Friday — Shoulders + Arms"
-              tag="Delts, traps, arms · width and volume"
-              block="By Friday your front delts have had plenty of indirect pressing, so this day is weighted toward side and rear delts — the two heads that actually create width and a 3D look. High volume, moderate loads."
-              exercises={[
-                { name: 'Seated DB shoulder press', sets: '4 × 8-10', targets: 'Front and side delts · triceps · upper traps', how: "Back supported, dumbbells starting at ear height with elbows slightly in front of the body rather than flared straight out to the sides. Press up and slightly in until they nearly touch. Do not lock out and rest at the top — keep tension and come straight back down.", why: 'Overhead pressing for front delt mass and overhead strength. Seated removes leg drive so the delts do the work.' },
-                { name: 'DB lateral raise', sets: '4 × 12-15', targets: 'Side delts — the width builder', how: "Very light. Slight forward lean, tiny bend in the elbows, lead with the elbows rather than the hands as if pouring a jug. Raise to shoulder height only. Lower slowly over 2-3 seconds — most people get nothing from this exercise because they drop the weight.", why: 'THE width exercise. Side delts create the shoulder-to-waist silhouette. Light, strict, no swinging — this is the one lift where ego costs you the most.' },
-                { name: 'Cable lateral raise', sets: '3 × 15', targets: 'Side delts — constant tension', how: "Cable at the lowest setting, running behind your back, handle in the opposite hand. Raise across and out to shoulder height, keeping tension at the bottom rather than letting the arm rest against your side. The cable loads the stretched position dumbbells cannot.", why: 'Constant tension through the whole range, unlike dumbbells which are almost weightless at the bottom. Different stimulus, brutal pump.' },
-                { name: 'Rear delt fly or reverse pec deck', sets: '4 × 15-20', targets: 'Rear delts · mid traps · rhomboids', how: "Hinge forward (or use the machine seated facing the pad). Thumbs pointing down or neutral, slight elbow bend held constant. Sweep the arms out and slightly back, squeezing the rear delts — not the shoulder blades together, which turns it into a row.", why: 'The most neglected head. Rear delts make shoulders look full from the side and balance all your pressing — this is also posture work.' },
-                { name: 'Barbell or DB shrug', sets: '3 × 12-15', targets: 'Upper traps', how: "Straight up and down — no rolling the shoulders, which achieves nothing and irritates the joint. Hold the top position for a full second, then lower to a complete stretch. Straps let the traps fail before the grip does.", why: 'Upper traps frame the neck and shoulders, and a strong trap-neck complex is genuinely protective in contact sport.' },
-                { name: 'EZ-bar curl', sets: '3 × 10-12', targets: 'Biceps — both heads', how: "EZ bar rather than straight to spare the wrists. Elbows at your sides and still, no swinging or leaning back. Curl up, squeeze, then lower over 2-3 seconds to full extension. The lowering is where most of the growth stimulus is.", why: 'Direct biceps volume on a day your back is not fatigued, so your arms get a genuinely hard session rather than leftovers.' },
-                { name: 'Skull crusher or overhead extension', sets: '3 × 10-12', targets: 'Triceps — long head', how: "Lying, EZ bar, elbows pointing at the ceiling and staying there. Lower the bar to your forehead or just behind your head — behind gives a bigger long-head stretch. Extend without letting the elbows drift toward your feet.", why: 'Triceps make up roughly two thirds of your arm. Second weekly dose after Push day.' },
-                { name: 'CORE — Ab hypertrophy (weighted)', sets: 'see Core tab', why: 'This is the day for actually growing the abs. Weighted cable crunches in the 10-15 rep range — abs are muscles and grow like any other.' },
-              ]}
-            />
-            <Block title="Shoulders day notes" items={[
-              ['Why lateral raises get four sets', 'Side delts respond to volume and frequency, recover quickly, and are the single biggest driver of upper-body width. They are worth more sets than almost anything else here.'],
-              ['Lighten them until it burns', 'If you are swinging 20kg dumbbells you are training your traps and lower back. Halve the weight, pause at the top, and the delts will let you know.'],
-              ['Rear delts before you feel you need them', 'They lag in almost everyone, they improve posture, and they protect the shoulder joint. High reps, light, lots of them.'],
-            ]} />
-          </div>
-        )}
-
         {/* ===== LEGS ===== */}
         {tab === 'legs' && (
           <div className="fade-up stagger space-y-4">
@@ -514,20 +453,13 @@ export default function Programs() {
               block="ORDER MATTERS: jumps, throws and sprints first while the nervous system is fresh, then the trap bar heavy with full recovery (3 min), then the short accessory block. Deliberately lean — around 19 hard sets. You are training legs once a week alongside football, so this is about quality and recovery, not volume. Ranges. This is the longest session of the week by design — it is now the only dedicated leg-size day, so it earns the extra time."
               exercises={[
                 { name: 'Thorough warm-up', sets: '10-12 min', targets: 'Whole body · nervous system prep', how: "5 min easy jog, then leg swings front-to-back and side-to-side, walking lunges, A-skips and high knees. Finish with 3-4 build-up runs of about 40m at 60, 70, 80 then 90 percent. You should feel warm and springy before the first real sprint.", why: 'Non-negotiable before sprinting. Easy jog, leg swings, A-skips, then 3-4 build-up runs at 60, 70, 80 and 90%. Cold hamstrings plus max sprints is how you tear something.' },
-                { name: 'Med ball rotational throw', sets: '4 × 5/side', targets: 'Obliques · hips · whole rotational chain', how: "Stand side-on to a wall, ball at your hip. Drive off the back foot, rotate the hip first and let the torso and arms follow, and throw the ball hard into the wall. The power comes from the ground and hips — arms are the last link, not the source.", why: 'The exact hip-to-shoulder sequence that fires a punch, a kick and a shot. Throw with total intent — half-effort throws train nothing.' },
                 { name: 'Box jump or broad jump', sets: '4 × 3', targets: 'Glutes · quads · calves — triple extension', how: "Box: quarter squat, swing the arms, explode up and land softly in the same quarter-squat position on top. Step down, never jump down. Broad: same swing, jump forward for distance and stick the landing. Full reset between reps — this is quality work, not conditioning.", why: 'Pure triple extension — ankle, knee and hip firing together. Step down from box jumps, never jump down. Full reset between reps.' },
                 { name: 'Acceleration sprints', sets: '4 × 20m', targets: 'Glutes · hamstrings · quads — starting power', how: "Start from a staggered stance, torso leaning forward around 45 degrees. Drive the knees and push the ground back behind you, rising gradually to upright over 15-20m rather than popping up immediately. Walk back slowly for full recovery between reps.", why: 'Football is won in the first 5-20 metres. Vary the start — standing, side-on, rolling — and walk back slowly for full recovery.' },
-                { name: 'Flying sprints', sets: '2 × 30-40m', targets: 'Hamstrings · glutes — top-speed mechanics', how: "Build gradually over the first 20m, then hit 100% for 20m. At top speed run tall with hips high, foot striking underneath your body, face and shoulders relaxed. Do not clench — tension slows you down.", why: 'Build up over 20m then hit 100% for 20m. Trains top-speed mechanics: tall hips, ground contact underneath you, relaxed face and shoulders.' },
-                { name: 'Lateral bounds / change of direction', sets: '2 × 5/side', targets: 'Glute medius · adductors · ankle stability', how: "Push off one leg sideways, land on the other, and stick the landing for a full second before going back. Knee tracking over the foot, not collapsing inward. Control on landing is the training effect.", why: 'Side-to-side explosiveness for cutting in football and switching stance in Muay Thai. Stick and hold each landing — the control is the point.' },
                 { name: 'Trap bar deadlift', sets: '4 × 5', targets: 'Glutes · hamstrings · quads · spinal erectors · grip', how: "Stand inside the bar, feet hip-width. Hips slightly higher than a squat but lower than an RDL, chest up, lats tight, arms straight. Push the floor away rather than pulling with the back — the bar should leave the ground with your hips and chest rising together. Reset your brace between reps rather than bouncing them off the floor.", why: 'Your main strength lift. It loads the whole posterior chain plus the quads in one movement, with far less spinal cost than a conventional pull and less technical demand than a heavy squat — which is exactly what you want on a day that also has sprints in it.' },
-                { name: 'Romanian deadlift', sets: '2 × 8-10', targets: 'Hamstrings · glutes · spinal erectors', how: "Soft knees held at a constant angle — this is a hip hinge, not a squat. Push the hips straight back, bar dragging down the thighs, until you feel a strong hamstring stretch around mid-shin. Flat back throughout, drive the hips forward to stand. Moderate load: you are chasing the stretch, not a personal best.", why: 'The trap bar is a squat-hinge hybrid and does not load the hamstrings at long length the way this does. Hamstrings tear at long lengths during the swing phase of a sprint, so training them there is the point. Two sets only, because Nordics cover the eccentric side.' },
                 { name: 'Bulgarian split squat', sets: '3 × 8/leg', targets: 'Quads · glutes · adductors · balance', how: "Rear foot on a bench behind you, front foot far enough forward that your front shin stays near vertical. Drop straight down until the back knee is just off the floor. More forward lean hits glutes, more upright hits quads. The front leg does everything — the back leg is only balance.", why: 'Football happens on one leg. Single-leg strength transfers more directly to cutting, kicking and planting than any bilateral lift.' },
-                { name: 'Single-leg extension', sets: '2 × 12-15/leg', targets: 'Quads — especially rectus femoris', how: "Seated, one leg at a time. Full range, pause a beat at the top, lower slowly. Do the WEAKER side first and let it set the reps — the stronger leg matches it rather than the other way round.", why: 'One leg at a time exposes the left-right gap that bilateral lifts hide, and after an ankle sprain there is almost always measurable quad weakness on that side. It is also seated with the foot supported, so it loads the quad hard while asking nothing of your ankle.' },
                 { name: 'Nordic hamstring curl', sets: '2 × 5', targets: 'Hamstrings — eccentric strength', how: "Kneel with your ankles anchored under something solid or held by a partner. Body straight from knees to head, squeeze the glutes. Lower yourself forward as slowly as you possibly can, resisting the whole way, then catch with your hands and push back up. Even lowering 20-30 degrees under control is a working rep at the start.", why: 'The single most evidence-backed hamstring injury prevention exercise there is. Now only once a week rather than twice, so the extra sets here make up part of the difference — see the note below.' },
-                { name: 'Copenhagen plank', sets: '2 × 20-30s/side', targets: 'Adductors (groin) · obliques', how: "Side-lying, top leg resting on a bench at the knee (easier) or ankle (harder). Lift your hips so the body forms a straight line, holding position with the inner thigh of the top leg. Start with the knee-supported version — the full ankle version is genuinely hard.", why: 'Adductor strength. Groin strains end football seasons, and this is the best prevention exercise available.' },
                 { name: 'Standing calf raise', sets: '2 × 12-15', targets: 'Gastrocnemius', how: "Balls of the feet on a raised edge, knees straight. Drop the heels for a full stretch, pause a beat at the bottom, then drive up onto the toes and hold the top for a second. Straight knees are what target the gastroc rather than the soleus.", why: 'Stiff, springy ankles are free speed and protect against rolled ankles. Pause at the top, full stretch at the bottom.' },
                 { name: 'Seated calf raise', sets: '2 × 12-15', targets: 'Soleus', how: "Seated with the pad over the knees, balls of the feet on the platform. Knees bent to 90 degrees is what shifts the work from the gastroc to the soleus. Full stretch at the bottom, hard squeeze at the top, slow throughout.", why: 'Seated targets the soleus, which the standing version misses. The soleus takes enormous load in running.' },
-                { name: 'CORE — Anti-extension + anti-lateral flexion', sets: 'see Core tab', why: 'Hanging leg raises/ab wheel, then a suitcase carry or side plank. Both trunk functions live here now that there is only one leg day to attach them to.' },
               ]}
             />
             <Fold title="Starting legs with weak ankles" tag="Where to begin, and what to leave until later" items={[
@@ -579,7 +511,7 @@ export default function Programs() {
               ['Why the single-leg extension is in, specifically', 'Not for size. After an ankle sprain the quad on that side is almost always measurably weaker, and bilateral lifts hide that gap because the good leg quietly takes more. One leg at a time exposes it. Train the weaker side first, let it set the reps, and let the strong side match — that is how the gap closes rather than widens.'],
               ['Why the RDL earns its place back', 'The trap bar is a squat-hinge hybrid: it loads the hamstrings, but not at long length. Hamstrings tear at long lengths during the swing phase of sprinting, which is the single most common non-contact injury in football. Two moderate sets chasing the stretch — not a max attempt — is the cheapest protection available for the exact thing you do most.'],
               ['Rotate the squat back in every third week', 'Trap bar is the main lift because it is the best strength-per-unit-of-fatigue option on a day that also has sprints. But the squat pattern is worth keeping: every third week, swap the trap bar for back squats 4 x 5 at a load you can control. Same slot, same sets, no extra volume.'],
-              ['If you want the leg size back later', 'Add the fifteen-minute machine finisher to the Shoulders day — leg press, leg curl, calves. High rep, low fatigue, and it does not touch this session or your ankle.'],
+              ['If you want the leg size back later', 'Add the fifteen-minute machine finisher to the Push day — leg press, leg curl, calves. High rep, low fatigue, and it does not touch this session or your ankle.'],
               ['The one real trade-off: Nordic frequency', 'Research protocols that roughly halve hamstring injury rates use Nordics twice a week. Dropping to once a week is still valuable, just not quite as protective. With this day trimmed, the honest fix is a short Nordic-only set on a rest day — three sets, five minutes, no equipment — rather than reviving a second leg day. Hamstrings are the most commonly torn muscle in football and this is the cheapest insurance there is.'],
               ['Will heavy legs make me slower? No', 'Strength is the foundation of power. What makes people slow is gaining weight while dropping the sprint and jump work that teaches the body to use it — which is exactly what Thursday exists to prevent.'],
               ['Strength first, then convert it', 'A stronger leg can produce more force. The jumps and sprints that open this session train you to produce that force fast. Doing only one of the two is why people end up either strong and slow, or fast and fragile.'],
@@ -900,7 +832,7 @@ export default function Programs() {
             />
             <Block title="What is already doing the work in your programme" items={[
               ['Face pulls (Pull day, 3 × 15-20)', 'Rear delts and external rotators — the highest-value posture exercise in the whole plan, and it is already in there.'],
-              ['Rear delt flies (Shoulders day, 4 × 15-20)', 'Second weekly dose of exactly what rounded shoulders need.'],
+              ['Rear delt flies (Push day, 4 × 15-20)', 'Second weekly dose of exactly what rounded shoulders need.'],
               ['Rows and pull-ups', 'Building your mid and upper back is itself posture training, and it does more for your silhouette than any stretch.'],
               ['Suitcase carries (core rotation)', 'Trains you to stand tall and rigid under asymmetric load, which is posture under real-world demand.'],
               ['Nordics and hip thrusts', 'Posterior chain strength directly opposes the tilted-forward pelvis pattern.'],
