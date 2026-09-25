@@ -641,3 +641,69 @@ Return ONLY valid JSON, no markdown fences:
   const data = parse(text) as { concepts?: SubjectConcept[] };
   return (data.concepts || []).filter(c => c.concept && c.simple && c.why && c.example);
 }
+
+/* ---------------------------------------------------------------------------
+ * Video notes
+ *
+ * The transcript is PASTED by the user rather than fetched. This app is a
+ * static page on GitHub Pages with no server: YouTube's timedtext endpoint is
+ * CORS-blocked from a browser, and the Data API's captions.download needs OAuth
+ * as the video owner. Any "just paste the link" summariser without a backend is
+ * either guessing from the title or relying on a third-party proxy that breaks
+ * silently — both produce confident, wrong notes. Pasting the transcript is one
+ * extra tap and it is the difference between real notes and invented ones.
+ * ------------------------------------------------------------------------- */
+
+export interface VideoNotes {
+  headline: string;
+  oneLine: string;
+  keyPoints: string[];
+  actions: string[];
+  quotes?: string[];
+  verdict?: string;
+}
+
+export function isValidVideoNotes(v: unknown): v is VideoNotes {
+  if (!v || typeof v !== 'object') return false;
+  const n = v as Partial<VideoNotes>;
+  return typeof n.headline === 'string' && typeof n.oneLine === 'string'
+    && nonEmptyArray(n.keyPoints) && Array.isArray(n.actions);
+}
+
+export async function summariseVideo(transcript: string, title?: string): Promise<VideoNotes> {
+  const client = makeClient();
+  const msg = await client.messages.create({
+    model: 'claude-sonnet-5',
+    max_tokens: 3000,
+    messages: [{
+      role: 'user',
+      content: `Turn this video transcript into notes worth keeping.
+
+${title ? `VIDEO TITLE: ${title}\n` : ''}TRANSCRIPT:
+"""
+${transcript.slice(0, 120000)}
+"""
+
+Write notes for someone who wants the substance without rewatching. Rules:
+- Only use what is actually in the transcript. If the transcript is partial or unclear, say so in the verdict rather than filling gaps from general knowledge.
+- Key points are claims and explanations, not topic labels. "Cut caffeine 8-10h before bed because it strips deep sleep" — not "talks about caffeine".
+- Actions are things you could do this week. If the video has none, return an empty array rather than inventing them.
+- Quotes must be verbatim from the transcript. Omit the field if there are none worth keeping.
+- Be honest in the verdict: if it is thin, repetitive, or mostly a sales pitch, say that.
+
+Return ONLY valid JSON, no markdown fences:
+{
+  "headline": "A short title for these notes",
+  "oneLine": "The single most important idea, in one sentence",
+  "keyPoints": ["6-10 substantial points"],
+  "actions": ["concrete things to do, or empty"],
+  "quotes": ["verbatim lines worth keeping, or omit"],
+  "verdict": "Was this worth the watch, honestly"
+}`,
+    }],
+  });
+  const text = msg.content[0].type === 'text' ? msg.content[0].text : '';
+  const out = parse(text);
+  if (!isValidVideoNotes(out)) throw new Error(INCOMPLETE);
+  return out;
+}

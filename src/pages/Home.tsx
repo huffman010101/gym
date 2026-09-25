@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Dumbbell, Target, ChevronRight, Zap, Trophy, LayoutDashboard, Swords, Sparkles, Brain, GraduationCap, Map, CircleDot } from 'lucide-react';
+import { Dumbbell, Target, ChevronRight, Zap, Trophy, LayoutDashboard, Swords, Sparkles, Brain, GraduationCap, Map, CircleDot , Youtube } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import { HABITS, loadHabits, todaysItems } from '../components/DailyHabits';
@@ -206,6 +206,16 @@ export default function Home() {
             <div>
               <p className="font-bold text-xs">AI Face Scan</p>
               <p className="text-gray-600 text-[10px]">Haircut & style for YOUR face</p>
+            </div>
+          </Link>
+          <Link to="/videonotes"
+            className="flex items-center gap-3 bg-[#111] border border-white/8 hover:border-red-500/30 rounded-2xl px-4 py-3 transition-all">
+            <div className="w-8 h-8 bg-red-500/10 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Youtube size={15} className="text-red-400" />
+            </div>
+            <div>
+              <p className="font-bold text-xs">Video Notes</p>
+              <p className="text-gray-600 text-[10px]">Paste a video → keep the substance</p>
             </div>
           </Link>
           <Link to="/quiz"

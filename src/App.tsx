@@ -20,6 +20,7 @@ import Knowledge from './pages/Knowledge';
 import CheatSheet from './pages/CheatSheet';
 import Dating from './pages/Dating';
 import Backtest from './pages/Backtest';
+import VideoNotes from './pages/VideoNotes';
 import ApiKeySetup from './components/ApiKeySetup';
 import { getApiKey } from './lib/anthropic';
 
@@ -72,6 +73,7 @@ export default function App() {
         <Route path="/cheatsheet" element={<CheatSheet />} />
         <Route path="/dating" element={<Dating />} />
         <Route path="/backtest" element={<Backtest />} />
+        <Route path="/videonotes" element={<VideoNotes />} />
       </Routes>
     </HashRouter>
     </ErrorBoundary>
