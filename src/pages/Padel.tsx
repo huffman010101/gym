@@ -4,14 +4,13 @@ import { ArrowLeft, ChevronDown, CircleDot } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 
-type Tab = 'plan' | 'technique' | 'strategy' | 'walls' | 'gym';
+type Tab = 'plan' | 'technique' | 'strategy' | 'walls';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'plan', label: 'The Plan' },
   { id: 'technique', label: 'Technique' },
   { id: 'strategy', label: 'Strategy' },
   { id: 'walls', label: 'Wall Play' },
-  { id: 'gym', label: 'Gym' },
 ];
 
 function Block({ title, items, accent = 'text-sky-300' }: { title: string; items: [string, string][]; accent?: string }) {
@@ -61,7 +60,7 @@ export default function Padel() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['plan', 'technique', 'strategy', 'walls', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'plan';
+    return (['plan', 'technique', 'strategy', 'walls'] as const).includes(t as Tab) ? (t as Tab) : 'plan';
   });
 
   return (
@@ -160,9 +159,16 @@ export default function Padel() {
 
             <Block title="Running football and padel together" items={[
               ['They complement each other well', 'Both need lateral movement, reactive agility and rotational power — the same gym work serves both. Padel is also far lower impact than football, so it is a good session in a heavy week.'],
-              ['Do not stack both on a heavy gym day', 'Padel on your Legs A or Legs B day is a lot of leg volume. Put it on an upper-body day or a lighter one.'],
+              ['Do not stack both on a heavy gym day', 'Padel on your Legs + Speed day is a lot of leg volume. Put it on an upper-body day or a lighter one.'],
               ['Shoulder load is the thing to watch', 'Overheads in padel plus pressing in the gym plus any Muay Thai adds up on the same joint. Keep the face pulls and rear delt work in — that is what keeps this sustainable.'],
               ['Pick a priority per block', 'Trying to improve maximally at both at once splits your focus. Six weeks with football as the priority, then six with padel, beats permanently half-committing to each.'],
+            ]} />
+            <Fold title="What padel needs from the gym" tag="The qualities — the lifting itself is in Gym → The Plan" items={[
+              ['Lateral quickness over straight-line speed', 'A small court is side-to-side and split-steps, not long sprints. Lateral bounds with a held landing, and side shuffles, matter more here than top speed.'],
+              ['Rotational power for the smash and bandeja', 'The med ball rotational throws already in your gym plan are the exact pattern — hips leading, shoulders following.'],
+              ['Shoulder health is the non-negotiable', 'Overheads are repetitive overhead load. Band external rotations and face pulls 2-3×/week. Face pulls are already on your Pull day; the external rotations are the padel-specific addition.'],
+              ['Reactive agility', 'A partner calling a direction, or a ball dropped for you to chase. Pre-planned cone drills never train the decision, which is the half padel actually demands.'],
+              ['Do not run a separate padel programme', 'One gym plan covers all of it. These are the four things to bias toward within it, not a second routine.'],
             ]} />
           </div>
         )}
@@ -270,22 +276,6 @@ export default function Padel() {
           </div>
         )}
 
-        {/* ===== GYM ===== */}
-        {tab === 'gym' && (
-          <div className="fade-up stagger space-y-4">
-            <Block title="Padel-Specific Fitness" items={[
-              ['Lateral quickness over straight-line speed', 'Padel is a small court full of side-to-side and split-step movement, not long sprints. Lateral bounds, side shuffles with resistance bands, and cone agility drills transfer directly.'],
-              ['Rotational power for the smash & bandeja', 'Medicine ball rotational throws and cable woodchops build the hip-and-shoulder rotation that powers overheads — the same pattern as a tennis serve or a golf swing.'],
-              ['Shoulder health, non-negotiable', 'Overheads are repetitive overhead load. Rotator cuff work (external rotation with a light band, face pulls) 2-3×/week prevents the shoulder injuries that plague racket-sport players.'],
-              ['Reactive agility', 'Short, sharp reaction drills — a partner calling a direction, or a ball dropped for you to react to — train the split-step reflex that padel constantly demands.'],
-            ]} />
-            <Block title="Weekly Split (in-season friendly)" items={[
-              ['2×/week — lower body & lateral power', 'Squats, lateral lunges, and lateral bounds. Padel\'s movement is 80% side-to-side — train it that way, not just straight ahead.'],
-              ['1-2×/week — rotational power + shoulders', 'Medicine ball throws, cable rotations, band rotator cuff work. Directly builds smash and bandeja power while protecting the shoulder joint.'],
-              ['On-court conditioning', 'Play itself is the best conditioning for padel-specific endurance — but add 2×20min sessions of short sprint + recovery intervals if matches leave you fading in the third set.'],
-            ]} />
-          </div>
-        )}
       </div>
       <BottomNav />
     </main>

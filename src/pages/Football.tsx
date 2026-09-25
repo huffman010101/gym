@@ -4,7 +4,7 @@ import { ArrowLeft, Zap, Target, Users, Activity, ChevronDown, Trophy } from 'lu
 import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 
-type Tab = 'plan' | 'home' | 'speed' | 'shooting' | 'skills' | 'position' | 'setpieces' | 'physical' | 'elite' | 'gym';
+type Tab = 'plan' | 'home' | 'speed' | 'shooting' | 'skills' | 'position' | 'setpieces' | 'physical' | 'elite' | 'warmup';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'plan', label: 'The Plan' },
@@ -16,7 +16,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'setpieces', label: 'Set Pieces' },
   { id: 'physical', label: 'Physicality' },
   { id: 'elite', label: 'Becoming Elite' },
-  { id: 'gym', label: 'Gym' },
+  { id: 'warmup', label: 'Warm-Up' },
 ];
 
 function Block({ title, items, accent = 'text-emerald-300' }: { title: string; items: [string, string][]; accent?: string }) {
@@ -66,7 +66,7 @@ export default function Football() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['plan', 'home', 'speed', 'shooting', 'skills', 'position', 'setpieces', 'physical', 'elite', 'gym'] as const).includes(t as Tab) ? (t as Tab) : 'plan';
+    return (['plan', 'home', 'speed', 'shooting', 'skills', 'position', 'setpieces', 'physical', 'elite', 'warmup'] as const).includes(t as Tab) ? (t as Tab) : 'plan';
   });
 
   return (
@@ -337,7 +337,7 @@ export default function Football() {
             <Block title="Speed Training Week (in-season friendly)" items={[
               ['Day 1 — Acceleration', '6-8 × 20m sprints from different starts (lying, side-on, rolling) — full recovery between reps (walk back slowly, 2-3 min). Quality over volume: sprinting tired trains slowness.'],
               ['Day 2 — Max velocity', '4-6 × 40m build-ups: accelerate 20m, FLY the next 20m at 100%. Full recovery. Once a week at true 100% makes you faster; never at 100% year-round without buildup.'],
-              ['Gym (2×/week)', 'Heavy half squats or trap bar deadlifts 4×4, hip thrusts 4×6, weighted step-ups, plyometrics (bounds, hurdle hops, depth jumps 3×5). Strength × elasticity = sprint speed.'],
+              ['The gym side', 'Heavy lifting and jumps are what convert into sprint speed, and they are already programmed — one plan for everything, in Gym → The Plan. Do not run a separate football lifting routine on top of it.'],
               ['Nordic curls — non-negotiable', '3×5 twice a week. Hamstring injuries end seasons; Nordics cut the risk roughly in half AND make you faster.'],
               ['Technique drills as warm-up', 'A-skips, B-skips, wall drives, high knees with dorsiflexed ankles — 10 min before every session. Mechanics are trained, not born.'],
             ]} />
@@ -531,9 +531,9 @@ export default function Football() {
                 <Link to="/programs?tab=recovery" className="inline-block text-[11px] font-bold bg-emerald-500/10 border border-emerald-500/25 text-emerald-200 px-3 py-1.5 rounded-full">
                   Programs &rarr; Recovery
                 </Link>
-                <button onClick={() => setTab('gym')} className="text-[11px] font-bold bg-emerald-500/10 border border-emerald-500/25 text-emerald-200 px-3 py-1.5 rounded-full">
-                  Go to Gym &rarr; the lifts
-                </button>
+                <Link to="/programs?tab=plan" className="text-[11px] font-bold bg-orange-500/10 border border-orange-500/25 text-orange-200 px-3 py-1.5 rounded-full">
+                  Gym &rarr; The Plan
+                </Link>
               </div>
             </div>
             <Block title="How to actually use your body in a duel" items={[
@@ -602,39 +602,67 @@ export default function Football() {
         )}
 
         {/* ===== GYM ===== */}
-        {tab === 'gym' && (
+        {tab === 'warmup' && (
           <div className="fade-up stagger space-y-4">
-            <Block title="Lower Body First — the foundation you're missing" items={[
-              ['Why lower body leads', 'Speed, power on the ball, and shot power all come from the hips, glutes and legs. If you feel underdeveloped there, this is the highest-leverage place to train — everything else on the ball rides on top of it.'],
-              ['Squat pattern (2×/week)', 'Back squat or goblet squat 4×5-6, building load week to week. This is your base strength — the number one driver of jump height and sprint power.'],
-              ['Hip hinge (2×/week)', 'Romanian deadlifts or trap bar deadlifts 4×6. Builds the hamstrings and glutes that decelerate you and protect your knees — most football injuries happen in this exact chain.'],
-              ['Single-leg work', 'Bulgarian split squats or walking lunges 3×8 each leg. Football is played on one leg at a time — single-leg strength transfers directly to duels, shots and cutting.'],
-              ['Calves & ankles', 'Standing calf raises 3×15, plus pogo hops. Stiff, springy ankles are free speed and stop rolled ankles in duels.'],
+            <div className="bg-gradient-to-br from-emerald-500/15 to-[#111] border border-emerald-500/30 rounded-2xl p-5">
+              <h3 className="font-black text-emerald-300 mb-2">Dynamic before, static after</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Long static stretches — sitting and holding a hamstring for 45 seconds — measurably reduce power and
+                sprint speed for a while afterwards. Before a match you want movement through range, not held
+                positions. Save the static stretching for after the final whistle, when it is pleasant and harmless.
+                The routine below takes about 20 minutes and finishes you 10 minutes before kick-off.
+              </p>
+            </div>
+
+            <Block title="The 20 minutes, in order" items={[
+              ['1. Raise — 5 min', 'Easy jog, then side shuffles, then backwards jogging, then a few open-the-gate and close-the-gate steps. You want light sweat and a warm body, nothing more. Going straight into stretching on cold muscles is the actual mistake people make.'],
+              ['2. Mobilise — 5 min', 'The dynamic stretches below. Moving through range, never holding.'],
+              ['3. Activate — 4 min', 'Glute bridges ×12, walking lunges ×8 each side, a set of Nordic curls or partner hamstring lowers ×4, and Copenhagen holds 2×15s each side. This is the part with actual evidence behind it for preventing injuries — and the part everyone skips to go take shots.'],
+              ['4. Potentiate — 5 min', 'A-skips ×20m, high knees ×20m, then build-up runs: one at 60%, one at 80%, one at 95%. Finish with two accelerations over 15m and two changes of direction off each foot. This is what wakes the nervous system up so you are sharp in minute one rather than minute twenty.'],
+              ['5. Ball work — whatever is left', 'Passing, touches, a few strikes. Keep moving until kick-off — if you sit down for ten minutes you have undone most of it.'],
             ]} />
-            <Block title="Power on the Ball — strength that shows up in matches" items={[
-              ['Hip thrusts 3×6-8', 'The single best exercise for shot power and holding off defenders — loads the glutes that drive your hips through the ball.'],
-              ['Jump training 2×/week', 'Box jumps or broad jumps 4×4, resetting fully between reps. Converts raw strength into explosive power — the quality that actually shows up in sprints and jumps for headers.'],
-              ['Medicine ball throws', 'Rotational throws against a wall, 3×6 each side. Trains the hip rotation that powers a driven shot and a long throw-in.'],
-              ['Core anti-rotation', 'Pallof press and side planks 3×30s. A strong core lets your hip power transfer into the ball instead of leaking through a wobbly torso.'],
+
+            <Block title="The dynamic stretches — exactly what to do" items={[
+              ['Leg swings, front to back — 12 each leg', 'Hold something for balance, swing one leg forward and back, going a little higher each rep. Hamstrings and hip flexors through full range.'],
+              ['Leg swings, side to side — 12 each leg', 'Same idea across your body. This is the groin and adductor one, and given how often groin strains happen in football it is not optional.'],
+              ['Walking lunge with a twist — 8 each side', 'Lunge forward, then rotate your torso over the front leg. Hips, quads and thoracic spine in one movement.'],
+              ['Knee hug into quad pull — 8 each side', 'Walking: pull one knee to your chest, take a step, then pull the opposite heel to your backside. Glutes then quads and hip flexors.'],
+              ['Inchworm — 6 reps', 'Bend to the floor, walk your hands out to a plank, walk your feet back in. Hamstrings, calves and shoulders together.'],
+              ['Ankle rocks — 10 each side', 'Lunge position, drive the front knee forward over the toes with the heel down. This one matters most for you — it is the same movement as the dorsiflexion test.'],
+              ['90/90 hip switches — 8 each way', 'Sitting, both knees bent at 90 degrees, rotate the knees down to the other side. Opens the hips for kicking and cutting.'],
+              ['Never hold any of these', 'Two seconds at the end of the range at most, then move. If you are counting to thirty, you are doing the wrong thing at the wrong time.'],
             ]} />
-            <Block title="Contact Strength — the lifts that win duels" items={[
-              ['Weighted carries (farmer\'s + suitcase) — 3×40m', 'The most underrated football lift. Carrying heavy load while staying upright IS shielding the ball, and suitcase carries (load on one side only) train exactly the anti-lean strength you need when someone hangs off you.'],
-              ['Neck work — 3×15', 'Free separation, because almost no amateur trains it. A strong neck means more power through a header and staying upright through contact. Note: if you are also running the Blueprint\'s jaw work, that already includes neck training — count it rather than doubling up.'],
-              ['Bench press + overhead press — 4×5-6', 'Pressing strength is how you legally create space with your arms — arm-barring, holding a defender off, winning the shoulder battle. This is the half of the body football players skip.'],
-              ['Rows + weighted pull-ups — 4×6', 'Back strength for shielding and holding position. Pull volume should at least match your pressing volume, or the shoulders pay for it.'],
-              ['Where to put it', 'Carries and neck at the end of any session (two minutes each). Press and pull on the Wednesday power day or as a separate short upper session — do not let them eat the lower-body work, which is still the priority.'],
+
+            <Fold title="Your ankle on match day" tag="Extra five minutes, given the sprain" items={[
+              ['Do the ankle circuit before you leave the house', 'Banded eversion, tibialis raises and a minute of single-leg balance. Doing it at home means it is done properly rather than rushed on the touchline — and it wakes up the muscles that stop a roll.'],
+              ['Add balance work into the warm-up itself', 'Thirty seconds of single-leg standing on each side, ideally on the grass rather than a flat floor. Uneven ground is what you are about to play on.'],
+              ['Tape or brace it', 'For matches while it is still settling, this genuinely lowers the chance of rolling it again. Put it on before the warm-up, not right before kick-off, so you can move in it first.'],
+              ['Test it in the warm-up, not in the first tackle', 'Two changes of direction off that foot at increasing speed during the potentiation phase. If it complains there, you know before it costs you.'],
+              ['Boots and studs', 'Match the studs to the surface. A hard dry pitch in long studs increases the twisting load on an ankle that is already not right.'],
             ]} />
-            <Block title="Get Faster & Stronger on the Ball — a simple weekly split" items={[
-              ['Mon — Heavy lower body', 'Squats + Romanian deadlifts + core. Strength day, full recovery between sets.'],
-              ['Wed — Power & speed', 'Jump training + short acceleration sprints (see Speed tab) + hip thrusts.'],
-              ['Fri — Single-leg + shooting', 'Split squats, lunges, calf work — then straight into a shooting session so leg power transfers to strikes while you\'re primed.'],
-              ['Progress weekly', 'Add small load or reps every week on your main lifts. Underdeveloped legs catch up fast with consistent progressive overload — expect visible changes in 6-8 weeks.'],
+
+            <Fold title="Half-time, and coming on as a sub" tag="Where most soft-tissue injuries actually happen" items={[
+              ['Do not just sit for fifteen minutes', 'Body temperature drops fast and the reheated body is measurably more injury-prone. The last three minutes of half-time: a jog, some leg swings, two build-up runs.'],
+              ['Coming on cold is the highest-risk moment in football', 'If you are on the bench, warm up properly before you are called, and keep topping it up — a jog and a few strides every fifteen minutes or so. Coming on cold into a full-pace match is how hamstrings go.'],
+              ['Two accelerations before you step on', 'Not a jog along the touchline. Two proper efforts at near full speed, because that is the intensity you are about to go into.'],
             ]} />
-            <Block title="Shooting Power — where it actually comes from" items={[
-              ['It\'s hips, not arms', 'A powerful shot is hip rotation + a locked ankle + a strong plant leg, not swinging your leg harder. The lower-body work above IS your shooting power program.'],
-              ['Plant leg strength', 'A weak plant leg collapses on contact and kills power transfer. Single-leg squats build exactly the stability you need at the moment of the strike.'],
-              ['Combine with technique', 'Do 10 shots straight after your gym session on power days — you\'ll feel the extra drive through the ball almost immediately once the strength is there.'],
+
+            <Fold title="After the match" tag="Now static stretching earns its place" items={[
+              ['Keep moving for five minutes first', 'A gentle jog or walk before you stop entirely. Going straight from sprinting to sitting on the coach is what leaves you stiff.'],
+              ['Now hold the stretches', 'Hamstrings, quads, calves, groin, hip flexors — 30 seconds each, breathing out into the position. Pleasant, low risk, and it is the right time for it.'],
+              ['Be realistic about what it does', 'It feels good and helps you wind down. The evidence that it reduces next-day soreness is weak. What actually gets you right for the next match is food, fluid and sleep — the stretching is a nice-to-have on top.'],
+              ['The honest bit about injury prevention', 'Warm-ups reduce injuries because of the strength and balance work in them — Nordics, Copenhagens, single-leg work — not because of the stretching. That is why the activation phase above is the part not to skip, and why the gym programme matters more than any pre-match routine.'],
             ]} />
+
+            <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
+              <p className="text-gray-400 text-xs leading-relaxed mb-2">
+                Your lifting programme is not here — there is one gym plan for everything you do, and it lives in the
+                Gym section. This tab is only match-day preparation.
+              </p>
+              <Link to="/programs?tab=plan" className="inline-block text-[11px] font-bold bg-orange-500/10 border border-orange-500/25 text-orange-200 px-3 py-1.5 rounded-full">
+                Gym &rarr; The Plan
+              </Link>
+            </div>
           </div>
         )}
       </div>

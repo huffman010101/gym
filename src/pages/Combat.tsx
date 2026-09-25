@@ -902,43 +902,24 @@ export default function Combat() {
               ['5. Repeatability — the engine', 'Producing a great punch once is training. Producing it in the last minute of round three is fighting. That is a conditioning quality, and it is trained separately, mostly aerobically, which surprises people who assume fight conditioning means constant suffering.'],
             ]} />
 
-            <SectionTitle icon={Zap} title="The exercise menu" sub="Chosen for transfer, not for how hard they feel. Sets × reps and the intent that makes each one work." />
+            <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-4">
+              <p className="text-gray-300 text-sm font-semibold mb-1.5">The lifting itself lives in the Gym section</p>
+              <p className="text-gray-400 text-xs leading-relaxed mb-3">
+                There is one gym programme for everything you do — three days, in Gym → The Plan. It already covers
+                the maximal strength, the jumps and the med ball throws described above. Running a separate fight
+                programme alongside it is how people end up doing eight hard sessions a week and recovering from none
+                of them. What follows is only what fighting needs ON TOP of that plan.
+              </p>
+              <Link to="/programs?tab=plan" className="inline-block text-[11px] font-bold bg-orange-500/10 border border-orange-500/25 text-orange-200 px-3 py-1.5 rounded-full">
+                Gym &rarr; The Plan
+              </Link>
+            </div>
 
-            <Block title="Maximal strength — 2×/week, the base" items={[
-              ['Trap bar deadlift — 4×3-5 @ 80-88%', 'The single best general strength lift for a fighter: heavy loading of the whole posterior chain with a far lower spinal cost than a conventional pull. Drive the floor away, do not yank. This is your takedown and sprawl strength.'],
-              ['Back or front squat — 4×4-6', 'Front squat if your trunk gives out first, back squat if your legs do. Go to depth you can control without the pelvis tucking. Half squats have their place for speed work, but build the full-range base first.'],
-              ['Barbell hip thrust — 3×6-8', 'Trains hip extension at the exact end range that finishes takedowns, bridges people off you, and drives the rear hip through a cross. Squeeze hard at the top for a full second; bouncing the bar is wasted work.'],
-              ['Weighted chin-up — 4×4-6', 'Grappling is decided by pulling. Add weight once you can do 10-12 clean bodyweight reps. Full hang each rep — the bottom is where the arm-bar-resisting strength lives.'],
-              ['Push press or incline press — 3×5', 'Overhead pressing under a leg drive mirrors framing, posting and pushing off the cage. Incline over flat bench: it is closer to a punching angle and far kinder to the front of the shoulder.'],
-              ['Heavy carries — 3×40m', 'Farmer\'s or suitcase carries. Trains grip, trunk stiffness and breathing under load in one, and the suitcase (single-side) version is anti-rotation training that also happens to be conditioning.'],
-            ]} />
-
-            <Block title="Speed and power — 2×/week, always fresh, never tired" items={[
-              ['Rotational med ball throw — 4×3 each side', 'The most fight-specific power exercise there is. Load the rear hip, then throw the ball into a wall as violently as possible, letting the rear heel spin exactly as it does on a cross. Use a 3-5kg ball: heavier does not mean more power, it means slower and less like a punch.'],
-              ['Med ball shot-put throw — 4×3 each side', 'From a staggered stance, drive with the rear leg and push the ball through your target line. This is the straight-punch pattern with resistance, and it teaches leg-drive-first sequencing better than any cue.'],
-              ['Overhead slam — 3×5', 'Trains the trunk to produce force in flexion at speed — the pattern behind a hard elbow, a bodylock finish and passing pressure. Slam it with intent to break the floor.'],
-              ['Trap bar jump — 4×3 @ 20-30% 1RM', 'Loaded jumps sit exactly in the middle of the force-velocity curve and are one of the best-evidenced ways to build lower-body power. Light load, maximum intent, land soft, full rest.'],
-              ['Broad jump / bound — 4×3', 'Horizontal power, which is what a shot and a sprawl actually are. Vertical jumps alone miss the plane that fighting lives in.'],
-              ['Pogo hops and hurdle hops — 3×8', 'Short ground contacts, stiff ankles, minimal knee bend. This is the elastic quality that makes footwork and re-shots cheap. Quality dies fast — stop the set the moment contacts get slow and mushy.'],
-              ['The rule that makes all of this work', 'Every rep is at 100% intent, with FULL recovery (2-3 min). Power training done tired becomes conditioning, and conditioning done at power weights becomes injury. If reps are slowing down, the set is over.'],
-            ]} />
-
-            <Block title="Rotation and trunk — 3×/week, the transmission" items={[
-              ['Pallof press — 3×8 each side', 'The foundational anti-rotation exercise: resist the pull rather than producing movement. Full progression with kneeling, split and overhead variations is in Programs → Core & Abs.'],
-              ['Cable or landmine rotation — 3×8 each side', 'Rotate from the HIPS with the ribs stacked, not by twisting the lower back. The lumbar spine only safely rotates a few degrees in total — the rotation you want comes from the hips and the thoracic spine.'],
-              ['Half-kneeling chop and lift — 3×10 each', 'Removes the legs so the trunk has to do the work, and it exposes exactly which side of you is leaking force. Almost everyone has a clearly worse side; that side gets an extra set.'],
-              ['Suitcase carry — 3×30m each side', 'Load on one side only, walk without leaning. Anti-lateral-flexion strength, which is what keeps you upright when someone is dragging you sideways in the clinch.'],
-              ['Hollow body and side plank holds — 3×30-45s', 'Braced positions under time. Unglamorous and directly responsible for whether hip force arrives at your fist or dissipates through a soft midsection.'],
-              ['Thoracic mobility — daily 5 min', 'Rotation you do not have is force you cannot produce. Open-book rotations, thread-the-needle, and foam roller extensions. A stiff upper back forces the lower back to rotate instead, which is how backs get hurt.'],
-            ]} />
-
-            <Block title="Neck, grip and the durability work" items={[
-              ['Neck — 3×/week, this is not optional', 'A stronger neck reduces head acceleration when you get hit, which is the mechanism behind concussion. Isometric holds in four directions (30s each), then harness or band work 2×15 for flexion, extension and both sides. Build slowly over months; the neck responds to consistency, not intensity, and aggressive bridging on a fresh neck is how people get hurt.'],
-              ['Grip — the clinch decider', 'Fat-bar or towel hangs 3×max, gi or rope pull-ups, and plate pinches. Grip endurance loses more clinch exchanges than grip strength does, so train holds for time, not just heavy singles.'],
-              ['Nordic hamstring curls — 3×5, 2×/week', 'Cuts hamstring injury risk substantially and protects you in the exact positions where legs get extended fast. Lower slowly, cheat back up with your hands.'],
-              ['Copenhagen adductor plank — 3×20s each side', 'Groin strains are one of the most common and most annoying grappling injuries, and this is the best-evidenced prevention exercise for them. Start with the short-lever (knee-supported) version — the full progression and protocol is in Programs → Legs.'],
-              ['Ankles and feet', 'Every level change, pivot and kick lands on an ankle. If yours are weak, the full ramp-up progression is in Programs → Legs — do that before adding heavy plyometrics, not after.'],
-              ['Shoulders — external rotation and scapular work', 'Face pulls, band external rotations, and controlled dumbbell work 2×/week. Armbars, kimuras and posting all stress the shoulder, and the joint gets no protection from anything else you do.'],
+            <Block title="The four things to add for fighting" items={[
+              ['Neck — 3×/week, and it is not optional', 'Isometric holds in four directions 30s each, then harness or band work 2×15 for flexion, extension and both sides. A stronger neck reduces head acceleration when you get hit, which is the mechanism behind concussion. Build it over months — the neck responds to consistency, not intensity, and aggressive bridging on a fresh neck is how people get hurt.'],
+              ['Grip — the clinch decider', 'Fat-bar or towel hangs 3×max, gi or rope pull-ups, plate pinches. Grip ENDURANCE loses more clinch exchanges than grip strength does, so train holds for time rather than heavy singles. Two minutes at the end of your Pull day.'],
+              ['Rotational throws, if you want more than Monday gives you', 'The gym plan has med ball chest passes on Push day. For striking, add rotational and shot-put throws — 3×5 each side, maximum intent, full rest. Same session, two extra minutes.'],
+              ['Thoracic mobility — 5 minutes daily', 'Open-books, thread-the-needle, foam roller extensions. Rotation you do not have is force you cannot produce, and a stiff upper back makes the lower back rotate instead — which is how backs get hurt.'],
             ]} />
 
             <SectionTitle icon={Zap} title="Conditioning — building the engine" sub="Fight conditioning is mostly aerobic. This surprises people who think it should mostly hurt." />
