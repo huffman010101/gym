@@ -7,11 +7,13 @@ import MorningRoutine from '../components/MorningRoutine';
 import NightRoutine from '../components/NightRoutine';
 import HighValue from '../components/HighValue';
 import Security from '../components/Security';
+import KnowYourself from '../components/KnowYourself';
 
-type Tab = 'code' | 'charisma' | 'aura' | 'icons' | 'confidence' | 'focus' | 'morning' | 'night' | 'secret';
+type Tab = 'code' | 'know' | 'charisma' | 'aura' | 'icons' | 'confidence' | 'focus' | 'morning' | 'night' | 'secret';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'code', label: 'The Code' },
+  { id: 'know', label: '✦ Know Yourself' },
   { id: 'charisma', label: 'Charisma' },
   { id: 'aura', label: 'Aura & Presence' },
   { id: 'icons', label: 'Icons' },
@@ -159,7 +161,7 @@ export default function Mind() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['code', 'charisma', 'aura', 'icons', 'confidence', 'focus', 'morning', 'night', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'code';
+    return (['code', 'know', 'charisma', 'aura', 'icons', 'confidence', 'focus', 'morning', 'night', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'code';
   });
   const [pw, setPw] = useState('');
   const [unlocked, setUnlocked] = useState(false);
@@ -645,6 +647,8 @@ export default function Mind() {
         )}
 
         {/* ============ CONFIDENCE ============ */}
+        {tab === 'know' && <KnowYourself />}
+
         {tab === 'confidence' && (
           <div className="fade-up stagger space-y-4">
             <Card icon={Flame} title="Where Real Confidence Comes From" items={[
