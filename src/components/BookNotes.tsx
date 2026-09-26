@@ -148,7 +148,7 @@ export default function BookNotes() {
           {[
             ['/mind?tab=charisma', 'Mind → Charisma'],
             ['/mind?tab=focus', 'Mind → Focus & Discipline'],
-            ['/mind?tab=stoic', 'Mind → Stoic'],
+            ['/mind?tab=code', 'Mind → The Code'],
             ['/money?tab=invest', 'Money → Investing'],
             ['/uni?tab=smarter', 'Uni → Get Smarter'],
           ].map(([to, label]) => (

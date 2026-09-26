@@ -8,22 +8,18 @@ import NightRoutine from '../components/NightRoutine';
 import HighValue from '../components/HighValue';
 import Security from '../components/Security';
 
-type Tab = 'code' | 'security' | 'charisma' | 'highvalue' | 'aura' | 'stoic' | 'icons' | 'confidence' | 'focus' | 'morning' | 'night' | 'selftalk' | 'secret';
+type Tab = 'code' | 'charisma' | 'aura' | 'icons' | 'confidence' | 'focus' | 'morning' | 'night' | 'secret';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'code', label: 'The Code' },
-  { id: 'security', label: 'Security' },
   { id: 'charisma', label: 'Charisma' },
-  { id: 'highvalue', label: 'High Value' },
-  { id: 'aura', label: 'Aura' },
-  { id: 'stoic', label: 'Stoic' },
+  { id: 'aura', label: 'Aura & Presence' },
   { id: 'icons', label: 'Icons' },
   { id: 'confidence', label: 'Confidence' },
   { id: 'focus', label: 'Focus & Discipline' },
   { id: 'morning', label: 'Morning Routine' },
   { id: 'night', label: 'Night Routine' },
-  { id: 'selftalk', label: 'Self-Talk' },
-  { id: 'secret', label: '🔒 Secret' },
+  { id: 'secret', label: '🔒 Game Plan' },
 ];
 
 
@@ -163,7 +159,7 @@ export default function Mind() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['code', 'security', 'charisma', 'highvalue', 'aura', 'stoic', 'icons', 'confidence', 'focus', 'morning', 'night', 'selftalk', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'code';
+    return (['code', 'charisma', 'aura', 'icons', 'confidence', 'focus', 'morning', 'night', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'code';
   });
   const [pw, setPw] = useState('');
   const [unlocked, setUnlocked] = useState(false);
@@ -267,6 +263,60 @@ export default function Mind() {
                 gives for absorbing a trait from someone you admire: one at a time, actually installed, beats twelve
                 held loosely.
               </p>
+            </div>
+            <div className="card-premium p-5">
+              <h3 className="font-bold mb-2 flex items-center gap-2"><Brain size={16} className="text-pink-400" /> Stoicism — the Operating System</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Marcus Aurelius ran an empire on this. Seneca advised one. Epictetus taught it as a freed slave.
+                It isn't suppressing emotions or being cold — it's <span className="text-gray-200 font-semibold">feeling everything and being commanded by nothing</span>.
+                The core: some things are in your control (your judgements, responses, effort, character), everything else isn't
+                (others' opinions, outcomes, the past, the weather). Spend your energy exclusively on the first list.
+              </p>
+            </div>
+            <Card icon={Flame} title="Controlling Emotions — the actual mechanics" items={[
+              ['Emotions are data, not commands', 'Anger, fear, jealousy, desire — all information about what you value. Feel it fully, read it, THEN decide the response. The untrained man IS his emotions; the trained man HAS them.'],
+              ['The sacred pause', 'Between what happens and how you respond there is a gap — that gap is your whole power. Practice: when triggered, one slow breath before any word or action. The pause is where every regrettable text, punch and outburst dies.'],
+              ['Name it to tame it', 'Literally label the emotion in your head: "this is anger", "this is embarrassment". Naming shifts activity from the amygdala (react) to the prefrontal cortex (choose) — proven in brain imaging. Sounds too simple; works every time.'],
+              ['The body is the volume dial', 'Emotions live in physiology. Slow long exhales (double the inhale), unclench the jaw, drop the shoulders — you cannot stay furious with a slow heart rate. Regulate the body and the mind follows.'],
+              ['It\'s the judgement, not the event', '"Men are disturbed not by things, but by their opinions about things" — Epictetus. Traffic isn\'t stressful; "I must not be late" is. Find the judgement under the emotion and question it — half of them collapse on inspection.'],
+              ['The 10-10-10 test', 'Will this matter in 10 minutes? 10 months? 10 years? Most storms fail the second question. Respond at the scale the thing actually deserves.'],
+              ['Never act at the peak', 'Make no decisions, send no messages, have no confrontations at maximum emotion. The rule: strong feeling = automatic 24h delay on anything irreversible. You\'ll keep the same options with a clearer head.'],
+            ]} />
+            <Card icon={Brain} title="The Great Stoic Lessons" items={[
+              ['Amor fati — love your fate', 'Don\'t just tolerate what happens — use it. Every setback is training material: rejection trains detachment, loss trains gratitude, failure trains humility. "The impediment to action advances action. What stands in the way becomes the way." — Marcus Aurelius.'],
+              ['Memento mori — remember you die', 'Not morbid — clarifying. You have limited days; acting like they\'re infinite is how men waste decades on games, grudges and scrolling. Ask daily: if this were a numbered day, is this how I\'d spend it?'],
+              ['Premeditatio malorum — rehearse the worst', 'Before big things, calmly imagine them going wrong: she says no, you fail the exam, the business flops. Two effects: the fear shrinks when examined, and you\'re prepared instead of shocked. Then the actual outcome is usually better than rehearsed.'],
+              ['Voluntary discomfort', 'Cold showers, fasting till dinner, sleeping on the floor occasionally, hard training. Seneca practised poverty days on purpose: "Is this the condition I so feared?" Comfort is a drug; regular hardship keeps your baseline unbreakable.'],
+              ['The view from above', 'Zoom out: you\'re one man in a city of millions on a rock in space. The embarrassing moment nobody will remember, the argument that means nothing — perspective is instant emotional medicine.'],
+              ['Judge yourself only on what you control', 'Effort, preparation, character, response — yours. Results, opinions, luck — not yours. A man who grades himself on inputs is unshakeable; a man who grades himself on outcomes is a slave to dice.'],
+              ['The evening review', 'Seneca\'s nightly practice: What did I do well? Where did I fail my standards? What will I do differently? Three questions, three minutes, compounding self-command. (Pairs with the 3 wins log in the tracker.)'],
+            ]} />
+            <Card icon={Heart} title="Being a Man — the code" items={[
+              ['Strength exists to protect', 'The whole point of building a dangerous, capable body and mind is having it and choosing gentleness. A strong man is safe to be around — his family relaxes when he enters the room, not tenses.'],
+              ['Your word is the whole currency', 'Say what you\'ll do, do what you said — to others and to yourself. A man whose word is reliable needs no reputation management; his track record IS the reputation.'],
+              ['Take radical responsibility', 'Your body, your money, your reactions, your failures — yours, even when circumstances contributed. "Whose fault is it?" is a boy\'s question. "What do I do now?" is a man\'s.'],
+              ['Handle hard things quietly', 'Do the difficult thing without announcing the difficulty. Complaining recruits an audience for your suffering; acting recruits a solution. People notice the man who just handles it.'],
+              ['Protect the smaller, respect the weaker', 'How you treat waiters, children, animals, and people who can do nothing for you is your actual character. Cruelty-down is the most reliable red flag in men; kindness-down is the most reliable green one.'],
+              ['Emotions felt in private, composure held in public', 'Not suppression — timing. Cry, rage, grieve fully — with people you trust or alone, then return composed. The men people lean on have feelings AND a container for them.'],
+              ['Build more than you consume', 'A man\'s ledger: what did you create, teach, fix, and provide vs what did you take, watch, and scroll? Keep the first column longer, forever.'],
+              ['Standards over moods', 'Train when unmotivated, work when tired, kind when irritated. Moods are weather; standards are climate. The entire difference between men you respect and men you don\'t is which one they obey.'],
+            ]} />
+            <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
+              <h3 className="font-bold mb-3 text-pink-300">Daily Stoic Practice — 10 minutes</h3>
+              <div className="space-y-2">
+                {[
+                  ['Morning (3 min)', 'Read one Stoic passage (Meditations, or the Daily Stoic) + premeditate the day\'s hardest moment and choose your response in advance.'],
+                  ['Midday (1 min)', 'One voluntary discomfort: cold finish to the shower, skip the snack, take the stairs, hold the tongue.'],
+                  ['During the day', 'The sacred pause on every trigger. Name the emotion. Ask: in my control or not? Act only on the first category.'],
+                  ['Evening (3 min)', 'Seneca\'s review: what went well, where did I fail my code, what changes tomorrow. Write it — thinking it doesn\'t count.'],
+                  ['Reading list', 'Meditations (Marcus Aurelius, Gregory Hays translation) · Letters from a Stoic (Seneca) · The Daily Stoic (Holiday) · Discourses (Epictetus). One page a day beats a binge.'],
+                ].map(([t, d]) => (
+                  <div key={t}>
+                    <p className="font-semibold text-sm text-gray-200">{t}</p>
+                    <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
@@ -551,66 +601,7 @@ export default function Mind() {
               ['Abundance beats scarcity in every decision', 'One opportunity/person/chance is never the only one. Scarcity thinking causes clinging, rushing, settling. Abundance thinking is calm — and it\'s self-fulfilling because calm attracts options.'],
               ['Guard the inputs', 'Doomscrolling, gossip, blackpill content — your mind eats what you feed it. Curate feeds as strictly as your diet. Positivity is an input problem before it\'s a mindset problem.'],
             ]} />
-          </div>
-        )}
-
-        {/* ============ STOIC ============ */}
-        {tab === 'stoic' && (
-          <div className="fade-up stagger space-y-4">
-            <div className="card-premium p-5">
-              <h3 className="font-bold mb-2 flex items-center gap-2"><Brain size={16} className="text-pink-400" /> Stoicism — the Operating System</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Marcus Aurelius ran an empire on this. Seneca advised one. Epictetus taught it as a freed slave.
-                It isn't suppressing emotions or being cold — it's <span className="text-gray-200 font-semibold">feeling everything and being commanded by nothing</span>.
-                The core: some things are in your control (your judgements, responses, effort, character), everything else isn't
-                (others' opinions, outcomes, the past, the weather). Spend your energy exclusively on the first list.
-              </p>
-            </div>
-            <Card icon={Flame} title="Controlling Emotions — the actual mechanics" items={[
-              ['Emotions are data, not commands', 'Anger, fear, jealousy, desire — all information about what you value. Feel it fully, read it, THEN decide the response. The untrained man IS his emotions; the trained man HAS them.'],
-              ['The sacred pause', 'Between what happens and how you respond there is a gap — that gap is your whole power. Practice: when triggered, one slow breath before any word or action. The pause is where every regrettable text, punch and outburst dies.'],
-              ['Name it to tame it', 'Literally label the emotion in your head: "this is anger", "this is embarrassment". Naming shifts activity from the amygdala (react) to the prefrontal cortex (choose) — proven in brain imaging. Sounds too simple; works every time.'],
-              ['The body is the volume dial', 'Emotions live in physiology. Slow long exhales (double the inhale), unclench the jaw, drop the shoulders — you cannot stay furious with a slow heart rate. Regulate the body and the mind follows.'],
-              ['It\'s the judgement, not the event', '"Men are disturbed not by things, but by their opinions about things" — Epictetus. Traffic isn\'t stressful; "I must not be late" is. Find the judgement under the emotion and question it — half of them collapse on inspection.'],
-              ['The 10-10-10 test', 'Will this matter in 10 minutes? 10 months? 10 years? Most storms fail the second question. Respond at the scale the thing actually deserves.'],
-              ['Never act at the peak', 'Make no decisions, send no messages, have no confrontations at maximum emotion. The rule: strong feeling = automatic 24h delay on anything irreversible. You\'ll keep the same options with a clearer head.'],
-            ]} />
-            <Card icon={Brain} title="The Great Stoic Lessons" items={[
-              ['Amor fati — love your fate', 'Don\'t just tolerate what happens — use it. Every setback is training material: rejection trains detachment, loss trains gratitude, failure trains humility. "The impediment to action advances action. What stands in the way becomes the way." — Marcus Aurelius.'],
-              ['Memento mori — remember you die', 'Not morbid — clarifying. You have limited days; acting like they\'re infinite is how men waste decades on games, grudges and scrolling. Ask daily: if this were a numbered day, is this how I\'d spend it?'],
-              ['Premeditatio malorum — rehearse the worst', 'Before big things, calmly imagine them going wrong: she says no, you fail the exam, the business flops. Two effects: the fear shrinks when examined, and you\'re prepared instead of shocked. Then the actual outcome is usually better than rehearsed.'],
-              ['Voluntary discomfort', 'Cold showers, fasting till dinner, sleeping on the floor occasionally, hard training. Seneca practised poverty days on purpose: "Is this the condition I so feared?" Comfort is a drug; regular hardship keeps your baseline unbreakable.'],
-              ['The view from above', 'Zoom out: you\'re one man in a city of millions on a rock in space. The embarrassing moment nobody will remember, the argument that means nothing — perspective is instant emotional medicine.'],
-              ['Judge yourself only on what you control', 'Effort, preparation, character, response — yours. Results, opinions, luck — not yours. A man who grades himself on inputs is unshakeable; a man who grades himself on outcomes is a slave to dice.'],
-              ['The evening review', 'Seneca\'s nightly practice: What did I do well? Where did I fail my standards? What will I do differently? Three questions, three minutes, compounding self-command. (Pairs with the 3 wins log in the tracker.)'],
-            ]} />
-            <Card icon={Heart} title="Being a Man — the code" items={[
-              ['Strength exists to protect', 'The whole point of building a dangerous, capable body and mind is having it and choosing gentleness. A strong man is safe to be around — his family relaxes when he enters the room, not tenses.'],
-              ['Your word is the whole currency', 'Say what you\'ll do, do what you said — to others and to yourself. A man whose word is reliable needs no reputation management; his track record IS the reputation.'],
-              ['Take radical responsibility', 'Your body, your money, your reactions, your failures — yours, even when circumstances contributed. "Whose fault is it?" is a boy\'s question. "What do I do now?" is a man\'s.'],
-              ['Handle hard things quietly', 'Do the difficult thing without announcing the difficulty. Complaining recruits an audience for your suffering; acting recruits a solution. People notice the man who just handles it.'],
-              ['Protect the smaller, respect the weaker', 'How you treat waiters, children, animals, and people who can do nothing for you is your actual character. Cruelty-down is the most reliable red flag in men; kindness-down is the most reliable green one.'],
-              ['Emotions felt in private, composure held in public', 'Not suppression — timing. Cry, rage, grieve fully — with people you trust or alone, then return composed. The men people lean on have feelings AND a container for them.'],
-              ['Build more than you consume', 'A man\'s ledger: what did you create, teach, fix, and provide vs what did you take, watch, and scroll? Keep the first column longer, forever.'],
-              ['Standards over moods', 'Train when unmotivated, work when tired, kind when irritated. Moods are weather; standards are climate. The entire difference between men you respect and men you don\'t is which one they obey.'],
-            ]} />
-            <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
-              <h3 className="font-bold mb-3 text-pink-300">Daily Stoic Practice — 10 minutes</h3>
-              <div className="space-y-2">
-                {[
-                  ['Morning (3 min)', 'Read one Stoic passage (Meditations, or the Daily Stoic) + premeditate the day\'s hardest moment and choose your response in advance.'],
-                  ['Midday (1 min)', 'One voluntary discomfort: cold finish to the shower, skip the snack, take the stairs, hold the tongue.'],
-                  ['During the day', 'The sacred pause on every trigger. Name the emotion. Ask: in my control or not? Act only on the first category.'],
-                  ['Evening (3 min)', 'Seneca\'s review: what went well, where did I fail my code, what changes tomorrow. Write it — thinking it doesn\'t count.'],
-                  ['Reading list', 'Meditations (Marcus Aurelius, Gregory Hays translation) · Letters from a Stoic (Seneca) · The Daily Stoic (Holiday) · Discourses (Epictetus). One page a day beats a binge.'],
-                ].map(([t, d]) => (
-                  <div key={t}>
-                    <p className="font-semibold text-sm text-gray-200">{t}</p>
-                    <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <HighValue />
           </div>
         )}
 
@@ -691,6 +682,36 @@ export default function Mind() {
                 <p className="text-gray-400"><span className="font-bold text-gray-200">Focus outward:</span> nerves come from self-monitoring. Put 100% attention on the other person or the task — self-consciousness needs an audience of you.</p>
               </div>
             </Collapsible>
+            <div className="card-premium p-5">
+              <h3 className="font-bold mb-2 flex items-center gap-2"><Brain size={16} className="text-pink-400" /> How Self-Talk Actually Works</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Your brain treats your own voice as the most credible source it knows. Repeated statements become the default
+                filter you see yourself through — this is trainable. Rules: present tense, personal, and either believable
+                or phrased as becoming ("I'm becoming…"). Say them in the mirror, out loud, morning and night. Cringe fades;
+                the wiring stays.
+              </p>
+            </div>
+            {[
+              ['Identity', ['I keep the promises I make to myself.', 'I am the kind of man who does hard things first.', 'I don\'t need the room\'s approval — I bring my own.', 'Discipline is my default, not my exception.']],
+              ['Before social situations', ['People are lucky to talk to me — I bring energy others don\'t.', 'I\'m curious about everyone and intimidated by no one.', 'My presence is enough. I don\'t perform, I connect.', 'Whatever happens, I handle it. I always handle it.']],
+              ['Before training / competing', ['My body does what my mind commands.', 'Fatigue is information, not an instruction.', 'I\'ve done the work. Now I collect.', 'Pressure is a privilege — it means I\'m in the arena.']],
+              ['After setbacks', ['This is data, not a verdict.', 'I judge myself on response, not results.', 'Losing a rep doesn\'t make me a loser. Quitting would.', 'Six months from now this is a story I tell, not a wound I carry.']],
+            ].map(([title, lines]) => (
+              <div key={title as string} className="bg-[#111] border border-white/8 rounded-2xl p-5">
+                <h3 className="font-bold mb-3 text-pink-300">{title as string}</h3>
+                <div className="space-y-2">
+                  {(lines as string[]).map(l => (
+                    <p key={l} className="text-gray-300 text-sm bg-white/3 border border-white/5 rounded-lg px-3 py-2">“{l}”</p>
+                  ))}
+                </div>
+              </div>
+            ))}
+            <Card icon={Brain} title="Kill the Inner Critic" items={[
+              ['Catch → Name → Reframe', 'Notice the thought ("I\'ll embarrass myself"), label it ("that\'s the fear talking"), replace with a coach\'s line ("worst case, I learn something").'],
+              ['Talk to yourself in second person', '"You\'ve got this, Roy" outperforms "I\'ve got this" in studies — it creates coach-distance from the emotion.'],
+              ['Never narrate a miss with identity', '"I missed the lift" ✅. "I\'m weak" ❌. Behaviour language is fixable; identity language sticks.'],
+            ]} />
+            <Security />
           </div>
         )}
 
@@ -785,52 +806,11 @@ export default function Mind() {
           </div>
         )}
 
-        {/* ============ SECURITY ============ */}
-        {tab === 'security' && <Security />}
-
-        {/* ============ HIGH VALUE ============ */}
-        {tab === 'highvalue' && <HighValue />}
-
         {/* ============ MORNING ROUTINE ============ */}
         {tab === 'morning' && <MorningRoutine />}
 
         {/* ============ NIGHT ROUTINE ============ */}
         {tab === 'night' && <NightRoutine />}
-
-        {/* ============ SELF-TALK ============ */}
-        {tab === 'selftalk' && (
-          <div className="fade-up stagger space-y-4">
-            <div className="card-premium p-5">
-              <h3 className="font-bold mb-2 flex items-center gap-2"><Brain size={16} className="text-pink-400" /> How Self-Talk Actually Works</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Your brain treats your own voice as the most credible source it knows. Repeated statements become the default
-                filter you see yourself through — this is trainable. Rules: present tense, personal, and either believable
-                or phrased as becoming ("I'm becoming…"). Say them in the mirror, out loud, morning and night. Cringe fades;
-                the wiring stays.
-              </p>
-            </div>
-            {[
-              ['Identity', ['I keep the promises I make to myself.', 'I am the kind of man who does hard things first.', 'I don\'t need the room\'s approval — I bring my own.', 'Discipline is my default, not my exception.']],
-              ['Before social situations', ['People are lucky to talk to me — I bring energy others don\'t.', 'I\'m curious about everyone and intimidated by no one.', 'My presence is enough. I don\'t perform, I connect.', 'Whatever happens, I handle it. I always handle it.']],
-              ['Before training / competing', ['My body does what my mind commands.', 'Fatigue is information, not an instruction.', 'I\'ve done the work. Now I collect.', 'Pressure is a privilege — it means I\'m in the arena.']],
-              ['After setbacks', ['This is data, not a verdict.', 'I judge myself on response, not results.', 'Losing a rep doesn\'t make me a loser. Quitting would.', 'Six months from now this is a story I tell, not a wound I carry.']],
-            ].map(([title, lines]) => (
-              <div key={title as string} className="bg-[#111] border border-white/8 rounded-2xl p-5">
-                <h3 className="font-bold mb-3 text-pink-300">{title as string}</h3>
-                <div className="space-y-2">
-                  {(lines as string[]).map(l => (
-                    <p key={l} className="text-gray-300 text-sm bg-white/3 border border-white/5 rounded-lg px-3 py-2">“{l}”</p>
-                  ))}
-                </div>
-              </div>
-            ))}
-            <Card icon={Brain} title="Kill the Inner Critic" items={[
-              ['Catch → Name → Reframe', 'Notice the thought ("I\'ll embarrass myself"), label it ("that\'s the fear talking"), replace with a coach\'s line ("worst case, I learn something").'],
-              ['Talk to yourself in second person', '"You\'ve got this, Roy" outperforms "I\'ve got this" in studies — it creates coach-distance from the emotion.'],
-              ['Never narrate a miss with identity', '"I missed the lift" ✅. "I\'m weak" ❌. Behaviour language is fixable; identity language sticks.'],
-            ]} />
-          </div>
-        )}
 
         {/* ============ SECRET ============ */}
         {tab === 'secret' && !unlocked && (
@@ -867,6 +847,68 @@ export default function Mind() {
                 <Lock size={12} /> Lock it
               </button>
             </div>
+            <div className="bg-gradient-to-br from-pink-500/15 to-[#111] border border-pink-500/30 rounded-2xl p-5">
+              <h3 className="font-black text-pink-300 mb-2">Why you are being out-performed by people who look worse than you</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Looks get you <span className="text-gray-200 font-semibold">looked at</span>. Almost nothing else.
+                They do not start conversations, hold them, or end the night with anyone. Your face is the top of the
+                funnel and your behaviour is every stage after it — which is why a 7 who talks to fifteen people
+                consistently beats a 9 who talks to three. The gap between you and your mates is almost certainly not
+                attractiveness. It is attempts, initiative and warmth, and all three are trainable.
+              </p>
+            </div>
+
+            <Card icon={Flame} title="The diagnosis — in the order it is usually true" items={[
+              ['1. You are not approaching enough, and it is not close', 'This explains more of these gaps than everything else combined. Count it honestly on the next night out: how many conversations did YOU start with someone you had never met? If the answer is under five and your mates are in double figures, you have found it. Nothing else on this page matters until that number moves.'],
+              ['2. You are waiting to be chosen', 'Being good-looking teaches you a bad habit, because sometimes it works — someone comes to you, so you learn to stand and be available. In a loud, dark room where everyone is in groups, almost nobody will do that work for you. Your mates are not luckier; they are the ones moving.'],
+              ['3. You are the quiet one in a loud group', 'Whoever is visibly leading a group gets read as the highest-status person in it, and attention follows that read — not the best face. If your friends are the ones talking, suggesting, being loud, you become the backdrop. This is a positioning problem, not a looks problem.'],
+              ['4. You are protecting yourself, not trying', 'Standing at the edge, going to the bar, checking your phone, deciding nobody is your type before you have spoken to anyone. These are avoidance dressed up as standards. Notice them and you can stop doing them.'],
+              ['5. Your face at rest is doing you no favours', 'Tall plus a neutral expression reads as unapproachable. You know what you feel; they only see what you show. This is a real, mechanical fix — see the height section below.'],
+            ]} />
+
+            <Card icon={Brain} title="The psychology — why this happens specifically to good-looking guys" items={[
+              ['The halo effect is front-loaded and short', 'Attractiveness strongly shapes the first impression and then stops mattering very quickly. Within a minute you are being judged on warmth, humour and whether you are making the interaction easy. Looks buy you a shorter queue, not a result.'],
+              ['Attractive people get approached LESS, not more', 'People routinely read very attractive strangers as intimidating and less likely to respond well, so they self-select out. Your inbound is lower than you would expect for exactly the reason you assume it should be higher — which is why relying on inbound is a losing strategy for you specifically.'],
+              ['You have more to lose, so you risk less', 'If you believe you are good-looking, a rejection is not just a no — it threatens the story you have about yourself. That makes every approach more expensive for you than for a mate who has nothing to protect, so you take fewer swings. He is not braver. It just costs him less.'],
+              ['Clubs run on emotional contagion, not conversation', 'Nobody can hear you. What transfers is energy and state — people feel what you are feeling within seconds. Someone having a genuinely good time with his mates is magnetic in a way that a well-constructed sentence is not. This is why the same line lands or dies depending entirely on who you were being when you said it.'],
+              ['Social proof does most of the work', 'Being visibly enjoyed by other people — mates, staff, anyone — is read as evidence you are worth knowing. It is why pre-selection is real, and why standing alone against a wall is expensive regardless of your face.'],
+              ['You are comparing your whole night to their highlights', 'You see every one of your mate\'s hits and almost none of his misses, because nobody narrates the girl who walked off. Availability bias. His conversion rate is far lower than your memory of his night suggests.'],
+              ['Nobody is watching you fail', 'The spotlight effect: you massively overestimate how much attention your rejections get. In a dark club, an interaction that goes nowhere is invisible within ten seconds to everyone but you.'],
+            ]} />
+
+            <Card icon={Flame} title="Being 6ft 4 in a club — the specific problems" items={[
+              ['You loom, and you cannot hear', 'At your height you are physically above the conversation and too far from someone\'s ear to hear them. So you lean down and in, which either looks predatory or ends up as an awkward shouted exchange. Fix it by changing the geometry, not the volume.'],
+              ['Go side-by-side, not face-to-face', 'Standing shoulder to shoulder, both facing the room, puts your ears at a workable angle, removes the looming, and is far less confrontational. It is the single best positional fix for a tall man and it changes how the first thirty seconds feel.'],
+              ['Get lower on purpose', 'Sit if there is seating. Lean on the bar or a rail. Widen your stance. Anything that takes the height difference from intimidating to comfortable. Never bend at the waist over someone — lean from the hips with your feet closer instead.'],
+              ['Your height is an asset at distance and a liability up close', 'Across a room you are the most visible person in it, which is genuinely rare and valuable. Within a metre it becomes a logistics problem. Use the first to get noticed and manage the second deliberately.'],
+              ['Smile before you speak, every time', 'Tall and unsmiling is read as a threat; tall and warm is read as safe and high-status at the same time — which is the best combination available to you. A real smile as you turn toward someone does more for a tall man than any opener.'],
+              ['Do not compensate by being small', 'Hunching, shrinking, over-apologising. Being large and relaxed is the point. Take up your space and be visibly easy-going in it.'],
+            ]} />
+
+            <Card icon={Flame} title="Why it has dropped recently" items={[
+              ['It is almost certainly a spiral, not a decline', 'Fewer results make you hesitate. Hesitating means fewer attempts. Fewer attempts guarantees fewer results, which confirms the story. Nothing about you changed — your behaviour did, gradually, and the feedback made it worse. This is ordinary avoidance psychology and it resolves the same way it started: by moving the input.'],
+              ['Avoidance feels like protection and works like a trap', 'Every night you go out and do not approach, you teach yourself that approaching is dangerous. The relief when you avoid it is the reward that keeps the pattern running. The only thing that breaks it is doing the thing and surviving it, repeatedly and at low stakes.'],
+              ['Break it with volume at zero stakes', 'One night, deliberately chase rejection: ten conversations, no outcome expected, no phone, no drink in your hand as a prop. Judge the night purely on whether you started ten. You will find four of them go fine, which is the point — the fear was carrying most of the weight.'],
+              ['Fix the state before the technique', 'Arrive with your mates already in a good mood rather than trying to switch on at the door. Sober enough to be sharp, loose enough not to be self-conscious. The state you walk in with is most of what transfers.'],
+              ['Do not change five things at once', 'Volume first, for three or four nights. Only once that number is up should you think about anything else here — otherwise you cannot tell what worked.'],
+            ]} />
+
+            <Card icon={Flame} title="The night, practically" items={[
+              ['Move within the first twenty minutes', 'The longer you stand in the same spot, the harder starting gets. Talk to someone — anyone, staff included — early, purely to be someone who is already talking rather than someone who has to start.'],
+              ['Open with warmth, not a line', 'Situation, observation, or a simple hello with a real smile. Content is almost irrelevant at volume; the delivery and the fact you went first is what is being read.'],
+              ['Say something within three seconds of eye contact', 'Sustained eye contact with no words becomes uncomfortable fast. Look, smile, speak. The pause is where it dies.'],
+              ['Move the interaction somewhere quieter', 'A step away from the speaker, the edge of the floor, the smoking area. You cannot build anything at a hundred decibels, and being the one who suggests moving reads as decisive.'],
+              ['Leave on a high rather than outstaying it', 'Getting the number or the plan while it is still good beats standing there until it flattens. Endings are remembered disproportionately.'],
+              ['Go with friends who move', 'You will match the group\'s behaviour more than you think. If your mates are pulling, follow them into rooms rather than holding the table.'],
+            ]} />
+
+            <Card icon={Brain} title="The honest part" items={[
+              ['Kissed-per-night is a bad scoreboard', 'It is the easiest thing to count, which is why people count it, and it correlates with almost nothing you actually want. Tracking it makes you outcome-dependent, and outcome-dependence is legible within about ten seconds. Judge nights on whether you were the version of yourself you wanted to be.'],
+              ['Clubs are the hardest possible venue', 'Loud, dark, drunk, everyone in defensive groups. It is the worst environment for exactly the traits you would benefit from — conversation, listening, warmth over volume. If your results are thin in clubs and fine elsewhere, that is a venue mismatch, not a personal failing. Daytime, gyms, societies, friends of friends: all higher yield per hour and all suit you better.'],
+              ['This is a skill, not a verdict on you', 'Your mates are better at a specific social skill and have more reps. Skills close fast with practice, and this one closes faster than most. Nothing here means anything about your worth, and the moment it starts feeling like it does, that is the thing to fix first.'],
+              ['Being liked beats being wanted', 'The men who do well over years are the ones people are glad to see. Warmth, remembering things, making people comfortable — the listening work in the Charisma tab is more useful to you than anything on this page.'],
+            ]} />
+
             <Link to="/cheatsheet"
               className="flex items-center justify-between bg-gradient-to-r from-pink-500/15 to-purple-500/10 border border-pink-500/25 rounded-2xl px-5 py-4 hover:from-pink-500/20 transition-all group press">
               <div className="flex items-center gap-3">

@@ -71,7 +71,7 @@ const PHASES: Phase[] = [
       { id: 'm2', label: 'One social discomfort rep DAILY (the 3-second rule)', link: '/mind?tab=confidence' },
       { id: 'm3', label: 'Approval-seeking detox run for 30 days', link: '/mind?tab=confidence' },
       { id: 'm4', label: 'Aura habits installed: composure, decisiveness, no complaining', link: '/mind?tab=aura' },
-      { id: 'm5', label: 'Self-talk scripts running morning + night', link: '/mind?tab=selftalk' },
+      { id: 'm5', label: 'Self-talk scripts running morning + night', link: '/mind?tab=confidence' },
       { id: 'm6', label: 'Social calendar alive: 2+ social things a week, new people monthly', link: '/mind?tab=secret' },
       { id: 'm7', label: 'The secret playbook applied in the real world (approaches, dates)', link: '/mind?tab=secret' },
     ],
