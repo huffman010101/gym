@@ -64,6 +64,12 @@ function Fold({ title, tag, items }: { title: string; tag: string; items: [strin
 
 interface Evidence { id: string; text: string; date: string }
 
+const LEAKS = [
+  'Phone / short-form video', 'Gaming', 'Porn', 'Weed', 'Drinking',
+  'Late nights for no reason', 'Snoozing', 'Doomscrolling', 'Online shopping',
+  'Comparing yourself online', 'Starting things and not finishing', 'People who drain you',
+];
+
 const NIGHT_SIGNS = [
   'I checked whether she was looking before I moved',
   'I rehearsed an opener instead of just going',
@@ -82,6 +88,9 @@ export default function KnowYourself() {
   const [signs, setSigns] = useStored<string[]>('gymforge_ky_signs', []);
   const [draft, setDraft] = useState('');
   const [situation, setSituation] = useStored<string>('gymforge_ky_situation', '');
+  const [leaks, setLeaks] = useStored<Record<string, number>>('gymforge_ky_leaks', {});
+  const [obstacles, setObstacles] = useStored<string>('gymforge_ky_obstacles', '');
+  const [oneThing, setOneThing] = useStored<string>('gymforge_ky_onething', '');
   const [plan, setPlan] = useStored<PersonalPlan | null>('gymforge_ky_plan', null);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
@@ -97,7 +106,8 @@ export default function KnowYourself() {
       const out = await generatePersonalPlan({
         values, standards, identity,
         evidence: evidence.map(e => e.text),
-        signs, situation,
+        signs, situation, obstacles, oneThing,
+        leaks: Object.entries(leaks).map(([name, hours]) => ({ name, hours })),
       });
       setPlan({ ...out, builtAt: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) });
     } catch (e) {
@@ -293,6 +303,117 @@ export default function KnowYourself() {
             self-conscious, not less.
           </p>
         )}
+      </div>
+
+      {/* ---------- WHAT IS IN THE WAY ---------- */}
+      <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
+        <h3 className="font-bold text-gray-100 mb-1">Where your time actually goes</h3>
+        <p className="text-gray-500 text-xs leading-relaxed mb-3">
+          Tick what applies and put an honest hours-per-week next to it. Guess high rather than low —
+          the point is not to feel bad, it is to see the arithmetic, because "a bit of scrolling" and
+          "twenty-one days a year" are the same sentence and only one of them makes you move.
+        </p>
+        <div className="space-y-1.5">
+          {LEAKS.map(name => {
+            const on = name in leaks;
+            return (
+              <div key={name} className={`flex items-center gap-2 rounded-xl px-3 py-2 border transition-colors ${
+                on ? 'bg-red-500/8 border-red-500/25' : 'bg-black/25 border-white/8'
+              }`}>
+                <button
+                  onClick={() => {
+                    const next = { ...leaks };
+                    if (on) { delete next[name]; if (oneThing === name) setOneThing(''); }
+                    else next[name] = 5;
+                    setLeaks(next);
+                  }}
+                  className="flex items-center gap-2.5 flex-1 min-w-0 text-left"
+                >
+                  <div className={`w-4 h-4 rounded-md border flex-shrink-0 flex items-center justify-center ${
+                    on ? 'bg-red-500/80 border-red-400' : 'border-white/20'
+                  }`}>
+                    {on && <Check size={11} className="text-black" />}
+                  </div>
+                  <span className={`text-[13px] ${on ? 'text-red-100' : 'text-gray-400'}`}>{name}</span>
+                </button>
+                {on && (
+                  <div className="flex items-center gap-1 flex-shrink-0">
+                    <input
+                      type="number"
+                      min={0}
+                      max={100}
+                      value={leaks[name]}
+                      onChange={e => setLeaks({ ...leaks, [name]: Math.max(0, Math.min(100, Number(e.target.value) || 0)) })}
+                      className="w-14 bg-black/50 border border-white/10 rounded-lg px-2 py-1 text-[12px] text-gray-200 text-right outline-none focus:border-red-500/40"
+                    />
+                    <span className="text-[10px] text-gray-600">h/wk</span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {Object.keys(leaks).length > 0 && (() => {
+          const total = Object.values(leaks).reduce((a, b) => a + b, 0);
+          const daysAYear = Math.round((total * 52) / 24);
+          const biggest = Object.entries(leaks).sort((a, b) => b[1] - a[1])[0];
+          return (
+            <div className="mt-3 bg-red-500/8 border border-red-500/20 rounded-xl px-3.5 py-3">
+              <p className="text-red-200 text-sm font-bold">
+                {total}h a week — about {daysAYear} full days a year.
+              </p>
+              <p className="text-gray-400 text-xs leading-relaxed mt-1">
+                Biggest single one is {biggest[0]} at {biggest[1]}h. You do not need to remove all of
+                this and you would not want to — some of it is rest and some of it is your life. But
+                that number is the budget everything you say you want has to come out of.
+              </p>
+            </div>
+          );
+        })()}
+
+        {Object.keys(leaks).length > 0 && (
+          <div className="mt-3">
+            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide mb-1.5">Kill one first</p>
+            <p className="text-gray-500 text-xs leading-relaxed mb-2">
+              Not all of them. One, for two weeks, with friction rather than willpower — app off the
+              home screen, console unplugged in a cupboard, phone charging in another room. Willpower
+              loses to convenience every time, so make the thing genuinely harder to reach.
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {Object.keys(leaks).map(name => (
+                <button
+                  key={name}
+                  onClick={() => setOneThing(oneThing === name ? '' : name)}
+                  className={`text-[11px] font-bold px-3 py-1.5 rounded-full border transition-colors ${
+                    oneThing === name
+                      ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-200'
+                      : 'bg-white/5 border-white/10 text-gray-400'
+                  }`}
+                >
+                  {name}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
+        <h3 className="font-bold text-gray-100 mb-1">What is genuinely in the way</h3>
+        <p className="text-gray-500 text-xs leading-relaxed mb-3">
+          Money, time, the ankle, your course, someone in your life, a habit you cannot shift. Write
+          them plainly. The plan will sort them into the real constraints to work around and the ones
+          that are avoidance wearing an obstacle's clothes — and being honest here is the only way
+          that sorting is worth anything.
+        </p>
+        <textarea
+          value={obstacles}
+          onChange={e => setObstacles(e.target.value)}
+          rows={3}
+          placeholder={'No money until January.\nAnkle still not right so I keep skipping the running.\nI only go out with people who make it a big night.'}
+          className="w-full bg-black/40 border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-gray-200 placeholder-gray-700 focus:border-pink-500/40 outline-none resize-y leading-relaxed"
+        />
       </div>
 
       {/* ---------- PERSONAL PLAN ---------- */}

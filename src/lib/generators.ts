@@ -725,6 +725,9 @@ export interface PlanInputs {
   evidence: string[];
   signs: string[];
   situation: string;
+  leaks: { name: string; hours: number }[];
+  obstacles: string;
+  oneThing: string;
 }
 
 export interface PersonalPlan {
@@ -786,13 +789,30 @@ ANYTHING ELSE ABOUT THEIR SITUATION:
 ${i.situation || '(not given)'}
 """
 
+WHERE THEIR TIME AND ATTENTION ACTUALLY GO — their own estimates:
+"""
+${i.leaks.length
+  ? i.leaks.map(l => `${l.name}: ~${l.hours}h/week`).join('\n')
+    + `\nTOTAL: ~${i.leaks.reduce((a, l) => a + l.hours, 0)}h/week`
+  : '(not filled in)'}
+"""
+
+THE ONE THEY SAID THEY WOULD KILL FIRST: ${i.oneThing || '(not chosen)'}
+
+WHAT THEY SAY IS IN THE WAY:
+"""
+${i.obstacles || '(not given)'}
+"""
+
 Rules — these matter more than polish:
 - Ground everything in what they wrote. Quote their own words back where it helps. A plan that could have been written for anyone is a failed plan.
 - The gaps section is the most valuable part: find the real contradictions between who they SAY they are, what their evidence log actually shows, and the behaviours they admitted ticking. Name them plainly and without cruelty. If their identity statements have no matching evidence, say so — that is the single most useful observation you can make.
 - If the evidence log is empty or nearly so, the honest read is that they have written intentions and not yet built a record, and the plan should be built around starting that record rather than around anything clever.
 - thisWeek must be five things doable in the next seven days, specific enough to tick off. No "be more confident".
 - Three phases across roughly 90 days, each with a clear focus and 3-4 actions. Progressive — later phases should depend on earlier ones.
-- stopDoing is ONE thing, the highest-leverage removal. Removing something usually beats adding.
+- stopDoing is ONE thing, the highest-leverage removal. Removing something usually beats adding. If they named something to kill first, either back that choice or say plainly why a different one matters more.
+- Use their time estimates as arithmetic, not as a telling-off: convert the biggest leak into what it costs them over a year and what it would buy them instead. Attack it with friction and environment design rather than willpower — willpower loses to convenience, so the fix is making the thing harder to reach, not resolving to want it less.
+- Sort their stated obstacles honestly into the real ones to work around and the ones that are avoidance wearing an obstacle's clothes. Be kind but do not pretend.
 - measure: how they will know in 30 days, in terms they can actually check.
 - honest: the trade-off, the thing that will be hard, or what this plan does NOT solve. Do not end on a motivational note — end on something true.
 
