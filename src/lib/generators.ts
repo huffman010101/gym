@@ -9,6 +9,23 @@ export function makeClient(): Anthropic {
   return new Anthropic({ apiKey: key, dangerouslyAllowBrowser: true });
 }
 
+/*
+ * Sonnet 5 thinks by default, so the reply starts with a thinking block and
+ * the answer sits in a later text block. Reading content[0] alone returned an
+ * empty string and every Sonnet feature reported "incomplete". Join every
+ * text block instead.
+ */
+/* The pinned SDK predates the `thinking` field, so it is passed through as an
+ * untyped extra body param — the SDK forwards unknown keys to the API as-is. */
+const NO_THINKING = { thinking: { type: 'disabled' } } as {};
+
+function textOf(msg: Anthropic.Message): string {
+  return msg.content
+    .map(b => (b.type === 'text' ? b.text : ''))
+    .join('')
+    .trim();
+}
+
 function parse(text: string): unknown {
   const clean = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
   const match = clean.match(/\{[\s\S]*\}/);
@@ -102,7 +119,7 @@ Return ONLY valid JSON, no markdown fences:
     }],
   });
 
-  const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
+  const text = (textOf(msg) || '{}');
   return parse(text) as WorkoutPlan;
 }
 
@@ -157,7 +174,7 @@ Return ONLY valid JSON, no markdown fences:
     }],
   });
 
-  const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
+  const text = (textOf(msg) || '{}');
   const data = parse(text) as { meals: Meal[] };
   return data.meals || [];
 }
@@ -170,7 +187,10 @@ export async function runVoiceCommand(
   const client = makeClient();
   const msg = await client.messages.create({
     model: 'claude-sonnet-5',
-    max_tokens: 2048,
+    max_tokens: 16000,
+    // Thinking off: these are structured-output calls, and thinking roughly
+    // doubled the wait for no visible gain.
+    ...NO_THINKING,
     messages: [{
       role: 'user',
       content: `Fitness coach assistant. The user said: "${command}"
@@ -186,7 +206,7 @@ Return ONLY valid JSON, no markdown:
 If you changed the plan, include the full updated plan object in updatedPlan. Otherwise null.`,
     }],
   });
-  const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
+  const text = (textOf(msg) || '{}');
   return parse(text) as { message: string; updatedPlan: WorkoutPlan | null };
 }
 
@@ -228,10 +248,13 @@ Be specific and practical, kind but honest.`;
 
   const msg = await client.messages.create({
     model: 'claude-sonnet-5',
-    max_tokens: 1024,
+    max_tokens: 16000,
+    // Thinking off: these are structured-output calls, and thinking roughly
+    // doubled the wait for no visible gain.
+    ...NO_THINKING,
     messages: [{ role: 'user', content }],
   });
-  return msg.content[0].type === 'text' ? msg.content[0].text : 'Analysis unavailable.';
+  return (textOf(msg) || 'Analysis unavailable.');
 }
 
 export async function analyzeFoodLog(
@@ -241,7 +264,10 @@ export async function analyzeFoodLog(
   const client = makeClient();
   const msg = await client.messages.create({
     model: 'claude-sonnet-5',
-    max_tokens: 2048,
+    max_tokens: 16000,
+    // Thinking off: these are structured-output calls, and thinking roughly
+    // doubled the wait for no visible gain.
+    ...NO_THINKING,
     messages: [{
       role: 'user',
       content: `Sports nutritionist. Analyse this food intake with precision.
@@ -263,7 +289,7 @@ Return ONLY valid JSON, no markdown:
 }`,
     }],
   });
-  const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
+  const text = (textOf(msg) || '{}');
   return parse(text) as FoodAnalysis;
 }
 
@@ -298,7 +324,10 @@ export async function suggestLayering(fragrances: string, opts: LayeringOptions 
 
   const msg = await client.messages.create({
     model: 'claude-sonnet-5',
-    max_tokens: 3000,
+    max_tokens: 16000,
+    // Thinking off: these are structured-output calls, and thinking roughly
+    // doubled the wait for no visible gain.
+    ...NO_THINKING,
     messages: [{
       role: 'user',
       content: `You are a master perfumer and fragrance layering expert. The user owns these fragrances:
@@ -334,7 +363,7 @@ Give one combo per fragrance minimum (more if the collection allows great extras
     timeout: 90_000,
     maxRetries: 1,
   });
-  const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
+  const text = (textOf(msg) || '{}');
   const result = parse(text);
   if (!isValidLayering(result)) throw new Error(INCOMPLETE);
   return result;
@@ -357,7 +386,7 @@ Return ONLY a JSON array of strings, one tip per task, same order, no markdown:
 ["tip for task 1", "tip for task 2", ...]`,
     }],
   });
-  const text = msg.content[0].type === 'text' ? msg.content[0].text : '[]';
+  const text = (textOf(msg) || '[]');
   const clean = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
   const match = clean.match(/\[[\s\S]*\]/);
   return JSON.parse(match ? match[0] : clean) as string[];
@@ -367,7 +396,10 @@ export async function askAdvisor(question: string, phaseContext: string): Promis
   const client = makeClient();
   const msg = await client.messages.create({
     model: 'claude-sonnet-5',
-    max_tokens: 1200,
+    max_tokens: 16000,
+    // Thinking off: these are structured-output calls, and thinking roughly
+    // doubled the wait for no visible gain.
+    ...NO_THINKING,
     messages: [{
       role: 'user',
       content: `You are the personal advisor inside GymForge — a self-improvement app covering: training & nutrition, combat sports, looksmaxing (skin, hair, style, fragrance), mindset/charisma, football, money/business/investing, university study, and sleep.
@@ -379,7 +411,7 @@ USER'S QUESTION: "${question}"
 Answer as a sharp, honest, motivating coach. Be specific and actionable — concrete numbers, protocols and next steps, not platitudes. If the question touches health, keep advice sensible and flag anything that needs a professional. Keep it under 250 words. Plain text with short paragraphs or dashes (no markdown headers).`,
     }],
   });
-  return msg.content[0].type === 'text' ? msg.content[0].text : 'No answer available.';
+  return (textOf(msg) || 'No answer available.');
 }
 
 export async function dailyCheckIn(summary: string): Promise<string> {
@@ -396,7 +428,7 @@ ${summary}
 Write a short, direct daily check-in message (max 45 words) — like a coach who actually looks at your numbers. Call out what's slipping, credit what's working, and push them to act today. No fluff, no generic hype, be specific using the numbers given. Plain text, no markdown.`,
     }],
   });
-  return msg.content[0].type === 'text' ? msg.content[0].text.trim() : "Show up today. That's the whole job.";
+  return (textOf(msg).trim() || "Show up today. That's the whole job.");
 }
 
 export interface StudyPack {
@@ -418,6 +450,9 @@ export async function generateStudyPack(
   const msg = await client.messages.create({
     model: 'claude-sonnet-5',
     max_tokens: 16000,
+    // Thinking off: these are structured-output calls, and thinking roughly
+    // doubled the wait for no visible gain.
+    ...NO_THINKING,
     messages: [{
       role: 'user',
       content: `You are an elite academic coach who has taken hundreds of students to first-class degrees. Build a complete revision pack.
@@ -451,7 +486,7 @@ Return ONLY valid JSON, no markdown fences:
 Timetable: 7-14 days, realistic 2-4h/day, built on active recall + spaced repetition + past papers (never passive rereading). If no equations apply to this course, use equationSheet for key frameworks/definitions instead.`,
     }],
   });
-  const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
+  const text = (textOf(msg) || '{}');
   const packResult = parse(text);
   if (!isValidStudyPack(packResult)) throw new Error(INCOMPLETE);
   return packResult;
@@ -526,7 +561,7 @@ Return ONLY valid JSON (no markdown fences):
     }],
   });
 
-  const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
+  const text = (textOf(msg) || '{}');
   const clean = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
   const match = clean.match(/\{[\s\S]*\}/);
   const faceResult = JSON.parse(match ? match[0] : clean);
@@ -555,7 +590,10 @@ export async function generateKnowledgeCards(
 
   const msg = await client.messages.create({
     model: 'claude-sonnet-5',
-    max_tokens: 3000,
+    max_tokens: 16000,
+    // Thinking off: these are structured-output calls, and thinking roughly
+    // doubled the wait for no visible gain.
+    ...NO_THINKING,
     messages: [{
       role: 'user',
       content: `Generate 6 genuinely interesting general-knowledge cards for a curious 19-year-old.
@@ -587,7 +625,7 @@ Return ONLY valid JSON, no markdown fences:
     }],
   });
 
-  const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
+  const text = (textOf(msg) || '{}');
   const data = parse(text) as { cards?: GeneratedKnowledgeCard[] };
   return (data.cards || []).filter(c => c.cat && c.title && c.text && c.twist);
 }
@@ -611,7 +649,10 @@ export async function generateSubjectConcepts(
 
   const msg = await client.messages.create({
     model: 'claude-sonnet-5',
-    max_tokens: 4000,
+    max_tokens: 16000,
+    // Thinking off: these are structured-output calls, and thinking roughly
+    // doubled the wait for no visible gain.
+    ...NO_THINKING,
     messages: [{
       role: 'user',
       content: `A university student is studying: ${course}
@@ -637,7 +678,7 @@ Return ONLY valid JSON, no markdown fences:
     }],
   });
 
-  const text = msg.content[0].type === 'text' ? msg.content[0].text : '{}';
+  const text = (textOf(msg) || '{}');
   const data = parse(text) as { concepts?: SubjectConcept[] };
   return (data.concepts || []).filter(c => c.concept && c.simple && c.why && c.example);
 }
@@ -674,7 +715,10 @@ export async function summariseVideo(transcript: string, title?: string): Promis
   const client = makeClient();
   const msg = await client.messages.create({
     model: 'claude-sonnet-5',
-    max_tokens: 3000,
+    max_tokens: 16000,
+    // Thinking off: these are structured-output calls, and thinking roughly
+    // doubled the wait for no visible gain.
+    ...NO_THINKING,
     messages: [{
       role: 'user',
       content: `Turn this video transcript into notes worth keeping.
@@ -702,7 +746,7 @@ Return ONLY valid JSON, no markdown fences:
 }`,
     }],
   });
-  const text = msg.content[0].type === 'text' ? msg.content[0].text : '';
+  const text = (textOf(msg) || '');
   const out = parse(text);
   if (!isValidVideoNotes(out)) throw new Error(INCOMPLETE);
   return out;
@@ -802,7 +846,10 @@ export async function generatePersonalPlan(i: PlanInputs): Promise<PersonalPlan>
   const client = makeClient();
   const msg = await client.messages.create({
     model: 'claude-sonnet-5',
-    max_tokens: 4000,
+    max_tokens: 16000,
+    // Thinking off: these are structured-output calls, and thinking roughly
+    // doubled the wait for no visible gain.
+    ...NO_THINKING,
     messages: [{
       role: 'user',
       content: `Build a personal development plan from what this person actually wrote about themselves. Be a straight-talking coach, not a motivational writer.
@@ -874,7 +921,7 @@ Return ONLY valid JSON, no markdown fences:
 }`,
     }],
   });
-  const text = msg.content[0].type === 'text' ? msg.content[0].text : '';
+  const text = (textOf(msg) || '');
   let out: unknown;
   try {
     out = parse(text);
