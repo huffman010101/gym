@@ -718,6 +718,29 @@ Return ONLY valid JSON, no markdown fences:
  * than nothing here — they can get that anywhere.
  * ------------------------------------------------------------------------- */
 
+/*
+ * Turns SDK/network failures into something the user can act on. The generic
+ * "something went wrong" that used to show here made a broken API key and a
+ * momentary overload look identical, which is useless when you are the only
+ * person who can fix one of them.
+ */
+export function explainFailure(e: unknown): string {
+  const raw = e instanceof Error ? e.message : String(e);
+  const m = raw.toLowerCase();
+  if (m.includes('no api key')) return 'No API key saved on this device. Add one in the app settings — everything AI-powered needs it.';
+  if (m.includes('401') || m.includes('authentication') || m.includes('invalid x-api-key'))
+    return 'That API key was rejected. It may be mistyped, revoked, or from a different account — re-enter it and try again.';
+  if (m.includes('403') || m.includes('permission')) return 'The API key does not have permission for this model. Check the key is on an account with credit.';
+  if (m.includes('429') || m.includes('rate limit')) return 'Rate limited — too many requests too quickly. Wait a minute and try again.';
+  if (m.includes('credit') || m.includes('quota') || m.includes('billing'))
+    return 'The API account is out of credit. Top it up and this will work again.';
+  if (m.includes('529') || m.includes('overloaded')) return 'The model is overloaded right now. Try again in a minute — nothing is wrong with your setup.';
+  if (m.includes('fetch') || m.includes('network') || m.includes('failed to fetch'))
+    return 'Could not reach the API. Check your connection — this is the one feature that needs signal.';
+  if (m.includes('incomplete')) return 'The response came back cut off. Tap the button again — it usually works second time.';
+  return `It failed with: "${raw}". If it keeps happening, that message is the useful bit to report.`;
+}
+
 export interface PlanInputs {
   values: string[];
   standards: string;
@@ -742,15 +765,37 @@ export interface PersonalPlan {
   builtAt?: string;
 }
 
+/*
+ * Minimum bar: a read plus something to do this week. Everything else the UI
+ * renders defensively, because binning an otherwise good plan over one missing
+ * optional field is worse for the user than showing the parts that arrived.
+ */
 export function isValidPersonalPlan(v: unknown): v is PersonalPlan {
   if (!v || typeof v !== 'object') return false;
   const p = v as Partial<PersonalPlan>;
-  if (typeof p.read !== 'string' || typeof p.stopDoing !== 'string') return false;
-  if (!nonEmptyArray(p.thisWeek) || !nonEmptyArray(p.phases) || !nonEmptyArray(p.gaps)) return false;
-  return (p.gaps as unknown[]).every(g =>
-    !!g && typeof g === 'object' && typeof (g as { gap?: unknown }).gap === 'string')
-    && (p.phases as unknown[]).every(f =>
-      !!f && typeof f === 'object' && nonEmptyArray((f as { actions?: unknown }).actions));
+  return typeof p.read === 'string' && p.read.length > 10 && nonEmptyArray(p.thisWeek);
+}
+
+/* Fills the optional fields so the component never indexes into undefined. */
+export function normalisePlan(v: PersonalPlan): PersonalPlan {
+  return {
+    read: v.read,
+    strengths: Array.isArray(v.strengths) ? v.strengths.filter(x => typeof x === 'string') : [],
+    gaps: Array.isArray(v.gaps)
+      ? v.gaps.filter(g => !!g && typeof g.gap === 'string')
+          .map(g => ({ gap: g.gap, why: g.why ?? '', fix: g.fix ?? '' }))
+      : [],
+    thisWeek: v.thisWeek.filter(x => typeof x === 'string'),
+    phases: Array.isArray(v.phases)
+      ? v.phases.filter(f => !!f && typeof f.name === 'string')
+          .map(f => ({ name: f.name, weeks: f.weeks ?? '', focus: f.focus ?? '',
+                       actions: Array.isArray(f.actions) ? f.actions.filter(a => typeof a === 'string') : [] }))
+      : [],
+    stopDoing: typeof v.stopDoing === 'string' ? v.stopDoing : '',
+    measure: Array.isArray(v.measure) ? v.measure.filter(x => typeof x === 'string') : [],
+    honest: typeof v.honest === 'string' ? v.honest : '',
+    builtAt: v.builtAt,
+  };
 }
 
 export async function generatePersonalPlan(i: PlanInputs): Promise<PersonalPlan> {
@@ -830,7 +875,25 @@ Return ONLY valid JSON, no markdown fences:
     }],
   });
   const text = msg.content[0].type === 'text' ? msg.content[0].text : '';
-  const out = parse(text);
+  let out: unknown;
+  try {
+    out = parse(text);
+  } catch {
+    out = null;
+  }
   if (!isValidPersonalPlan(out)) throw new Error(INCOMPLETE);
-  return out;
+  return normalisePlan(out);
+}
+
+/* One automatic retry: a cut-off response is the most common failure here and
+ * it almost always succeeds on the second attempt, so do not make the user
+ * press the button twice to find that out. */
+export async function generatePersonalPlanWithRetry(i: PlanInputs): Promise<PersonalPlan> {
+  try {
+    return await generatePersonalPlan(i);
+  } catch (e) {
+    const m = e instanceof Error ? e.message : '';
+    if (!m.includes('incomplete')) throw e;
+    return await generatePersonalPlan(i);
+  }
 }

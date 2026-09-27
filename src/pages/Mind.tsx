@@ -897,6 +897,19 @@ export default function Mind() {
               ['Do not change five things at once', 'Volume first, for three or four nights. Only once that number is up should you think about anything else here — otherwise you cannot tell what worked.'],
             ]} />
 
+            <Card icon={Flame} title="How to move in a club" items={[
+              ['Stop standing still — circulate on a loop', 'Pick a loop: bar, edge of the floor, the other side, smoking area, back. Walk it slowly with purpose every fifteen minutes or so. Moving with purpose reads as belonging; standing in one spot reads as waiting. It also puts you near forty different people instead of the same four.'],
+              ['Never walk with your head down or your phone up', 'Head up, eyes at head height, unhurried pace. This is the single most visible difference between men who look comfortable in a room and men who do not, and at your height everyone can see which one you are from across it.'],
+              ['Stand where people have to pass you', 'The ends of the bar, the gap between the floor and the bar, near the entrance to a room. Not in a corner, not against the back wall. Proximity does a huge amount of the work and people cannot start a conversation with someone they never come within a metre of.'],
+              ['Own your space physically', 'Feet planted about shoulder width, weight even, shoulders back and relaxed, drink held low at your side rather than up at your chest. A drink held high across the body is a shield and it reads as one.'],
+              ['Face outward, not into your group', 'If you and your mates stand in a closed circle, you are a wall. Stand with your back to nobody, shoulder to shoulder, facing the room. It makes the group approachable and it means you can actually see what is happening.'],
+              ['Move toward, not at', 'Approach from the side or at an angle rather than head-on, arriving beside someone rather than in front of them. Head-on into a group of two is confrontational; slotting in beside them is not. For a tall man this matters more than for anyone else.'],
+              ['Be the one who suggests things', 'Where to stand, when to move rooms, getting the next round in. Whoever makes the small decisions is read as the person leading the group, and that read is worth more in a club than anything you say.'],
+              ['Dance badly but without apology', 'Actual skill is irrelevant. Moving at all, loosely, without looking like you are checking who is watching, is attractive because it signals you are not monitoring yourself. Rigidly standing still at the edge of a dance floor signals the opposite.'],
+              ['Three seconds, then speak', 'If you catch eye contact, you have about three seconds before it curdles. Smile, walk over, say anything. The pause is where it dies, and the walk over is the whole decision.'],
+              ['Leave the room sometimes', 'Going to the smoking area or another floor and coming back resets everything and puts you past new people. Static position, static night.'],
+            ]} />
+
             <Card icon={Flame} title="The night, practically" items={[
               ['Move within the first twenty minutes', 'The longer you stand in the same spot, the harder starting gets. Talk to someone — anyone, staff included — early, purely to be someone who is already talking rather than someone who has to start.'],
               ['Open with warmth, not a line', 'Situation, observation, or a simple hello with a real smile. Content is almost irrelevant at volume; the delivery and the fact you went first is what is being read.'],

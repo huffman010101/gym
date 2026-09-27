@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ChevronDown, Plus, X, Check, Sparkles, Loader2, AlertTriangle, RefreshCw } from 'lucide-react';
-import { generatePersonalPlan } from '../lib/generators';
+import { generatePersonalPlanWithRetry, explainFailure } from '../lib/generators';
 import type { PersonalPlan } from '../lib/generators';
 
 /*
@@ -103,7 +103,7 @@ export default function KnowYourself() {
     setErr('');
     setBusy(true);
     try {
-      const out = await generatePersonalPlan({
+      const out = await generatePersonalPlanWithRetry({
         values, standards, identity,
         evidence: evidence.map(e => e.text),
         signs, situation, obstacles, oneThing,
@@ -111,7 +111,7 @@ export default function KnowYourself() {
       });
       setPlan({ ...out, builtAt: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) });
     } catch (e) {
-      setErr(e instanceof Error ? e.message : 'Something went wrong. Try again.');
+      setErr(explainFailure(e));
     }
     setBusy(false);
   }
@@ -493,10 +493,11 @@ export default function KnowYourself() {
               </div>
             )}
 
+            {!!plan.gaps?.length && (
             <div>
               <p className="text-[10px] font-black uppercase tracking-[0.15em] text-amber-500/80 mb-1.5">The gaps</p>
               <div className="space-y-2">
-                {plan.gaps.map(g => (
+                {(plan.gaps ?? []).map(g => (
                   <div key={g.gap} className="bg-black/30 rounded-xl px-3.5 py-2.5">
                     <p className="font-semibold text-[13px] text-gray-200">{g.gap}</p>
                     {g.why && <p className="text-gray-500 text-xs leading-relaxed mt-0.5">{g.why}</p>}
@@ -505,11 +506,12 @@ export default function KnowYourself() {
                 ))}
               </div>
             </div>
+            )}
 
             <div>
               <p className="text-[10px] font-black uppercase tracking-[0.15em] text-pink-400/80 mb-1.5">This week</p>
               <ul className="space-y-1">
-                {plan.thisWeek.map(x => (
+                {(plan.thisWeek ?? []).map(x => (
                   <li key={x} className="text-gray-300 text-[13px] leading-relaxed flex gap-2">
                     <span className="text-pink-400/80 flex-shrink-0">□</span><span>{x}</span>
                   </li>
@@ -519,7 +521,7 @@ export default function KnowYourself() {
 
             <div className="space-y-2">
               <p className="text-[10px] font-black uppercase tracking-[0.15em] text-gray-500">The next 90 days</p>
-              {plan.phases.map(f => (
+              {(plan.phases ?? []).map(f => (
                 <div key={f.name} className="bg-black/30 rounded-xl px-3.5 py-2.5">
                   <div className="flex items-baseline justify-between gap-2">
                     <p className="font-bold text-[13px] text-gray-200">{f.name}</p>
@@ -527,7 +529,7 @@ export default function KnowYourself() {
                   </div>
                   {f.focus && <p className="text-gray-500 text-xs leading-relaxed mt-0.5">{f.focus}</p>}
                   <ul className="mt-1.5 space-y-1">
-                    {f.actions.map(a => (
+                    {(f.actions ?? []).map(a => (
                       <li key={a} className="text-gray-400 text-xs leading-relaxed flex gap-2">
                         <span className="text-gray-600 flex-shrink-0">–</span><span>{a}</span>
                       </li>
@@ -537,10 +539,12 @@ export default function KnowYourself() {
               ))}
             </div>
 
-            <div className="bg-red-500/8 border border-red-500/20 rounded-xl px-3.5 py-2.5">
-              <p className="text-[10px] font-black uppercase tracking-[0.15em] text-red-400/80 mb-1">Stop doing this</p>
-              <p className="text-gray-300 text-[13px] leading-relaxed">{plan.stopDoing}</p>
-            </div>
+            {!!plan.stopDoing && (
+              <div className="bg-red-500/8 border border-red-500/20 rounded-xl px-3.5 py-2.5">
+                <p className="text-[10px] font-black uppercase tracking-[0.15em] text-red-400/80 mb-1">Stop doing this</p>
+                <p className="text-gray-300 text-[13px] leading-relaxed">{plan.stopDoing}</p>
+              </div>
+            )}
 
             {!!plan.measure?.length && (
               <div>

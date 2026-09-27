@@ -163,10 +163,10 @@ export default function MorningRoutine() {
       <Block title="The first hour, minute by minute" items={[
         ['0-2 min — Feet on the floor, no snooze', 'Snoozing drops you back into a sleep cycle you cannot finish, which is exactly why you feel worse after it. Alarm across the room if needed. Open the curtains immediately.'],
         ['2-5 min — Water', '500ml, pinch of salt. Make your bed while you drink it — a 30-second win before the day has asked anything of you.'],
-        ['5-15 min — Light + walk', 'Get outside. No phone, no headphones. This is the highest-value ten minutes of your morning and the one most people skip.'],
+        ['5-15 min — Light + walk (or the walking meditation)', 'Get outside. No phone, no headphones. This is the highest-value ten minutes of your morning and the one most people skip.'],
         ['15-25 min — Move', 'Mobility, stretching, or your training session if you train mornings. Nothing heroic — the point is raising temperature and heart rate.'],
         ['25-35 min — Shower, finish cold', '30-60 seconds cold at the end. Sharp, unpleasant, and it produces a genuine, hours-long lift in alertness and mood.'],
-        ['35-45 min — Grooming + dress properly', 'Skincare, teeth, fragrance, actual clothes. Dressing like you are going somewhere changes how you work even when you are not.'],
+        ['35-45 min — Grooming + dress properly', 'Skincare, teeth, fragrance, actual clothes. Say your three lines out loud while you do it. Dressing like you are going somewhere changes how you work even when you are not.'],
         ['45-60 min — Protein breakfast', 'Eggs, Greek yoghurt, or a shake. Protein-led beats cereal or toast: steadier blood sugar, no 11am crash, and it starts hitting your daily protein target early.'],
         ['60 min+ — First deep work block', 'Phone in another room. One task. 90 minutes. This is where your degree, your training and your money actually get built.'],
       ]} />
@@ -178,6 +178,24 @@ export default function MorningRoutine() {
         ['Protein first', 'Protein blunts the blood-sugar spike and crash that a carb-heavy breakfast causes, keeps you full, and front-loads the intake you need for the training in your Program.'],
         ['No phone', 'Your dopamine baseline in the morning sets how rewarding ordinary effort feels all day. Flooding it with short-form content first thing makes deep work feel unbearable by comparison.'],
         ['Movement', 'Sleep inertia is a real physiological state, not weakness. Raising your core temperature and heart rate clears it far faster than caffeine or willpower.'],
+      ]} />
+
+      <Block title="Meditation — how to actually start" items={[
+        ['Five minutes, not twenty', 'Every failed attempt at meditating starts at twenty minutes. Set a timer for five. You are not trying to have a good session, you are trying to build the habit of sitting down at all — and five minutes daily beats twenty minutes twice.'],
+        ['The whole instruction', 'Sit upright somewhere quiet, eyes closed, and breathe normally. Put your attention on the feeling of the breath at your nose or chest. When you notice you have drifted into thinking, come back to the breath. That is it. There is no other technique to learn.'],
+        ['Drifting IS the exercise', 'The single reason people quit is believing a wandering mind means they are bad at it. Noticing you drifted and returning is the rep. A session where that happened fifty times is fifty reps — that is a good session, not a failed one.'],
+        ['When to do it', 'After light and water, before your phone and before caffeine. A stimulated, notified brain fights it; a freshly-woken one does not. If you only manage it some mornings, do it on the ones you feel most scattered rather than the ones you feel calm.'],
+        ['What it actually does', 'Trains you to notice where your attention is and move it. That is the mechanism behind the pause before you react, and it is the same skill that stops you reaching for your phone without deciding to. Do not expect bliss — expect a slightly longer gap between a feeling and acting on it.'],
+        ['If sitting still is unbearable at first', 'Walk instead, no headphones, attention on your feet or your breathing. A ten-minute walk done attentively is a legitimate version of this and it pairs with the morning light you are already getting.'],
+      ]} />
+
+      <Block title="Saying positive things — the version that works" items={[
+        ['Do not repeat things you do not believe', 'Standing in the mirror saying "I am confident and rich" when you feel neither reliably makes people feel worse — it draws attention to the gap. If a statement makes you flinch, it is not working, and repetition will not fix that.'],
+        ['Use second person, not first', '"You have got this" outperforms "I have got this" in the research, because the distance makes it land like a coach rather than a liar. It is a small change and it is the one that makes self-talk usable.'],
+        ['Say what you will do, not what you are', 'Not "I am disciplined" but "today you do the session, then the reading". Statements about behaviour are checkable by the end of the day, so they build evidence instead of a gap. Statements about identity have to be earned first.'],
+        ['Three lines, out loud, once', 'Out loud beats in your head. Once beats a hundred times. Do it while you are getting dressed rather than making a ceremony of it — ceremonies get skipped in week two.'],
+        ['The one that always works', 'Name the three things you are going to do today, in order. It is technically a plan rather than an affirmation, and it does more for how you feel than anything aspirational.'],
+        ['Pair it with the evidence log', 'Say the line in the morning, log the proof at night in Mind → Know Yourself. That loop is the difference between self-talk that changes something and self-talk that is just noise.'],
       ]} />
 
       <Block title="Caffeine protocol" items={[
