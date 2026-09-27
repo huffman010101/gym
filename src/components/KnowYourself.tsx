@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { ChevronDown, Plus, X, Check } from 'lucide-react';
+import { ChevronDown, Plus, X, Check, Sparkles, Loader2, AlertTriangle, RefreshCw } from 'lucide-react';
+import { generatePersonalPlan } from '../lib/generators';
+import type { PersonalPlan } from '../lib/generators';
 
 /*
  * The interactive half of Mind. Everything here is stored per-device under
@@ -79,6 +81,30 @@ export default function KnowYourself() {
   const [evidence, setEvidence] = useStored<Evidence[]>('gymforge_ky_evidence', []);
   const [signs, setSigns] = useStored<string[]>('gymforge_ky_signs', []);
   const [draft, setDraft] = useState('');
+  const [situation, setSituation] = useStored<string>('gymforge_ky_situation', '');
+  const [plan, setPlan] = useStored<PersonalPlan | null>('gymforge_ky_plan', null);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState('');
+
+  /* Gate: a plan built from blank inputs is a generic plan, which is worse than
+   * no plan. Require the values plus something written about themselves. */
+  const ready = values.length === 5 && (standards.trim().length > 20 || identity.trim().length > 20);
+
+  async function build() {
+    setErr('');
+    setBusy(true);
+    try {
+      const out = await generatePersonalPlan({
+        values, standards, identity,
+        evidence: evidence.map(e => e.text),
+        signs, situation,
+      });
+      setPlan({ ...out, builtAt: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) });
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : 'Something went wrong. Try again.');
+    }
+    setBusy(false);
+  }
 
   function toggleValue(v: string) {
     if (values.includes(v)) setValues(values.filter(x => x !== v));
@@ -266,6 +292,161 @@ export default function KnowYourself() {
             that next time. Trying to fix all of them at once is how people end up more
             self-conscious, not less.
           </p>
+        )}
+      </div>
+
+      {/* ---------- PERSONAL PLAN ---------- */}
+      <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
+        <h3 className="font-bold text-gray-100 mb-1">Anything else about your situation</h3>
+        <p className="text-gray-500 text-xs leading-relaxed mb-3">
+          Optional, but it is what makes the plan yours rather than generic — what you are working
+          toward, what keeps going wrong, what you are avoiding, anything going on right now.
+        </p>
+        <textarea
+          value={situation}
+          onChange={e => setSituation(e.target.value)}
+          rows={3}
+          placeholder="6ft 4, at uni, play football, in the gym 3x a week. Go out most weekends and it has gone quiet. Ankle still not right from a sprain."
+          className="w-full bg-black/40 border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-gray-200 placeholder-gray-700 focus:border-pink-500/40 outline-none resize-y leading-relaxed"
+        />
+      </div>
+
+      <div className="bg-gradient-to-br from-pink-500/12 to-[#111] border border-pink-500/30 rounded-2xl p-5">
+        <div className="flex items-start gap-2.5 mb-3">
+          <Sparkles size={16} className="text-pink-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <h3 className="font-black text-pink-300">Your plan, built from your answers</h3>
+            <p className="text-gray-500 text-xs leading-relaxed mt-0.5">
+              Reads everything above — including the behaviours you ticked — and looks for the gaps
+              between who you say you are and what your log actually shows.
+            </p>
+          </div>
+        </div>
+
+        {!ready && (
+          <div className="bg-amber-500/8 border border-amber-500/25 rounded-xl px-3.5 py-2.5 flex items-start gap-2 mb-3">
+            <AlertTriangle size={14} className="text-amber-400 flex-shrink-0 mt-0.5" />
+            <p className="text-amber-200/85 text-xs leading-relaxed">
+              Fill in your five values and either your standards or your identity statements first.
+              Built from blank boxes this would hand you the same plan it would hand anyone, which is
+              exactly what you do not want.
+            </p>
+          </div>
+        )}
+
+        {err && (
+          <div className="bg-amber-500/8 border border-amber-500/25 rounded-xl px-3.5 py-2.5 mb-3">
+            <p className="text-amber-200/85 text-xs leading-relaxed">{err}</p>
+          </div>
+        )}
+
+        <button
+          onClick={build}
+          disabled={busy || !ready}
+          className="w-full bg-pink-500 hover:bg-pink-400 disabled:opacity-40 text-white font-bold text-sm rounded-xl py-3 transition-colors inline-flex items-center justify-center gap-2"
+        >
+          {busy
+            ? <><Loader2 size={15} className="animate-spin" /> Reading your answers…</>
+            : plan ? <><RefreshCw size={14} /> Rebuild the plan</> : 'Build my plan'}
+        </button>
+
+        {plan && (
+          <div className="mt-4 space-y-3.5">
+            {plan.builtAt && <p className="text-[10px] text-gray-600">Built {plan.builtAt}</p>}
+
+            <div className="bg-black/30 rounded-xl px-4 py-3">
+              <p className="text-[10px] font-black uppercase tracking-[0.15em] text-pink-400/80 mb-1.5">The read</p>
+              <p className="text-gray-300 text-[13px] leading-relaxed">{plan.read}</p>
+            </div>
+
+            {!!plan.strengths?.length && (
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.15em] text-emerald-500/80 mb-1.5">What you already have</p>
+                <ul className="space-y-1">
+                  {plan.strengths.map(x => (
+                    <li key={x} className="text-gray-400 text-[13px] leading-relaxed flex gap-2">
+                      <span className="text-emerald-400/80 flex-shrink-0">•</span><span>{x}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.15em] text-amber-500/80 mb-1.5">The gaps</p>
+              <div className="space-y-2">
+                {plan.gaps.map(g => (
+                  <div key={g.gap} className="bg-black/30 rounded-xl px-3.5 py-2.5">
+                    <p className="font-semibold text-[13px] text-gray-200">{g.gap}</p>
+                    {g.why && <p className="text-gray-500 text-xs leading-relaxed mt-0.5">{g.why}</p>}
+                    {g.fix && <p className="text-emerald-300/80 text-xs leading-relaxed mt-1">→ {g.fix}</p>}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.15em] text-pink-400/80 mb-1.5">This week</p>
+              <ul className="space-y-1">
+                {plan.thisWeek.map(x => (
+                  <li key={x} className="text-gray-300 text-[13px] leading-relaxed flex gap-2">
+                    <span className="text-pink-400/80 flex-shrink-0">□</span><span>{x}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="space-y-2">
+              <p className="text-[10px] font-black uppercase tracking-[0.15em] text-gray-500">The next 90 days</p>
+              {plan.phases.map(f => (
+                <div key={f.name} className="bg-black/30 rounded-xl px-3.5 py-2.5">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <p className="font-bold text-[13px] text-gray-200">{f.name}</p>
+                    <span className="text-[10px] font-bold text-gray-600 flex-shrink-0">{f.weeks}</span>
+                  </div>
+                  {f.focus && <p className="text-gray-500 text-xs leading-relaxed mt-0.5">{f.focus}</p>}
+                  <ul className="mt-1.5 space-y-1">
+                    {f.actions.map(a => (
+                      <li key={a} className="text-gray-400 text-xs leading-relaxed flex gap-2">
+                        <span className="text-gray-600 flex-shrink-0">–</span><span>{a}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            <div className="bg-red-500/8 border border-red-500/20 rounded-xl px-3.5 py-2.5">
+              <p className="text-[10px] font-black uppercase tracking-[0.15em] text-red-400/80 mb-1">Stop doing this</p>
+              <p className="text-gray-300 text-[13px] leading-relaxed">{plan.stopDoing}</p>
+            </div>
+
+            {!!plan.measure?.length && (
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.15em] text-gray-500 mb-1.5">How you will know in 30 days</p>
+                <ul className="space-y-1">
+                  {plan.measure.map(x => (
+                    <li key={x} className="text-gray-400 text-[13px] leading-relaxed flex gap-2">
+                      <span className="text-gray-600 flex-shrink-0">•</span><span>{x}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {plan.honest && (
+              <div className="bg-white/5 border border-white/8 rounded-xl px-3.5 py-2.5">
+                <p className="text-gray-400 text-xs leading-relaxed">
+                  <span className="font-bold text-gray-300">Honestly:</span> {plan.honest}
+                </p>
+              </div>
+            )}
+
+            <p className="text-gray-700 text-[10px] leading-relaxed">
+              Saved on this device. Rebuild it after a few weeks of new entries in the evidence log —
+              the plan is only as good as what you have put in above it.
+            </p>
+          </div>
         )}
       </div>
 

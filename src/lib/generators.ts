@@ -707,3 +707,110 @@ Return ONLY valid JSON, no markdown fences:
   if (!isValidVideoNotes(out)) throw new Error(INCOMPLETE);
   return out;
 }
+
+/* ---------------------------------------------------------------------------
+ * Personal plan — built from what the user actually entered in Know Yourself.
+ *
+ * This is deliberately grounded: the prompt gets their real values, standards,
+ * identity statements, evidence log and ticked outcome-attachment signs, and is
+ * told to quote them and to name contradictions between what they SAY they are
+ * and what their own log shows. A generic self-improvement plan would be worse
+ * than nothing here — they can get that anywhere.
+ * ------------------------------------------------------------------------- */
+
+export interface PlanInputs {
+  values: string[];
+  standards: string;
+  identity: string;
+  evidence: string[];
+  signs: string[];
+  situation: string;
+}
+
+export interface PersonalPlan {
+  read: string;
+  strengths: string[];
+  gaps: { gap: string; why: string; fix: string }[];
+  thisWeek: string[];
+  phases: { name: string; weeks: string; focus: string; actions: string[] }[];
+  stopDoing: string;
+  measure: string[];
+  honest: string;
+  builtAt?: string;
+}
+
+export function isValidPersonalPlan(v: unknown): v is PersonalPlan {
+  if (!v || typeof v !== 'object') return false;
+  const p = v as Partial<PersonalPlan>;
+  if (typeof p.read !== 'string' || typeof p.stopDoing !== 'string') return false;
+  if (!nonEmptyArray(p.thisWeek) || !nonEmptyArray(p.phases) || !nonEmptyArray(p.gaps)) return false;
+  return (p.gaps as unknown[]).every(g =>
+    !!g && typeof g === 'object' && typeof (g as { gap?: unknown }).gap === 'string')
+    && (p.phases as unknown[]).every(f =>
+      !!f && typeof f === 'object' && nonEmptyArray((f as { actions?: unknown }).actions));
+}
+
+export async function generatePersonalPlan(i: PlanInputs): Promise<PersonalPlan> {
+  const client = makeClient();
+  const msg = await client.messages.create({
+    model: 'claude-sonnet-5',
+    max_tokens: 4000,
+    messages: [{
+      role: 'user',
+      content: `Build a personal development plan from what this person actually wrote about themselves. Be a straight-talking coach, not a motivational writer.
+
+THEIR FIVE VALUES: ${i.values.join(', ') || '(not chosen yet)'}
+
+THEIR STANDARDS — what they will not accept:
+"""
+${i.standards || '(blank)'}
+"""
+
+WHO THEY SAY THEY ARE:
+"""
+${i.identity || '(blank)'}
+"""
+
+THEIR EVIDENCE LOG — things they have actually done (${i.evidence.length} entries):
+"""
+${i.evidence.slice(0, 60).join('\n') || '(empty)'}
+"""
+
+OUTCOME-ATTACHMENT BEHAVIOURS THEY TICKED ABOUT THEMSELVES:
+"""
+${i.signs.join('\n') || '(none ticked)'}
+"""
+
+ANYTHING ELSE ABOUT THEIR SITUATION:
+"""
+${i.situation || '(not given)'}
+"""
+
+Rules — these matter more than polish:
+- Ground everything in what they wrote. Quote their own words back where it helps. A plan that could have been written for anyone is a failed plan.
+- The gaps section is the most valuable part: find the real contradictions between who they SAY they are, what their evidence log actually shows, and the behaviours they admitted ticking. Name them plainly and without cruelty. If their identity statements have no matching evidence, say so — that is the single most useful observation you can make.
+- If the evidence log is empty or nearly so, the honest read is that they have written intentions and not yet built a record, and the plan should be built around starting that record rather than around anything clever.
+- thisWeek must be five things doable in the next seven days, specific enough to tick off. No "be more confident".
+- Three phases across roughly 90 days, each with a clear focus and 3-4 actions. Progressive — later phases should depend on earlier ones.
+- stopDoing is ONE thing, the highest-leverage removal. Removing something usually beats adding.
+- measure: how they will know in 30 days, in terms they can actually check.
+- honest: the trade-off, the thing that will be hard, or what this plan does NOT solve. Do not end on a motivational note — end on something true.
+
+Return ONLY valid JSON, no markdown fences:
+{
+  "read": "2-4 sentences: who this person appears to be from what they wrote, including what they are avoiding",
+  "strengths": ["3-5 things their answers genuinely show"],
+  "gaps": [{ "gap": "the contradiction", "why": "why it matters", "fix": "what closes it" }],
+  "thisWeek": ["5 specific actions"],
+  "phases": [{ "name": "Phase name", "weeks": "e.g. Weeks 1-4", "focus": "one line", "actions": ["3-4 actions"] }],
+  "stopDoing": "The one thing to stop",
+  "measure": ["3-4 checkable signals at 30 days"],
+  "honest": "The honest caveat"
+}`,
+    }],
+  });
+  const text = msg.content[0].type === 'text' ? msg.content[0].text : '';
+  const out = parse(text);
+  if (!isValidPersonalPlan(out)) throw new Error(INCOMPLETE);
+  return out;
+}
