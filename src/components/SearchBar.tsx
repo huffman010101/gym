@@ -146,13 +146,13 @@ export default function SearchBar() {
 
   return (
     <div className="relative">
-      <div className="flex items-center gap-2.5 bg-[#111] border border-white/10 rounded-2xl px-4 py-3 focus-within:border-orange-500/40 transition-colors">
-        <Search size={16} className="text-gray-600 flex-shrink-0" />
+      <div className="flex items-center gap-2.5 bg-[#111] border border-white/10 rounded-2xl px-4 py-3 focus-within:border-cyan-400/50 focus-within:shadow-[0_0_18px_rgba(34,211,238,0.12)] transition-colors">
+        <Search size={16} className="text-cyan-400/70 flex-shrink-0" />
         <input
           value={q}
           onChange={e => setQ(e.target.value)}
           onKeyDown={e => { if (e.key === 'Enter' && results[0]) go(results[0].path); }}
-          placeholder="Search anything… scent, takedowns, sleep, HireVue"
+          placeholder="Search the archive… scent, takedowns, sleep, HireVue"
           className="flex-1 bg-transparent text-sm focus:outline-none placeholder-gray-600"
         />
       </div>

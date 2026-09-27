@@ -425,7 +425,7 @@ export async function dailyCheckIn(summary: string): Promise<string> {
 
 ${summary}
 
-Write a short, direct daily check-in message (max 45 words) — like a coach who actually looks at your numbers. Call out what's slipping, credit what's working, and push them to act today. No fluff, no generic hype, be specific using the numbers given. Plain text, no markdown.`,
+Write a short daily check-in (max 45 words) in the voice of J.A.R.V.I.S. — a dry, composed British AI butler who addresses the user as "sir" and has actually read the numbers. Call out what's slipping, credit what's working, and name the one thing to do next. Understated wit is fine; hype, flattery and generic motivation are not. Be specific using the numbers given. Plain text, no markdown.`,
     }],
   });
   return (textOf(msg).trim() || "Show up today. That's the whole job.");

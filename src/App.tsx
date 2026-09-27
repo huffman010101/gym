@@ -22,6 +22,7 @@ import Dating from './pages/Dating';
 import Backtest from './pages/Backtest';
 import VideoNotes from './pages/VideoNotes';
 import ApiKeySetup from './components/ApiKeySetup';
+import { JarvisBoot } from './components/Jarvis';
 import { getApiKey } from './lib/anthropic';
 
 function OfflineBanner() {
@@ -52,6 +53,7 @@ export default function App() {
     <ErrorBoundary>
       <HashRouter>
       <OfflineBanner />
+      <JarvisBoot />
       {!hasKey && <ApiKeySetup onSet={() => setHasKey(true)} />}
       <Routes>
         <Route path="/" element={<Home />} />

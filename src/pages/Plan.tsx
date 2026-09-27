@@ -194,8 +194,8 @@ export default function Plan() {
   ] : [];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white pb-32">
-      <div className="sticky top-0 z-40 flex items-center justify-between px-6 py-4 border-b border-white/5 bg-[#0a0a0a]/90 backdrop-blur-sm">
+    <div className="min-h-screen bg-transparent text-white pb-32">
+      <div className="sticky top-0 z-40 flex items-center justify-between px-6 py-4 border-b border-white/5 bg-[#04060a]/90 backdrop-blur-sm">
         <div className="flex items-center gap-2">
           <Dumbbell className="text-orange-500" size={22} />
           <span className="font-black">GymForge</span>

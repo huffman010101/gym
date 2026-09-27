@@ -193,7 +193,7 @@ export default function Programs() {
   });
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] bg-gradient-to-b from-orange-950/30 via-[#0a0a0a] to-[#0a0a0a] text-white pb-24">
+    <main className="min-h-screen bg-transparent bg-gradient-to-b from-orange-950/30 via-transparent to-transparent text-white pb-24">
       <div className="max-w-2xl mx-auto px-5 pt-6">
         <Link to="/" className="inline-flex items-center gap-1.5 text-gray-500 hover:text-gray-300 text-sm mb-5">
           <ArrowLeft size={15} /> Home
@@ -205,16 +205,15 @@ export default function Programs() {
           </div>
           <div>
             <h1 className="text-2xl font-black">The Program</h1>
-            <p className="text-gray-500 text-sm">6 days · hypertrophy upper · explosive legs</p>
+            <p className="text-gray-500 text-sm">3 days · bigger upper · explosive legs · ankle rehab</p>
           </div>
         </div>
 
         <div className="bg-orange-500/5 border border-orange-500/20 rounded-xl px-4 py-3 mb-5">
           <p className="text-xs text-orange-200/80 leading-relaxed">
-            Push / Pull / Shoulders built for <span className="text-orange-300 font-bold">muscle growth</span>,
-            one big leg day built for <span className="text-orange-300 font-bold">football power</span>, one dedicated
-            <span className="text-orange-300 font-bold"> explosive/functional leg day</span>, and rotating core work so
-            every session finishes with either sport-specific trunk strength or direct ab growth.
+            Three sessions: <span className="text-orange-300 font-bold">Push</span>, <span className="text-orange-300 font-bold">Legs + Speed</span>,
+            <span className="text-orange-300 font-bold"> Pull</span>. Each starts explosive, builds the footballer-with-bigger-arms-and-back
+            physique, and ends with five minutes on your ankle. Football is the fourth session.
           </p>
         </div>
 
@@ -440,20 +439,20 @@ export default function Programs() {
         {tab === 'legs' && (
           <div className="fade-up stagger space-y-4">
             <div className="card-premium p-5">
-              <h3 className="font-bold mb-2">One big leg day, one explosive leg day</h3>
+              <h3 className="font-bold mb-2">One leg day: fast first, then heavy</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Tuesday builds the size and the force you can produce — everything loaded, everything for mass.
-                The explosive block that opens this same session is where that force gets converted into speed. Splitting size and
-                power onto separate days like this, rather than blending them, means neither one waters down the other.
+                Tuesday opens with jumps and sprints while you are fresh, which is what makes you quicker, then the trap bar
+                and single-leg work for strength, then Nordics and calves. The ankle finisher closes it. Everything a footballer
+                needs from legs, in one session, four days clear of Saturday.
               </p>
             </div>
             <Session
               title="Tuesday — Legs + Athletic"
               tag="Explosive first · then heavy · one session"
-              block="ORDER MATTERS: jumps, throws and sprints first while the nervous system is fresh, then the trap bar heavy with full recovery (3 min), then the short accessory block. Deliberately lean — around 19 hard sets. You are training legs once a week alongside football, so this is about quality and recovery, not volume. Ranges. This is the longest session of the week by design — it is now the only dedicated leg-size day, so it earns the extra time."
+              block="ORDER MATTERS: jumps, throws and sprints first while the nervous system is fresh, then the trap bar heavy with full recovery (3 min), then the short accessory block. Deliberately lean — about 11 lifting sets on top of the jumps and sprints. You are training legs once a week alongside football, so this is about quality and recovery, not volume. It is the longest session of the week by design, because it is the only leg day."
               exercises={[
                 { name: 'Thorough warm-up', sets: '10-12 min', targets: 'Whole body · nervous system prep', how: "5 min easy jog, then leg swings front-to-back and side-to-side, walking lunges, A-skips and high knees. Finish with 3-4 build-up runs of about 40m at 60, 70, 80 then 90 percent. You should feel warm and springy before the first real sprint.", why: 'Non-negotiable before sprinting. Easy jog, leg swings, A-skips, then 3-4 build-up runs at 60, 70, 80 and 90%. Cold hamstrings plus max sprints is how you tear something.' },
-                { name: 'Box jump or broad jump', sets: '4 × 3', targets: 'Glutes · quads · calves — triple extension', how: "Box: quarter squat, swing the arms, explode up and land softly in the same quarter-squat position on top. Step down, never jump down. Broad: same swing, jump forward for distance and stick the landing. Full reset between reps — this is quality work, not conditioning.", why: 'Pure triple extension — ankle, knee and hip firing together. Step down from box jumps, never jump down. Full reset between reps.' },
+                { name: 'Box jump or broad jump', sets: '3 × 3', targets: 'Glutes · quads · calves — triple extension', how: "Box: quarter squat, swing the arms, explode up and land softly in the same quarter-squat position on top. Step down, never jump down. Broad: same swing, jump forward for distance and stick the landing. Full reset between reps — this is quality work, not conditioning.", why: 'Pure triple extension — ankle, knee and hip firing together. Step down from box jumps, never jump down. Full reset between reps.' },
                 { name: 'Acceleration sprints', sets: '4 × 20m', targets: 'Glutes · hamstrings · quads — starting power', how: "Start from a staggered stance, torso leaning forward around 45 degrees. Drive the knees and push the ground back behind you, rising gradually to upright over 15-20m rather than popping up immediately. Walk back slowly for full recovery between reps.", why: 'Football is won in the first 5-20 metres. Vary the start — standing, side-on, rolling — and walk back slowly for full recovery.' },
                 { name: 'Trap bar deadlift', sets: '4 × 5', targets: 'Glutes · hamstrings · quads · spinal erectors · grip', how: "Stand inside the bar, feet hip-width. Hips slightly higher than a squat but lower than an RDL, chest up, lats tight, arms straight. Push the floor away rather than pulling with the back — the bar should leave the ground with your hips and chest rising together. Reset your brace between reps rather than bouncing them off the floor.", why: 'Your main strength lift. It loads the whole posterior chain plus the quads in one movement, with far less spinal cost than a conventional pull and less technical demand than a heavy squat — which is exactly what you want on a day that also has sprints in it.' },
                 { name: 'Bulgarian split squat', sets: '3 × 8/leg', targets: 'Quads · glutes · adductors · balance', how: "Rear foot on a bench behind you, front foot far enough forward that your front shin stays near vertical. Drop straight down until the back knee is just off the floor. More forward lean hits glutes, more upright hits quads. The front leg does everything — the back leg is only balance.", why: 'Football happens on one leg. Single-leg strength transfers more directly to cutting, kicking and planting than any bilateral lift.' },
@@ -468,7 +467,7 @@ export default function Programs() {
               ['Start here — minimal ankle demand', 'Leg press, hack squat, leg extension, leg curl, hip thrust and glute bridge. Your foot is supported or fixed throughout, so you can load these genuinely heavy from week one and build real quad, hamstring and glute mass while the ankle catches up. Nothing about this is a downgrade — the leg press and hip thrust are in the main session for a reason.'],
               ['Then bilateral free weights, with two adjustments', 'Goblet squat, then back squat. Adjustment one: elevate your heels (small plates or proper lifting shoes) — that reduces how much ankle dorsiflexion the squat demands and instantly makes depth easier. Adjustment two: squat to a box at first so you control the depth rather than discovering it.'],
               ['Leave single-leg work until later — it is the ankle test', 'Bulgarian split squats, lunges and single-leg RDLs all demand real ankle stability, which is exactly what you do not have yet. They are in the main programme and they are excellent, but they are a week 4-6 addition, not a week 1 one. When you add them, start with a hand on something for balance and no weight at all.'],
-              ['Plyometrics come LAST, and this matters', 'Jumping and especially LANDING is the single highest ankle-stability demand in the whole programme. Until your ankles are solid, modify the Thursday explosive day: keep the med ball throws and the sprint build-ups, cut the depth jumps and the lateral bounds entirely, and do box jumps stepping down only. Landing badly on a weak ankle is the most likely way to turn "a bit weak" into a genuine injury.'],
+              ['Plyometrics come LAST, and this matters', 'Jumping and especially LANDING is the single highest ankle-stability demand in the whole programme. Until your ankle is solid, modify the explosive block at the start of leg day: keep the sprint build-ups, swap broad jumps for box jumps, and step down from the box every time. No depth jumps or lateral bounds yet. Landing badly on a weak ankle is the most likely way to turn "a bit weak" into a genuine injury.'],
               ['The ankle work itself — 10 min, 4-5× a week', 'Standing calf raises 3 × 12-15 with a slow lowering and a full stretch at the bottom. Seated calf raises 3 × 15 (knees bent hits the soleus, which the standing version misses). Tibialis raises 3 × 15 — back against a wall, heels forward, pull your toes up toward your shins; almost nobody trains the front of the shin and it is what balances the calf. Banded eversion 2 × 15 each side — band around the outside of the foot, push outward against it; this trains the peroneals, the muscles that actually fail in a rolled ankle.'],
               ['Balance, progressed properly', 'Single-leg stand 3 × 30s per side. When that is easy: eyes closed. Then on a cushion or folded towel. Then single-leg stand while reaching to touch the floor. This trains the reflexive stability that stops an ankle rolling in the first place, and it costs you nothing but a few minutes.'],
               ['Fix the dorsiflexion while you are at it', 'Test it: kneel with your toes about 10cm from a wall and try to touch your knee to the wall with your heel down. If you cannot, that stiffness is limiting your squat and pushing load elsewhere. Fix with calf stretches held 45s, and banded ankle mobilisations — band around the ankle pulling backwards while you drive the knee forward over the toes, 2 × 15 each side.'],
@@ -499,23 +498,22 @@ export default function Programs() {
               ['Hip thrusts — not bullshit, just not needed here', 'They are a legitimate exercise: they load hip extension at the top range where a squat is easiest, they produce very high glute activation, and they cost almost nothing in spinal load. The overselling is the sprint claim — the research comparing hip thrusts to squats for sprint speed is genuinely mixed, with neither clearly better. So they are real, just not magic.'],
               ['Why they are out of your programme', 'Hip extension is already covered three times on Tuesday: the trap bar, Bulgarian split squats and the sprints themselves. Adding a fourth is volume without new stimulus, and volume is the thing you asked to cut. Add them back only if your glutes become a visible weak point, or if a back issue ever stops you loading the trap bar.'],
               ['Genuinely worth their slot', 'Trap bar deadlift, Bulgarian split squats, Nordics, Copenhagens, calf raises both straight and bent-knee, sprints and jumps. Every one is either the main driver of a quality you need or the cheapest insurance against an injury that would cost you months. Nothing on that list is there for looks.'],
-              ['Worth adding only for a specific reason', 'Leg press if leg SIZE becomes the goal again — the single-leg extension is already in for a different reason, closing the left-right gap rather than adding size. Hip thrusts if glutes lag. Hack squat if your lower back is the thing limiting your squatting. Each of these solves one named problem — if you cannot name the problem, you do not need the exercise.'],
+              ['Worth adding only for a specific reason', 'Leg press if leg SIZE becomes the goal again. Single-leg extensions if the quad on your sprained side is visibly weaker. Romanian deadlifts if hamstrings keep tightening after sprints. Hip thrusts if glutes lag. Hack squat if your lower back is the thing limiting your squatting. Each of these solves one named problem — if you cannot name the problem, you do not need the exercise.'],
               ['Actual filler, for you', 'Banded glute kickbacks, abductor and adductor machines, BOSU and wobble-board work, "activation" circuits before lifting, and most of what appears in gym content designed to look novel. None of it is harmful; it just takes the slot of something that does more. The exception is the balance work in your ankle rehab, which has a real evidence base and a specific job.'],
               ['The test before adding anything', 'What quality does this build, is that quality already covered on this day, and what am I removing to make room? If you cannot answer all three, the answer is no. That question is how this session went from twenty-five sets to sixteen.'],
             ]} />
 
-            <Block title="Why one day instead of two" items={[
+            <Block title="Why one leg day, and what it costs" items={[
               ['This day is deliberately short now', 'The trap bar replaced the squat, hip thrust and leg press as the single main lift — it loads the same posterior chain and quads in one movement, and cutting those three frees Saturday for rest, sport, or extra padel/football rather than a second gym session.'],
-              ['What lowering the volume costs you', 'Less leg size, honestly. Around 16 hard sets instead of 25 is enough to keep and slowly build strength alongside football, but it is not a hypertrophy programme for legs any more. That is the correct trade while an ankle is still settling and you want the athletic block done well — but it is a trade, not a free win.'],
-              ['Where the volume sits now', 'Adding Romanian deadlifts and single-leg extensions puts this session at roughly 19 hard sets, up from 16. Still well below the 25 you started with, but worth saying plainly: you asked to cut volume and this adds a little back. If the session starts feeling long or your legs are flat for Saturday, the first things out are the RDL and one set of Bulgarians.'],
-              ['Why the single-leg extension is in, specifically', 'Not for size. After an ankle sprain the quad on that side is almost always measurably weaker, and bilateral lifts hide that gap because the good leg quietly takes more. One leg at a time exposes it. Train the weaker side first, let it set the reps, and let the strong side match — that is how the gap closes rather than widens.'],
-              ['Why the RDL earns its place back', 'The trap bar is a squat-hinge hybrid: it loads the hamstrings, but not at long length. Hamstrings tear at long lengths during the swing phase of sprinting, which is the single most common non-contact injury in football. Two moderate sets chasing the stretch — not a max attempt — is the cheapest protection available for the exact thing you do most.'],
+              ['What lowering the volume costs you', 'Less leg size, honestly. About 11 lifting sets instead of 25 is enough to keep and slowly build strength alongside football, but it is not a hypertrophy programme for legs any more. That is the correct trade while an ankle is still settling and you want the athletic block done well — but it is a trade, not a free win.'],
+                            ['If you add single-leg extensions, this is why', 'Not for size. After an ankle sprain the quad on that side is almost always measurably weaker, and bilateral lifts hide that gap because the good leg quietly takes more. One leg at a time exposes it. Train the weaker side first, let it set the reps, and let the strong side match — that is how the gap closes rather than widens.'],
+              ['If you add RDLs, this is why', 'The trap bar is a squat-hinge hybrid: it loads the hamstrings, but not at long length. Hamstrings tear at long lengths during the swing phase of sprinting, which is the single most common non-contact injury in football. Two moderate sets chasing the stretch — not a max attempt — is the cheapest protection available for the exact thing you do most.'],
               ['Rotate the squat back in every third week', 'Trap bar is the main lift because it is the best strength-per-unit-of-fatigue option on a day that also has sprints. But the squat pattern is worth keeping: every third week, swap the trap bar for back squats 4 x 5 at a load you can control. Same slot, same sets, no extra volume.'],
               ['If you want the leg size back later', 'Add the fifteen-minute machine finisher to the Push day — leg press, leg curl, calves. High rep, low fatigue, and it does not touch this session or your ankle.'],
               ['The one real trade-off: Nordic frequency', 'Research protocols that roughly halve hamstring injury rates use Nordics twice a week. Dropping to once a week is still valuable, just not quite as protective. With this day trimmed, the honest fix is a short Nordic-only set on a rest day — three sets, five minutes, no equipment — rather than reviving a second leg day. Hamstrings are the most commonly torn muscle in football and this is the cheapest insurance there is.'],
-              ['Will heavy legs make me slower? No', 'Strength is the foundation of power. What makes people slow is gaining weight while dropping the sprint and jump work that teaches the body to use it — which is exactly what Thursday exists to prevent.'],
+              ['Will heavy legs make me slower? No', 'Strength is the foundation of power. What makes people slow is gaining weight while dropping the sprint and jump work that teaches the body to use it — which is exactly what the explosive block at the start of leg day exists to prevent.'],
               ['Strength first, then convert it', 'A stronger leg can produce more force. The jumps and sprints that open this session train you to produce that force fast. Doing only one of the two is why people end up either strong and slow, or fast and fragile.'],
-              ['Do not chase a trap bar number at any cost', 'Once your trap bar pull is roughly 2x bodyweight, extra maximal strength returns less for sport than more speed work. Keep progressing, but not at the expense of Thursday.'],
+              ['Do not chase a trap bar number at any cost', 'Once your trap bar pull is roughly 2x bodyweight, extra maximal strength returns less for sport than more speed work. Keep progressing, but never at the expense of the jumps and sprints.'],
             ]} />
           <div className="fade-up stagger space-y-4">            <Block title="Upper-body power — the half almost everyone skips" items={[
               ['Why upper-body power belongs on leg day', 'Holding someone off a ball, winning a shoulder-to-shoulder duel, shoving off in a scramble — that is upper-body force produced fast, and no amount of bench pressing trains the speed half of it. Same principle as jumps for legs: heavy work builds the capacity, this converts it.'],
@@ -545,7 +543,7 @@ export default function Programs() {
             <Fold title="Two versions of the explosive block — pick by what you are training for" tag="Same structure, different emphasis" items={[
               ['Football bias', 'Keep the full sprint work: acceleration sprints and flying sprints are the point. Lateral bounds and drop-and-stick get an extra set. Cut the med ball throws to 2 sets. Add reactive cuts — a partner points or calls a direction and you go — because pre-planned cone work never trains the decision half.'],
               ['Fight bias', 'Med ball work leads and gets 4-5 sets: rotational throws, shot-put throws and overhead slams. Keep the broad jumps (horizontal power = shot and sprawl power), cut flying sprints to 2, and add the sled push, which is the closest gym analogue to driving a takedown through someone.'],
-              ['Both in the same week?', 'You do not need two explosive days. Run one, biased toward whichever sport you actually played or trained less of that week — the sport itself supplies the other. Two nervous-system days plus five gym days plus sport is how people end up chronically flat.'],
+              ['Both in the same week?', 'You only have one explosive block, at the start of leg day. Bias it toward whichever sport you played or trained less that week — the sport itself supplies the other.'],
               ['The warm-up does not change', 'Regardless of bias, the full warm-up is non-negotiable before any sprinting. Cold hamstrings and maximum sprints is the single most reliable way to tear something.'],
               ['Order never changes either', 'Most explosive and most technical first, always: pogos → throws → jumps → sprints → bounds/landings → sled. Anything fatiguing done early ruins everything after it, and the whole day is built on being fresh.'],
             ]} />
@@ -558,7 +556,7 @@ export default function Programs() {
               ['The bit most gym-only lifters are missing: linking the chain', 'Real-world strength — moving a person, cracking someone\'s back, winning a shoulder-to-shoulder duel — is force travelling from the ground through the feet, hips, trunk and out through the hands. Athletes do this automatically because their sport demands it. If your trunk or grip leaks force anywhere along that chain, you can be strong on isolated lifts and still feel weak against a lighter athlete. That is usually the whole explanation.'],
               ['Trunk stiffness is the most common leak', 'If your midsection gives even slightly under load, force generated by your legs never reaches your arms. This is why carries, Pallof work and anti-rotation training are in the programme and are not filler — they are what makes you able to USE the strength you already have. Most people skip them and wonder why they cannot move a lighter person.'],
               ['Grip is the second leak', 'You cannot apply force through hands that are failing. Grip is trained by heavy carries, dead hangs, and not using straps on everything. Athletes who wrestle, grapple or play contact sport build it as a by-product.'],
-              ['What actually changes it — in priority order', '1) Get leaner, which changes how you feel and look faster than anything else. 2) Keep the explosive block at the start of leg day sacred — explosive day sacred — sprints, jumps and throws are what build the neural and tendon qualities. 3) Train relative strength: weighted pull-ups, dips, chin-ups, split squats — strength per kilo, not total load. 4) Train the trunk to transmit rather than just to look good. 5) Train grip directly. 6) Do full-body coordinated movements — med ball throws, sled pushes, sprints — not only machine-isolated lifts.'],
+              ['What actually changes it — in priority order', '1) Get leaner, which changes how you feel and look faster than anything else. 2) Keep the explosive block at the start of leg day sacred — sprints, jumps and throws are what build the neural and tendon qualities. 3) Train relative strength: weighted pull-ups, dips, chin-ups, split squats — strength per kilo, not total load. 4) Train the trunk to transmit rather than just to look good. 5) Train grip directly. 6) Do full-body coordinated movements — med ball throws, sled pushes, sprints — not only machine-isolated lifts.'],
               ['Add isometrics if you want the stiff, braced feel', 'Hard isometric holds — a paused mid-range squat, a heavy suitcase hold, a hollow-body hold, an overcoming isometric against a pin — build the ability to produce high tension without moving. That is the quality that makes someone feel immovable, and almost nobody trains it.'],
               ['Do not chase bodyweight', 'You are already heavier than him. Adding more mass while your relative strength and power stay flat makes the gap worse, not better, because you will be carrying more without being able to apply more. Aim for the same bodyweight with more force output, or slightly leaner with the same strength.'],
               ['The honest genetic part', 'Fibre-type distribution, tendon insertion points, limb lengths and frame width are not trainable, and they do influence how strong and dense someone is for their size. Some people are simply built with an advantage here. What is trainable is large — leanness, neural drive, tendon stiffness, force transfer — and most people never touch it, which is why the trainable part is where all your attention should go.'],
@@ -569,7 +567,7 @@ export default function Programs() {
               ['Your sport can replace part of this', 'A proper football session already contains sprinting, cutting and jumping. If you played this week, cut the sprints and lateral bounds and keep the jumps, throws and Copenhagens.'],
               ['Never do this the day before a match', 'It is CNS-heavy. Leave at least 48 hours between this session and anything competitive.'],
               ['Sport first, gym after, on the same day', 'If both have to happen, do the technical or competitive session while fresh and lift afterwards. Skill degrades badly under fatigue, and sloppy reps build sloppy habits.'],
-              ['This is the day you protect', 'If the week gets compressed and something has to go, drop a hypertrophy day — not this one. Size can be regained; speed and injury resilience are harder won.'],
+              ['This is the day you protect', 'If the week gets compressed and something has to go, drop Push or Pull — not legs. Size can be regained; speed and injury resilience are harder won.'],
             ]} />
           </div>
           </div>
@@ -764,7 +762,7 @@ export default function Programs() {
             </div>
 
             <Block title="Around your sessions" items={[
-              ['Carbs before and after training', 'Glycogen is the fuel for both lifting and sprinting. Training depleted is why some sessions feel inexplicably heavy. Carbs before, carbs after, and more of them on your leg and explosive days.'],
+              ['Carbs before and after training', 'Glycogen is the fuel for both lifting and sprinting. Training depleted is why some sessions feel inexplicably heavy. Carbs before, carbs after, and more of them on leg day and match day.'],
               ['Protein timing matters less than total', 'The "anabolic window" is far wider than the old 30-minute rule. Getting your daily total is what counts — though protein within a couple of hours either side of training is a sensible default.'],
               ['Hydration the day before, not just during', 'Even mild dehydration reduces strength output and makes everything feel harder. Turning up already low is a self-inflicted bad session.'],
               ['Walk on rest days', '20-40 minutes of easy walking increases blood flow without adding fatigue. It genuinely speeds recovery, unlike lying completely still all day.'],
@@ -791,7 +789,7 @@ export default function Programs() {
 
             <Block title="Recovering from sport on top of lifting" items={[
               ['Count your sport as training', 'A football match is roughly a hard leg session plus conditioning. If you played Saturday, going straight into a full Big Leg Day fully fatigued is not brave, it is a mistake. Move it or cut the volume.'],
-              ['Match day plus 48 hours', 'Leave at least two days between a match or hard sparring and your heavy leg or explosive day. That is when hamstring injuries happen.'],
+              ['Match day plus 48 hours', 'Leave at least two days between a match or hard sparring and leg day. That is when hamstring injuries happen.'],
               ['Hard days hard, easy days easy', 'If both a sport session and a lift must happen, do them on the SAME day and keep the next day genuinely easy. Two moderately hard days in a row is worse recovery than one very hard day plus a real rest day.'],
               ['In-season, cut volume not intensity', 'Keep the weights heavy and drop the number of sets by about a third. You maintain strength on far less volume than you needed to build it.'],
             ]} />
@@ -854,21 +852,21 @@ export default function Programs() {
               ['Hypertrophy: 1-2 reps in reserve', 'Stop most sets when you could have done 1-2 more clean reps. Take the last set of isolation exercises to genuine failure. Training everything to failure wrecks recovery for marginal extra growth.'],
               ['Progressive overload, written down', 'Every session, try to beat the logbook by a rep or the smallest weight increment. If nothing has moved in a month, the problem is recovery, food or effort — not the programme.'],
               ['Rest properly', '2-3 min on heavy compounds and all power work, 60-90s on isolation. Cutting rest to feel worked costs you load, and load is what drives growth.'],
-              ['Two leg sessions, 96 hours apart', 'Tuesday and Saturday. Do not let them drift next to each other when the week gets messy — that is when things get tweaked.'],
+              ['Keep legs away from match day', 'Legs + Speed on Tuesday leaves four days before Saturday football. If the fixture moves, move legs so there are at least 48 hours before kick-off.'],
               ['Deload every 6-8 weeks', 'One week at roughly 60% of normal volume, keeping intensity. Not optional. This is when your body catches up and the next block goes better.'],
             ]} />
-            <Block title="Recovery — the part that decides whether 6 days works" items={[
-              ['Protein: 1.6-2.2g per kg bodyweight', 'The number that turns training into muscle. Spread across 3-4 meals. Non-negotiable at this training frequency.'],
-              ['Eat enough overall', 'Six sessions a week in a calorie deficit is how you get flat, weak and injured. If you want size, eat in a surplus of 300-500 kcal and accept some fat gain.'],
-              ['Sleep 8h+', 'At this volume, under-sleeping is not a minor issue — it is the thing that will stall you. Growth and CNS recovery both happen asleep. See the Night Routine.'],
+            <Block title="Recovery — the part that decides whether it works" items={[
+              ['Protein: 1.6-2.2g per kg bodyweight', 'The number that turns training into muscle. Spread across 3-4 meals. Non-negotiable if you want size.'],
+              ['Eat enough overall', 'Three lifts plus football in a calorie deficit is how you get flat, weak and injured. If you want size, eat in a surplus of 300-500 kcal and accept some fat gain.'],
+              ['Sleep 8h+', 'With football on top, under-sleeping is not a minor issue — it is the thing that will stall you. Growth and CNS recovery both happen asleep. See the Night Routine.'],
               ['Creatine 5g daily', 'Most evidence-backed supplement for exactly this kind of training: strength, power output and repeated sprint ability. Timing irrelevant, consistency is not.'],
               ['Watch the warning signs', 'Sleep getting worse, resting heart rate climbing, motivation gone, numbers stalling across multiple lifts, niggles appearing. Any two of those means take a deload now rather than in three weeks.'],
             ]} />
             <Block title="How to adjust it" items={[
-              ['If you are always sore or run down', 'Drop to the 5-day version. It is not a lesser programme — for someone also playing sport it is usually the better one.'],
-              ['If a muscle is lagging', 'Add 2-4 sets a week to it before adding anything else, and put it first in its session. Do not add whole exercises to a plan that is already full.'],
-              ['If you miss a day', 'Do not stack two sessions together. Shift the week forward and drop whatever falls off the end — usually a hypertrophy day, never the explosive day.'],
-              ['If your sport volume spikes', 'Pre-season or a heavy match week: cut a leg day and reduce total sets by about a third. Your sport is training; count it as such.'],
+              ['If you are always sore or run down', 'Drop one set from every exercise for a week before changing anything else. Three days plus football is already a full week.'],
+              ['If a muscle is lagging', 'Add 2-4 sets a week to it before adding anything else, and put it first in its session after the explosive movement. Do not add whole exercises.'],
+              ['If you miss a day', 'Do not stack two sessions together. Do the missed one next, and keep the explosive movement at the start of it — that is the part that makes you faster.'],
+              ['If your sport volume spikes', 'Pre-season or two games in a week: keep the jumps and sprints on leg day, halve the lifting sets. Your sport is training; count it as such.'],
               ['Give it 8-12 weeks before judging it', 'Strength moves in weeks, visible size in months, speed and power somewhere between. Programme-hopping every 3 weeks is the single most common reason people make no progress.'],
             ]} />
           </div>

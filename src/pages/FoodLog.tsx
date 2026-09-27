@@ -56,7 +56,7 @@ export default function FoodLog() {
   const pct = (val: number, target: number) => Math.min(100, Math.round((val / target) * 100));
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white pb-24">
+    <div className="min-h-screen bg-transparent text-white pb-24">
       <div className="px-4 pt-12 pb-6 bg-gradient-to-b from-green-950/30 to-transparent">
         <Link to="/" className="inline-flex items-center text-gray-500 hover:text-white text-sm mb-4 transition-colors">
           <ArrowLeft size={15} className="mr-1" /> Home

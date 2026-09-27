@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Dumbbell, Target, ChevronRight, Zap, Trophy, LayoutDashboard, Swords, Sparkles, Brain, GraduationCap, Map, CircleDot , Youtube } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import SearchBar from '../components/SearchBar';
 import { HABITS, loadHabits, todaysItems } from '../components/DailyHabits';
 import TomorrowPlan from '../components/TomorrowPlan';
@@ -9,6 +9,17 @@ import DailyRoutines from '../components/DailyRoutines';
 import AccountabilityBot from '../components/AccountabilityBot';
 import NotifyPrompt from '../components/NotifyPrompt';
 import OfflineStatus from '../components/OfflineStatus';
+import JarvisHud, { BatMark } from '../components/Jarvis';
+import BottomNav from '../components/BottomNav';
+
+function HudLabel({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex items-center gap-2 mb-2.5">
+      <span className="font-hud text-[11px] font-bold uppercase tracking-[0.28em] text-cyan-300/80">{children}</span>
+      <span className="flex-1 h-px bg-gradient-to-r from-cyan-400/30 to-transparent" />
+    </div>
+  );
+}
 
 
 
@@ -29,121 +40,47 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] bg-gradient-to-b from-orange-950/30 via-[#0a0a0a] to-[#0a0a0a] text-white">
-      {/* Nav */}
-      <nav className="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto">
-        <div className="flex items-center gap-2">
-          <Dumbbell className="text-orange-500" size={26} />
-          <span className="text-xl font-black tracking-tight">GymForge</span>
-        </div>
-        <div className="flex items-center gap-3">
-          {hasPlan && (
-            <Link to="/programs"
-              className="flex items-center gap-1.5 text-orange-400 hover:text-orange-300 text-sm font-semibold transition-colors">
-              <Dumbbell size={15} /> My Program
-            </Link>
-          )}
-          <Link to="/quiz"
-            className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-all hover:scale-105">
-            {hasPlan ? 'Redo Quiz' : 'Start Free'}
-          </Link>
-        </div>
-      </nav>
-
-      {/* Return user banner */}
-      {hasPlan && (
-        <div className="mx-6 mt-2 max-w-6xl md:mx-auto">
-          <Link to="/programs"
-            className="flex items-center justify-between bg-orange-500/10 border border-orange-500/20 rounded-xl px-5 py-3.5 hover:bg-orange-500/15 transition-all group">
-            <div className="flex items-center gap-3">
-              <Dumbbell className="text-orange-400" size={20} />
-              <div>
-                <p className="text-orange-300 font-bold text-sm">Welcome back — your plan is ready</p>
-                <p className="text-orange-400/60 text-xs">Program · AI Plan · Food Log · Physique</p>
-              </div>
-            </div>
-            <ChevronRight className="text-orange-400 group-hover:translate-x-1 transition-transform" size={18} />
-          </Link>
-        </div>
-      )}
-
-      {/* Header */}
-      <section className="px-6 pt-10 pb-6 max-w-4xl mx-auto text-center">
-        <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 rounded-full px-4 py-1.5 text-xs text-orange-400 mb-5">
-          <Zap size={12} /> Every metric of your life, upgraded
-        </div>
-        <h1 className="text-3xl md:text-5xl font-black leading-tight tracking-tight mb-2">
-          Become <span className="gradient-animate">undeniable.</span>
-        </h1>
-        <p className="text-gray-500 text-sm md:text-base max-w-xl mx-auto">
-          Training, fighting, looks, mindset, football and money — one system.
-        </p>
-      </section>
+    <main className="min-h-screen bg-transparent text-white">
+      <JarvisHud />
 
       {/* Search */}
-      <section className="px-6 pb-5 max-w-4xl mx-auto">
+      <section className="px-5 pb-5 max-w-4xl mx-auto">
         <SearchBar />
       </section>
 
-      {/* Feed banner */}
-      <section className="px-6 pb-3 max-w-4xl mx-auto">
-        <Link to="/feed"
-          className="flex items-center justify-between bg-gradient-to-r from-purple-500/15 to-pink-500/10 border border-purple-500/25 rounded-2xl px-5 py-4 hover:from-purple-500/20 transition-all group press">
-          <div className="flex items-center gap-3">
-            <Zap className="text-purple-400 flex-shrink-0" size={20} />
-            <div>
-              <p className="font-black text-sm">The Feed — scroll & learn</p>
-              <p className="text-gray-500 text-xs">Swipeable knowledge cards from every section</p>
-            </div>
-          </div>
-          <ChevronRight size={17} className="text-purple-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
-        </Link>
-      </section>
-
-      {/* Know More banner */}
-      <section className="px-6 pb-3 max-w-4xl mx-auto">
-        <Link to="/knowledge"
-          className="flex items-center justify-between bg-gradient-to-r from-sky-500/15 to-cyan-500/10 border border-sky-500/25 rounded-2xl px-5 py-4 hover:from-sky-500/20 transition-all group press">
-          <div className="flex items-center gap-3">
-            <GraduationCap className="text-sky-400 flex-shrink-0" size={20} />
-            <div>
-              <p className="font-black text-sm">Know More — today&apos;s lesson</p>
-              <p className="text-gray-500 text-xs">World affairs, history, tech &amp; business deals</p>
-            </div>
-          </div>
-          <ChevronRight size={17} className="text-sky-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
-        </Link>
-      </section>
-
-      {/* Journey banner */}
-      <section className="px-6 pb-5 max-w-4xl mx-auto">
-        <Link to="/journey"
-          className="flex items-center justify-between bg-gradient-to-r from-orange-500/15 to-red-500/10 border border-orange-500/25 rounded-2xl px-5 py-4 hover:from-orange-500/20 transition-all group press">
-          <div className="flex items-center gap-3">
-            <Map className="text-orange-400 flex-shrink-0" size={20} />
-            <div>
-              <p className="font-black text-sm">The Journey — start here</p>
-              <p className="text-gray-500 text-xs">Every phase walked through step by step, with an AI advisor</p>
-            </div>
-          </div>
-          <ChevronRight size={17} className="text-orange-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
-        </Link>
+      {/* Intel feeds */}
+      <section className="px-5 pb-5 max-w-4xl mx-auto">
+        <HudLabel>Intel</HudLabel>
+        <div className="grid grid-cols-3 gap-2">
+          {[
+            { to: '/journey', icon: Map, label: 'The Journey', desc: 'Start here', color: 'text-orange-300' },
+            { to: '/feed', icon: Zap, label: 'The Feed', desc: 'Scroll & learn', color: 'text-purple-300' },
+            { to: '/knowledge', icon: GraduationCap, label: 'Know More', desc: "Today's lesson", color: 'text-sky-300' },
+          ].map(({ to, icon: Icon, label, desc, color }) => (
+            <Link key={to} to={to}
+              className="hud-panel px-3 py-3 hover:border-cyan-400/40 transition-colors press">
+              <Icon size={17} className={color} />
+              <p className="font-hud font-bold text-[13px] uppercase tracking-wide mt-2 leading-tight">{label}</p>
+              <p className="text-gray-500 text-[10px] mt-0.5">{desc}</p>
+            </Link>
+          ))}
+        </div>
       </section>
 
       {/* Notifications opt-in */}
-      <section className="px-6 pb-5 max-w-4xl mx-auto">
+      <section className="px-5 pb-5 max-w-4xl mx-auto">
         <NotifyPrompt />
       </section>
 
       {/* Accountability bot */}
-      <section className="px-6 pb-5 max-w-4xl mx-auto">
+      <section className="px-5 pb-5 max-w-4xl mx-auto">
         <AccountabilityBot />
       </section>
 
       {/* Today's habits strip */}
       {habitCounts.length > 0 && (
-        <section className="px-6 pb-5 max-w-4xl mx-auto">
-          <p className="text-gray-600 text-[10px] uppercase tracking-widest font-bold mb-2">Today's reps</p>
+        <section className="px-5 pb-5 max-w-4xl mx-auto">
+          <HudLabel>Protocol status</HudLabel>
           <div className="flex gap-2 overflow-x-auto scrollbar-hide">
             {habitCounts.map(h => (
               <Link key={h.section} to={h.path}
@@ -161,7 +98,7 @@ export default function Home() {
       )}
 
       {/* Tomorrow planner */}
-      <section className="px-6 pb-5 max-w-4xl mx-auto space-y-3">
+      <section className="px-5 pb-5 max-w-4xl mx-auto space-y-3">
         <TomorrowPlan />
         <MorningReminder />
 
@@ -170,7 +107,8 @@ export default function Home() {
       </section>
 
       {/* The sections */}
-      <section className="px-6 pb-10 max-w-4xl mx-auto">
+      <section className="px-5 pb-10 max-w-4xl mx-auto">
+        <HudLabel>Operations</HudLabel>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {[
             { to: '/programs', icon: Dumbbell, label: 'Gym',      desc: 'Your split · training · physique',    color: 'text-orange-400',  border: 'hover:border-orange-500/40',  bg: 'bg-orange-500/10' },
@@ -183,21 +121,22 @@ export default function Home() {
             { to: '/uni',       icon: GraduationCap, label: 'Uni & Brain', desc: 'AI revision · career · sleep · IQ', color: 'text-sky-400', border: 'hover:border-sky-500/40', bg: 'bg-sky-500/10' },
           ].map(({ to, icon: Icon, label, desc, color, border, bg }) => (
             <Link key={to} to={to}
-              className={`bg-gradient-to-br ${bg} to-[#111] border border-white/8 ${border} rounded-2xl p-4 transition-all hover:-translate-y-0.5 group press`}>
+              className={`hud-frame bg-gradient-to-br ${bg} to-[#0b1017] border border-white/8 ${border} rounded-2xl p-4 transition-all hover:-translate-y-0.5 group press`}>
               <div className="flex items-center justify-between mb-3">
                 <div className={`w-9 h-9 ${bg} rounded-xl flex items-center justify-center`}>
                   <Icon size={18} className={color} />
                 </div>
                 <ChevronRight size={15} className="text-gray-700 group-hover:text-gray-500 group-hover:translate-x-0.5 transition-all" />
               </div>
-              <p className="font-black text-sm mb-0.5">{label}</p>
+              <p className="font-hud font-bold text-base uppercase tracking-wide mb-0.5">{label}</p>
               <p className="text-gray-600 text-[11px] leading-snug">{desc}</p>
             </Link>
           ))}
         </div>
 
         {/* Quick tools */}
-        <div className="grid grid-cols-2 gap-3 mt-3">
+        <div className="mt-6"><HudLabel>Gadgets</HudLabel></div>
+        <div className="grid grid-cols-2 gap-3">
           <Link to="/looksmax"
             className="flex items-center gap-3 bg-[#111] border border-white/8 hover:border-purple-500/30 rounded-2xl px-4 py-3 transition-all">
             <div className="w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -233,7 +172,7 @@ export default function Home() {
 
       {/* Plan CTA card (compact) */}
       {!hasPlan && (
-        <section className="px-6 pb-12 max-w-4xl mx-auto">
+        <section className="px-5 pb-12 max-w-4xl mx-auto">
           <div className="bg-gradient-to-br from-orange-500/10 to-red-500/5 border border-orange-500/20 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
             <div>
               <h2 className="font-black text-lg mb-1">Start with your AI plan</h2>
@@ -248,11 +187,12 @@ export default function Home() {
       )}
 
       <OfflineStatus />
+      <BottomNav />
 
-      <footer className="border-t border-white/5 px-6 py-6 text-center text-gray-700 text-sm">
-        <div className="flex items-center justify-center gap-2">
-          <Dumbbell size={14} className="text-orange-500/40" />
-          GymForge © 2026
+      <footer className="border-t border-cyan-400/10 px-6 py-6 pb-24 text-center text-gray-700 text-sm">
+        <div className="flex items-center justify-center gap-2 font-hud uppercase tracking-[0.25em] text-[11px]">
+          <BatMark className="w-7 text-cyan-400/40" />
+          Wayne–Stark Systems · GymForge
         </div>
       </footer>
     </main>

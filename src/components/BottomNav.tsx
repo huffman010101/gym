@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Dumbbell, Swords, Sparkles, Brain } from 'lucide-react';
 
 const TABS = [
-  { path: '/', icon: LayoutDashboard, label: 'Home' },
+  { path: '/', icon: LayoutDashboard, label: 'Command' },
   { path: '/programs', icon: Dumbbell, label: 'Gym' },
   { path: '/combat', icon: Swords, label: 'Combat' },
   { path: '/looksmax', icon: Sparkles, label: 'Looks' },
@@ -12,7 +12,10 @@ const TABS = [
 export default function BottomNav() {
   const { pathname } = useLocation();
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-[#0a0a0a]/95 backdrop-blur border-t border-white/10 z-50">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#04060a]/92 backdrop-blur border-t border-cyan-400/15"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
+      {/* reactor-line along the top edge */}
+      <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent" />
       <div className="flex justify-around items-center h-16 max-w-lg mx-auto px-2">
         {TABS.map(({ path, icon: Icon, label }) => {
           const active = pathname === path;
@@ -20,14 +23,14 @@ export default function BottomNav() {
             <Link
               key={path}
               to={path}
-              className={`flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all ${
-                active ? 'text-orange-400' : 'text-gray-600 hover:text-gray-400'
+              className={`relative flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all ${
+                active ? 'text-cyan-300' : 'text-gray-600 hover:text-gray-400'
               }`}
             >
-              <Icon size={20} strokeWidth={active ? 2.5 : 1.5}
-                style={active ? { filter: 'drop-shadow(0 0 6px rgba(249,115,22,0.6))' } : undefined} />
-              <span className="text-[10px] font-medium">{label}</span>
-              <span className={`h-1 w-1 rounded-full transition-all ${active ? 'bg-orange-400' : 'bg-transparent'}`} />
+              {active && <span className="absolute inset-x-1 inset-y-0.5 rounded-xl bg-cyan-400/[0.07] border border-cyan-400/20" />}
+              <Icon size={20} strokeWidth={active ? 2.3 : 1.5} className="relative"
+                style={active ? { filter: 'drop-shadow(0 0 7px rgba(34,211,238,0.8))' } : undefined} />
+              <span className="relative font-hud text-[10px] font-bold uppercase tracking-[0.14em]">{label}</span>
             </Link>
           );
         })}

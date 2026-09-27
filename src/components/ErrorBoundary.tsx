@@ -52,7 +52,7 @@ export default class ErrorBoundary extends Component<Props, State> {
     if (!error) return this.props.children;
 
     return (
-      <main className="min-h-screen bg-[#0a0a0a] text-white px-5 py-10">
+      <main className="min-h-screen bg-transparent text-white px-5 py-10">
         <div className="max-w-md mx-auto">
           <div className="bg-[#111] border border-red-500/25 rounded-2xl p-5">
             <div className="flex items-center gap-2 mb-2">

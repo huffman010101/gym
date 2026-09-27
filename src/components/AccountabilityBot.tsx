@@ -57,9 +57,9 @@ export default function AccountabilityBot() {
         <MessageCircleHeart size={16} className="text-orange-400" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-[10px] font-black uppercase tracking-widest text-orange-400 mb-1">Your coach — daily check-in</p>
+        <p className="text-[10px] font-black uppercase tracking-widest text-orange-400 mb-1">J.A.R.V.I.S. — daily check-in</p>
         {busy ? (
-          <p className="text-gray-500 text-sm flex items-center gap-1.5"><Loader2 size={12} className="animate-spin" /> Reading your numbers…</p>
+          <p className="text-gray-500 text-sm flex items-center gap-1.5"><Loader2 size={12} className="animate-spin" /> Running diagnostics, sir…</p>
         ) : (
           <p className="text-gray-300 text-sm leading-relaxed">{message}</p>
         )}

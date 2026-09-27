@@ -4,10 +4,124 @@
 
 * { box-sizing: border-box; }
 
+/* ================= WAYNE / STARK HUD THEME =================
+ * Dark gunmetal base, arc-reactor cyan for the system chrome, gold for rank
+ * and command. Section accent colours (orange gym, pink mind…) are left alone:
+ * they carry meaning, the theme only restyles the chrome around them. */
+:root {
+  --hud-bg: #04060a;
+  --hud-panel: rgba(11, 16, 23, 0.86);
+  --hud-cyan: 34, 211, 238;
+  --hud-gold: 234, 179, 8;
+}
+
+html { background: var(--hud-bg); }
+
+/* body stays transparent: its own background would paint over the
+ * negative-z backdrop below. html carries the base colour. */
 body {
-  background: #0a0a0a;
-  color: #fff;
+  background: transparent;
+  color: #e8eef5;
   margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Fixed HUD backdrop: reactor glow, faint grid, vignette. One layer, no
+ * per-card blur, so long pages still scroll smoothly on a phone. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 45% at 50% -8%, rgba(var(--hud-cyan), 0.13), transparent 70%),
+    radial-gradient(ellipse 70% 35% at 50% 108%, rgba(var(--hud-gold), 0.06), transparent 70%),
+    repeating-linear-gradient(0deg, rgba(var(--hud-cyan), 0.035) 0 1px, transparent 1px 44px),
+    repeating-linear-gradient(90deg, rgba(var(--hud-cyan), 0.035) 0 1px, transparent 1px 44px),
+    radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.75) 100%),
+    var(--hud-bg);
+}
+
+/* Type: Orbitron for page titles, Rajdhani for headings and HUD labels,
+ * system sans for body copy so the long guides stay easy to read. */
+h1 {
+  font-family: 'Orbitron', 'Rajdhani', sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+h2, h3, .font-hud,
+.tracking-widest, .tracking-wider {
+  font-family: 'Rajdhani', ui-sans-serif, system-ui, sans-serif;
+}
+h2, h3 { letter-spacing: 0.02em; }
+.font-orbitron { font-family: 'Orbitron', 'Rajdhani', sans-serif; }
+
+/* Panels: the app uses bg-[#111] for ~180 cards. Recolour it once here as
+ * gunmetal with a hairline highlight rather than editing every page. */
+.bg-\[\#111\] {
+  background-color: var(--hud-panel) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.035);
+}
+.bg-\[\#1a1a1a\], .bg-\[\#161616\], .bg-\[\#141414\], .bg-\[\#1c1c1c\] {
+  background-color: rgba(18, 25, 35, 0.9) !important;
+}
+
+::selection { background: rgba(var(--hud-cyan), 0.35); color: #fff; }
+
+/* Corner-bracket frame used on HUD modules */
+.hud-frame { position: relative; }
+.hud-frame::before, .hud-frame::after {
+  content: '';
+  position: absolute;
+  width: 14px; height: 14px;
+  pointer-events: none;
+  border-color: rgba(var(--hud-cyan), 0.55);
+  border-style: solid;
+}
+.hud-frame::before { top: 0; left: 0; border-width: 2px 0 0 2px; border-top-left-radius: 6px; }
+.hud-frame::after  { bottom: 0; right: 0; border-width: 0 2px 2px 0; border-bottom-right-radius: 6px; }
+.hud-frame.gold::before, .hud-frame.gold::after { border-color: rgba(var(--hud-gold), 0.6); }
+
+.hud-panel {
+  background: linear-gradient(160deg, rgba(20, 30, 42, 0.9), rgba(8, 12, 18, 0.92));
+  border: 1px solid rgba(var(--hud-cyan), 0.16);
+  border-radius: 1rem;
+}
+.hud-text-cyan { color: rgb(var(--hud-cyan)); text-shadow: 0 0 12px rgba(var(--hud-cyan), 0.45); }
+.hud-text-gold { color: rgb(var(--hud-gold)); text-shadow: 0 0 12px rgba(var(--hud-gold), 0.35); }
+
+/* Arc reactor */
+@keyframes reactorSpin { to { transform: rotate(360deg); } }
+@keyframes reactorPulse {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(var(--hud-cyan), 0.7)); opacity: 0.92; }
+  50%      { filter: drop-shadow(0 0 16px rgba(var(--hud-cyan), 1)); opacity: 1; }
+}
+.reactor { animation: reactorPulse 3.2s ease-in-out infinite; }
+.reactor .spin     { transform-origin: 50% 50%; animation: reactorSpin 14s linear infinite; }
+.reactor .spin-rev { transform-origin: 50% 50%; animation: reactorSpin 22s linear infinite reverse; }
+
+/* Scanline sweep: its own element, because ::before/::after on panels are
+ * already used by .hud-frame corner brackets. */
+@keyframes scan { 0% { transform: translateY(-120%); } 100% { transform: translateY(520%); } }
+.hud-scanline {
+  position: absolute; left: 0; right: 0; top: 0; height: 22%;
+  background: linear-gradient(180deg, transparent, rgba(var(--hud-cyan), 0.06), transparent);
+  animation: scan 6s linear infinite;
+  pointer-events: none;
+}
+
+/* Boot sequence */
+@keyframes bootLine { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: none; } }
+.boot-line { opacity: 0; animation: bootLine 0.25s ease forwards; }
+@keyframes bootOut { to { opacity: 0; visibility: hidden; } }
+.boot-out { animation: bootOut 0.45s ease forwards; }
+@keyframes typeCaret { 50% { opacity: 0; } }
+.caret { animation: typeCaret 1s step-end infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reactor, .reactor .spin, .reactor .spin-rev, .hud-scanline, .glow-pulse, .gradient-animate { animation: none !important; }
 }
 
 .gradient-text {
@@ -40,8 +154,8 @@ body {
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #111; }
-::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 3px; }
+::-webkit-scrollbar-track { background: #05080c; }
+::-webkit-scrollbar-thumb { background: rgba(34,211,238,0.25); border-radius: 3px; }
 
 /* Premium gradient borders */
 .card-premium {
@@ -90,7 +204,7 @@ body {
   100% { background-position: 200% 0; }
 }
 .shimmer {
-  background: linear-gradient(90deg, #111 25%, #1a1a1a 50%, #111 75%);
+  background: linear-gradient(90deg, #0b1017 25%, #13202b 50%, #0b1017 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
@@ -130,7 +244,7 @@ body {
   50% { background-position: 100% 50%; }
 }
 .gradient-animate {
-  background: linear-gradient(90deg, #f97316, #ef4444, #ec4899, #f97316);
+  background: linear-gradient(90deg, #22d3ee, #e0f2fe, #eab308, #22d3ee);
   background-size: 300% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
