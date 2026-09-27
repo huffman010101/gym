@@ -89,13 +89,25 @@ Vite + React 18 + TypeScript SPA, **HashRouter** (required for GitHub Pages), Ta
   a few large content components that are rendered as a single tab by a page
   (`Security`, `HighValue`, `MorningRoutine`, `NightRoutine` are all tabs of `Mind.tsx`).
 
+### Theme and the command screen
+
+- The HUD theme is global CSS in `src/index.css`: the fixed backdrop is `body::before` (body stays
+  transparent), and the ~180 `bg-[#111]` cards are recoloured there rather than edited per page. Page
+  roots use `bg-transparent` so the backdrop shows. Section accent colours are unchanged on purpose.
+- Fonts (Orbitron, Rajdhani) are self-hosted via `@fontsource` in `main.tsx` so they work offline.
+- `src/components/Jarvis.tsx` is the Home command screen and the once-per-session boot overlay.
+- `src/components/FocusMap.tsx` maps goals to exact `?tab=` links. **When you rename, add or remove a
+  tab, update FocusMap too** — it is the "where does X live" index.
+- Every page syncs `tab` from `?tab=` in a `useEffect` as well as the initialiser, so links between
+  tabs of the same page work. Keep that effect when adding pages.
+
 ### Adding a tab to an existing page
 
 Four edits, all in the same file, and missing any one breaks it silently:
 1. add the id to the `type Tab` union
 2. add `{ id, label }` to `TABS`
 3. add the id to the `as const` array in the `useState<Tab>` initialiser
-4. add the `{tab === 'id' && ( … )}` render block
+4. add the `{tab === 'id' && ( … )}` render block (and add the id to the `?tab=` sync effect's array)
 
 Then add a `SearchBar.tsx` INDEX entry with generous keywords, or the content is unfindable.
 
@@ -114,7 +126,7 @@ silently destroys any content containing a stray `<`, e.g. "PED < 1".
 
 ### Offline / service worker
 
-`public/sw.js` (cache `gymforge-v29`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
+`public/sw.js` (cache `gymforge-v30`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
 asset list can only be known post-build — `scripts/inject-sw-precache.mjs` injects it into
 `dist/sw.js`. Any change to the build output pipeline needs that script to still run last.
 

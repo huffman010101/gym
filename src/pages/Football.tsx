@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Zap, Target, Users, Activity, ChevronDown, Trophy } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
@@ -68,6 +68,12 @@ export default function Football() {
     const t = params.get('tab');
     return (['plan', 'home', 'speed', 'shooting', 'skills', 'position', 'setpieces', 'physical', 'elite', 'warmup'] as const).includes(t as Tab) ? (t as Tab) : 'plan';
   });
+  // Follow ?tab= changes while already on this page (links between its own
+  // tabs), not just on first mount.
+  useEffect(() => {
+    const t = params.get('tab');
+    if (t && (['plan', 'home', 'speed', 'shooting', 'skills', 'position', 'setpieces', 'physical', 'elite', 'warmup'] as const).includes(t as Tab)) setTab(t as Tab);
+  }, [params]);
 
   return (
     <main className="min-h-screen bg-transparent bg-gradient-to-b from-emerald-950/40 via-transparent to-transparent text-white pb-24">

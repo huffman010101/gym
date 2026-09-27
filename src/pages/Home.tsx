@@ -11,6 +11,7 @@ import NotifyPrompt from '../components/NotifyPrompt';
 import OfflineStatus from '../components/OfflineStatus';
 import JarvisHud, { BatMark } from '../components/Jarvis';
 import BottomNav from '../components/BottomNav';
+import FocusMap from '../components/FocusMap';
 
 function HudLabel({ children }: { children: ReactNode }) {
   return (
@@ -42,6 +43,11 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-transparent text-white">
       <JarvisHud />
+
+      {/* Focus directory */}
+      <section className="px-5 pb-5 max-w-4xl mx-auto">
+        <FocusMap />
+      </section>
 
       {/* Search */}
       <section className="px-5 pb-5 max-w-4xl mx-auto">

@@ -6,7 +6,7 @@ import type { FaceAnalysisResult, LayeringResult } from '../lib/generators';
 import {
   ArrowLeft, ChevronDown, ChevronUp, Check, Sparkles, Scissors, Smile, User,
   BarChart2, Camera, Loader2, AlertCircle, Droplets, Wind, Sun, Moon,
-  Activity, Eye,
+  Activity, Eye, ChevronRight,
 } from 'lucide-react';
 
 type LooksTab = 'scan' | 'hair' | 'face' | 'skin' | 'techniques' | 'style' | 'grooming' | 'fragrance' | 'tracker';
@@ -207,6 +207,12 @@ export default function LooksMax() {
     const t = params.get('tab');
     return (['scan', 'hair', 'face', 'skin', 'techniques', 'style', 'grooming', 'fragrance', 'tracker'] as const).includes(t as LooksTab) ? (t as LooksTab) : 'scan';
   });
+  // Follow ?tab= changes while already on this page (links between its own
+  // tabs), not just on first mount.
+  useEffect(() => {
+    const t = params.get('tab');
+    if (t && (['scan', 'hair', 'face', 'skin', 'techniques', 'style', 'grooming', 'fragrance', 'tracker'] as const).includes(t as LooksTab)) setTab(t as LooksTab);
+  }, [params]);
   const [checklist, setChecklist] = useState<Record<string, boolean>>(loadChecklist());
   const [dermaroll, setDermaroll] = useState(loadDermaroll());
 
@@ -347,7 +353,7 @@ export default function LooksMax() {
     { id: 'hair', label: 'Hair', icon: Scissors },
     { id: 'face', label: 'Face', icon: Smile },
     { id: 'skin', label: 'Skin', icon: Droplets },
-    { id: 'techniques', label: 'Methods', icon: Sparkles },
+    { id: 'techniques', label: 'Body & Habits', icon: Sparkles },
     { id: 'style', label: 'Style', icon: Sun },
     { id: 'grooming', label: 'Groom', icon: User },
     { id: 'fragrance', label: 'Scent', icon: Wind },
@@ -754,93 +760,14 @@ export default function LooksMax() {
         {/* ===== FACE TAB ===== */}
         {tab === 'face' && (
           <>
-            {/* Posture Section */}
-            <div className="bg-[#111] border border-red-500/20 rounded-2xl p-4">
-              <div className="flex items-center gap-2 mb-1">
-                <Activity size={15} className="text-red-400" />
-                <h2 className="font-bold text-base text-red-400">Posture — The Invisible Looksmax</h2>
+            <Link to="/programs?tab=posture"
+              className="flex items-center justify-between bg-[#111] border border-red-500/20 hover:border-red-500/40 rounded-2xl p-4 transition-colors">
+              <div>
+                <p className="font-bold text-sm text-red-300">Posture — the invisible looksmax</p>
+                <p className="text-gray-500 text-xs mt-0.5">The full fix (forward head, rounded shoulders, pelvic tilt) lives in Gym → Posture, with the daily 8 minutes.</p>
               </div>
-              <p className="text-gray-500 text-xs mb-3">Correct posture adds immediate height, projects confidence, and changes how your face and neck appear. Fix these three patterns.</p>
-
-              <div className="bg-gradient-to-br from-red-500/10 to-[#111] border border-red-500/25 rounded-xl p-3.5 mb-3">
-                <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-red-300/80 mb-2.5">The fix — 5 minutes, once a day</p>
-                <div className="space-y-2">
-                  {[
-                    ['Chin tucks — 3 × 15', 'Fixes forward head. Pull chin straight back into a double chin, hold 5s.'],
-                    ['Face pulls or band pull-aparts — 3 × 15', 'Fixes rounded shoulders. Already in your Pull day if you train it that week.'],
-                    ['Glute bridges — 3 × 15', 'Fixes the pelvic tilt. Squeeze glutes hard at the top.'],
-                    ['Stack check — a few times a day', 'Ears over shoulders, shoulders over hips. Just glance in any mirror you pass and reset.'],
-                  ].map(([t, d]) => (
-                    <div key={t} className="flex gap-2.5">
-                      <div className="w-1.5 h-1.5 rounded-full bg-red-400/70 mt-1.5 flex-shrink-0" />
-                      <div>
-                        <p className="font-semibold text-xs text-gray-200">{t}</p>
-                        <p className="text-gray-500 text-[11px] leading-relaxed">{d}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <p className="text-gray-600 text-[11px] leading-relaxed mt-2.5 pt-2.5 border-t border-white/5">
-                  That is the whole fix. The four cards below exist if you ever want the why or extra options — you do not need to read them to get results.
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <ExpandableCard
-                  title="Forward Head Posture — Fix"
-                  badge="PRIORITY 1"
-                  content={[
-                    'Caused by: phone use, desk work, sleeping on too many pillows.',
-                    'Effect: adds perceived weight, shortens neck, reduces jawline visibility.',
-                    'Fix 1 — Chin Tucks: pull chin straight back (double chin position), hold 5 sec. 3 × 15 daily.',
-                    'Fix 2 — Neck stretches: tilt ear to shoulder, hold 30s each side, 2× daily.',
-                    'Fix 3 — Thoracic extension over foam roller — 60 sec, daily.',
-                    'Strengthen: deep neck flexors by lying flat, performing chin tucks with gentle head lifts.',
-                    'Cue: ears over shoulders, shoulders over hips. Check yourself in mirrors.',
-                  ]}
-                />
-                <ExpandableCard
-                  title="Rounded Shoulders — Fix"
-                  badge="PRIORITY 2"
-                  content={[
-                    'Caused by: too much pressing vs pulling, hunching over screens.',
-                    'Effect: collapses the chest, makes you look smaller and lacking confidence.',
-                    'Fix 1 — Face Pulls: cable or band at eye height, 3 × 15-20 daily.',
-                    'Fix 2 — Band Pull-Aparts: hold band in front, pull apart to chest, 3 × 15-20 daily.',
-                    'Fix 3 — Wall Angels: back flat against wall, arms slide up and down in a Y, 3 × 10.',
-                    'Fix 4 — Doorway chest stretch: 30s each arm, 2× daily.',
-                    'At gym: 2:1 pulling to pushing ratio. Rows and pull-ups fix rounded shoulders faster than anything.',
-                  ]}
-                />
-                <ExpandableCard
-                  title="Anterior Pelvic Tilt (APT) — Fix"
-                  badge="PRIORITY 3"
-                  content={[
-                    'Caused by: sitting all day, weak glutes, tight hip flexors.',
-                    'Effect: pushed-out belly, hyperextended lower back, looks bad in clothing.',
-                    'Fix 1 — Hip Flexor Stretch: kneeling lunge, push hips forward, 60s each side, daily.',
-                    'Fix 2 — Glute Bridges: 3 × 15, squeeze glutes hard at top, daily.',
-                    'Fix 3 — Dead Bug: lying core stability exercise, 3 × 10 each side.',
-                    'Fix 4 — Romanian Deadlifts: strengthen posterior chain. 3 × 10 twice weekly.',
-                    'Fix 5 — Posterior pelvic tilt: standing against wall, flatten lower back to wall, hold 10s.',
-                    'The big picture: strong glutes + mobile hip flexors + stable core = neutral pelvic position.',
-                  ]}
-                />
-                <ExpandableCard
-                  title="Ideal Standing & Walking Posture"
-                  content={[
-                    'Head: neutral — chin parallel to floor, ears over shoulders.',
-                    'Shoulders: pulled back and DOWN — not raised or shrugged. Imagine shoulder blades in back pockets.',
-                    'Chest: slightly forward and open. Ribcage stacked over pelvis.',
-                    'Core: 20% braced — not sucked in hard, but lightly engaged.',
-                    'Pelvis: neutral — not tilted anterior or posterior.',
-                    'Knees: slight bend, not locked. Weight on the full foot.',
-                    'Walking: heel to toe, let arms swing naturally. Lead with chest, not head.',
-                    'Daily practice: check posture every time you enter a room or sit down.',
-                  ]}
-                />
-              </div>
-            </div>
+              <ChevronRight size={16} className="text-red-400 flex-shrink-0" />
+            </Link>
 
             {/* Eye Brightening */}
             <div className="bg-[#111] border border-cyan-500/20 rounded-2xl p-4">
@@ -1025,6 +952,107 @@ export default function LooksMax() {
             <GCallout tone="amber" title="The Biggest Lever" text="Reducing body fat reveals the jawline more than any exercise, gum or practice. Everything else enhances what fat loss reveals. The hierarchy: fat loss → debloating → mewing/bone → masseter development." />
           </div>
             </div>
+            <div className="fade-up stagger space-y-3">
+            <ExpandableCard badge="LONG GAME" title="Mewing & maxilla — the honest version" content={[
+              'Proper tongue posture: WHOLE tongue (including the back third) pressed to the palate, lips sealed, teeth lightly touching or near, breathe through the nose.',
+              'In adults, dramatic bone remodelling is not realistic — the adult maxilla is fused. What mewing DOES give: better resting face (no mouth-breather slack jaw), improved neck/jaw line via posture, nasal breathing benefits.',
+              'The under-eye support and cheekbone “lift” people report is mostly posture + decreased bloat + lower body fat arriving together.',
+              'Nasal breathing 24/7 is the real win: better sleep quality, less dry mouth, better facial rest tone. Mouth-taping at night (if your nose is clear) trains it.',
+              'Chewing hard gum (mastic, falim) 20-30 min/day grows the MASSETER (jaw corner width) — visible in months. It does not widen zygos. Don\'t overdo it: jaw pain = stop.',
+            ]} />
+            <ExpandableCard badge="LONG GAME" title="Chin, jawline & hyoid" content={[
+              'Jawline = bone + masseter + LOW BODY FAT + tight submental (under-chin) area. Attack all four.',
+              'Masseter: hard chewing gum protocol (above) adds real corner-of-jaw width.',
+              'Hyoid area (the under-chin/neck angle): this is where the biggest visual wins hide.',
+              'Chin tucks: 3×15 daily. Pull your head straight BACK (make a double chin on purpose), hold 3s. Trains deep neck flexors, sharpens the neck-jaw angle over months.',
+              'Neck curls: lying on a bench face-up, head off the edge, curl chin to chest slowly, 3×15. Builds the neck and lifts the hyoid region. Start with no weight.',
+              'Tongue posture (mewing) keeps the floor of the mouth toned — a dropped tongue = softer under-chin.',
+              'A well-groomed beard fading down the neck (neckline just above Adam\'s apple) is an instant jawline on hard mode days.',
+            ]} />
+            <ExpandableCard badge="LONG GAME" title="Zygos & cheekbones — making them pop" content={[
+              'Zygomatic bone size is genetic. What makes cheekbones VISIBLE: body fat under ~15%, debloating, and light grooming contrast (see Style tab).',
+              'The zygo-pop protocol (event-day): night before — low sodium, no alcohol, 3L water, 8h sleep slightly elevated. Morning — cold water/ice cube pass over cheeks 60s, then lymphatic massage: firm strokes from nose across the cheekbone to the ear, then down the neck, 2 min per side. Instant sharper midface for the day.',
+              'Gua sha / lymphatic massage daily compounds the de-puff: same outward-and-down strokes with light oil so you don\'t drag skin.',
+              'Fasted morning cardio (see the running card below) is the single fastest natural "zygo pop" lever — it drops water AND face fat together.',
+              'Slight squint-smile in photos engages the cheek muscles and lifts the midface — practice on video; it\'s what most male models are doing.',
+              'Hairstyle leverage: shorter sides + volume on top visually widens the upper face where zygos live. Light stubble under the cheekbone line adds shadow contrast that reads as hollows.',
+              'Anything claiming to “grow” zygos without surgery is lying to you. Cheekbone implants/fillers exist in the surgical world — research-grade decision, licensed professionals only.',
+            ]} />
+            <ExpandableCard badge="HONEST" title="Nose — non-surgical playbook" content={[
+              'The nose itself is bone and cartilage — no exercise changes its structure. Anyone selling “nose slimming exercises” is selling nothing.',
+              'What you CAN change: the frame around it. Stronger brows, defined jaw, fuller hair and beard styling all make the same nose read smaller.',
+              'Debloating helps — the soft tissue over the nose and cheeks puffs like everything else.',
+              'Beard/moustache styling changes perceived nose-to-lip balance dramatically. Test with the AI Scan tab.',
+              'Camera honesty: front cameras at close range enlarge the nose 20-30%. That\'s distortion, not your face. Step back / use the rear lens.',
+              'If it genuinely affects you: rhinoplasty is a real, common option to research with a licensed surgeon — never a decision to rush, never a DIY anything.',
+            ]} />
+            <ExpandableCard badge="PROVEN" title="Facial symmetry — what actually moves it" content={[
+              'Perfect symmetry doesn\'t exist and isn\'t the goal — reducing obvious imbalance is.',
+              'Chew evenly on BOTH sides. Years of one-sided chewing visibly builds one masseter bigger. Consciously switch sides for months.',
+              'Sleep position: face-down or always-one-side smashing your face into the pillow for years contributes to asymmetry. Back sleeping is the fix.',
+              'Posture: a head that tilts habitually to one side (check selfies) trains asymmetric neck tension. Film yourself, correct the tilt.',
+              'Uneven eyebrows are the most fixable asymmetry — groom to match (see Grooming tab).',
+              'Photos exaggerate asymmetry (lens distortion). Judge in a mirror at arm\'s length, not front camera at 30cm.',
+            ]} />
+            <ExpandableCard badge="FEMALE GAZE" title="Facial harmony — improving the whole, not the parts" content={[
+              'Harmony = features working together, and it beats any individual feature. A face is read as a whole in ~100ms; nobody sums up your parts.',
+              'The thirds check: hairline→brows, brows→nose base, nose base→chin. Roughly equal reads as balanced. You can\'t move bone, but you CAN shift the visual: fringe/volume adjusts the top third, beard length adjusts the bottom third.',
+              'Hairstyle is the #1 harmony tool — it literally reframes the face. This is exactly what the AI Scan tab does: upload a photo, it reads your proportions and names the cuts that balance them. Use it after every major haircut decision.',
+              'Beard/facial hair is #2 — a beard can add a chin, slim round cheeks, or balance a strong forehead. Again: AI Scan gives you this personalised.',
+              'Brows frame the eyes — tidy (not sculpted) brows sharpen the whole midface. See Grooming tab.',
+              'Symmetry habits — even chewing, back sleeping, posture (all covered above) protect harmony long-term.',
+              'Expression is part of harmony: a relaxed, slightly amused resting face photographs and reads better than a forced mog stare. Practice in video, not mirrors — mirrors lie, video is how others see you.',
+              'Debloat + body fat (top of this tab) sharpen every ratio at once — the highest-leverage harmony move there is.',
+            ]} />
+            <ExpandableCard badge="MYTH CHECK" title="Hunter eyes, bone smashing & the dark corners" content={[
+              'Orbital shape (deep-set “hunter” eyes) is overwhelmingly genetic. The look improves at the margins with: low body fat, fixed sleep (less lid puff), brow grooming for a stronger brow ridge line, and no more squint-avoiding posture.',
+              '“Bone smashing” is self-harm dressed as a technique. It does not remodel bone into anything except fracture risk. Hard no.',
+              'Eyelid tape / repeated tugging: damages the thinnest skin on your body. No.',
+              'The pattern to notice: anything promising bone change without a surgeon is either a body-fat effect in disguise or a lie.',
+              'The community\'s real consensus after all the noise: leanness, skin, hair, frame (gym), grooming, style, posture — the “softmaxx” stack — covers 90%+ of achievable change.',
+            ]} />
+            <div className="card-premium p-4">
+              <h2 className="font-bold text-base mb-2 text-purple-300">“Why do I feel it in my neck when I chin tuck — and why do my shoulders round?”</h2>
+              <div className="space-y-2 text-xs text-gray-400 leading-relaxed">
+                <p>
+                  That feeling is <span className="text-gray-200 font-semibold">exactly what's supposed to happen</span> — and it's diagnostic.
+                  Years of forward-head posture (phone, desk) leave the deep neck flexors at the front weak and asleep, while the
+                  suboccipitals and upper traps at the back of your neck become short and tight. When you chin tuck, you're
+                  <span className="text-gray-200 font-semibold"> stretching those chronically tight muscles at the back and firing the weak ones at the front simultaneously</span> —
+                  that pulling/working sensation in the neck into the shoulders is the tissue actually being asked to move for the first time in years.
+                </p>
+                <p>
+                  The rounded shoulders are part of the same pattern (upper crossed syndrome): tight chest + tight upper traps,
+                  weak deep neck flexors + weak mid-back (lower traps, rhomboids). The head drifts forward, the shoulders follow it round.
+                  It's one system — which is good news, because fixing it is one plan:
+                </p>
+                <p className="text-gray-300">
+                  1) Chin tucks 3×15/day (the feeling fades in 2-3 weeks as the muscles wake up) ·
+                  2) Doorway chest stretch 3×30s ·
+                  3) Face pulls or band pull-aparts 3×15 on training days ·
+                  4) Wall slides 3×10 ·
+                  5) Raise your screen to eye level and take a posture reset every 45 min.
+                </p>
+                <p className="text-gray-600">
+                  If you ever get sharp pain, numbness or tingling down the arm (rather than a stretch/work feeling), stop and see a physio — that's a different issue.
+                </p>
+              </div>
+            </div>
+            <GFold title="Lips">
+              <GPairs items={[
+                ['Nightly', 'Aquaphor or CeraVe Healing Ointment as a lip mask. Wake up noticeably softer.'],
+                ['Daytime', 'SPF lip balm — Jack Black Intense Therapy or EOS. And do NOT lick your lips — saliva dries them further.'],
+                ['Weekly + hyperpigmentation', 'Exfoliate: Vaseline + soft toothbrush, circles, 60s (or brown sugar + honey + coconut oil scrub). Vitamin C carefully at the lip border fades discolouration; daily SPF prevents further darkening.'],
+              ]} />
+            </GFold>
+            <GFold title="Under Eyes">
+              <GPairs items={[
+                ['AM — caffeine serum', 'Tap with ring finger only, never rub. Reduces puffiness and darkening. The Ordinary Caffeine 5% + EGCG.'],
+                ['Nightly — castor oil on the lash line', 'Clean spoolie. Visibly thicker lashes in 6–8 weeks.'],
+                ['Morning — gua sha under eye, outward only', 'Very gentle strokes toward the temple. Moves lymph, kills overnight puffiness. Never inward or pressing down.'],
+              ]} />
+            </GFold>
+            </div>
           </>
         )}
 
@@ -1109,10 +1137,10 @@ export default function LooksMax() {
             ]} />
               <div className="flex items-center gap-2 mb-1">
                 <Sparkles size={15} className="text-purple-400" />
-                <h2 className="font-bold text-base text-purple-300">The Techniques Encyclopedia</h2>
+                <h2 className="font-bold text-base text-purple-300">Body & Habits</h2>
               </div>
               <p className="text-gray-400 text-xs leading-relaxed">
-                Every method the looksmax community actually talks about — with honesty about what works, what's slow, and what's a myth.
+                Body fat, debloating, diet, supplements, sun and the habits that quietly change how you look. Face-specific methods are in the Face tab; posture is in Gym → Posture.
                 The big three that dwarf everything else: <span className="text-purple-300 font-semibold">low body fat, good sleep, good posture</span>.
               </p>
             </div>
@@ -1187,15 +1215,6 @@ export default function LooksMax() {
               'DATING SPECIFIC: approaches when he feels the urge (3-second rule) · texts with intent · plans real dates · escalates respectfully · keeps standards (screens, doesn\'t just chase).',
               'The truth of the audit: "most desirable man ever" isn\'t one metric maxed — it\'s no metric neglected. A 7 in everything beats a 10 in one thing and 3s everywhere else. Every 7 here is achievable in months.',
             ]} />
-            <ExpandableCard badge="PROVEN" title="Teeth whitening — full protocol" content={[
-              'Baseline: electric toothbrush 2×2min, floss nightly, tongue scrape. No whitening beats clean.',
-              'Whitening strips (hydrogen peroxide, e.g. Crest 3D): 30 min/day for 2 weeks, then maintenance 1×/week. This is the best value method.',
-              'Whitening toothpaste only removes surface stains — fine for maintenance, won\'t shift shade.',
-              'Sensitivity? Use potassium-nitrate toothpaste (Sensodyne) during the strip weeks and whiten every OTHER day.',
-              'Avoid: charcoal powders (abrasive, erode enamel), lemon/baking-soda hacks (acid = permanent damage).',
-              'Stain control: straw for coffee/coke, rinse water after espresso, cut smoking — it undoes everything.',
-              'Dentist in-office whitening: fastest and safest big jump if you have the budget. Hygienist clean twice a year regardless.',
-            ]} />
             <ExpandableCard badge="PROVEN" title="Tanning — the safe glow playbook" content={[
               'The truth first: a light tan reads as healthy and sharpens muscle definition — but UV damage is cumulative and it\'s THE #1 ager of skin. The goal is the glow without the leather-face at 40.',
               'Gradual sun method: 15-25 min of midday sun on unprotected skin 3-4×/week builds a base tan AND vitamin D, then SPF on after. Never burn — a burn is DNA damage, not "the first step of a tan", and it peels off anyway.',
@@ -1217,38 +1236,6 @@ export default function LooksMax() {
               'Dehydration — even mild dehydration shows in skin and energy. 3L/day baseline, more on training days.',
               'The frame: none of these need perfection. 80/20 discipline on sleep, alcohol, SPF and posture beats any product you can buy.',
             ]} />
-            <ExpandableCard badge="PROVEN" title="Facial symmetry — what actually moves it" content={[
-              'Perfect symmetry doesn\'t exist and isn\'t the goal — reducing obvious imbalance is.',
-              'Chew evenly on BOTH sides. Years of one-sided chewing visibly builds one masseter bigger. Consciously switch sides for months.',
-              'Sleep position: face-down or always-one-side smashing your face into the pillow for years contributes to asymmetry. Back sleeping is the fix.',
-              'Posture: a head that tilts habitually to one side (check selfies) trains asymmetric neck tension. Film yourself, correct the tilt.',
-              'Uneven eyebrows are the most fixable asymmetry — groom to match (see Grooming tab).',
-              'Photos exaggerate asymmetry (lens distortion). Judge in a mirror at arm\'s length, not front camera at 30cm.',
-            ]} />
-            <ExpandableCard badge="HONEST" title="Nose — non-surgical playbook" content={[
-              'The nose itself is bone and cartilage — no exercise changes its structure. Anyone selling “nose slimming exercises” is selling nothing.',
-              'What you CAN change: the frame around it. Stronger brows, defined jaw, fuller hair and beard styling all make the same nose read smaller.',
-              'Debloating helps — the soft tissue over the nose and cheeks puffs like everything else.',
-              'Beard/moustache styling changes perceived nose-to-lip balance dramatically. Test with the AI Scan tab.',
-              'Camera honesty: front cameras at close range enlarge the nose 20-30%. That\'s distortion, not your face. Step back / use the rear lens.',
-              'If it genuinely affects you: rhinoplasty is a real, common option to research with a licensed surgeon — never a decision to rush, never a DIY anything.',
-            ]} />
-            <ExpandableCard badge="LONG GAME" title="Mewing & maxilla — the honest version" content={[
-              'Proper tongue posture: WHOLE tongue (including the back third) pressed to the palate, lips sealed, teeth lightly touching or near, breathe through the nose.',
-              'In adults, dramatic bone remodelling is not realistic — the adult maxilla is fused. What mewing DOES give: better resting face (no mouth-breather slack jaw), improved neck/jaw line via posture, nasal breathing benefits.',
-              'The under-eye support and cheekbone “lift” people report is mostly posture + decreased bloat + lower body fat arriving together.',
-              'Nasal breathing 24/7 is the real win: better sleep quality, less dry mouth, better facial rest tone. Mouth-taping at night (if your nose is clear) trains it.',
-              'Chewing hard gum (mastic, falim) 20-30 min/day grows the MASSETER (jaw corner width) — visible in months. It does not widen zygos. Don\'t overdo it: jaw pain = stop.',
-            ]} />
-            <ExpandableCard badge="LONG GAME" title="Zygos & cheekbones — making them pop" content={[
-              'Zygomatic bone size is genetic. What makes cheekbones VISIBLE: body fat under ~15%, debloating, and light grooming contrast (see Style tab).',
-              'The zygo-pop protocol (event-day): night before — low sodium, no alcohol, 3L water, 8h sleep slightly elevated. Morning — cold water/ice cube pass over cheeks 60s, then lymphatic massage: firm strokes from nose across the cheekbone to the ear, then down the neck, 2 min per side. Instant sharper midface for the day.',
-              'Gua sha / lymphatic massage daily compounds the de-puff: same outward-and-down strokes with light oil so you don\'t drag skin.',
-              'Fasted morning cardio (see the running card below) is the single fastest natural "zygo pop" lever — it drops water AND face fat together.',
-              'Slight squint-smile in photos engages the cheek muscles and lifts the midface — practice on video; it\'s what most male models are doing.',
-              'Hairstyle leverage: shorter sides + volume on top visually widens the upper face where zygos live. Light stubble under the cheekbone line adds shadow contrast that reads as hollows.',
-              'Anything claiming to “grow” zygos without surgery is lying to you. Cheekbone implants/fillers exist in the surgical world — research-grade decision, licensed professionals only.',
-            ]} />
             <ExpandableCard badge="S-TIER" title="Running & cardio for debloat — the exact prescription" content={[
               'Why it works: cardio sweats out retained water + sodium, drops cortisol (a major water-retainer), moves lymph, and burns the face fat that hides definition. It\'s the most reliable natural face-sharpener there is.',
               'The sweet spot: Zone 2 (conversational pace) 30-45 minutes, 3-4×/week. Roughly 5-7km per run at an easy pace. This maximises fat burn and water loss WITHOUT spiking cortisol.',
@@ -1258,51 +1245,6 @@ export default function LooksMax() {
               'Sweat means replace: after sweaty runs, water + electrolytes (a pinch of salt is fine) — rebound bloat comes from drinking plain water in huge amounts after heavy sweating with no minerals.',
               '10k steps daily is the floor under all of it — walking is stealth cardio that keeps lymph moving all day.',
             ]} />
-            <ExpandableCard badge="S-TIER" title="Full stretching & posture-fix routine" content={[
-              'Posture is the frame every other looksmax hangs on — and it\'s also pain prevention. This is the complete daily routine: 12-15 min. (Your chin-tuck question is answered in its own card below.)',
-              'DAILY MOBILITY (morning or post-training): 1) Chin tucks 3×15 · 2) Doorway chest stretch 3×30s · 3) Wall slides 3×10 · 4) Cat-cow ×10 · 5) Thoracic extension over a chair back or foam roller 60s · 6) Couch stretch (hip flexors) 60s per side · 7) Deep squat hold 60s · 8) Hamstring hinge stretch 60s.',
-              'STRENGTHEN THE WEAK LINKS (3×/week, after workouts): face pulls 3×15, band pull-aparts 3×20, reverse flys 3×12, glute bridges 3×15, dead bugs 3×10 — the posture muscles that phones and desks switch off.',
-              'ANTERIOR PELVIC TILT (arched lower back, butt out, gut pushed forward even when lean): stretch hip flexors + lower back, strengthen glutes + abs. Couch stretch, RKC planks, glute bridges, and consciously "tucking your tailbone" standing tall.',
-              'ROUNDED SHOULDERS: tight chest + weak upper back. The doorway stretch + face pulls combo above is the fix — 4-8 weeks of consistency visibly changes how you stand.',
-              'FORWARD HEAD: chin tucks + raise every screen to eye level + the phone-at-eye-height habit. Each cm your head sits forward adds ~4-5kg of apparent load on your neck — and it shows in every photo.',
-              'THE HOURLY RESET: stand, roll shoulders back and down, chin tuck, deep exhale, 10 seconds. Set a repeating timer — posture is won between workouts, not during them.',
-              'Test yourself monthly: wall test (heels, bum, upper back, head all touching a wall — head shouldn\'t strain to reach) and a side-profile photo. Progress photos work for posture exactly like they do for muscle.',
-            ]} />
-            <ExpandableCard badge="LONG GAME" title="Chin, jawline & hyoid" content={[
-              'Jawline = bone + masseter + LOW BODY FAT + tight submental (under-chin) area. Attack all four.',
-              'Masseter: hard chewing gum protocol (above) adds real corner-of-jaw width.',
-              'Hyoid area (the under-chin/neck angle): this is where the biggest visual wins hide.',
-              'Chin tucks: 3×15 daily. Pull your head straight BACK (make a double chin on purpose), hold 3s. Trains deep neck flexors, sharpens the neck-jaw angle over months.',
-              'Neck curls: lying on a bench face-up, head off the edge, curl chin to chest slowly, 3×15. Builds the neck and lifts the hyoid region. Start with no weight.',
-              'Tongue posture (mewing) keeps the floor of the mouth toned — a dropped tongue = softer under-chin.',
-              'A well-groomed beard fading down the neck (neckline just above Adam\'s apple) is an instant jawline on hard mode days.',
-            ]} />
-            <div className="card-premium p-4">
-              <h2 className="font-bold text-base mb-2 text-purple-300">“Why do I feel it in my neck when I chin tuck — and why do my shoulders round?”</h2>
-              <div className="space-y-2 text-xs text-gray-400 leading-relaxed">
-                <p>
-                  That feeling is <span className="text-gray-200 font-semibold">exactly what's supposed to happen</span> — and it's diagnostic.
-                  Years of forward-head posture (phone, desk) leave the deep neck flexors at the front weak and asleep, while the
-                  suboccipitals and upper traps at the back of your neck become short and tight. When you chin tuck, you're
-                  <span className="text-gray-200 font-semibold"> stretching those chronically tight muscles at the back and firing the weak ones at the front simultaneously</span> —
-                  that pulling/working sensation in the neck into the shoulders is the tissue actually being asked to move for the first time in years.
-                </p>
-                <p>
-                  The rounded shoulders are part of the same pattern (upper crossed syndrome): tight chest + tight upper traps,
-                  weak deep neck flexors + weak mid-back (lower traps, rhomboids). The head drifts forward, the shoulders follow it round.
-                  It's one system — which is good news, because fixing it is one plan:
-                </p>
-                <p className="text-gray-300">
-                  1) Chin tucks 3×15/day (the feeling fades in 2-3 weeks as the muscles wake up) ·
-                  2) Doorway chest stretch 3×30s ·
-                  3) Face pulls or band pull-aparts 3×15 on training days ·
-                  4) Wall slides 3×10 ·
-                  5) Raise your screen to eye level and take a posture reset every 45 min.
-                </p>
-                <p className="text-gray-600">
-                  If you ever get sharp pain, numbness or tingling down the arm (rather than a stretch/work feeling), stop and see a physio — that's a different issue.
-                </p>
-              </div>
           <div className="fade-up stagger space-y-3">
             <div className="card-premium p-5">
               <h2 className="font-black text-lg mb-1"><span className="text-purple-400">11</span> Execution Order</h2>
@@ -1338,7 +1280,6 @@ export default function LooksMax() {
             </GFold>
             <GCallout tone="emerald" title="The Combination Effect" text="Clearing skin + fixing posture + debloating + building jaw muscle + reducing body fat all reinforce each other. None in isolation produces what all together produce. Your strongest natural features are simply obscured — this guide systematically removes every layer of obscurity." />
           </div>
-            </div>
             <ExpandableCard badge="FEMALE GAZE" title="What women actually notice — the real ranking" content={[
               'The looksmax forums rank jaw angles and canthal tilt. Women, when actually surveyed and observed, rank differently. Here\'s the honest list, roughly in order:',
               '1. Grooming & effort — clean haircut, tidy facial hair, trimmed nails, no unibrow. Signals self-respect, costs nothing, noticed INSTANTLY.',
@@ -1349,23 +1290,6 @@ export default function LooksMax() {
               '6. Physique silhouette — shoulders wider than waist, not being under- or overweight. The V-shape reads through a t-shirt; abs don\'t.',
               '7. THEN face structure — and even here, warmth of expression (smile, eye crinkle) moves attractiveness ratings more than bone measurements do.',
               'The takeaway: the stuff men obsess over ranks LAST, and the stuff that ranks first is all controllable this month. Fix the top 5 before spending one more minute mirror-measuring your jaw.',
-            ]} />
-            <ExpandableCard badge="FEMALE GAZE" title="Facial harmony — improving the whole, not the parts" content={[
-              'Harmony = features working together, and it beats any individual feature. A face is read as a whole in ~100ms; nobody sums up your parts.',
-              'The thirds check: hairline→brows, brows→nose base, nose base→chin. Roughly equal reads as balanced. You can\'t move bone, but you CAN shift the visual: fringe/volume adjusts the top third, beard length adjusts the bottom third.',
-              'Hairstyle is the #1 harmony tool — it literally reframes the face. This is exactly what the AI Scan tab does: upload a photo, it reads your proportions and names the cuts that balance them. Use it after every major haircut decision.',
-              'Beard/facial hair is #2 — a beard can add a chin, slim round cheeks, or balance a strong forehead. Again: AI Scan gives you this personalised.',
-              'Brows frame the eyes — tidy (not sculpted) brows sharpen the whole midface. See Grooming tab.',
-              'Symmetry habits — even chewing, back sleeping, posture (all covered above) protect harmony long-term.',
-              'Expression is part of harmony: a relaxed, slightly amused resting face photographs and reads better than a forced mog stare. Practice in video, not mirrors — mirrors lie, video is how others see you.',
-              'Debloat + body fat (top of this tab) sharpen every ratio at once — the highest-leverage harmony move there is.',
-            ]} />
-            <ExpandableCard badge="MYTH CHECK" title="Hunter eyes, bone smashing & the dark corners" content={[
-              'Orbital shape (deep-set “hunter” eyes) is overwhelmingly genetic. The look improves at the margins with: low body fat, fixed sleep (less lid puff), brow grooming for a stronger brow ridge line, and no more squint-avoiding posture.',
-              '“Bone smashing” is self-harm dressed as a technique. It does not remodel bone into anything except fracture risk. Hard no.',
-              'Eyelid tape / repeated tugging: damages the thinnest skin on your body. No.',
-              'The pattern to notice: anything promising bone change without a surgeon is either a body-fat effect in disguise or a lie.',
-              'The community\'s real consensus after all the noise: leanness, skin, hair, frame (gym), grooming, style, posture — the “softmaxx” stack — covers 90%+ of achievable change.',
             ]} />
           </>
         )}
@@ -1888,6 +1812,16 @@ export default function LooksMax() {
               </div>
             </div>
 
+            <ExpandableCard badge="PROVEN" title="Teeth whitening — full protocol" content={[
+              'Brush gently at the gum line — gum recession cannot be reversed.',
+              'Baseline: electric toothbrush 2×2min, floss nightly, tongue scrape. No whitening beats clean.',
+              'Whitening strips (hydrogen peroxide, e.g. Crest 3D): 30 min/day for 2 weeks, then maintenance 1×/week. This is the best value method.',
+              'Whitening toothpaste only removes surface stains — fine for maintenance, won\'t shift shade.',
+              'Sensitivity? Use potassium-nitrate toothpaste (Sensodyne) during the strip weeks and whiten every OTHER day.',
+              'Avoid: charcoal powders (abrasive, erode enamel), lemon/baking-soda hacks (acid = permanent damage).',
+              'Stain control: straw for coffee/coke, rinse water after espresso, cut smoking — it undoes everything.',
+              'Dentist in-office whitening: fastest and safest big jump if you have the budget. Hygienist clean twice a year regardless.',
+            ]} />
             <div className="bg-[#111] border border-white/10 rounded-2xl p-4">
               <h2 className="font-bold text-base mb-3">Nails</h2>
               <div className="space-y-1.5">
@@ -1939,27 +1873,6 @@ export default function LooksMax() {
                 ['Full beard', 'Commit through the 4–6 week awkward phase. Topical Minoxidil on the face increases coverage if patchy. Shape weekly.'],
               ]} />
               <GCallout tone="amber" title="Neckline Rule" text="Two fingers above the Adam's apple, curved ear to ear. Never a straight horizontal line. Sharp edges are the difference between groomed and unkempt. Always fade the beard into sideburns and hairline." />
-            </GFold>
-            <GFold title="Lips">
-              <GPairs items={[
-                ['Nightly', 'Aquaphor or CeraVe Healing Ointment as a lip mask. Wake up noticeably softer.'],
-                ['Daytime', 'SPF lip balm — Jack Black Intense Therapy or EOS. And do NOT lick your lips — saliva dries them further.'],
-                ['Weekly + hyperpigmentation', 'Exfoliate: Vaseline + soft toothbrush, circles, 60s (or brown sugar + honey + coconut oil scrub). Vitamin C carefully at the lip border fades discolouration; daily SPF prevents further darkening.'],
-              ]} />
-            </GFold>
-            <GFold title="Under Eyes">
-              <GPairs items={[
-                ['AM — caffeine serum', 'Tap with ring finger only, never rub. Reduces puffiness and darkening. The Ordinary Caffeine 5% + EGCG.'],
-                ['Nightly — castor oil on the lash line', 'Clean spoolie. Visibly thicker lashes in 6–8 weeks.'],
-                ['Morning — gua sha under eye, outward only', 'Very gentle strokes toward the temple. Moves lymph, kills overnight puffiness. Never inward or pressing down.'],
-              ]} />
-            </GFold>
-            <GFold title="Teeth">
-              <GPairs items={[
-                ['Daily', 'Electric toothbrush 2× + floss every night.'],
-                ['Whitening', 'Strips 2–3× per year — HiSmile or Crest Whitestrips.'],
-                ['Warning', 'Gum recession cannot be reversed — never brush hard at the gum line.'],
-              ]} />
             </GFold>
           </div>
             </div>

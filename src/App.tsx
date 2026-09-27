@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
 import Home from './pages/Home';
@@ -24,6 +24,13 @@ import VideoNotes from './pages/VideoNotes';
 import ApiKeySetup from './components/ApiKeySetup';
 import { JarvisBoot } from './components/Jarvis';
 import { getApiKey } from './lib/anthropic';
+
+// Opening a section should start at its top, not wherever the last screen was scrolled.
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+}
 
 function OfflineBanner() {
   const [offline, setOffline] = useState(!navigator.onLine);
@@ -52,6 +59,7 @@ export default function App() {
   return (
     <ErrorBoundary>
       <HashRouter>
+      <ScrollToTop />
       <OfflineBanner />
       <JarvisBoot />
       {!hasKey && <ApiKeySetup onSet={() => setHasKey(true)} />}

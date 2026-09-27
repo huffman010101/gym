@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Banknote, TrendingUp, Laptop, Rocket, AlertTriangle, ChevronDown, Brain } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
@@ -82,6 +82,12 @@ export default function Money() {
     const t = params.get('tab');
     return (['skills', 'online', 'launch', 'invest', 'trading', 'tax', 'econ', 'mindset'] as const).includes(t as Tab) ? (t as Tab) : 'skills';
   });
+  // Follow ?tab= changes while already on this page (links between its own
+  // tabs), not just on first mount.
+  useEffect(() => {
+    const t = params.get('tab');
+    if (t && (['skills', 'online', 'launch', 'invest', 'trading', 'tax', 'econ', 'mindset'] as const).includes(t as Tab)) setTab(t as Tab);
+  }, [params]);
 
   return (
     <main className="min-h-screen bg-transparent bg-gradient-to-b from-yellow-950/30 via-transparent to-transparent text-white pb-24">

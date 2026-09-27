@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ChevronDown, CircleDot } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
@@ -62,6 +62,12 @@ export default function Padel() {
     const t = params.get('tab');
     return (['plan', 'technique', 'strategy', 'walls'] as const).includes(t as Tab) ? (t as Tab) : 'plan';
   });
+  // Follow ?tab= changes while already on this page (links between its own
+  // tabs), not just on first mount.
+  useEffect(() => {
+    const t = params.get('tab');
+    if (t && (['plan', 'technique', 'strategy', 'walls'] as const).includes(t as Tab)) setTab(t as Tab);
+  }, [params]);
 
   return (
     <main className="min-h-screen bg-transparent bg-gradient-to-b from-sky-950/40 via-transparent to-transparent text-white pb-24">
@@ -118,7 +124,7 @@ export default function Padel() {
               ['1-2 drilling sessions', 'Structured repetition of specific shots with a partner or coach. This is the session that actually raises your level, and it is the one most people never book.'],
               ['1-2 match sessions', 'Real points, real pressure. This is where you find out what holds up and what does not — and it feeds what you drill next.'],
               ['Solo wall work, 15-20 min', 'Any wall. Volleys, controlled groundstrokes, bandeja shadow swings. Free, needs nobody, and it builds the touch that court time alone will not.'],
-              ['Physical — from the gym programme', 'Your Explosive day already covers lateral movement and rotational power. Do not add extra conditioning on top; padel is a skill problem for you far more than a fitness one.'],
+              ['Physical — from the gym programme', 'The jumps and sprints at the start of leg day already cover the power padel needs. Do not add extra conditioning on top; padel is a skill problem for you far more than a fitness one.'],
               ['One video session a month', 'Film a match on a phone from behind the court. Watch your court position and your shot selection, not your technique — that is where the points actually leak.'],
             ]} />
 

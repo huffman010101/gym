@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ChevronDown, Dumbbell, Utensils, Flame, Activity } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
@@ -191,6 +191,12 @@ export default function Programs() {
     return (['plan', 'push', 'pull', 'legs', 'core', 'mobility', 'recovery', 'posture', 'rules'] as const)
       .includes(t as Tab) ? (t as Tab) : 'plan';
   });
+  // Follow ?tab= changes while already on this page (links between its own
+  // tabs), not just on first mount.
+  useEffect(() => {
+    const t = params.get('tab');
+    if (t && (['plan', 'push', 'pull', 'legs', 'core', 'mobility', 'recovery', 'posture', 'rules'] as const).includes(t as Tab)) setTab(t as Tab);
+  }, [params]);
 
   return (
     <main className="min-h-screen bg-transparent bg-gradient-to-b from-orange-950/30 via-transparent to-transparent text-white pb-24">
@@ -392,7 +398,7 @@ export default function Programs() {
         {tab === 'pull' && (
           <div className="fade-up stagger space-y-4">
             <Session
-              title="Wednesday — Pull"
+              title="Thursday — Pull"
               tag="Back and biceps · explosive first"
               block="Width first, then thickness, then arms. Back responds well to high volume — do not be afraid of the set count here. Neck and grip at the end are the combat-specific pieces almost nobody trains."
               exercises={[
@@ -578,29 +584,30 @@ export default function Programs() {
         {tab === 'core' && (
           <div className="fade-up stagger space-y-4">
             <div className="card-premium p-5">
-              <h3 className="font-bold mb-2">Rotating core — why it is not the same thing five times</h3>
+              <h3 className="font-bold mb-2">Core — a different job each session</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
                 Your trunk has four jobs: resist extension, resist rotation, resist sideways bend, and produce rotation.
-                Sport needs all four. Visible abs also need actual muscle, which needs loaded reps in a hypertrophy
-                range — not endless bodyweight crunches. This rotation covers every function across the week and gives
-                the abs a dedicated growth slot.
+                Football and fighting need all four, and visible abs need loaded reps rather than endless crunches. Each of
+                your three sessions ends with ten minutes covering a different job, so the week covers everything without
+                an extra day. Rotational power beyond this is in Combat → Strength &amp; Power.
               </p>
             </div>
             <Session
-              title="Mon (Push) — Rotational power"
+              title="Mon (Push) — Rotational power + ab growth"
               tag="Produce rotation"
               open={false}
-              block="Attached to the end of Push day. 10-12 minutes."
+              block="End of Push day, before the ankle finisher. 12 minutes. The cable crunch is the growth slot: load it and progress the weight like any other muscle."
               exercises={[
                 { name: 'Cable woodchop', sets: '3 × 10/side', targets: 'Obliques · rotational chain', how: "Cable set high (or low for the reverse). Feet planted, pivot the back foot and rotate through the hips while the arms stay relatively straight. Pull across and down to the opposite hip. Rotate from the trunk and hips, not by yanking with the arms.", why: 'Loaded rotation through a full range. This is the pattern behind a punch, a kick and a shot.' },
                 { name: 'Pallof press', sets: '3 × 30s/side', targets: 'Deep core · obliques — anti-rotation', how: "Stand side-on to a cable at chest height, hands at your sternum. Press straight out and hold — the cable is trying to twist you and your job is to not let it. Ribs down, glutes tight, breathe normally through the hold.", why: 'Anti-rotation to finish. Teaches the trunk to transmit force rather than leak it — you cannot punch hard through a soft midsection.' },
+                { name: 'Cable crunch', sets: '4 × 10-15', targets: 'Rectus abdominis — loadable ab growth', how: "Kneel facing the stack, rope beside your head, hips fixed in place. Crunch by rounding the spine and driving your ribs toward your hips — the hips must not hinge. Squeeze hard at the bottom, control the way back up. This is the ab exercise you progressively add weight to.", why: 'The best loadable ab exercise. Round the spine and crunch the ribs toward the hips — do not just hinge at the hips. Add weight over time.' },
               ]}
             />
             <Session
-              title="Tue (Big Leg Day) — Anti-extension + anti-lateral flexion"
+              title="Tue (Legs + Speed) — Anti-extension + anti-lateral flexion"
               tag="Resist arching, resist sideways bend"
               open={false}
-              block="After legs. Keeps the lower back out of work that belongs to the abs — both trunk functions now sit here since Big Leg Day absorbed the old Saturday session."
+              block="After the lifting, before the ankle finisher. Keeps the lower back out of work that belongs to the abs."
               exercises={[
                 { name: 'Hanging leg raise', sets: '3 × 10-15', targets: 'Lower abs · hip flexors', how: "Hang from a bar, shoulders active. Curl the pelvis up toward your ribs rather than just lifting the legs — that posterior tilt is what makes it an ab exercise instead of a hip flexor swing. Lower slowly with no swinging. Bend the knees if straight legs are too hard.", why: 'Lower abs and hip flexors. Control the lowering — swinging turns it into a hip flexor swing with no ab work at all.' },
                 { name: 'Ab wheel rollout', sets: '3 × 8-12', targets: 'Whole anterior core — anti-extension', how: "Start on your knees, wheel under the shoulders. Roll out keeping the ribs pulled down and the lower back flat — the moment your back arches, you have gone past your range. Only roll out as far as you can control and pull back with the abs, not the hips.", why: 'One of the highest ab-activation exercises measured. Keep the ribs down and the lower back flat throughout.' },
@@ -608,33 +615,13 @@ export default function Programs() {
               ]}
             />
             <Session
-              title="Wed (Pull) — Anti-rotation + carries"
+              title="Thu (Pull) — Anti-rotation + carries"
               tag="Stay rigid under load"
               open={false}
               block="Doubles as grip work, which is why it sits on pull day."
               exercises={[
                 { name: 'Suitcase carry', sets: '3 × 40m/side', targets: 'Obliques · quadratus lumborum · grip · traps', how: "Heavy dumbbell or kettlebell in one hand only. Stand tall, shoulders level, and walk without leaning away from or toward the weight. The whole exercise is refusing to bend sideways. Swap hands each set.", why: 'One-sided load forces the whole trunk to resist collapsing sideways. This IS shielding a ball, trained under load.' },
                 { name: 'Renegade row or bird dog row', sets: '3 × 8/side', targets: 'Deep core · lats — anti-rotation', how: "Press-up position on dumbbells, feet wide for stability. Row one dumbbell to your ribs while keeping the hips completely square to the floor — no twisting. Slow and controlled; if the hips rotate, go lighter.", why: 'Resisting rotation while one arm works — the exact demand of holding position while grappling.' },
-              ]}
-            />
-            <Session
-              title="Thu (Explosive) — Sport rotational"
-              tag="Power, not size"
-              open={false}
-              block="Explosive intent, low reps, full recovery. Same rules as the rest of the day."
-              exercises={[
-                { name: 'Med ball slam', sets: '4 × 6', targets: 'Whole anterior chain · lats · abs', how: "Ball overhead with a full body extension, then slam it into the floor as hard as you can, folding through the trunk. Follow through fully. Intent is everything — a gentle slam trains nothing.", why: 'Full-body extension into a violent trunk flexion. Throw it like you mean it.' },
-                { name: 'Rotational med ball throw', sets: '4 × 5/side', targets: 'Obliques · hips — rotational power', how: "As per the rotational throw: side-on, drive from the back foot, hips lead, arms finish. Full effort every rep with full recovery between sets.", why: 'Trains the trunk to transfer force from hips to hands as fast as possible.' },
-              ]}
-            />
-            <Session
-              title="Fri (Shoulders) — Ab hypertrophy"
-              tag="Actually growing the abs"
-              open={false}
-              block="This is the growth slot. Load it, keep reps in the 10-15 range, and progress the weight like any other muscle."
-              exercises={[
-                { name: 'Cable crunch', sets: '4 × 10-15', targets: 'Rectus abdominis — loadable ab growth', how: "Kneel facing the stack, rope beside your head, hips fixed in place. Crunch by rounding the spine and driving your ribs toward your hips — the hips must not hinge. Squeeze hard at the bottom, control the way back up. This is the ab exercise you progressively add weight to.", why: 'The best loadable ab exercise. Round the spine and crunch the ribs toward the hips — do not just hinge at the hips. Add weight over time.' },
-                { name: 'Weighted decline sit-up', sets: '3 × 10-12', targets: 'Rectus abdominis · hip flexors', how: "Decline bench, plate held on the chest or behind the head. Curl up rounding the spine segment by segment rather than staying rigid and hinging at the hips. Lower slowly. Add weight as it gets easy.", why: 'Hold a plate on your chest. Abs are muscles: they need progressive overload to get thicker, and thickness is what makes them visible.' },
               ]}
             />
             <Fold title="Rotational Pallof — the full progression" tag="Anti-rotation → rotation, and how to actually do it" items={[
@@ -788,7 +775,7 @@ export default function Programs() {
             ]} />
 
             <Block title="Recovering from sport on top of lifting" items={[
-              ['Count your sport as training', 'A football match is roughly a hard leg session plus conditioning. If you played Saturday, going straight into a full Big Leg Day fully fatigued is not brave, it is a mistake. Move it or cut the volume.'],
+              ['Count your sport as training', 'A football match is roughly a hard leg session plus conditioning. If you had a midweek game or extra training, going into leg day still fatigued is not brave, it is a mistake. Move it back a day or halve the lifting sets.'],
               ['Match day plus 48 hours', 'Leave at least two days between a match or hard sparring and leg day. That is when hamstring injuries happen.'],
               ['Hard days hard, easy days easy', 'If both a sport session and a lift must happen, do them on the SAME day and keep the next day genuinely easy. Two moderately hard days in a row is worse recovery than one very hard day plus a real rest day.'],
               ['In-season, cut volume not intensity', 'Keep the weights heavy and drop the number of sets by about a third. You maintain strength on far less volume than you needed to build it.'],

@@ -69,6 +69,12 @@ export default function Uni() {
     const t = params.get('tab');
     return (['ai', 'subject', 'smarter', 'books', 'day', 'career', 'sleep'] as const).includes(t as Tab) ? (t as Tab) : 'ai';
   });
+  // Follow ?tab= changes while already on this page (links between its own
+  // tabs), not just on first mount.
+  useEffect(() => {
+    const t = params.get('tab');
+    if (t && (['ai', 'subject', 'smarter', 'books', 'day', 'career', 'sleep'] as const).includes(t as Tab)) setTab(t as Tab);
+  }, [params]);
   const [course, setCourse] = useState('');
   const [modules, setModules] = useState('');
   const [examInfo, setExamInfo] = useState('');

@@ -163,6 +163,12 @@ export default function Mind() {
     const t = params.get('tab');
     return (['code', 'know', 'charisma', 'aura', 'icons', 'confidence', 'focus', 'morning', 'night', 'secret'] as const).includes(t as Tab) ? (t as Tab) : 'code';
   });
+  // Follow ?tab= changes while already on this page (links between its own
+  // tabs), not just on first mount.
+  useEffect(() => {
+    const t = params.get('tab');
+    if (t && (['code', 'know', 'charisma', 'aura', 'icons', 'confidence', 'focus', 'morning', 'night', 'secret'] as const).includes(t as Tab)) setTab(t as Tab);
+  }, [params]);
   const [pw, setPw] = useState('');
   const [unlocked, setUnlocked] = useState(false);
 
@@ -386,14 +392,6 @@ export default function Mind() {
               ['Give status to get status', 'High-status group members bring others in: set up mates\' stories ("tell them about Saturday"), laugh loudly at others\' jokes, remember details. The guy who makes the group work is above the pecking order, not in it.'],
               ['Don\'t compete for every laugh', 'Trying to top every joke reads as thirsty. Land your moments, let others have theirs. Scarcity applies to humour too.'],
               ['Never punch down, rarely punch first', 'Tease the confident mates, never the struggling one. Groups clock cruelty instantly and it costs more status than it wins laughs.'],
-            ]} />
-            <Card icon={MessageCircle} title="Text Game — What the Different Moves Actually Signal" items={[
-              ['Reply speed says more than words', 'Instant replies (under a minute, always) read as: nothing else going on, low value on your time. Calibrated replies (minutes to a few hours, varies naturally) read as: you have a life. Deliberately slow, scheduled replies read as a game — most people clock it and it repels more than it attracts.'],
-              ['Double texting: dead vs alive', 'A second text that ADDS something (a new thought, a joke, a plan) is fine and often good — it shows you\'re thinking about them. A second text that just chases a reply ("hello??", "you there?") signals anxiety and should never happen. Test: does this message stand alone with something new, or is it just asking "why haven\'t you replied"?'],
-              ['Slow replies aren\'t always disinterest', 'People read a 6-hour gap as rejection when it\'s often just someone living their life. The fix isn\'t decoding gaps like tea leaves — it\'s not over-indexing on any single data point. Look at the PATTERN over a week, not any one delay.'],
-              ['Message length should roughly mirror', 'If they\'re sending one-liners, matching their effort avoids looking over-invested. If they\'re writing paragraphs, matching that shows engagement. Wildly mismatched effort (their essay, your "lol") reads as disinterest even if you\'re just busy.'],
-              ['Every message should do a job', 'A question, a joke, or a plan — never just filler to keep a thread alive. "Haha yeah" with nothing added is the moment to either ask something real or suggest doing something instead of texting about it.'],
-              ['The real skill: not needing the reply', 'Whether you get a fast reply or a slow one shouldn\'t change your mood. The moment you\'re checking your phone waiting, you\'ve handed them your state. Text well, then go live your life — the phone will still be there.'],
             ]} />
             <Card icon={Sparkles} title="High-Value Traits at Uni" items={[
               ['Be the reliable one', 'Show up when you say you will, deliver on group work, remember what people told you. In an environment full of flakes, consistency alone puts you in the top 10%.'],
@@ -1003,6 +1001,10 @@ export default function Mind() {
                 <p><span className="font-bold text-gray-200">Text with intent.</span> Every text should have a job: a question, a bit, or a plan. "haha yeah" is a dead-end — if you have nothing to add, that's the moment to propose something instead.</p>
                 <p><span className="font-bold text-gray-200">Humour and specificity beat "hey, how's it going".</span> Callback to your conversation ("saw a guy order the thing you swore you'd never admit you like") lands 10× harder than a generic check-in. Specific = you remembered = you care.</p>
                 <p><span className="font-bold text-gray-200">Don't perform interest you don't have.</span> Hot-and-cold reads worse than honest and direct. If you like her, text like it. If you're unsure, don't manufacture daily conversation out of obligation — inconsistency is the real turn-off.</p>
+                <p><span className="font-bold text-gray-200">Reply speed says more than words.</span> {'Instant replies (under a minute, always) read as: nothing else going on, low value on your time. Calibrated replies (minutes to a few hours, varies naturally) read as: you have a life. Deliberately slow, scheduled replies read as a game — most people clock it and it repels more than it attracts.'}</p>
+                <p><span className="font-bold text-gray-200">Double texting: dead vs alive.</span> {'A second text that ADDS something (a new thought, a joke, a plan) is fine and often good — it shows you\'re thinking about them. A second text that just chases a reply ("hello??", "you there?") signals anxiety and should never happen. Test: does this message stand alone with something new, or is it just asking "why haven\'t you replied"?'}</p>
+                <p><span className="font-bold text-gray-200">Slow replies aren't always disinterest.</span> {"People read a 6-hour gap as rejection when it's often just someone living their life. The fix isn't decoding gaps like tea leaves — it's not over-indexing on any single data point. Look at the PATTERN over a week, not any one delay."}</p>
+                <p><span className="font-bold text-gray-200">The real skill: not needing the reply.</span> {"Whether you get a fast reply or a slow one shouldn't change your mood. The moment you're checking your phone waiting, you've handed them your state. Text well, then go live your life — the phone will still be there."}</p>
                 <p><span className="font-bold text-gray-200">The plan is the point.</span> Texting exists to get to the date. Two or three good exchanges, then: "Thursday, that ramen place you doubted — 7?" Prolonged pen-pal phases kill more connections than bad openers ever have.</p>
               </div>
             </Collapsible>

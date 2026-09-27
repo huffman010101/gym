@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Shield, Swords, Hand, AlertTriangle, Target, Users, Zap, ChevronDown } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
@@ -137,6 +137,12 @@ export default function Combat() {
     const t = params.get('tab');
     return (['fundamentals', 'hips', 'takedowns', 'ground', 'chokes', 'drills', 'arts', 'strategy', 'gym', 'tough'] as const).includes(t as Tab) ? (t as Tab) : 'fundamentals';
   });
+  // Follow ?tab= changes while already on this page (links between its own
+  // tabs), not just on first mount.
+  useEffect(() => {
+    const t = params.get('tab');
+    if (t && (['fundamentals', 'hips', 'takedowns', 'ground', 'chokes', 'drills', 'arts', 'strategy', 'gym', 'tough'] as const).includes(t as Tab)) setTab(t as Tab);
+  }, [params]);
 
   return (
     <main className="min-h-screen bg-transparent bg-gradient-to-b from-red-950/40 via-transparent to-transparent text-white pb-24">
@@ -954,7 +960,7 @@ export default function Combat() {
             </div>
 
             <Block title="The two rules that decide whether it works alongside the split" items={[
-              ['Never lift heavy legs within 48 hours of hard sparring', 'Big Leg Day and the Explosive day both need two clear days before anything competitive. This is the constraint that actually shapes the week — arrange everything else around it.'],
+              ['Never lift heavy legs within 48 hours of hard sparring', 'Legs + Speed needs two clear days before anything competitive. This is the constraint that actually shapes the week — arrange everything else around it.'],
               ['Skill first, lifting second, on any shared day', 'If a session and a lift land on the same day, do the technical work fresh and lift after, separated by a few hours where possible. Skill practised tired builds tired-looking skill.'],
             ]} />
 
