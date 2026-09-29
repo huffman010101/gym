@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, GraduationCap, Brain, Sun, Briefcase, Moon, Loader2, AlertCircle, ChevronDown, Sparkles, Clock, Upload, FileText, X, Lightbulb, BookOpen } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
-import DailyHabits from '../components/DailyHabits';
+import { SectionHeader, TabBar } from '../components/Hud';
 import BookNotes from '../components/BookNotes';
 import { generateStudyPack, generateSubjectConcepts, isValidStudyPack, type SubjectConcept } from '../lib/generators';
 import { extractFile, combine, MAX_TOTAL_CHARS, type Extracted } from '../lib/extractText';
@@ -179,32 +179,10 @@ export default function Uni() {
   return (
     <main className="min-h-screen bg-transparent bg-gradient-to-b from-sky-950/40 via-transparent to-transparent text-white pb-24">
       <div className="max-w-2xl mx-auto px-5 pt-6">
-        <Link to="/" className="inline-flex items-center gap-1.5 text-gray-500 hover:text-gray-300 text-sm mb-5">
-          <ArrowLeft size={15} /> Home
-        </Link>
+        <SectionHeader icon={GraduationCap} title="Uni & Brain" subtitle="AI Revision · Intelligence · Routine · Career · Sleep" />
 
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-11 h-11 bg-sky-500/10 rounded-xl flex items-center justify-center">
-            <GraduationCap className="text-sky-500" size={22} />
-          </div>
-          <div>
-            <h1 className="text-2xl font-black">Uni & Brain</h1>
-            <p className="text-gray-500 text-sm">AI Revision · Intelligence · Routine · Career · Sleep</p>
-          </div>
-        </div>
 
-        <DailyHabits section="uni" />
-
-        <div className="flex gap-1.5 overflow-x-auto scrollbar-hide mb-6 -mx-5 px-5">
-          {TABS.map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
-              className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
-                tab === t.id ? 'bg-sky-500 text-white' : 'bg-white/5 text-gray-400 hover:bg-white/10'
-              }`}>
-              {t.label}
-            </button>
-          ))}
-        </div>
+        <TabBar tabs={TABS} active={tab} onChange={setTab} />
 
         {/* ===== AI STUDY PACK ===== */}
         {tab === 'ai' && (

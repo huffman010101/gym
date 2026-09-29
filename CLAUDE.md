@@ -79,10 +79,13 @@ Vite + React 18 + TypeScript SPA, **HashRouter** (required for GitHub Pages), Ta
 - `src/pages/*.tsx` — the sections. Each is self-contained and follows a consistent shape:
   a `type Tab` union, a `TABS` array, a `useSearchParams`-seeded `useState<Tab>`, then one
   `{tab === 'x' && ( … )}` block per tab.
-- **Each page defines its own local `Block` / `Fold` / `Card` helpers** with that section's accent
-  colour (orange = gym, pink = mind, sky = uni, emerald = football, amber = money, rose = high value).
-  These are intentionally duplicated per file rather than shared — match the host file's existing
-  helpers instead of importing from elsewhere.
+- **Each page defines its own local `Block` / `Fold` / `Card` helpers.** These are intentionally
+  duplicated per file rather than shared — match the host file's existing helpers. The page *frame* is
+  shared: `SectionHeader`, `TabBar` and `OneThing` (the "If you only read one thing" box that opens
+  every tab) live in `src/components/Hud.tsx`.
+- **One J.A.R.V.I.S. palette.** `tailwind.config.js` remaps pink/purple/sky/indigo/blue/teal/fuchsia/
+  violet to cyan and orange to gold, so old accent classes render in the theme. Red, rose, emerald,
+  green and amber are left alone because they carry meaning (warning, good, caution, status).
 - Content is hardcoded arrays of `[title, description]` tuples passed to those helpers. Adding content
   means adding tuples, not new components.
 - `src/components/` — cross-section pieces (`BottomNav`, `SearchBar`, `DailyHabits`, `ApiKeySetup`) plus
@@ -95,7 +98,14 @@ Vite + React 18 + TypeScript SPA, **HashRouter** (required for GitHub Pages), Ta
   transparent), and the ~180 `bg-[#111]` cards are recoloured there rather than edited per page. Page
   roots use `bg-transparent` so the backdrop shows. Section accent colours are unchanged on purpose.
 - Fonts (Orbitron, Rajdhani) are self-hosted via `@fontsource` in `main.tsx` so they work offline.
-- `src/components/Jarvis.tsx` is the Home command screen and the once-per-session boot overlay.
+- `src/components/Jarvis.tsx` is the Home command screen and the once-per-session boot overlay. Its
+  numbers come from real activity, not checklists: `LockIn.tsx` (focus sessions, minutes logged per
+  day in `gymforge_lockin_log`) and `src/lib/whoop.ts` (WHOOP data). There are no per-section daily
+  checklists any more — do not add them back.
+- WHOOP: there is **no live API sync** — WHOOP's OAuth needs a registered app, a client secret and a
+  server-side token exchange, which a static Pages app cannot hold. Data comes from the WHOOP data
+  export (zip or `physiological_cycles.csv`, parsed by column name) and a quick daily manual log.
+  `todaysSession()` turns the weekday plan plus recovery zone into today's training.
 - `src/components/FocusMap.tsx` maps goals to exact `?tab=` links. **When you rename, add or remove a
   tab, update FocusMap too** — it is the "where does X live" index.
 - Every page syncs `tab` from `?tab=` in a `useEffect` as well as the initialiser, so links between
@@ -126,7 +136,7 @@ silently destroys any content containing a stray `<`, e.g. "PED < 1".
 
 ### Offline / service worker
 
-`public/sw.js` (cache `gymforge-v33`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
+`public/sw.js` (cache `gymforge-v34`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
 asset list can only be known post-build — `scripts/inject-sw-precache.mjs` injects it into
 `dist/sw.js`. Any change to the build output pipeline needs that script to still run last.
 

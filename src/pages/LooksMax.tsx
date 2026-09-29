@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
+import { OneThing, SectionHeader, TabBar } from '../components/Hud';
 import { suggestLayering, isValidLayering } from '../lib/generators';
 import type { LayeringResult } from '../lib/generators';
 import FaceDossier from '../components/FaceDossier';
@@ -162,18 +163,7 @@ function GLists({ left, right, leftTitle, rightTitle }: { left: string[]; right:
 
 
 function Tldr({ points }: { points: string[] }) {
-  return (
-    <div className="bg-gradient-to-br from-purple-500/12 to-[#111] border border-purple-500/30 rounded-2xl p-4">
-      <p className="text-[10px] font-black uppercase tracking-[0.15em] text-purple-300 mb-2">If you only read one thing</p>
-      <ul className="space-y-1.5">
-        {points.map(p => (
-          <li key={p} className="text-gray-300 text-[13px] leading-relaxed flex gap-2">
-            <span className="text-purple-400 flex-shrink-0">•</span><span>{p}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  return <OneThing points={points} />;
 }
 
 function ExpandableCard({ title, content, badge, accent = 'text-gray-400' }: ExpandCard) {
@@ -320,33 +310,12 @@ export default function LooksMax() {
 
   return (
     <div className="min-h-screen bg-transparent bg-gradient-to-b from-purple-950/40 via-transparent to-transparent text-white pb-24">
-      <div className="px-4 pt-12 pb-4 bg-gradient-to-b from-purple-950/30 to-transparent">
-        <Link to="/" className="inline-flex items-center text-gray-500 hover:text-white text-sm mb-4 transition-colors">
-          <ArrowLeft size={15} className="mr-1" /> Home
-        </Link>
-        <h1 className="text-3xl font-black tracking-tight gradient-text-purple">Looksmax Hub</h1>
-        <p className="text-gray-500 text-xs mt-1">Scan · Face, Hair &amp; Style · Skin · Diet · Body · Scent · Tracker</p>
+      <div className="px-5 pt-6">
+        <SectionHeader icon={Sparkles} title="Looks" subtitle="Scan · Face, Hair & Style · Skin · Diet · Body · Scent" />
+        <TabBar tabs={TABS} active={tab} onChange={setTab} />
       </div>
 
-      {/* Tabs */}
-      <div className="px-4 mb-4">
-        <div className="flex gap-1 bg-[#111] border border-white/10 rounded-2xl p-1 overflow-x-auto scrollbar-hide">
-          {TABS.map(({ id, label, icon: Icon }) => (
-            <button
-              key={id}
-              onClick={() => setTab(id)}
-              className={`flex-shrink-0 flex flex-col items-center gap-1 py-2 px-3 rounded-xl text-xs font-semibold transition-all ${
-                tab === id ? 'bg-white/10 text-purple-400' : 'text-gray-500 hover:text-gray-300'
-              }`}
-            >
-              <Icon size={15} />
-              {label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="px-4 space-y-4 stagger" key={tab}>
+      <div className="px-5 space-y-4 stagger" key={tab}>
 
         {/* ===== J.A.R.V.I.S. SCAN ===== */}
         {tab === 'scan' && <FaceDossier />}

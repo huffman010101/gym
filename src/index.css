@@ -125,7 +125,7 @@ h2, h3 { letter-spacing: 0.02em; }
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #f97316, #ef4444);
+  background: linear-gradient(135deg, #facc15, #22d3ee);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -133,8 +133,8 @@ h2, h3 { letter-spacing: 0.02em; }
 
 .card-hover { transition: all 0.2s; }
 .card-hover:hover {
-  border-color: rgba(249,115,22,0.35);
-  box-shadow: 0 0 22px rgba(249,115,22,0.08);
+  border-color: rgba(34,211,238,0.35);
+  box-shadow: 0 0 22px rgba(34,211,238,0.08);
   transform: translateY(-1px);
 }
 
@@ -145,8 +145,8 @@ h2, h3 { letter-spacing: 0.02em; }
 .fade-up { animation: fadeUp 0.4s ease forwards; }
 
 @keyframes glowPulse {
-  0%, 100% { box-shadow: 0 0 10px rgba(249,115,22,0.4); }
-  50%       { box-shadow: 0 0 28px rgba(249,115,22,0.9); }
+  0%, 100% { box-shadow: 0 0 10px rgba(34,211,238,0.4); }
+  50%       { box-shadow: 0 0 28px rgba(34,211,238,0.9); }
 }
 .glow-pulse { animation: glowPulse 1.4s ease-in-out infinite; }
 
@@ -170,7 +170,7 @@ h2, h3 { letter-spacing: 0.02em; }
   inset: 0;
   border-radius: 1rem;
   padding: 1px;
-  background: linear-gradient(135deg, rgba(249,115,22,0.3) 0%, transparent 60%);
+  background: linear-gradient(135deg, rgba(34,211,238,0.3) 0%, transparent 60%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -178,14 +178,14 @@ h2, h3 { letter-spacing: 0.02em; }
 }
 
 .gradient-text-purple {
-  background: linear-gradient(135deg, #a855f7, #ec4899);
+  background: linear-gradient(135deg, #67e8f9, #e0f2fe);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .gradient-text-blue {
-  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  background: linear-gradient(135deg, #67e8f9, #e0f2fe);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -267,6 +267,6 @@ h2, h3 { letter-spacing: 0.02em; }
   left: 25%;
   right: 25%;
   height: 2px;
-  background: linear-gradient(90deg, #f97316, #ef4444);
+  background: linear-gradient(90deg, #22d3ee, #facc15);
   border-radius: 1px;
 }

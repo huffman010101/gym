@@ -16,6 +16,10 @@ interface Session { task: string; minutes: number; endsAt: number; startedAt: nu
 
 const today = () => new Date().toISOString().split('T')[0];
 
+export function lockinLog(): Record<string, number> {
+  try { return JSON.parse(localStorage.getItem(K_LOG) || '{}') as Record<string, number>; } catch { return {}; }
+}
+
 export function lockedInToday(): number {
   try { return (JSON.parse(localStorage.getItem(K_LOG) || '{}') as Record<string, number>)[today()] ?? 0; } catch { return 0; }
 }

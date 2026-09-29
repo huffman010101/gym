@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, GraduationCap, Shuffle, Lightbulb, Check, Sparkles, Loader2, AlertCircle } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
+import { SectionHeader } from '../components/Hud';
 import { CARDS, CATS, TOTAL, todaysCards, daysToSeeAll, type Card, type Cat } from '../data/knowledge';
 import { generateKnowledgeCards } from '../lib/generators';
 
@@ -111,19 +112,7 @@ export default function Knowledge() {
   return (
     <main className="min-h-screen bg-transparent bg-gradient-to-b from-sky-950/30 via-transparent to-transparent text-white pb-24">
       <div className="max-w-2xl mx-auto px-5 pt-6">
-        <Link to="/" className="inline-flex items-center gap-1.5 text-gray-500 hover:text-gray-300 text-sm mb-5">
-          <ArrowLeft size={15} /> Home
-        </Link>
-
-        <div className="flex items-center gap-3 mb-5">
-          <div className="w-11 h-11 bg-sky-500/10 rounded-xl flex items-center justify-center">
-            <GraduationCap className="text-sky-400" size={22} />
-          </div>
-          <div>
-            <h1 className="text-2xl font-black">Know More</h1>
-            <p className="text-gray-500 text-sm">Something new every day — world, history, tech, business</p>
-          </div>
-        </div>
+        <SectionHeader icon={GraduationCap} title="Know More" subtitle="Something new every day — world, history, tech, business" />
 
         {/* Today's progress */}
         <div className="bg-[#111] border border-white/8 rounded-2xl px-4 py-3 mb-4 flex items-center justify-between">

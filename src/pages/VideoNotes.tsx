@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Youtube, Loader2, Trash2, Copy, Check, ChevronDown, AlertTriangle } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
+import { SectionHeader } from '../components/Hud';
 import { summariseVideo } from '../lib/generators';
 import type { VideoNotes as Notes } from '../lib/generators';
 
@@ -207,19 +208,7 @@ export default function VideoNotes() {
   return (
     <main className="min-h-screen bg-transparent bg-gradient-to-b from-red-950/25 via-transparent to-transparent text-white pb-24">
       <div className="max-w-2xl mx-auto px-5 pt-6">
-        <Link to="/" className="inline-flex items-center gap-1.5 text-gray-500 hover:text-gray-300 text-sm mb-5">
-          <ArrowLeft size={15} /> Home
-        </Link>
-
-        <div className="flex items-center gap-3 mb-5">
-          <div className="w-11 h-11 bg-red-500/10 rounded-xl flex items-center justify-center">
-            <Youtube className="text-red-500" size={22} />
-          </div>
-          <div>
-            <h1 className="text-2xl font-black">Video Notes</h1>
-            <p className="text-gray-500 text-sm">Paste a video, keep the substance</p>
-          </div>
-        </div>
+        <SectionHeader icon={Youtube} title="Video Notes" subtitle="Paste a video, keep the substance" />
 
         <div className="bg-[#111] border border-white/8 rounded-2xl p-5 space-y-3.5">
           <div>

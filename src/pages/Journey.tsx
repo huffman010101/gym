@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Map, Check, ChevronLeft, ChevronRight, Sparkles, Loader2, AlertCircle, Send } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
+import { SectionHeader } from '../components/Hud';
 import { askAdvisor } from '../lib/generators';
 
 interface Phase {
@@ -165,19 +166,7 @@ export default function Journey() {
   return (
     <main className="min-h-screen bg-transparent bg-gradient-to-b from-orange-950/40 via-transparent to-transparent text-white pb-24">
       <div className="max-w-2xl mx-auto px-5 pt-6">
-        <Link to="/" className="inline-flex items-center gap-1.5 text-gray-500 hover:text-gray-300 text-sm mb-5">
-          <ArrowLeft size={15} /> Home
-        </Link>
-
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-11 h-11 bg-orange-500/10 rounded-xl flex items-center justify-center">
-            <Map className="text-orange-500" size={22} />
-          </div>
-          <div>
-            <h1 className="text-2xl font-black">The Journey</h1>
-            <p className="text-gray-500 text-sm">Your transformation, one phase at a time</p>
-          </div>
-        </div>
+        <SectionHeader icon={Map} title="The Journey" subtitle="Your transformation, one phase at a time" />
 
         {/* Overall progress */}
         <div className="bg-[#111] border border-white/8 rounded-2xl px-4 py-3 mb-5">

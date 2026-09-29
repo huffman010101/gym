@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Volume2, VolumeX, Pencil, Check, Sunrise, Moon, Dumbbell, Fingerprint, ChevronRight, Shield, Lock, Hourglass } from 'lucide-react';
-import LockIn, { lockedInToday } from './LockIn';
-import { HABITS, loadHabits, todaysItems } from './DailyHabits';
+import LockIn, { lockedInToday, lockinLog } from './LockIn';
+import WhoopPanel from './WhoopPanel';
+import { loadWhoop, latest, zoneOf, todayKey as whoopToday, todaysSession } from '../lib/whoop';
 
 /*
  * J.A.R.V.I.S. — the command layer on the home screen.
@@ -125,26 +126,17 @@ export function JarvisBoot() {
 
 /* ---------- Data ---------- */
 
-const PATHS: Record<string, string> = { mind: '/mind', combat: '/combat', football: '/football', money: '/money', uni: '/uni', padel: '/padel' };
+const LOCK_TARGET = 120;   // minutes locked in that count as a full day
+const LOCK_MIN_DAY = 25;   // minutes that keep the streak alive
 
-interface SectionStatus { section: string; label: string; done: number; total: number; streak: number; path: string }
-
-function sectionStatus(): SectionStatus[] {
-  return Object.keys(HABITS).map(section => {
-    const items = todaysItems(section as keyof typeof HABITS);
-    const map = loadHabits(section);
-    const s = read<{ n?: number; last?: string }>(`gymforge_habits_streak_${section}`, {});
-    // A streak only counts if it was kept yesterday or today; otherwise it has lapsed.
-    const live = s.last === today() || s.last === yesterday() ? s.n ?? 0 : 0;
-    return {
-      section,
-      label: section === 'uni' ? 'Uni' : section[0].toUpperCase() + section.slice(1),
-      done: items.filter(i => map[i.id]).length,
-      total: items.length,
-      streak: live,
-      path: PATHS[section] ?? '/',
-    };
-  });
+/* Consecutive days with a real lock-in session. Today counts once it is
+ * earned; until then the streak runs to yesterday so it is not shown as lost. */
+function lockStreak(log: Record<string, number>): number {
+  const d = new Date();
+  if ((log[d.toISOString().split('T')[0]] ?? 0) < LOCK_MIN_DAY) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while ((log[d.toISOString().split('T')[0]] ?? 0) >= LOCK_MIN_DAY) { n++; d.setDate(d.getDate() - 1); }
+  return n;
 }
 
 const RANKS = [
@@ -243,7 +235,6 @@ export default function JarvisHud() {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(title);
   const [speaking, setSpeaking] = useState(false);
-  const [status] = useState(sectionStatus);
   const canSpeak = typeof window !== 'undefined' && 'speechSynthesis' in window;
   const [lockOpen, setLockOpen] = useState(() => {
     try { return !!localStorage.getItem('gymforge_lockin_session'); } catch { return false; }
@@ -255,22 +246,21 @@ export default function JarvisHud() {
     return () => clearInterval(id);
   }, []);
 
-  const done = status.reduce((a, s) => a + s.done, 0);
-  const total = status.reduce((a, s) => a + s.total, 0);
-  const pct = total ? Math.round((done / total) * 100) : 0;
-  const bestStreak = Math.max(0, ...status.map(s => s.streak));
-  const next = status.find(s => s.done < s.total);
+  const [whoop, setWhoop] = useState(() => latest(loadWhoop()));
+  const log = useMemo(() => lockinLog(), [lockedMins]);
+  const pct = Math.min(100, Math.round((lockedMins / LOCK_TARGET) * 100));
+  const streak = lockStreak(log);
+  const zone = whoop?.date === whoopToday() ? zoneOf(whoop.recovery) : null;
+  const session = todaysSession(zone, now);
 
-  // Lifetime active days: logged whenever the command screen is opened with
-  // at least one protocol done. Never resets, so rank only ever goes up.
+  // Lifetime days you showed up: any day with a real lock-in, plus the older
+  // log from before the checklists were removed. Never resets.
   const activeDays = useMemo(() => {
-    const log = read<string[]>(LOG_KEY, []);
-    if (done > 0 && !log.includes(today())) {
-      log.push(today());
-      try { localStorage.setItem(LOG_KEY, JSON.stringify(log.slice(-800))); } catch { /* ignore */ }
-    }
-    return log.length;
-  }, [done]);
+    const old = read<string[]>(LOG_KEY, []);
+    const set = new Set(old);
+    Object.entries(log).forEach(([d, m]) => { if (m >= LOCK_MIN_DAY) set.add(d); });
+    return set.size;
+  }, [log]);
   const rank = rankFor(activeDays);
 
   const directive = directiveFor(today());
@@ -284,12 +274,13 @@ export default function JarvisHud() {
   const yearEnd = new Date(now.getFullYear() + 1, 0, 1);
   const daysLeftYear = Math.ceil((yearEnd.getTime() - now.getTime()) / 86400000);
   const greeting = greetingFor(now.getHours());
-  const left = status.filter(s => s.done < s.total).length;
-  const statusLine = total === 0
-    ? 'Standing by.'
-    : left === 0
-      ? 'All protocols complete. Exemplary work.'
-      : `${left} of ${status.length} protocols outstanding.`;
+  const statusLine = lockedMins >= LOCK_TARGET
+    ? 'Full day locked in. Exemplary work.'
+    : zone === 'red'
+      ? 'Recovery red. Protect today, win tomorrow.'
+      : lockedMins > 0
+        ? `${LOCK_TARGET - lockedMins} minutes left to a full day.`
+        : 'Nothing locked in yet. The clock is running.';
 
   const saveTitle = () => {
     const t = draft.trim() || 'sir';
@@ -305,12 +296,13 @@ export default function JarvisHud() {
     const time = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
     const parts = [
       `${greeting}, ${title}. It is ${time}.`,
-      total ? `${status.length - left} of ${status.length} protocols cleared today, ${pct} percent of tasks done.` : '',
-      bestStreak > 1 ? `Your best streak stands at ${bestStreak} days. I would not break it.` : '',
+      lockedMins > 0 ? `You have locked in ${lockedMins} minutes today.` : 'You have not locked in yet today.',
+      zone && whoop?.recovery !== undefined ? `Recovery is ${Math.round(whoop.recovery)} percent, ${zone}.` : '',
+      streak > 1 ? `Your streak stands at ${streak} days. I would not break it.` : '',
       `Clearance level ${rank.level}, ${rank.name}.`,
       `You have ${Math.floor(minsLeftToday / 60)} hours left today, and ${daysLeftYear} days left this year. No one is coming, ${title}.`,
       `Today's directive: ${directive}`,
-      next ? `I suggest ${next.label} next.` : 'Everything is done. Rest well.',
+      `Today's session: ${session.title}. ${session.detail}`,
     ].filter(Boolean);
     const u = new SpeechSynthesisUtterance(parts.join(' '));
     const v = pickVoice();
@@ -389,12 +381,12 @@ export default function JarvisHud() {
                     strokeDasharray={C} strokeDashoffset={C - (C * pct) / 100}
                     style={{ transition: 'stroke-dashoffset 1s ease', filter: 'drop-shadow(0 0 5px rgba(34,211,238,0.7))' }} />
                 </svg>
-                <p className="absolute inset-0 flex items-center justify-center font-orbitron text-base text-cyan-100">{pct}%</p>
+                <p className="absolute inset-0 flex flex-col items-center justify-center font-orbitron text-base text-cyan-100 leading-none">{lockedMins}<span className="text-[8px] font-hud tracking-wider text-gray-500 mt-0.5">/ {LOCK_TARGET} MIN</span></p>
               </div>
-              <p className="font-hud text-[10px] uppercase tracking-[0.18em] text-gray-500">Today</p>
+              <p className="font-hud text-[10px] uppercase tracking-[0.18em] text-gray-500">Locked in</p>
             </div>
             <div className="flex flex-col items-center justify-center">
-              <p className="font-orbitron text-3xl hud-text-gold leading-none">{bestStreak}</p>
+              <p className="font-orbitron text-3xl hud-text-gold leading-none">{streak}</p>
               <p className="font-hud text-[10px] uppercase tracking-[0.18em] text-gray-500 mt-2">Day streak</p>
             </div>
             <div className="flex flex-col items-center justify-center text-center">
@@ -456,15 +448,11 @@ export default function JarvisHud() {
                 {speaking ? 'Stop' : 'Brief me'}
               </button>
             )}
-            {next && (
-              <Link to={next.path}
-                className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl py-2.5 font-hud font-bold uppercase tracking-[0.16em] text-sm bg-yellow-400/10 border border-yellow-400/35 text-yellow-200 hover:bg-yellow-400/20 transition-colors press">
-                Next: {next.label} <ChevronRight size={15} />
-              </Link>
-            )}
           </div>
         </div>
       </div>
+
+      <div className="mt-3"><WhoopPanel onChange={setWhoop} /></div>
 
       {/* Protocols */}
       <div className="grid grid-cols-4 gap-2 mt-3">

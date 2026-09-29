@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Shield, Swords, Hand, AlertTriangle, Target, Users, Zap, ChevronDown } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
-import DailyHabits from '../components/DailyHabits';
+import { SectionHeader, TabBar, OneThing } from '../components/Hud';
 
 type Tab = 'fundamentals' | 'hips' | 'takedowns' | 'ground' | 'chokes' | 'drills' | 'arts' | 'strategy' | 'gym' | 'tough';
 
@@ -21,18 +21,7 @@ const TABS: { id: Tab; label: string }[] = [
 
 
 function Tldr({ points }: { points: string[] }) {
-  return (
-    <div className="bg-gradient-to-br from-red-500/12 to-[#111] border border-red-500/30 rounded-2xl p-4">
-      <p className="text-[10px] font-black uppercase tracking-[0.15em] text-red-300 mb-2">If you only read one thing</p>
-      <ul className="space-y-1.5">
-        {points.map(p => (
-          <li key={p} className="text-gray-300 text-[13px] leading-relaxed flex gap-2">
-            <span className="text-red-400 flex-shrink-0">•</span><span>{p}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  return <OneThing points={points} />;
 }
 
 function Step({ n, title, desc }: { n: number; title: string; desc: string }) {
@@ -147,19 +136,7 @@ export default function Combat() {
   return (
     <main className="min-h-screen bg-transparent bg-gradient-to-b from-red-950/40 via-transparent to-transparent text-white pb-24">
       <div className="max-w-2xl mx-auto px-5 pt-6">
-        <Link to="/" className="inline-flex items-center gap-1.5 text-gray-500 hover:text-gray-300 text-sm mb-5">
-          <ArrowLeft size={15} /> Home
-        </Link>
-
-        <div className="flex items-center gap-3 mb-1">
-          <div className="w-11 h-11 bg-red-500/10 rounded-xl flex items-center justify-center">
-            <Swords className="text-red-500" size={22} />
-          </div>
-          <div>
-            <h1 className="text-2xl font-black">Combat</h1>
-            <p className="text-gray-500 text-sm">Striking · Grappling · Takedowns · Submissions · Fight IQ</p>
-          </div>
-        </div>
+        <SectionHeader icon={Swords} title="Combat" subtitle="Striking · Grappling · Takedowns · Submissions · Fight IQ" />
 
         <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl px-4 py-3 mt-4 flex items-start gap-2.5">
           <AlertTriangle size={15} className="text-amber-400 flex-shrink-0 mt-0.5" />
@@ -170,19 +147,8 @@ export default function Combat() {
           </p>
         </div>
 
-        {/* Tabs */}
-        <DailyHabits section="combat" />
 
-        <div className="flex gap-1.5 overflow-x-auto scrollbar-hide mt-6 mb-6 -mx-5 px-5">
-          {TABS.map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
-              className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
-                tab === t.id ? 'bg-red-500 text-white' : 'bg-white/5 text-gray-400 hover:bg-white/10'
-              }`}>
-              {t.label}
-            </button>
-          ))}
-        </div>
+        <TabBar tabs={TABS} active={tab} onChange={setTab} />
 
         {/* ============ FUNDAMENTALS ============ */}
         {tab === 'fundamentals' && (

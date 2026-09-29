@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, Eye, ChevronDown, Heart, BookOpen, ListChecks, Compass } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
-import DailyHabits from '../components/DailyHabits';
+import { SectionHeader, TabBar, OneThing } from '../components/Hud';
 import MorningRoutine from '../components/MorningRoutine';
 import NightRoutine from '../components/NightRoutine';
 import TomorrowPlan from '../components/TomorrowPlan';
@@ -34,18 +34,7 @@ const TABS: { id: Tab; label: string }[] = [
 
 
 function Tldr({ points }: { points: string[] }) {
-  return (
-    <div className="bg-gradient-to-br from-pink-500/12 to-[#111] border border-pink-500/30 rounded-2xl p-4">
-      <p className="text-[10px] font-black uppercase tracking-[0.15em] text-pink-300 mb-2">If you only read one thing</p>
-      <ul className="space-y-1.5">
-        {points.map(p => (
-          <li key={p} className="text-gray-300 text-[13px] leading-relaxed flex gap-2">
-            <span className="text-pink-400 flex-shrink-0">•</span><span>{p}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  return <OneThing points={points} />;
 }
 
 function GStep({ n, title, desc, products }: { n: string; title: string; desc: string; products?: string[] }) {
@@ -218,30 +207,9 @@ export default function Mind() {
   return (
     <main className="min-h-screen bg-transparent bg-gradient-to-b from-pink-950/40 via-transparent to-transparent text-white pb-24">
       <div className="max-w-2xl mx-auto px-5 pt-6">
-        <Link to="/" className="inline-flex items-center gap-1.5 text-gray-500 hover:text-gray-300 text-sm mb-5">
-          <ArrowLeft size={15} /> Home
-        </Link>
+        <SectionHeader icon={Brain} title="Mind" subtitle="Start with The Playbook. Everything else is the detail behind it." />
 
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-11 h-11 bg-pink-500/10 rounded-xl flex items-center justify-center">
-            <Brain className="text-pink-500" size={22} />
-          </div>
-          <div>
-            <h1 className="text-2xl font-black">Mind</h1>
-            <p className="text-gray-500 text-sm">Start with The Playbook. Everything else is the detail behind it.</p>
-          </div>
-        </div>
-
-        <div className="flex gap-1.5 overflow-x-auto scrollbar-hide mb-6 -mx-5 px-5">
-          {TABS.map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
-              className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
-                tab === t.id ? 'bg-pink-500 text-white' : 'bg-white/5 text-gray-400 hover:bg-white/10'
-              }`}>
-              {t.label}
-            </button>
-          ))}
-        </div>
+        <TabBar tabs={TABS} active={tab} onChange={setTab} />
 
         {/* ============ THE PLAYBOOK — the whole section on one screen ============ */}
         {tab === 'playbook' && (
@@ -281,7 +249,6 @@ export default function Mind() {
               </div>
             </div>
 
-            <DailyHabits section="mind" />
 
             <Card icon={Flame} title="In the moment — quick fixes" items={[
               ['Nervous before approaching', 'Breathe out longer than you breathe in, three times. Then go within three seconds — waiting only feeds the nerves.'],
