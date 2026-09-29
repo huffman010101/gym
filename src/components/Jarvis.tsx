@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Volume2, VolumeX, Pencil, Check, Sunrise, Moon, Dumbbell, Fingerprint, ChevronRight, Shield } from 'lucide-react';
+import { Volume2, VolumeX, Pencil, Check, Sunrise, Moon, Dumbbell, Fingerprint, ChevronRight, Shield, Lock, Hourglass } from 'lucide-react';
+import LockIn, { lockedInToday } from './LockIn';
 import { HABITS, loadHabits, todaysItems } from './DailyHabits';
 
 /*
@@ -78,6 +79,7 @@ const BOOT_LINES = [
   'Training protocols ....... loaded',
   'Offline archive .......... ready',
   'All systems nominal',
+  'No one is coming. Lock in.',
 ];
 
 export function JarvisBoot() {
@@ -166,6 +168,12 @@ function rankFor(days: number) {
 
 /* Short, dry, and meant to be acted on — not wallpaper. */
 const DIRECTIVES = [
+  'No one is coming to save you, sir. Fortunately, you do not need them to.',
+  'Time is the only thing you cannot earn back. Spend today like you know that.',
+  'The man you want to be is not waiting for Monday. Neither should you.',
+  'Comfort is the enemy you invite in. Lock in.',
+  'Nobody will remember the excuses. They will remember what you built.',
+  'You are one year of real discipline away from a different life.',
   'The hard session first, sir. Everything after it is easier.',
   'Nobody is coming to do it for you. Fortunately, you are quite capable.',
   'Discipline is choosing between what you want now and what you want most.',
@@ -237,6 +245,10 @@ export default function JarvisHud() {
   const [speaking, setSpeaking] = useState(false);
   const [status] = useState(sectionStatus);
   const canSpeak = typeof window !== 'undefined' && 'speechSynthesis' in window;
+  const [lockOpen, setLockOpen] = useState(() => {
+    try { return !!localStorage.getItem('gymforge_lockin_session'); } catch { return false; }
+  });
+  const [lockedMins, setLockedMins] = useState(lockedInToday);
 
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000);
@@ -262,6 +274,15 @@ export default function JarvisHud() {
   const rank = rankFor(activeDays);
 
   const directive = directiveFor(today());
+
+  // Time left — the whole point is to make it felt.
+  const midnight = new Date(now); midnight.setHours(24, 0, 0, 0);
+  const minsLeftToday = Math.max(0, Math.round((midnight.getTime() - now.getTime()) / 60000));
+  const dayPct = Math.round(((24 * 60 - minsLeftToday) / (24 * 60)) * 100);
+  const dow = (now.getDay() + 6) % 7; // Monday = 0
+  const weekPct = Math.round(((dow * 24 * 60) + (24 * 60 - minsLeftToday)) / (7 * 24 * 60) * 100);
+  const yearEnd = new Date(now.getFullYear() + 1, 0, 1);
+  const daysLeftYear = Math.ceil((yearEnd.getTime() - now.getTime()) / 86400000);
   const greeting = greetingFor(now.getHours());
   const left = status.filter(s => s.done < s.total).length;
   const statusLine = total === 0
@@ -287,6 +308,7 @@ export default function JarvisHud() {
       total ? `${status.length - left} of ${status.length} protocols cleared today, ${pct} percent of tasks done.` : '',
       bestStreak > 1 ? `Your best streak stands at ${bestStreak} days. I would not break it.` : '',
       `Clearance level ${rank.level}, ${rank.name}.`,
+      `You have ${Math.floor(minsLeftToday / 60)} hours left today, and ${daysLeftYear} days left this year. No one is coming, ${title}.`,
       `Today's directive: ${directive}`,
       next ? `I suggest ${next.label} next.` : 'Everything is done. Rest well.',
     ].filter(Boolean);
@@ -390,6 +412,35 @@ export default function JarvisHud() {
             </div>
           </div>
 
+          {/* Time left */}
+          <div className="mt-5 rounded-xl border border-rose-400/20 bg-rose-500/[0.05] p-3">
+            <p className="font-hud text-[10px] uppercase tracking-[0.22em] text-rose-300/90 flex items-center gap-1.5">
+              <Hourglass size={11} /> Time is running — no one is coming to save you
+            </p>
+            <div className="grid grid-cols-3 gap-3 mt-2.5">
+              {[
+                { label: 'Today', value: `${Math.floor(minsLeftToday / 60)}h ${minsLeftToday % 60}m`, sub: 'left', pct: dayPct },
+                { label: 'This week', value: `${100 - weekPct}%`, sub: 'left', pct: weekPct },
+                { label: now.getFullYear().toString(), value: `${daysLeftYear}`, sub: 'days left', pct: Math.round((1 - daysLeftYear / 365) * 100) },
+              ].map(x => (
+                <div key={x.label}>
+                  <p className="font-orbitron text-base text-rose-100 leading-none tabular-nums">{x.value}</p>
+                  <p className="text-[9px] font-hud uppercase tracking-wider text-gray-500 mt-1">{x.label} · {x.sub}</p>
+                  <div className="h-1 rounded-full bg-white/5 mt-1.5 overflow-hidden"><div className="h-full bg-rose-400/70" style={{ width: `${x.pct}%` }} /></div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Lock in */}
+          <button onClick={() => setLockOpen(true)}
+            className="mt-3 w-full rounded-xl py-3.5 font-hud font-bold uppercase tracking-[0.3em] text-base bg-cyan-400/15 border border-cyan-300/60 text-cyan-50 shadow-[0_0_24px_rgba(34,211,238,0.2)] hover:bg-cyan-400/25 inline-flex items-center justify-center gap-2.5 press">
+            <Lock size={17} /> Lock in
+          </button>
+          <p className="text-center text-[11px] text-gray-500 mt-1.5">
+            {lockedMins > 0 ? `Locked in today: ${lockedMins} min.` : 'Nothing locked in yet today.'}
+          </p>
+
           {/* Directive */}
           <div className="mt-5 border-l-2 border-yellow-400/60 pl-3">
             <p className="font-hud text-[10px] uppercase tracking-[0.22em] text-yellow-400/80">Today’s directive</p>
@@ -431,6 +482,8 @@ export default function JarvisHud() {
           </Link>
         ))}
       </div>
+
+      {lockOpen && <LockIn onClose={() => setLockOpen(false)} onDone={() => setLockedMins(lockedInToday())} />}
     </section>
   );
 }

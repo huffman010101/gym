@@ -5,6 +5,7 @@ import BottomNav from '../components/BottomNav';
 import DailyHabits from '../components/DailyHabits';
 import MorningRoutine from '../components/MorningRoutine';
 import NightRoutine from '../components/NightRoutine';
+import TomorrowPlan from '../components/TomorrowPlan';
 import HighValue from '../components/HighValue';
 import Security from '../components/Security';
 import KnowYourself, { DatingMindset } from '../components/KnowYourself';
@@ -714,7 +715,7 @@ export default function Mind() {
                 </button>
               ))}
             </div>
-            {routineView === 'morning' ? <MorningRoutine /> : <NightRoutine />}
+            {routineView === 'morning' ? <MorningRoutine /> : <><TomorrowPlan /><NightRoutine /></>}
           </div>
         )}
 
