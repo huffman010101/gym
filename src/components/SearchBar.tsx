@@ -8,6 +8,9 @@ const INDEX: Entry[] = [
   { label: 'The Journey (guided phases + AI advisor)', section: 'Journey', path: '/journey', keywords: 'journey phases guide walkthrough plan roadmap advisor ask ai questions coach interactive start' },
   { label: 'Know More — daily general knowledge', section: 'Knowledge', path: '/knowledge', keywords: 'general knowledge learn daily world affairs history tech business deals science economics facts interesting smart trivia geopolitics' },
   { label: 'The Feed (scroll & learn)', section: 'Feed', path: '/feed', keywords: 'feed scroll swipe cards learn tips knowledge fun interactive' },
+  { label: 'J.A.R.V.I.S. Face Scan — every metric + daily plan', section: 'Looks', path: '/looksmax?tab=scan', keywords: 'ai face scan analysis dossier jarvis every metric daily plan routine haircut beard skin dermatologist patrick bateman follow up ask question spots tretinoin tret' },
+  { label: 'Diet — meal plan, recipes, AI chef', section: 'Looks', path: '/looksmax?tab=diet', keywords: 'diet meal plan meals recipes cook cooking chef gordon ramsay gain weight bulk calories protein breakfast lunch dinner shake whole food skin foods fruit veg vegetables seasoning' },
+  { label: 'Foods that make you look better', section: 'Looks', path: '/looksmax?tab=diet', keywords: 'foods fruit veg vegetables glow skin carrots salmon berries zinc iron omega 3 looks foods' },
   { label: 'Looks: Skin & Acne Protocol', section: 'Looks', path: '/looksmax?tab=skin', keywords: 'blueprint skin acne routine retinol bha benzoyl niacinamide spf slugging hyperpigmentation marks cerave ordinary tretinoin tret prescription retin-a purging dermatica skin+me' },
   { label: 'Looks: Mewing & Bone Development', section: 'Looks', path: '/looksmax?tab=face', keywords: 'blueprint bone mewing maxilla masseter cheekbone development tongue posture palate mechanism' },
   { label: 'Looks: Jawline Routine', section: 'Looks', path: '/looksmax?tab=face', keywords: 'blueprint jawline jaw routine chin tucks neck curls gua sha mastic gum mastik chewing gum masseter jaw width square jaw' },
@@ -75,7 +78,6 @@ const INDEX: Entry[] = [
   { label: 'Chokes & Submissions', section: 'Combat', path: '/combat?tab=chokes', keywords: 'choke rear naked guillotine triangle armbar kimura submission tap' },
   { label: 'Fight Strategy (bigger/taller)', section: 'Combat', path: '/combat?tab=strategy', keywords: 'bigger stronger taller opponent strategy fight iq mma' },
   // Looks
-  { label: 'AI Face Scan', section: 'Looks', path: '/looksmax?tab=scan', keywords: 'face scan haircut hairstyle facial hair glasses analysis photo upload ai' },
   { label: 'Hair', section: 'Looks', path: '/looksmax?tab=hair', keywords: 'hair hairstyle dermaroll minoxidil barber cut' },
   { label: 'Face (mewing, jaw, nose, cheekbones, eyes, lips)', section: 'Looks', path: '/looksmax?tab=face', keywords: 'face symmetry nose maxilla zygos hyoid harmony hunter eyes lips under eyes skincare chin tuck forward head eyes dark circles lips mewing jawline' },
   { label: 'Body & Habits (body fat, debloat, diet, tanning)', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'tanning tan supplements creatine debloat body fat water retention female gaze what women notice lifestyle foods diet desirability audit execution order methods techniques' },

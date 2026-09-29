@@ -1,3 +1,4 @@
+import type { Meal as Recipe, Slot } from '../data/meals';
 import Anthropic from '@anthropic-ai/sdk';
 import { getApiKey } from './anthropic';
 import type { WorkoutPlan, Meal, Macros, FoodAnalysis } from './types';
@@ -55,15 +56,6 @@ export function isValidLayering(v: unknown): v is LayeringResult {
   return (combos as unknown[]).every(
     c => !!c && typeof c === 'object' && typeof (c as { name?: unknown }).name === 'string'
   );
-}
-
-export function isValidFaceAnalysis(v: unknown): v is FaceAnalysisResult {
-  if (!v || typeof v !== 'object') return false;
-  const o = v as Record<string, unknown>;
-  if (!nonEmptyArray(o.haircuts) || !nonEmptyArray(o.facialHair) || !nonEmptyArray(o.tips)) return false;
-  const r = o.skincareRoutine as Record<string, unknown> | undefined;
-  if (!r || typeof r !== 'object') return false;
-  return Array.isArray(r.morning) && Array.isArray(r.evening) && Array.isArray(r.weekly);
 }
 
 export function isValidStudyPack(v: unknown): v is StudyPack {
@@ -492,83 +484,6 @@ Timetable: 7-14 days, realistic 2-4h/day, built on active recall + spaced repeti
   return packResult;
 }
 
-export interface FaceAnalysisResult {
-  faceShape: string;
-  faceShapeReasoning: string;
-  haircuts: { name: string; why: string }[];
-  facialHair: { style: string; why: string }[];
-  glasses?: string;
-  eyebrows: string;
-  eyes: string;
-  lips: string;
-  skinObservations: string;
-  skincareRoutine?: { morning: string[]; evening: string[]; weekly: string[] };
-  tips: string[];
-}
-
-export async function analyseFace(photoDataUrl: string): Promise<FaceAnalysisResult> {
-  const client = makeClient();
-  const base64 = photoDataUrl.split(',')[1];
-  const mediaType = photoDataUrl.startsWith('data:image/png') ? 'image/png' as const : 'image/jpeg' as const;
-
-  const msg = await client.messages.create({
-    model: 'claude-haiku-4-5-20251001',
-    max_tokens: 2500,
-    messages: [{
-      role: 'user',
-      content: [
-        {
-          type: 'image',
-          source: { type: 'base64', media_type: mediaType, data: base64 },
-        },
-        {
-          type: 'text',
-          text: `You are an expert aesthetic consultant, master barber, and image analyst. Analyse this face photo in detail.
-
-Return ONLY valid JSON (no markdown fences):
-{
-  "faceShape": "oval|round|square|heart|diamond|oblong|triangle",
-  "faceShapeReasoning": "1-2 sentence explanation of what facial proportions led to this conclusion",
-  "haircuts": [
-    { "name": "Haircut name (e.g. Textured Crop)", "why": "Why this suits the face shape and features — be specific" },
-    { "name": "Second option", "why": "..." },
-    { "name": "Third option", "why": "..." }
-  ],
-  "facialHair": [
-    { "style": "Style name (e.g. Clean shaven / Short stubble / Goatee)", "why": "Why this suits the face shape" },
-    { "style": "Alternative", "why": "..." }
-  ],
-  "glasses": "Which glasses/sunglasses frame shapes suit this face shape and why (e.g. squared frames for round faces, browline, aviators, wayfarers) — 1-2 sentences",
-  "eyebrows": "Specific eyebrow shape recommendation (arch position, thickness, tail length) that would best frame this face",
-  "eyes": "Observations on the eye area and how to enhance them (lash density, contrast, reducing dark circles if visible, etc.)",
-  "lips": "Observations about lip proportions and any care/enhancement tips",
-  "skinObservations": "Brief, kind observations about skin clarity, tone, and suggestions",
-  "skincareRoutine": {
-    "morning": ["Step-by-step AM routine personalised to the skin you see — product TYPE + key ingredient per step, e.g. 'Gentle gel cleanser (if skin looks oily) or splash of water'", "..."],
-    "evening": ["Step-by-step PM routine personalised to what you see, including which active (retinol/BHA/AHA/azelaic) suits this skin and how to introduce it", "..."],
-    "weekly": ["1-3 weekly treatments matched to this skin (e.g. clay mask for visible congestion, gentle exfoliation)"]
-  },
-  "tips": [
-    "Specific actionable tip 1 — be concrete and personal to what you see",
-    "Specific actionable tip 2",
-    "Specific actionable tip 3",
-    "Specific actionable tip 4",
-    "Specific actionable tip 5"
-  ]
-}`,
-        },
-      ],
-    }],
-  });
-
-  const text = (textOf(msg) || '{}');
-  const clean = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-  const match = clean.match(/\{[\s\S]*\}/);
-  const faceResult = JSON.parse(match ? match[0] : clean);
-  if (!isValidFaceAnalysis(faceResult)) throw new Error(INCOMPLETE);
-  return faceResult;
-}
-
 export interface GeneratedKnowledgeCard {
   cat: string;
   title: string;
@@ -943,4 +858,292 @@ export async function generatePersonalPlanWithRetry(i: PlanInputs): Promise<Pers
     if (!m.includes('incomplete')) throw e;
     return await generatePersonalPlan(i);
   }
+}
+
+
+/* ================= J.A.R.V.I.S. FACE DOSSIER ================= */
+
+export interface FaceIntake {
+  title: string;        // how J.A.R.V.I.S. addresses them ("sir", "Mr Bateman"…)
+  age: string;
+  skinType: string;
+  products: string;     // current routine and actives, e.g. "starting tret 0.025%"
+  concerns: string;
+  goalLook: string;
+  bodyGoal: string;     // gain / lean out / maintain
+}
+
+export type MetricStatus = 'Strong' | 'Solid' | 'Improve' | 'Priority';
+
+export interface FaceMetric {
+  area: string;
+  category: string;
+  status: MetricStatus;
+  observed: string;
+  improve: string;
+  how: string[];
+  timeline: string;
+}
+
+export interface FaceDossier {
+  version: 2;
+  greeting: string;
+  headline: string;
+  strongest: string[];
+  priorities: { title: string; why: string; impact: string }[];
+  faceShape: string;
+  faceShapeReasoning: string;
+  metrics: FaceMetric[];
+  haircuts: { name: string; why: string }[];
+  facialHair: { style: string; why: string }[];
+  glasses: string;
+  daily: { time: string; action: string; detail: string }[];
+  weekly: string[];
+  skincare: { morning: string[]; evening: string[]; notes: string };
+  diet: string[];
+  avoid: string[];
+  monologue: string;
+  seeProfessional: string;
+  followUps: string[];
+  builtAt?: string;
+}
+
+const STATUSES: MetricStatus[] = ['Strong', 'Solid', 'Improve', 'Priority'];
+const strs = (v: unknown) => (Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string' && !!x.trim()) : []);
+const str = (v: unknown) => (typeof v === 'string' ? v : '');
+
+/* Minimum bar: a headline, some metrics and a daily plan. Everything else is
+ * rendered defensively, so one missing optional field never bins a scan. */
+export function isValidFaceDossier(v: unknown): v is FaceDossier {
+  if (!v || typeof v !== 'object') return false;
+  const o = v as Record<string, unknown>;
+  return typeof o.headline === 'string' && nonEmptyArray(o.metrics) && nonEmptyArray(o.daily);
+}
+
+export function normaliseDossier(v: FaceDossier): FaceDossier {
+  const o = v as unknown as Record<string, unknown>;
+  const sk = (o.skincare ?? {}) as Record<string, unknown>;
+  const arr = (x: unknown) => (Array.isArray(x) ? x : []) as Record<string, unknown>[];
+  return {
+    version: 2,
+    greeting: str(o.greeting),
+    headline: str(o.headline),
+    strongest: strs(o.strongest),
+    priorities: arr(o.priorities).filter(p => p && typeof p.title === 'string')
+      .map(p => ({ title: str(p.title), why: str(p.why), impact: str(p.impact) || 'High' })),
+    faceShape: str(o.faceShape),
+    faceShapeReasoning: str(o.faceShapeReasoning),
+    metrics: arr(o.metrics).filter(m => m && typeof m.area === 'string').map(m => ({
+      area: str(m.area),
+      category: str(m.category) || 'Face',
+      status: (STATUSES as string[]).includes(str(m.status)) ? (m.status as MetricStatus) : 'Solid',
+      observed: str(m.observed),
+      improve: str(m.improve),
+      how: strs(m.how),
+      timeline: str(m.timeline),
+    })),
+    haircuts: arr(o.haircuts).filter(h => h && typeof h.name === 'string').map(h => ({ name: str(h.name), why: str(h.why) })),
+    facialHair: arr(o.facialHair).filter(h => h && typeof h.style === 'string').map(h => ({ style: str(h.style), why: str(h.why) })),
+    glasses: str(o.glasses),
+    daily: arr(o.daily).filter(d => d && typeof d.action === 'string').map(d => ({ time: str(d.time), action: str(d.action), detail: str(d.detail) })),
+    weekly: strs(o.weekly),
+    skincare: { morning: strs(sk.morning), evening: strs(sk.evening), notes: str(sk.notes) },
+    diet: strs(o.diet),
+    avoid: strs(o.avoid),
+    monologue: str(o.monologue),
+    seeProfessional: str(o.seeProfessional),
+    followUps: strs(o.followUps).slice(0, 4),
+    builtAt: v.builtAt,
+  };
+}
+
+function imageBlock(dataUrl: string) {
+  const data = dataUrl.split(',')[1];
+  const media_type = dataUrl.startsWith('data:image/png') ? 'image/png' as const : 'image/jpeg' as const;
+  return { type: 'image' as const, source: { type: 'base64' as const, media_type, data } };
+}
+
+function intakeText(i: FaceIntake): string {
+  return [
+    `How to address them: ${i.title || 'sir'}`,
+    `Age: ${i.age || 'not given'}`,
+    `Skin type (their own read): ${i.skinType || 'not sure'}`,
+    `Current routine / actives / treatments: ${i.products || 'not given'}`,
+    `What bothers them: ${i.concerns || 'not given'}`,
+    `The look they want: ${i.goalLook || 'not given'}`,
+    `Body goal: ${i.bodyGoal || 'not given'}`,
+  ].join('\n');
+}
+
+export async function analyseFaceDossier(photos: { label: string; dataUrl: string }[], intake: FaceIntake): Promise<FaceDossier> {
+  const client = makeClient();
+  const title = intake.title?.trim() || 'sir';
+  const content: unknown[] = [];
+  for (const ph of photos) {
+    content.push({ type: 'text', text: `Photo: ${ph.label}` });
+    content.push(imageBlock(ph.dataUrl));
+  }
+  content.push({
+    type: 'text',
+    text: `You are J.A.R.V.I.S., a composed British AI, briefing your principal after a full aesthetic analysis. Your expertise is that of a celebrity dermatologist, a top barber and stylist, and an honest looksmaxxing coach who only trusts what the evidence supports. Address them as "${title}".
+
+WHAT THEY TOLD YOU:
+"""
+${intakeText(intake)}
+"""
+
+Analyse EVERY metric you can see in the photos. Cover at least these areas where visible: face shape and proportions (facial thirds), skin texture, skin tone and pigmentation, acne or congestion, under-eyes, eyebrows, eyes and lashes, nose (framing only), cheekbones and midface, jawline and chin, lips, teeth and smile, hairline and density, current hairstyle, facial hair, neck and posture, facial leanness, symmetry, and grooming details. If an area is not visible in the photos, skip it rather than inventing it.
+
+Rules:
+- Be specific to THIS face. Name what you actually see ("mild congestion across the forehead and nose", "brows slightly uneven, left tail shorter"). Generic advice is failure.
+- Honest, not flattering and not cruel. No attractiveness scores out of 10. Use status: Strong (an asset), Solid (fine), Improve (clear gains available), Priority (the biggest levers).
+- Every metric gets concrete how-to steps: product TYPE + active ingredient + strength + frequency, or the exact technique. UK availability in mind.
+- Respect what they already use. If they mention tretinoin or another active, build the routine around it properly (buffering, frequency ramp, no clashing actives on the same night, SPF), and say so.
+- Bone structure does not change in adults without surgery; say what CAN change (body fat, grooming, hair, skin, posture, framing). No bone smashing, no DIY anything, no pushing surgery.
+- Flag anything that needs a professional (changing moles, cystic or scarring acne that may need isotretinoin, hair loss that may need finasteride) in seeProfessional.
+- daily is a DAY plan, not a roadmap: 8-12 timed entries from waking to bed ("07:00", "07:05", …) covering skincare, grooming, food, water, training, posture, sleep. Precise, like the routine of a man who takes his appearance very seriously.
+- monologue: 120-180 words in first person, as the principal narrating his own morning routine in the cool, exacting, product-obsessed style of Patrick Bateman's famous monologue — but personalised to THIS plan and original wording, not quotes from the film. Grooming and discipline only; nothing dark.
+- greeting: one line from J.A.R.V.I.S. that makes them feel seen, e.g. "Analysis complete, ${title}. You have more to work with than you think."
+- diet: 4-6 points specific to their skin and body goal (skin-clearing foods, what to cut, and if gaining weight, how).
+- followUps: 3-4 questions they would likely want to ask next.
+
+Return ONLY valid JSON, no markdown fences:
+{
+  "greeting": "…",
+  "headline": "2-3 sentences: the overall read — assets, the biggest levers, and the honest summary",
+  "strongest": ["3 genuine assets"],
+  "priorities": [{ "title": "…", "why": "…", "impact": "High|Medium" }],
+  "faceShape": "oval|round|square|heart|diamond|oblong|triangle",
+  "faceShapeReasoning": "…",
+  "metrics": [{ "area": "Skin texture", "category": "Skin|Structure|Eyes|Hair|Grooming|Smile|Body", "status": "Strong|Solid|Improve|Priority", "observed": "what you see", "improve": "what better looks like", "how": ["step", "step"], "timeline": "when results show" }],
+  "haircuts": [{ "name": "…", "why": "…" }],
+  "facialHair": [{ "style": "…", "why": "…" }],
+  "glasses": "frame shapes that suit them and why",
+  "daily": [{ "time": "07:00", "action": "…", "detail": "…" }],
+  "weekly": ["…"],
+  "skincare": { "morning": ["step"], "evening": ["step"], "notes": "how actives are scheduled across the week" },
+  "diet": ["…"],
+  "avoid": ["…"],
+  "monologue": "…",
+  "seeProfessional": "…",
+  "followUps": ["…"]
+}`,
+  });
+
+  const msg = await client.messages.create({
+    model: 'claude-sonnet-5',
+    max_tokens: 16000,
+    ...NO_THINKING,
+    messages: [{ role: 'user', content: content as never }],
+  });
+  let out: unknown;
+  try { out = parse(textOf(msg)); } catch { out = null; }
+  if (!isValidFaceDossier(out)) throw new Error(INCOMPLETE);
+  return { ...normaliseDossier(out), builtAt: new Date().toISOString() };
+}
+
+/* One retry on a cut-off response, same reasoning as the personal plan. */
+export async function analyseFaceDossierWithRetry(photos: { label: string; dataUrl: string }[], intake: FaceIntake): Promise<FaceDossier> {
+  try {
+    return await analyseFaceDossier(photos, intake);
+  } catch (e) {
+    if (!(e instanceof Error && e.message.includes('incomplete'))) throw e;
+    return await analyseFaceDossier(photos, intake);
+  }
+}
+
+export interface AdvisorTurn { role: 'user' | 'assistant'; text: string; photo?: string }
+
+/* Follow-up questions after a scan: "spots on my back", "fitting tret in".
+ * The dossier summary rides along as context so answers fit THEIR routine. */
+export async function askLooksAdvisor(history: AdvisorTurn[], intake: FaceIntake, dossier: FaceDossier | null): Promise<string> {
+  const client = makeClient();
+  const title = intake.title?.trim() || 'sir';
+  const context = dossier
+    ? [
+        `Headline: ${dossier.headline}`,
+        `Priorities: ${dossier.priorities.map(p => p.title).join('; ')}`,
+        `Metrics: ${dossier.metrics.map(m => `${m.area} (${m.status}): ${m.observed}`).join(' | ')}`,
+        `Morning routine: ${dossier.skincare.morning.join(' → ')}`,
+        `Evening routine: ${dossier.skincare.evening.join(' → ')}`,
+        `Active scheduling: ${dossier.skincare.notes}`,
+      ].join('\n')
+    : 'No face scan yet.';
+  // Only the latest photo is sent, to keep the request small.
+  const lastPhotoIdx = history.map(h => !!h.photo).lastIndexOf(true);
+  const messages = history.map((h, i) => ({
+    role: h.role,
+    content: h.role === 'user' && h.photo && i === lastPhotoIdx
+      ? [imageBlock(h.photo), { type: 'text' as const, text: h.text }]
+      : h.text,
+  }));
+  const msg = await client.messages.create({
+    model: 'claude-sonnet-5',
+    max_tokens: 4000,
+    ...NO_THINKING,
+    system: `You are J.A.R.V.I.S., a composed British AI with the knowledge of a celebrity dermatologist, barber, stylist and nutritionist. You address the user as "${title}". Dry, precise, warm underneath; never sycophantic.
+
+What you know about them:
+${intakeText(intake)}
+
+Their current face dossier:
+${context}
+
+Answer their question specifically and practically: exact product types, actives and strengths, frequency, where it slots into THEIR existing routine (name the step and the night), how long until results, and what would mean seeing a GP or dermatologist. If they attach a photo, describe what you see before advising, and say plainly when something needs a professional to look at it in person (changing moles, suspected infection, cystic acne, anything painful or spreading). You cannot diagnose; say so when it matters, without hiding behind it.
+
+Format: plain text, short paragraphs, "- " for lists. No markdown headings, no bold. Keep it under 250 words unless they ask for more.`,
+    messages: messages as never,
+  });
+  return textOf(msg) || 'I did not catch that, sir. Ask again?';
+}
+
+/* ================= AI CHEF ================= */
+
+
+export function isValidRecipe(v: unknown): v is Recipe {
+  if (!v || typeof v !== 'object') return false;
+  const o = v as Record<string, unknown>;
+  return typeof o.name === 'string' && nonEmptyArray(o.ingredients) && nonEmptyArray(o.steps);
+}
+
+export async function generateRecipe(request: string, slot: Slot, goal: string): Promise<Recipe> {
+  const client = makeClient();
+  const msg = await client.messages.create({
+    model: 'claude-sonnet-5',
+    max_tokens: 4000,
+    ...NO_THINKING,
+    messages: [{
+      role: 'user',
+      content: `You are a Michelin-trained chef in the style of Gordon Ramsay — exacting, practical, obsessed with seasoning and technique — writing for a 20-year-old in the UK who is learning to cook and cares about building muscle and clear, healthy skin.
+
+Meal slot: ${slot}
+Their goal: ${goal || 'gain lean size and improve skin'}
+Their request: "${request}"
+
+Write ONE recipe. Use whole foods, UK supermarket ingredients, and quantities for one person. Steps must be precise enough for a beginner: heat levels, times, what "done" looks like. Seasoning gets its own field with exact amounts. The chef tips are the restaurant-level upgrades that make it taste twice as good. "looks" says honestly what it does for skin, hair or physique (no exaggeration). Estimate kcal and protein honestly.
+
+Return ONLY valid JSON, no markdown fences:
+{ "name": "…", "kcal": 0, "protein": 0, "mins": 0, "tags": ["Gain|Skin|Quick|Batch|Dairy-free|Lean"], "looks": "…", "ingredients": ["…"], "steps": ["…"], "season": "…", "chef": ["…"] }`,
+    }],
+  });
+  let out: unknown;
+  try { out = parse(textOf(msg)); } catch { out = null; }
+  if (!isValidRecipe(out)) throw new Error(INCOMPLETE);
+  const o = out as unknown as Record<string, unknown>;
+  const n = (x: unknown) => (typeof x === 'number' && isFinite(x) ? Math.round(x) : 0);
+  return {
+    id: `ai-${Date.now()}`,
+    slot,
+    name: str(o.name),
+    kcal: n(o.kcal),
+    protein: n(o.protein),
+    mins: n(o.mins),
+    tags: strs(o.tags),
+    looks: str(o.looks),
+    ingredients: strs(o.ingredients),
+    steps: strs(o.steps),
+    season: str(o.season),
+    chef: strs(o.chef),
+    custom: true,
+  };
 }

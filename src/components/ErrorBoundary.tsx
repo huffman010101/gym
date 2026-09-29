@@ -18,6 +18,10 @@ import { AlertTriangle, RotateCcw, Trash2 } from 'lucide-react';
 const DERIVED_KEYS = [
   'gymforge_layering',
   'gymforge_face_scan',
+  'gymforge_face_dossier',
+  'gymforge_face_chat',
+  'gymforge_meal_plan',
+  'gymforge_custom_meals',
   'gymforge_studypack',
   'gymforge_subject_concepts',
   'gymforge_knowledge_generated',

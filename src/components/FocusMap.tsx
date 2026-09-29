@@ -15,7 +15,8 @@ interface Goal { id: string; label: string; dests: Dest[] }
 const GOALS: Goal[] = [
   { id: 'size', label: 'Bigger & stronger', dests: [
     { to: '/programs?tab=plan', label: 'Gym → The Plan', why: 'The three sessions. Start here, every week.' },
-    { to: '/plan', label: 'AI Plan', why: 'Calories and meals for your body' },
+    { to: '/looksmax?tab=diet', label: 'Looks → Diet', why: 'Swappable meal plan with full recipes' },
+    { to: '/plan', label: 'AI Plan', why: 'Your calorie number' },
     { to: '/food', label: 'Food Log', why: 'Hit the protein number' },
     { to: '/physique', label: 'Physique', why: 'Measurements and progress photos' },
   ] },
@@ -30,11 +31,11 @@ const GOALS: Goal[] = [
     { to: '/football?tab=warmup', label: 'Football → Warm-Up', why: 'Your ankle on match day' },
   ] },
   { id: 'looks', label: 'Look better', dests: [
-    { to: '/looksmax?tab=scan', label: 'Looks → AI Scan', why: 'Haircut and beard for your face' },
+    { to: '/looksmax?tab=scan', label: 'Looks → J.A.R.V.I.S. Scan', why: 'Every metric of your face, and a daily plan' },
     { to: '/looksmax?tab=skin', label: 'Looks → Skin', why: 'The morning and night routine' },
-    { to: '/looksmax?tab=face', label: 'Looks → Face', why: 'Jaw, mewing, eyes, lips' },
-    { to: '/looksmax?tab=techniques', label: 'Looks → Body & Habits', why: 'Body fat, debloat, diet' },
-    { to: '/looksmax?tab=style', label: 'Looks → Style', why: 'Clothes, colours, photos' },
+    { to: '/looksmax?tab=look', label: 'Looks → Face · Hair · Style', why: 'Jaw, hair, grooming, clothes' },
+    { to: '/looksmax?tab=diet', label: 'Looks → Diet', why: 'Meal plan, recipes, foods for skin' },
+    { to: '/looksmax?tab=techniques', label: 'Looks → Body & Habits', why: 'Body fat, debloat, sleep' },
   ] },
   { id: 'girls', label: 'Girls & confidence', dests: [
     { to: '/mind?tab=secret', label: 'Mind → Game Plan', why: 'Clubs, approaching, texting, dates' },
