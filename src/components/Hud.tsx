@@ -9,11 +9,11 @@ import type { LucideIcon } from 'lucide-react';
  * keeps its own local helpers (see CLAUDE.md); only the frame is shared.
  */
 
-export function SectionHeader({ icon: Icon, title, subtitle }: { icon: LucideIcon; title: string; subtitle?: string }) {
+export function SectionHeader({ icon: Icon, title, subtitle, back }: { icon: LucideIcon; title: string; subtitle?: string; back?: { to: string; label: string } }) {
   return (
     <div className="mb-5">
-      <Link to="/" className="inline-flex items-center gap-1 font-hud text-[11px] font-bold uppercase tracking-[0.22em] text-cyan-400/70 hover:text-cyan-200 mb-4">
-        <ChevronLeft size={14} /> Command
+      <Link to={back?.to ?? '/'} className="inline-flex items-center gap-1 font-hud text-[11px] font-bold uppercase tracking-[0.22em] text-cyan-400/70 hover:text-cyan-200 mb-4">
+        <ChevronLeft size={14} /> {back?.label ?? 'Command'}
       </Link>
       <div className="flex items-center gap-3">
         <div className="w-11 h-11 rounded-xl border border-cyan-400/30 bg-cyan-400/[0.07] flex items-center justify-center shadow-[0_0_18px_rgba(34,211,238,0.15)] flex-shrink-0">

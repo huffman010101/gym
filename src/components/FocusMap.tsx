@@ -58,7 +58,6 @@ const GOALS: Goal[] = [
     { to: '/uni?tab=ai', label: 'Uni → AI Study Pack', why: 'Upload notes, get the revision pack' },
     { to: '/uni?tab=smarter', label: 'Uni → Get Smarter', why: 'Memory and learning fast' },
     { to: '/uni?tab=career', label: 'Uni → Career', why: 'CV, tests, interviews' },
-    { to: '/uni?tab=sleep', label: 'Uni → Sleep Lab', why: 'Sleep as revision' },
   ] },
   { id: 'fight', label: 'Fighting', dests: [
     { to: '/combat?tab=fundamentals', label: 'Combat → Fundamentals', why: 'Stance, base, clinch' },

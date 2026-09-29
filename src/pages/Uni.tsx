@@ -2,22 +2,20 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, GraduationCap, Brain, Sun, Briefcase, Moon, Loader2, AlertCircle, ChevronDown, Sparkles, Clock, Upload, FileText, X, Lightbulb, BookOpen } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
-import { SectionHeader, TabBar } from '../components/Hud';
+import { SectionHeader, TabBar, OneThing } from '../components/Hud';
 import BookNotes from '../components/BookNotes';
 import { generateStudyPack, generateSubjectConcepts, isValidStudyPack, type SubjectConcept } from '../lib/generators';
 import { extractFile, combine, MAX_TOTAL_CHARS, type Extracted } from '../lib/extractText';
 import type { StudyPack } from '../lib/generators';
 
-type Tab = 'ai' | 'subject' | 'smarter' | 'books' | 'day' | 'career' | 'sleep';
+type Tab = 'ai' | 'subject' | 'smarter' | 'books' | 'career';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'ai', label: 'AI Study Pack' },
   { id: 'subject', label: 'My Subject' },
   { id: 'smarter', label: 'Get Smarter' },
   { id: 'books', label: 'Book Notes' },
-  { id: 'day', label: 'High-Value Day' },
   { id: 'career', label: 'Career' },
-  { id: 'sleep', label: 'Sleep Lab' },
 ];
 
 function Block({ title, items, accent = 'text-sky-300' }: { title: string; items: [string, string][]; accent?: string }) {
@@ -67,13 +65,13 @@ export default function Uni() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['ai', 'subject', 'smarter', 'books', 'day', 'career', 'sleep'] as const).includes(t as Tab) ? (t as Tab) : 'ai';
+    return (['ai', 'subject', 'smarter', 'books', 'career'] as const).includes(t as Tab) ? (t as Tab) : 'ai';
   });
   // Follow ?tab= changes while already on this page (links between its own
   // tabs), not just on first mount.
   useEffect(() => {
     const t = params.get('tab');
-    if (t && (['ai', 'subject', 'smarter', 'books', 'day', 'career', 'sleep'] as const).includes(t as Tab)) setTab(t as Tab);
+    if (t && (['ai', 'subject', 'smarter', 'books', 'career'] as const).includes(t as Tab)) setTab(t as Tab);
   }, [params]);
   const [course, setCourse] = useState('');
   const [modules, setModules] = useState('');
@@ -187,6 +185,7 @@ export default function Uni() {
         {/* ===== AI STUDY PACK ===== */}
         {tab === 'ai' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Upload your lecture slides and notes, set the exam date, and get a timetable, priority sheet, summaries and exam technique.", "Use the priority sheet first — it tells you where the marks live.", "Do past papers, not re-reading. Testing yourself is what makes it stick."]} />
             <div className="card-premium p-5">
               <div className="flex items-center gap-2 mb-1">
                 <Sparkles size={15} className="text-sky-400" />
@@ -321,6 +320,7 @@ export default function Uni() {
         {/* ===== MY SUBJECT ===== */}
         {tab === 'subject' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Stuck on a concept? Ask it here for a simple explanation, an example and how it gets examined.", "Explain it back in your own words afterwards — if you cannot, you do not know it yet."]} />
             <div className="card-premium p-5">
               <div className="flex items-center gap-2 mb-1">
                 <BookOpen size={15} className="text-sky-400" />
@@ -424,6 +424,7 @@ export default function Uni() {
         {/* ===== GET SMARTER ===== */}
         {tab === 'smarter' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Test yourself instead of re-reading. Retrieval practice roughly doubles what you keep.", "Space it out: the same topic on day 1, 3, 7 and 21 beats one long session.", "Sleep is when revision gets saved. Never trade it for an all-nighter."]} />
             <Fold title="How to remember almost anything" tag="The techniques that actually beat forgetting" items={[
               ['The forgetting curve is the problem', 'Without review you lose roughly half of new material within a day or two and most of it within a week. Everything below exists to interrupt that curve. Studying without reviewing is filling a bucket with a hole in it.'],
               ['Spaced repetition — the single best tool', 'Review at day 1, 3, 7, 14, 30. Each successful recall at a longer gap makes the memory more durable. Anki does the scheduling for you — 15 minutes a day of cards beats a three-hour cram, and it is not close.'],
@@ -495,50 +496,29 @@ export default function Uni() {
               ['Learn hard things constantly', 'New language, instrument, coding, chess — difficulty is the stimulus. Comfort content (feeds, highlights) is cognitive junk food.'],
               ['Feed it', 'Omega-3s, eggs (choline), berries, dark chocolate, hydration, caffeine BEFORE studying not during sleep hours. Chronic sugar + ultra-processed = brain fog.'],
             ]} />
-          </div>
-        )}
-
-        {/* ===== BOOK NOTES ===== */}
-        {tab === 'books' && <BookNotes />}
-
-        {/* ===== HIGH-VALUE DAY ===== */}
-        {tab === 'day' && (
-          <div className="fade-up stagger space-y-4">
-            <div className="card-premium p-5">
-              <h3 className="font-bold mb-2 flex items-center gap-2"><Sun size={16} className="text-sky-400" /> The Architecture of a High-Value Day</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                You don't rise to goals, you fall to systems. This template stacks everything in this app into one repeatable day.
-                Adjust times to your lectures — protect the STRUCTURE, not the exact clock.
-              </p>
-            </div>
-            {[
-              ['06:30-07:30 — Launch sequence', ['Wake same time daily (weekends ±1h max) — this alone upgrades sleep quality', 'Sunlight in eyes within 30 min (window/walk) — sets your circadian clock, boosts daytime energy', 'Water + make bed + 5 min movement or stretch', 'NO PHONE for the first 30 min — your attention is highest-value before the world claims it']],
-              ['07:30-08:00 — Body & face', ['Shower (end 30s cold — proven mood/alertness spike)', 'Skincare AM routine (Looks tab)', 'Fragrance, outfit from your capsule — dress intentionally even for lectures', 'Breakfast: protein-anchored (eggs), not cereal']],
-              ['08:00-12:00 — Deep work block', ['Hardest mental work FIRST while glucose and willpower are full: lectures, study pack tasks, business building', '90-min focus blocks, phone in another room', 'This is where degrees and businesses are actually built — protect it violently']],
-              ['12:00-14:00 — Fuel & train', ['Lunch: protein + carbs (performance meal, not a deli meal deal)', 'Training: gym / football / combat (your programme from Gym tab)', 'Training midday = energy for the afternoon instead of a slump']],
-              ['14:00-18:00 — Second block', ['Lectures, lighter study (flashcards, past-paper review), applications & outreach (Career tab, Money sprint)', 'Social time slots here too — lunch with mates, society stuff: connection is a pillar, not a distraction']],
-              ['18:00-21:00 — Life block', ['Dinner (cook properly — a man who cooks is ahead on 3 metrics at once)', 'Social / date / calls home / hobby', 'Content creation or business admin if building (Money tab)']],
-              ['21:00-22:30 — Shutdown sequence', ['Screens dim/off by 21:30 (or blue-blockers on — Sleep Lab)', 'PM skincare + tomorrow\'s 3 priorities written down (kills morning decision fatigue AND bedtime rumination)', '3 wins logged (Mind tab) + read 20 pages', 'Same bedtime every night — the whole day\'s energy is decided here']],
-            ].map(([title, items]) => (
-              <div key={title as string} className="bg-[#111] border border-white/8 rounded-2xl p-5">
-                <h3 className="font-bold text-sky-300 mb-2">{title as string}</h3>
-                <ul className="space-y-1.5">
-                  {(items as string[]).map((it, i) => <li key={i} className="text-gray-400 text-sm leading-relaxed">• {it}</li>)}
-                </ul>
-              </div>
-            ))}
-            <Block title="The rules that hold it together" items={[
-              ['Non-negotiables vs flexibles', 'Wake time, training, deep work block, shutdown = fixed. Everything else can move around them. 4 anchors is enough to make any chaotic day high-value.'],
-              ['The 80% rule', 'Hitting this 5-6 days a week transforms you within months. Hitting it 7/7 for two weeks then quitting transforms nothing. Consistency > intensity, everywhere, always.'],
-              ['Track leading, not lagging', 'Don\'t judge days by outcomes (marks, matches, money) — judge by whether you executed the blocks. Outcomes follow execution with a delay.'],
-              ['One day = the life', 'How you do one Tuesday is how you do everything. The day IS the transformation — there is no other mechanism.'],
+            <Block title="Sleep and exams — the study-specific part" items={[
+              ['Sleep is when revision gets saved', 'Deep sleep moves the day\'s material into long-term memory. Revision without sleep is typing a document and never pressing save.'],
+              ['Never pull an all-nighter', 'You lose the consolidation of what you just revised and sit the exam foggy. Sleeping and knowing 80% beats knowing 100% exhausted.'],
+              ['Review the hardest topic last thing', 'Ten minutes on what you keep forgetting, right before bed, gets preferentially stored.'],
+              ['Naps: 20 minutes or 90', 'Twenty before 3pm for alertness, ninety for an extra round of memory. Never 45 — you wake groggy.'],
+              ['Desk for work, bed for sleep', 'Revising in bed makes falling asleep harder when you need it most. The full night routine is in Mind → Morning & Night.'],
             ]} />
           </div>
         )}
 
+        {/* ===== BOOK NOTES ===== */}
+        {tab === 'books' && (
+          <div className="space-y-4">
+            <OneThing points={['Save the few ideas from each book that change what you do — not a summary of the whole thing.', 'One idea applied beats ten books skimmed.']} />
+            <BookNotes />
+          </div>
+        )}
+
+
         {/* ===== CAREER ===== */}
         {tab === 'career' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Start in first year: spring weeks and insight days are how internships and graduate offers actually begin.", "A one-page CV with numbers (\"grew X by 30%\") beats two pages of duties.", "Practise online tests and video interviews before the real ones — both are learnable."]} />
             <Block title="The Headstart Strategy — get ahead of everyone" items={[
               ['The timeline nobody tells you', 'Spring weeks (Year 1) → summer internships (Year 2, applications open SEPTEMBER of Year 2, close by December) → grad offers from converting internships. Most students find out a year too late. You now know.'],
               ['Apply early, literally', 'Many schemes fill on a rolling basis — an identical application in September beats itself submitted in November. Set the deadlines in your calendar NOW.'],
@@ -576,54 +556,6 @@ export default function Uni() {
           </div>
         )}
 
-        {/* ===== SLEEP LAB ===== */}
-        {tab === 'sleep' && (
-          <div className="fade-up stagger space-y-4">
-            <div className="card-premium p-5">
-              <h3 className="font-bold mb-2 flex items-center gap-2"><Moon size={16} className="text-sky-400" /> Sleep Is Where Revision Becomes Memory</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Studying puts information into a temporary buffer. Sleep is the process that files it permanently —
-                which means an all-nighter does not just make you tired, it deletes most of what you stayed up to learn.
-                This tab is sleep as a <span className="text-sky-300 font-semibold">study tool</span>; the wind-down
-                ritual itself lives in Mind → Night Routine.
-              </p>
-            </div>
-
-            <Block title="Why sleep IS revision" items={[
-              ['Consolidation happens overnight, not at the desk', 'During deep sleep your brain replays the day\'s new material and moves it from short-term storage into long-term memory. Revision without sleep is loading a file and never hitting save.'],
-              ['You need sleep BEFORE learning as well as after', 'A tired brain forms weaker memories in the first place — studies consistently show a sleep-deprived night before studying reduces how much you take in, on top of the damage to consolidation afterwards.'],
-              ['REM does the understanding, deep sleep does the facts', 'Deep sleep (early night) handles raw factual recall — definitions, formulas, dates. REM (late night, the part you cut by waking early) handles connecting ideas and problem-solving. Cutting either end of the night costs you a different kind of learning.'],
-              ['This is why spaced revision works', 'Reviewing across several nights beats one long session largely because each night of sleep in between does a round of filing. The sleep is not downtime between study sessions — it is part of the method.'],
-            ]} />
-
-            <Block title="Exam period — the honest rules" items={[
-              ['Never pull an all-nighter before an exam', 'The single worst study decision available. You lose the consolidation of everything you just revised AND sit the exam with impaired recall, attention and decision-making. Sleeping and knowing 80% beats being awake and able to access 50%.'],
-              ['A bad night before is survivable — a bad week is not', 'One poor night costs you some sharpness. A fortnight of 5-hour nights during revision genuinely erodes how much of the material ever gets stored. Protect the run-up more than the night itself.'],
-              ['Front-load your hardest material earlier in the day', 'You take in new, difficult content best when rested. Leave lighter review, past papers you have seen before, and admin for the evening dip.'],
-              ['Review the hardest topic last thing before bed', 'Material studied shortly before sleep gets preferentially consolidated. Ten minutes on the topic you keep forgetting, right before the wind-down, is a genuinely free win.'],
-              ['Do not shift your wake time during exam season', 'Waking at 5am for an exam you have never woken up at 5am for means sitting it in a physiological fog. Move your wake time gradually in the week beforehand instead.'],
-            ]} />
-
-            <Block title="Naps, caffeine and the study day" items={[
-              ['Naps: 20 minutes or 90, never 45', 'A 20-minute nap before 3pm restores alertness with no grogginess. A full 90-minute cycle gives you an extra round of consolidation — genuinely useful mid-revision. Waking at 45 minutes drags you out of deep sleep and feels worse than not napping.'],
-              ['The nap-after-learning trick', 'A short nap directly after a heavy study block measurably improves retention of what you just covered. If you have the time in a long revision day, it beats pushing straight into the next hour tired.'],
-              ['Caffeine cutoff: 8-10 hours before bed', 'Half of a 2pm coffee is still in you at 8pm. It rarely stops you falling asleep — it quietly strips out the deep sleep doing your consolidation. During exam season this matters more than usual: last coffee by early afternoon.'],
-              ['Alcohol destroys the filing, not just the morning', 'It knocks you out then suppresses REM for the whole night. A night out mid-revision-week costs you the consolidation of that day\'s work, not just the next morning.'],
-              ['Do not revise in bed', 'It trains your brain that bed is a place for effort and stress, which makes falling asleep harder exactly when you need it most. Desk for work, bed for sleep — the separation is doing real work.'],
-            ]} />
-
-            <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
-              <p className="text-gray-400 text-xs leading-relaxed mb-2">
-                The actual wind-down protocol — the 90-minute ramp, light, temperature, breathing, phone out of the
-                room, what to do when you cannot sleep — is one routine and lives in one place rather than being
-                repeated here.
-              </p>
-              <Link to="/mind?tab=night" className="inline-block text-[11px] font-bold bg-sky-500/10 border border-sky-500/25 text-sky-200 px-3 py-1.5 rounded-full">
-                Mind → Night Routine
-              </Link>
-            </div>
-          </div>
-        )}
       </div>
       <BottomNav />
     </main>

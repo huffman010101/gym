@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
+import { SectionHeader } from '../components/Hud';
 import type { BodyMetric, ProgressPhoto } from '../lib/types';
-import { ArrowLeft, Plus, Trash2, Camera, TrendingUp, TrendingDown, Minus, Upload, X, Sparkles, Loader } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, Camera, TrendingUp, TrendingDown, Minus, Upload, X, Sparkles, Loader, Activity } from 'lucide-react';
 import { reviewPhoto } from '../lib/generators';
 
 type Tab = 'metrics' | 'photos';
@@ -182,11 +183,8 @@ export default function Physique() {
 
   return (
     <div className="min-h-screen bg-transparent text-white pb-24">
-      <div className="px-4 pt-12 pb-4 bg-gradient-to-b from-purple-950/30 to-transparent">
-        <Link to="/" className="inline-flex items-center text-gray-500 hover:text-white text-sm mb-4 transition-colors">
-          <ArrowLeft size={15} className="mr-1" /> Home
-        </Link>
-        <h1 className="text-3xl font-black tracking-tight">Physique</h1>
+      <div className="px-5 pt-6">
+        <SectionHeader icon={Activity} title="Physique" subtitle="Measurements and progress photos" back={{ to: '/programs', label: 'Gym' }} />
       </div>
 
       {/* Tabs */}

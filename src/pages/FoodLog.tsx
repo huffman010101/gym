@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
+import { SectionHeader } from '../components/Hud';
 import { analyzeFoodLog } from '../lib/generators';
 import { calcMacros } from '../lib/calculations';
 import type { FoodAnalysis, Macros } from '../lib/types';
-import { Zap, ArrowLeft, Loader2, ChevronDown, ChevronUp, ChevronRight, AlertCircle, Check } from 'lucide-react';
+import { Zap, ArrowLeft, Loader2, ChevronDown, ChevronUp, ChevronRight, AlertCircle, Check, Flame } from 'lucide-react';
 
 function todayStr(): string {
   return new Date().toISOString().split('T')[0];
@@ -57,13 +58,8 @@ export default function FoodLog() {
 
   return (
     <div className="min-h-screen bg-transparent text-white pb-24">
-      <div className="px-4 pt-12 pb-6 bg-gradient-to-b from-green-950/30 to-transparent">
-        <Link to="/" className="inline-flex items-center text-gray-500 hover:text-white text-sm mb-4 transition-colors">
-          <ArrowLeft size={15} className="mr-1" /> Home
-        </Link>
-        <h1 className="text-3xl font-black tracking-tight">Fuel Log</h1>
-        <p className="text-gray-400 text-sm mt-1">Tell me what you've eaten — I'll break it down</p>
-        <p className="text-gray-600 text-xs mt-0.5">{new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}</p>
+      <div className="px-5 pt-6">
+        <SectionHeader icon={Flame} title="Fuel Log" subtitle="Tell me what you ate — I will break it down" back={{ to: '/programs', label: 'Gym' }} />
       </div>
 
       <div className="px-4 space-y-4">

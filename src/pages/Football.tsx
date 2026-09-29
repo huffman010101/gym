@@ -2,21 +2,20 @@ import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Zap, Target, Users, Activity, ChevronDown, Trophy } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
-import { SectionHeader, TabBar } from '../components/Hud';
+import { SectionHeader, TabBar, OneThing } from '../components/Hud';
 
-type Tab = 'plan' | 'home' | 'speed' | 'shooting' | 'skills' | 'position' | 'setpieces' | 'physical' | 'elite' | 'warmup';
+type Tab = 'plan' | 'home' | 'speed' | 'shooting' | 'skills' | 'position' | 'setpieces' | 'physical' | 'warmup';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'plan', label: 'The Plan' },
-  { id: 'home', label: 'Home Drills' },
-  { id: 'speed', label: 'Speed' },
+  { id: 'warmup', label: 'Warm-Up' },
+  { id: 'skills', label: 'Skills' },
   { id: 'shooting', label: 'Shooting' },
-  { id: 'skills', label: 'Every Metric' },
+  { id: 'speed', label: 'Speed' },
+  { id: 'physical', label: 'Physicality' },
   { id: 'position', label: 'By Position' },
   { id: 'setpieces', label: 'Set Pieces' },
-  { id: 'physical', label: 'Physicality' },
-  { id: 'elite', label: 'Becoming Elite' },
-  { id: 'warmup', label: 'Warm-Up' },
+  { id: 'home', label: 'Home Drills' },
 ];
 
 function Block({ title, items, accent = 'text-emerald-300' }: { title: string; items: [string, string][]; accent?: string }) {
@@ -66,13 +65,13 @@ export default function Football() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['plan', 'home', 'speed', 'shooting', 'skills', 'position', 'setpieces', 'physical', 'elite', 'warmup'] as const).includes(t as Tab) ? (t as Tab) : 'plan';
+    return (['plan', 'home', 'speed', 'shooting', 'skills', 'position', 'setpieces', 'physical', 'warmup'] as const).includes(t as Tab) ? (t as Tab) : 'plan';
   });
   // Follow ?tab= changes while already on this page (links between its own
   // tabs), not just on first mount.
   useEffect(() => {
     const t = params.get('tab');
-    if (t && (['plan', 'home', 'speed', 'shooting', 'skills', 'position', 'setpieces', 'physical', 'elite', 'warmup'] as const).includes(t as Tab)) setTab(t as Tab);
+    if (t && (['plan', 'home', 'speed', 'shooting', 'skills', 'position', 'setpieces', 'physical', 'warmup'] as const).includes(t as Tab)) setTab(t as Tab);
   }, [params]);
 
   return (
@@ -86,6 +85,7 @@ export default function Football() {
         {/* ===== HOME DRILLS ===== */}
         {tab === 'home' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["A wall, a ball and ten minutes a day is enough to change your first touch in a month."]} />
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2">What you can genuinely build alone</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -166,66 +166,11 @@ export default function Football() {
           </div>
         )}
 
-        {/* ===== BECOMING ELITE ===== */}
-        {tab === 'elite' && (
-          <div className="fade-up stagger space-y-4">
-            <div className="card-premium p-5">
-              <h3 className="font-bold mb-2">The honest version first</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Nobody can hand you a route to being the best player ever — that involves genetics, timing, academy
-                access and luck nobody controls. What IS fully controllable is becoming
-                <span className="text-emerald-300 font-semibold"> dramatically better than you are now, and the best
-                player in most rooms you walk into</span>. Everything below is the part that is actually in your hands,
-                and almost nobody does all of it.
-              </p>
-            </div>
-
-            <Block title="What actually separates players" items={[
-              ['Volume of touches, over years', 'The strongest single pattern in elite players is not talent — it is having touched a ball vastly more times than everyone else by the time they were 18. This is why the home drills tab matters more than it looks: it is the only lever that adds thousands of touches without needing a team, a coach or a pitch.'],
-              ['Being two-footed', 'The clearest, most achievable separator available. Genuinely comfortable on both feet doubles your options in every situation and removes the single most common way defenders neutralise a player. It costs nothing but boring repetition.'],
-              ['Speed of decision, not speed of feet', 'The best players look like they have more time because they decided before the ball arrived. Scanning — checking your shoulders every few seconds before receiving — is a trainable habit and is what makes a good player look elite.'],
-              ['A game they actually understand', 'Watching football as a student rather than a fan: watching one player for a whole match, seeing why space appears, noticing what a striker does in the 88 minutes without the ball. This is free and almost nobody does it.'],
-              ['Physical durability', 'The most talented player who is injured four months a year loses to the good player who is available every week. Nordics, Copenhagens, sleep, and not skipping the boring prevention work — this is why the gym plan exists.'],
-              ['Ruthless consistency over intensity', 'Two hours of extra work on a motivated Sunday means little. Twenty focused minutes, five days a week, for three years, is transformative. The maths is genuinely that simple and it is why most people never get there.'],
-            ]} />
-
-            <Fold title="The mentality that separates" tag="The half nobody trains" items={[
-              ['Train your weaknesses, play to your strengths', 'Most players spend practice doing what they are already good at because it feels better. An hour on your weak foot or your heading is worth ten on the thing you already do well.'],
-              ['Deliberate practice, not just playing', 'Playing is fun and builds decision-making. But focused repetition on ONE specific weakness, with full attention, is what actually changes ability. Both are needed and most players only do the first.'],
-              ['Judge yourself on performance, not the result', 'Did you make good decisions, track back, take your chances? A goal from a poor performance teaches you nothing; a strong performance in a loss is progress. This is the Stoic "judge yourself on inputs" rule applied to football.'],
-              ['Be the easiest player to coach', 'Take criticism without sulking, apply it immediately, ask questions. Coaches invest their time in players who visibly use it — that extra attention compounds over seasons.'],
-              ['Recover like it is part of training', 'Sleep, protein, and actually taking the rest day. Adaptation happens in recovery, and this is where most young players quietly leave progress on the table.'],
-              ['Handle being dropped without collapsing', 'Every player faces a bad spell, a bad manager, a season on the bench. The ones who come through it are not the most talented — they are the ones whose self-belief was not resting on being picked.'],
-            ]} />
-
-            <Fold title="How to actually improve fastest" tag="A method, not a wish" items={[
-              ['Pick ONE weakness per 6-week block', 'Weak foot, first touch, heading, scanning, finishing — one at a time, drilled every session until it stops being a weakness. The block structure and how to pick is in The Plan tab.'],
-              ['Film yourself', 'Phone propped up for one home session or one match. You will immediately see things you cannot feel — heavy touches, poor body shape, standing still off the ball. The single fastest feedback loop available to you.'],
-              ['Keep a training log', 'What you drilled, for how long, and one line on how it went. It converts vague effort into visible progression, and it stops you from quietly doing only what you enjoy.'],
-              ['Play with better players wherever possible', 'Being the worst player in a strong session improves you faster than dominating a weak one. It is uncomfortable, which is exactly why it works.'],
-              ['Play other formats', 'Futsal and 5-a-side massively accelerate close control and quick decisions because the ball comes to you constantly in tight space. Many elite players credit futsal specifically.'],
-              ['Get game time above all else', 'If you are not playing, change something — a different team, a different level, a different position. Minutes on a pitch are the one input that has no substitute.'],
-            ]} />
-
-            <div className="bg-[#111] border border-emerald-500/25 rounded-2xl p-5">
-              <h3 className="font-bold text-emerald-300 mb-2">If you want the realistic path</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Touch every day at home. Weak foot in every session. Scan constantly. Watch football like a student.
-                Do the injury-prevention work. Play at the highest level that will have you, as often as possible.
-                Fix one specific weakness at a time and film yourself doing it.
-              </p>
-              <p className="text-gray-400 text-sm leading-relaxed mt-3">
-                Do that for three years and you will be unrecognisable as a player — and you will have done more than
-                almost anyone you play with. Whether it ends in a professional contract is not fully yours to decide;
-                whether you get genuinely, visibly good absolutely is.
-              </p>
-            </div>
-          </div>
-        )}
 
         {/* ===== THE PLAN ===== */}
         {tab === 'plan' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Twenty minutes with a ball on your own every day beats one long session a week.", "Practise at game speed with a purpose: weak foot, first touch, scanning. Mindless kickabouts do not improve you.", "Watch your position in pro games and copy one habit a week."]} />
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2">How to actually get good — the structure</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -312,6 +257,7 @@ export default function Football() {
         {/* ===== SPEED ===== */}
         {tab === 'speed' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Speed is mostly the first five metres: lean, drive the knees, push the ground back.", "Deceleration is the skill in changing direction — low hips, short steps.", "The sprints and jumps on Gym leg day are what make you quicker."]} />
             <Block title="Sprint Mechanics — free speed" items={[
               ['Acceleration posture (0-10m)', 'Lean forward 45° from the ankles, drive the ground BACK behind you with big punching steps. Chest over knee. Standing up too early kills acceleration.'],
               ['Arm drive', 'Elbows at ~90°, hands from cheek to back pocket, driven HARD. Arms set the rhythm — sloppy arms = slow legs. Never let hands cross the body\'s midline.'],
@@ -363,6 +309,7 @@ export default function Football() {
         {/* ===== SHOOTING ===== */}
         {tab === 'shooting' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Hit through the middle of the ball with your laces, ankle locked, body over it.", "Low and across the keeper beats power. Practise finishing, not just shooting."]} />
             <Block title="Striking Technique — the fundamentals" items={[
               ['Plant foot decides everything', 'Beside the ball (not behind it), pointing at your target, knee slightly bent. Plant foot too far away = slice; too close = scuff. This is 70% of bad shots.'],
               ['Lock the ankle', 'Toes down, ankle rigid as bone at contact. A floppy ankle leaks power. Strike with the hard bone of the instep (laces), not the toes.'],
@@ -388,6 +335,7 @@ export default function Football() {
         {/* ===== EVERY METRIC ===== */}
         {tab === 'skills' && (
           <div className="fade-up stagger space-y-3">
+            <OneThing points={["First touch and scanning separate levels more than any skill move.", "Check your shoulder before the ball arrives, every time. Know your next pass before you receive.", "Train the weak foot 10 minutes a day — it doubles your options."]} />
             <Fold title="First Touch" tag="The metric that decides your level" items={[
               ['Wall work — 100 touches/day', 'Pass against a wall: control with inside, outside, sole, thigh, chest. Alternate feet. First touch OUT of your feet into space, never dead under you.'],
               ['Cushion vs push', 'Cushion (soft, absorb) when marked tight; push (firm first touch into space) when you have room. Decide before the ball arrives.'],
@@ -449,6 +397,7 @@ export default function Football() {
         {/* ===== BY POSITION ===== */}
         {tab === 'position' && (
           <div className="fade-up stagger space-y-3">
+            <OneThing points={["Pick your position's three non-negotiables and judge every game on them."]} />
             <Fold title="Striker (ST)" tag="Goals are movement + composure" items={[
               ['Master the blind-side run', 'Start your run when the passer\'s head goes down, curve it to stay onside, attack the space BEHIND the centre-back\'s shoulder.'],
               ['Live on the last line', 'Constant small movements — pin, spin, drop short — never static. Defenders switch off after 3 quiet minutes; that\'s when you kill.'],
@@ -490,6 +439,7 @@ export default function Football() {
         {/* ===== PHYSICALITY ===== */}
         {tab === 'physical' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Win the duel before the ball arrives: get your body in first, arm out, low centre of gravity.", "Strength from the gym only transfers if you use it early and on purpose in games."]} />
             <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl px-4 py-3">
               <p className="text-xs text-emerald-200/85 leading-relaxed">
                 Haaland and Khusanov don't dominate because they lift the most — they dominate because of
@@ -545,17 +495,13 @@ export default function Football() {
               ['Recovery pace covers mistakes', 'Strength without pace gets exposed by any quick forward. Keep the sprint work in the Speed tab going — being big AND fast is what makes Khusanov work.'],
               ['Be relentless, not reckless', 'Constant physical presence across 90 minutes wears strikers down mentally. Late in games they stop wanting the ball. That\'s the real win.'],
             ]} />
-            <Block title="Slotting this into your week" items={[
-              ['3 gym sessions minimum', 'Two heavy lower/full-body sessions plus one upper. See the Gym tab for the full structure — that programme is already built for this.'],
-              ['Practise contact in training', 'Ask for 1v1 shielding drills, back-to-goal work, and aerial duels in training. Gym strength that never meets a real opponent stays theoretical — this is the step almost everyone skips, and it is the one this tab is actually about.'],
-              ['Give it 3-6 months', 'Meaningful mass and strength changes take a season, not a month. Track weight, main lifts, and how duels actually feel — all three should trend up together.'],
-            ]} />
           </div>
         )}
 
         {/* ===== SET PIECES ===== */}
         {tab === 'setpieces' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Corners and free kicks win tight games. Pick one delivery and master it.", "Penalties: pick your side before you walk up and never change your mind."]} />
             <Block title="Corners" items={[
               ['Inswinger vs outswinger', 'Inswinger (curling toward goal, kicked with the foot on the same side as the corner flag) is more dangerous because it moves toward goal even if flicked — most professional corners are inswingers for this reason.'],
               ['Target the front-post run', 'A near-post flick-on from a fast attacker creates chaos defenders can\'t react to — deliver it low and hard to the front post rather than a lazy floated ball to the back post.'],
@@ -588,6 +534,7 @@ export default function Football() {
         {/* ===== GYM ===== */}
         {tab === 'warmup' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Dynamic before, static after. Holding stretches before a game makes you slower.", "Twenty minutes: jog, mobilise, activate, then three build-up sprints.", "Ankle: taped or braced while it is still settling, and the hop-and-stick drill before kick-off."]} />
             <div className="bg-gradient-to-br from-emerald-500/15 to-[#111] border border-emerald-500/30 rounded-2xl p-5">
               <h3 className="font-black text-emerald-300 mb-2">Dynamic before, static after</h3>
               <p className="text-gray-400 text-sm leading-relaxed">

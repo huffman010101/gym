@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, LineChart, ChevronDown, AlertTriangle, Play, Pause, RotateCcw, TrendingUp, TrendingDown, MousePointer2, Minus, Square, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, Trash2, X, StepForward, Gauge } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
+import { SectionHeader } from '../components/Hud';
 import { generateNasdaq100Series } from '../lib/backtestData';
 import { STRATEGIES, runBacktest } from '../lib/backtest';
 import type { StrategyId, BacktestResult } from '../lib/backtest';
@@ -250,19 +251,7 @@ export default function Backtest() {
   return (
     <main className="min-h-screen bg-transparent bg-gradient-to-b from-amber-950/30 via-transparent to-transparent text-white pb-24">
       <div className="max-w-2xl mx-auto px-5 pt-6">
-        <Link to="/money?tab=trading" className="inline-flex items-center gap-1.5 text-gray-500 hover:text-gray-300 text-sm mb-5">
-          <ArrowLeft size={15} /> Trading
-        </Link>
-
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-11 h-11 bg-amber-500/10 rounded-xl flex items-center justify-center">
-            <LineChart className="text-amber-500" size={22} />
-          </div>
-          <div>
-            <h1 className="text-2xl font-black">Backtest Lab</h1>
-            <p className="text-gray-500 text-sm">Test strategies · practice decisions</p>
-          </div>
-        </div>
+        <SectionHeader icon={LineChart} title="Backtest Lab" subtitle="Test strategies · practise decisions" back={{ to: '/money?tab=trading', label: 'Trading' }} />
 
         <div className="bg-red-500/5 border border-red-500/20 rounded-xl px-4 py-3 flex items-start gap-2.5 mb-5">
           <AlertTriangle size={15} className="text-red-400 flex-shrink-0 mt-0.5" />

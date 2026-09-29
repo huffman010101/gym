@@ -5,7 +5,6 @@ import { Search, ChevronRight } from 'lucide-react';
 interface Entry { label: string; section: string; path: string; keywords: string }
 
 const INDEX: Entry[] = [
-  { label: 'The Journey (guided phases + AI advisor)', section: 'Journey', path: '/journey', keywords: 'journey phases guide walkthrough plan roadmap advisor ask ai questions coach interactive start' },
   { label: 'Know More — daily general knowledge', section: 'Knowledge', path: '/knowledge', keywords: 'general knowledge learn daily world affairs history tech business deals science economics facts interesting smart trivia geopolitics' },
   { label: 'The Feed (scroll & learn)', section: 'Feed', path: '/feed', keywords: 'feed scroll swipe cards learn tips knowledge fun interactive' },
   { label: 'J.A.R.V.I.S. Face Scan — every metric + daily plan', section: 'Looks', path: '/looksmax?tab=scan', keywords: 'ai face scan analysis dossier jarvis every metric daily plan routine haircut beard skin dermatologist patrick bateman follow up ask question spots tretinoin tret' },
@@ -25,7 +24,7 @@ const INDEX: Entry[] = [
   { label: 'Running for Debloat', section: 'Looks', path: '/looksmax?tab=techniques', keywords: 'running cardio debloat zone 2 face fat sharp jawline steps' },
   { label: 'Zygos Pop Protocol', section: 'Looks', path: '/looksmax?tab=face', keywords: 'zygos cheekbones pop gua sha lymphatic hollow cheeks' },
   { label: 'Football: Home Drills (solo, no pitch)', section: 'Football', path: '/football?tab=home', keywords: 'football home drills solo alone wall ball mastery juggling touch cones garden practice training weak foot no equipment' },
-  { label: 'Football: Becoming Elite', section: 'Football', path: '/football?tab=elite', keywords: 'football elite best player ever improve fastest separate professional mentality deliberate practice two footed scanning' },
+  { label: 'Football: getting good fast (and going pro)', section: 'Football', path: '/football?tab=plan', keywords: 'football elite best player ever improve fastest separate professional mentality deliberate practice two footed scanning' },
   { label: 'Book Notes — key takeaways from the classics', section: 'Uni', path: '/uni?tab=books', keywords: 'books book notes summary summaries reading atomic habits carnegie win friends influence people cant hurt me goggins rich dad poor dad psychology of money housel deep work mindset dweck kahneman thinking fast slow never split difference voss cialdini models manson richest man babylon millionaire next door takeaways self improvement' },
   { label: 'Padel — technique, strategy & wall play', section: 'Padel', path: '/padel', keywords: 'padel racket bandeja vibora serve volley wall glass court smash strategy positioning drills plan' },
   { label: 'Money: Investing (ISA, index funds, FIRE)', section: 'Money', path: '/money?tab=invest', keywords: 'investing invest isa stocks shares index fund s&p global tracker compound pound cost averaging fire financial freedom accumulation fees platform vanguard passive income investing 101' },
@@ -84,7 +83,6 @@ const INDEX: Entry[] = [
   { label: 'High-Value Instagram — grid, posts & reset', section: 'Looks', path: '/looksmax?tab=style', keywords: 'instagram insta ig social media presence grid profile bio posts captions highlights stories followers post ideas aesthetic feed 30 day reset thirst trap' },
   { label: 'Grooming', section: 'Looks', path: '/looksmax?tab=grooming', keywords: 'grooming beard eyebrows brows nails body hair trim' },
   { label: 'Scent / Fragrance', section: 'Looks', path: '/looksmax?tab=fragrance', keywords: 'scent fragrance perfume cologne smell layering combos edp edt most complimented' },
-  { label: 'Looksmax Tracker', section: 'Looks', path: '/looksmax?tab=tracker', keywords: 'tracker checklist daily routine morning evening weekly' },
   // Mind
   { label: 'Security — being settled in yourself', section: 'Mind', path: '/mind?tab=confidence', keywords: 'security secure insecure insecurity self worth self trust settled grounded unbothered validation reassurance comparison confidence identity' },
   { label: 'Charisma & Conversation', section: 'Mind', path: '/mind?tab=social', keywords: 'charisma conversation voice body language storytelling banter funny humour group status punching bag' },
@@ -115,9 +113,9 @@ const INDEX: Entry[] = [
   { label: 'Get Smarter', section: 'Uni', path: '/uni?tab=smarter', keywords: 'smarter intelligence learning memory focus recall feynman anki brain iq reading' },
   { label: 'Night Routine', section: 'Mind', path: '/mind?tab=night', keywords: 'night routine evening bedtime wind down sleep screens blue light phone bedroom bed insomnia cant sleep alcohol nap shutdown' },
   { label: 'Morning Routine', section: 'Mind', path: '/mind?tab=morning', keywords: 'morning routine wake up early light water phone cold shower caffeine coffee breakfast protein snooze grogginess energy start day productive supplements creatine vitamin d3 omega 3 magnesium timing what to take task shrinking cant start procrastination 5 minute rule deep work block' },
-  { label: 'High-Value Day Routine', section: 'Uni', path: '/uni?tab=day', keywords: 'day routine schedule morning structure productivity high value' },
+  { label: 'Daily routine — morning and night', section: 'Mind', path: '/mind?tab=morning', keywords: 'day routine schedule morning structure productivity high value' },
   { label: 'Career, Interviews & HireVue', section: 'Uni', path: '/uni?tab=career', keywords: 'career job interview hirevue cv application internship aptitude tests quizzes star graduate' },
-  { label: 'Sleep Lab', section: 'Uni', path: '/uni?tab=sleep', keywords: 'sleep deep tired red light blue light glasses melatonin nap insomnia energy' },
+  { label: 'Sleep and exams', section: 'Uni', path: '/uni?tab=smarter', keywords: 'sleep deep tired red light blue light glasses melatonin nap insomnia energy' },
 ];
 
 export default function SearchBar() {

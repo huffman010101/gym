@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState, type ReactNode } from 'react';
 import {
-  Dumbbell, Target, ChevronRight, ChevronDown, Zap, Trophy, Swords, Sparkles, Brain, GraduationCap, Map, CircleDot, Youtube, Crosshair,
+  Dumbbell, Target, ChevronRight, ChevronDown, Zap, Trophy, Swords, Sparkles, Brain, GraduationCap, Flame, CircleDot, Youtube, Crosshair,
 } from 'lucide-react';
 import SearchBar from '../components/SearchBar';
 import AccountabilityBot from '../components/AccountabilityBot';
@@ -36,7 +36,7 @@ const SECTIONS = [
 ];
 
 const MORE = [
-  { to: '/journey', icon: Map, label: 'The Journey', color: 'text-orange-300' },
+  { to: '/food', icon: Flame, label: 'Fuel Log', color: 'text-orange-300' },
   { to: '/feed', icon: Zap, label: 'The Feed', color: 'text-purple-300' },
   { to: '/knowledge', icon: GraduationCap, label: 'Know More', color: 'text-sky-300' },
   { to: '/videonotes', icon: Youtube, label: 'Video Notes', color: 'text-red-300' },

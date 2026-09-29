@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ChevronDown, Dumbbell, Utensils, Flame, Activity } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
-import { SectionHeader, TabBar } from '../components/Hud';
+import { SectionHeader, TabBar, OneThing } from '../components/Hud';
 
 type Tab = 'plan' | 'push' | 'pull' | 'legs' | 'core' | 'mobility' | 'recovery' | 'posture' | 'rules';
 
@@ -231,6 +231,7 @@ export default function Programs() {
         {/* ===== THE WEEK ===== */}
         {tab === 'plan' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Three sessions a week: Push Monday, Legs + Speed Tuesday, Pull Thursday. Football Saturday is the fourth.", "Every session: one explosive movement first, four or five lifts, five minutes of ankle work at the end.", "Beat the logbook by a rep or the smallest weight each week. That is progress."]} />
             <div className="bg-gradient-to-br from-orange-500/15 to-[#111] border border-orange-500/30 rounded-2xl p-5">
               <h3 className="font-black text-orange-300 mb-2">Three days. Six exercises each. That is the whole thing.</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -353,6 +354,7 @@ export default function Programs() {
         {/* ===== PUSH ===== */}
         {tab === 'push' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Explosive first while fresh, then heavy presses, then shoulders and triceps.", "Stop most sets with 1-2 reps left; take the last isolation set to failure."]} />
             <Session
               title="Monday — Push"
               tag="Chest, shoulders, triceps · explosive first"
@@ -377,6 +379,7 @@ export default function Programs() {
         {/* ===== PULL ===== */}
         {tab === 'pull' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["A wide, thick back is what makes a frame look big in a T-shirt. Weighted pull-ups are the lift.", "Pull with your elbows, pause the squeeze, control the way down."]} />
             <Session
               title="Thursday — Pull"
               tag="Back and biceps · explosive first"
@@ -424,6 +427,7 @@ export default function Programs() {
         {/* ===== LEGS ===== */}
         {tab === 'legs' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Fast first, then heavy: jumps and sprints while fresh, trap bar deadlift, split squats, Nordics, calves.", "Your ankle is not fully healed — step down from boxes, no depth jumps yet, and do the finisher every session.", "Keep legs at least 48 hours before a game."]} />
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2">One leg day: fast first, then heavy</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -501,14 +505,6 @@ export default function Programs() {
               ['Strength first, then convert it', 'A stronger leg can produce more force. The jumps and sprints that open this session train you to produce that force fast. Doing only one of the two is why people end up either strong and slow, or fast and fragile.'],
               ['Do not chase a trap bar number at any cost', 'Once your trap bar pull is roughly 2x bodyweight, extra maximal strength returns less for sport than more speed work. Keep progressing, but never at the expense of the jumps and sprints.'],
             ]} />
-          <div className="fade-up stagger space-y-4">            <Block title="Upper-body power — the half almost everyone skips" items={[
-              ['Why upper-body power belongs on leg day', 'Holding someone off a ball, winning a shoulder-to-shoulder duel, shoving off in a scramble — that is upper-body force produced fast, and no amount of bench pressing trains the speed half of it. Same principle as jumps for legs: heavy work builds the capacity, this converts it.'],
-              ['Plyometric push-ups — 4×3-5', 'Explode off the floor hard enough that your hands leave it. Land soft with the elbows bending immediately to absorb, then reset fully. Start with hands on a bench to cut the load if you cannot leave the floor cleanly. Quality over count — stop the set the moment you stop leaving the ground.'],
-              ['Med ball chest pass — 4×5', 'Standing or half-kneeling, throw a 3-5kg ball into a wall as hard as you can. Half-kneeling removes the legs so the upper body has to do the work. This is the pressing equivalent of a broad jump.'],
-              ['Med ball overhead slam — 3×5', 'Whole-body extension then violent flexion. Trains the trunk to produce force fast, which is what links your upper and lower body in a duel.'],
-              ['Explosive pull-ups or high pulls — 3×3-5', 'Pull as fast as you can, aiming to get your chest to the bar or the bar moving quickly off the floor. Pulling power is what almost nobody trains and it is half of grappling and every physical duel.'],
-              ['Keep it short and fresh', 'All of this goes early in the session, before the sprints if you are prioritising upper power that week, or straight after the jumps if legs lead. Total time: about ten minutes. Full recovery between sets — this is nervous-system work.'],
-            ]} />
 
             <Fold title="Isometrics — the quality nobody trains" tag="Two types, two completely different jobs" items={[
               ['Overcoming isometrics — pushing against something immovable', 'Push or pull as hard as humanly possible against an object that will not move: a loaded bar set on safety pins at a fixed height, a wall, a doorframe, an immovable strap. 3-5 sets of 3-5 seconds at genuine maximum effort. This builds the ability to produce force FAST from a dead stop, which is exactly what a first step and a collision are.'],
@@ -519,50 +515,13 @@ export default function Programs() {
               ['Where to put them', 'Overcoming isometrics go in the explosive block at the start of this session while you are fresh; yielding holds go at the very end when fatigue no longer matters. Twice a week if you also add a set on a rest day. Breathe out through the hold — when the fatigue does not matter. Breathe out through the hold — holding your breath through a maximal iso spikes blood pressure hard.'],
               ['The cue that makes them work', 'Intent is everything. A 4-second push at 80% builds almost nothing; the same 4 seconds at genuine 100% builds a lot. If you can hold a conversation during it, you are not doing it properly.'],
             ]} />
-
-            <Block title="The three additions that complete the explosive block" items={[
-              ['Pogo hops — 3×8, FIRST, before the jumps', 'Straight-ish legs, bouncing on the balls of the feet, minimal knee bend, shortest possible ground contact. This is elastic/reactive strength — the tendon quality that returns energy on every sprint step, cut and re-shot. It goes first because it also primes the nervous system for everything after it. Progress to single-leg once double-leg contacts are quick and silent.'],
-              ['Drop-and-stick landings — 3×5, after the jumps', 'Step off a low box (30cm), land in a quarter squat and FREEZE for two full seconds. Knees track over the toes, no inward collapse, no sound. This is deceleration training — the ability to absorb force, which is what actually limits how fast you can change direction, and the main protection against the knee and ankle injuries that cutting sports cause. If you cannot land silently and hold it, you have no business doing depth jumps yet.'],
-              ['Sled push or heavy march — 3×20m, at the end', 'Heavy enough that you are grinding, not sprinting. This trains impulse — big force sustained over a few tenths of a second while the feet keep driving — which is exactly what a takedown, a clinch drive and a shoulder-to-shoulder duel are. No eccentric component, so it costs almost nothing in soreness. A heavy loaded march or a hill walk with a weight vest works if you have no sled.'],
-            ]} />
-
-            <Fold title="Two versions of the explosive block — pick by what you are training for" tag="Same structure, different emphasis" items={[
-              ['Football bias', 'Keep the full sprint work: acceleration sprints and flying sprints are the point. Lateral bounds and drop-and-stick get an extra set. Cut the med ball throws to 2 sets. Add reactive cuts — a partner points or calls a direction and you go — because pre-planned cone work never trains the decision half.'],
-              ['Fight bias', 'Med ball work leads and gets 4-5 sets: rotational throws, shot-put throws and overhead slams. Keep the broad jumps (horizontal power = shot and sprawl power), cut flying sprints to 2, and add the sled push, which is the closest gym analogue to driving a takedown through someone.'],
-              ['Both in the same week?', 'You only have one explosive block, at the start of leg day. Bias it toward whichever sport you played or trained less that week — the sport itself supplies the other.'],
-              ['The warm-up does not change', 'Regardless of bias, the full warm-up is non-negotiable before any sprinting. Cold hamstrings and maximum sprints is the single most reliable way to tear something.'],
-              ['Order never changes either', 'Most explosive and most technical first, always: pogos → throws → jumps → sprints → bounds/landings → sled. Anything fatiguing done early ruins everything after it, and the whole day is built on being fresh.'],
-            ]} />
-
-            <Fold title="Why a lighter athlete feels denser and stronger than you" tag="The thing you noticed with your mate — explained" items={[
-              ['First, the unglamorous truth: it is mostly body fat', 'The single biggest reason someone feels hard and muscular to the touch is how little fat sits between your hand and their muscle. The exact same arm under 8mm of subcutaneous fat versus 18mm feels like a completely different arm. He is not necessarily carrying more muscle than you — you may simply be feeling yours through a thicker layer. If you want to feel like that, getting leaner will do more than any exercise change.'],
-              ['Second: resting tone from years of sprinting', 'Sport at speed builds genuinely stiffer tendons, fascia and connective tissue, plus a higher baseline of resting neural drive. That is what people are actually describing as "dense" — it comes from thousands of hours of sprinting, cutting, jumping and landing, not from lifting. It is why footballers, sprinters and gymnasts all feel similar and bodybuilders often do not.'],
-              ['Be aware of the myth in there too', 'Muscle tissue itself has a more or less fixed density — you cannot train a muscle to be permanently rock-hard at rest. What genuinely varies is fat covering it, fibre size, how much glycogen and water it holds, connective tissue stiffness, and resting tension. Also worth noting: people reflexively tense when someone touches them, so part of what you felt was simply him bracing.'],
-              ['Why he is strong despite weighing less — strength is largely neural', 'Force output is not just muscle size. It is how many motor units you can recruit, how fast you can fire them, and how well the muscles coordinate. Years of explosive sport trains exactly that. He has a better nervous system for expressing force, so he gets more out of less tissue — that is relative strength, and sport selects hard for it.'],
-              ['The bit most gym-only lifters are missing: linking the chain', 'Real-world strength — moving a person, cracking someone\'s back, winning a shoulder-to-shoulder duel — is force travelling from the ground through the feet, hips, trunk and out through the hands. Athletes do this automatically because their sport demands it. If your trunk or grip leaks force anywhere along that chain, you can be strong on isolated lifts and still feel weak against a lighter athlete. That is usually the whole explanation.'],
-              ['Trunk stiffness is the most common leak', 'If your midsection gives even slightly under load, force generated by your legs never reaches your arms. This is why carries, Pallof work and anti-rotation training are in the programme and are not filler — they are what makes you able to USE the strength you already have. Most people skip them and wonder why they cannot move a lighter person.'],
-              ['Grip is the second leak', 'You cannot apply force through hands that are failing. Grip is trained by heavy carries, dead hangs, and not using straps on everything. Athletes who wrestle, grapple or play contact sport build it as a by-product.'],
-              ['What actually changes it — in priority order', '1) Get leaner, which changes how you feel and look faster than anything else. 2) Keep the explosive block at the start of leg day sacred — sprints, jumps and throws are what build the neural and tendon qualities. 3) Train relative strength: weighted pull-ups, dips, chin-ups, split squats — strength per kilo, not total load. 4) Train the trunk to transmit rather than just to look good. 5) Train grip directly. 6) Do full-body coordinated movements — med ball throws, sled pushes, sprints — not only machine-isolated lifts.'],
-              ['Add isometrics if you want the stiff, braced feel', 'Hard isometric holds — a paused mid-range squat, a heavy suitcase hold, a hollow-body hold, an overcoming isometric against a pin — build the ability to produce high tension without moving. That is the quality that makes someone feel immovable, and almost nobody trains it.'],
-              ['Do not chase bodyweight', 'You are already heavier than him. Adding more mass while your relative strength and power stay flat makes the gap worse, not better, because you will be carrying more without being able to apply more. Aim for the same bodyweight with more force output, or slightly leaner with the same strength.'],
-              ['The honest genetic part', 'Fibre-type distribution, tendon insertion points, limb lengths and frame width are not trainable, and they do influence how strong and dense someone is for their size. Some people are simply built with an advantage here. What is trainable is large — leanness, neural drive, tendon stiffness, force transfer — and most people never touch it, which is why the trainable part is where all your attention should go.'],
-              ['Timeline', 'Neural gains and force transfer improve noticeably in 6-8 weeks. Tendon and connective tissue stiffness is a 6-12 month adaptation. Leanness is whatever your deficit dictates. So the feel changes far faster than the tissue does — mostly because the leanness arrives first.'],
-            ]} />
-
-            <Block title="If you played football or trained Muay Thai this week" items={[
-              ['Your sport can replace part of this', 'A proper football session already contains sprinting, cutting and jumping. If you played this week, cut the sprints and lateral bounds and keep the jumps, throws and Copenhagens.'],
-              ['Never do this the day before a match', 'It is CNS-heavy. Leave at least 48 hours between this session and anything competitive.'],
-              ['Sport first, gym after, on the same day', 'If both have to happen, do the technical or competitive session while fresh and lift afterwards. Skill degrades badly under fatigue, and sloppy reps build sloppy habits.'],
-              ['This is the day you protect', 'If the week gets compressed and something has to go, drop Push or Pull — not legs. Size can be regained; speed and injury resilience are harder won.'],
-            ]} />
-          </div>
           </div>
         )}
 
-        {/* ===== EXPLOSIVE ===== */}
         {/* ===== CORE ===== */}
         {tab === 'core' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Ten minutes at the end of each session, a different job each day.", "Visible abs are made by body fat, not crunches. The core work is for strength and sport."]} />
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2">Core — a different job each session</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -636,6 +595,7 @@ export default function Programs() {
         {/* ===== RECOVERY ===== */}
         {tab === 'mobility' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Ten minutes a day beats an hour on Sunday.", "Tightness is usually a strength or control problem, not short muscles — train the range, do not just stretch it."]} />
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2">Flexibility, mobility, and the difference that matters</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -698,6 +658,7 @@ export default function Programs() {
 
         {tab === 'recovery' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Sleep 8 hours, eat enough protein (1.6-2.2g per kg), and deload every 6-8 weeks.", "Your WHOOP recovery on the command screen tells you whether today is a push day or a back-off day."]} />
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2">Recovery is the programme</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -766,6 +727,7 @@ export default function Programs() {
         {/* ===== POSTURE ===== */}
         {tab === 'posture' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Eight minutes a day: chin tucks, doorway stretch, wall slides, face pulls.", "Posture is strength you can hold without thinking — train it, do not force it."]} />
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2">Posture — what the evidence actually supports</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -814,6 +776,7 @@ export default function Programs() {
         {/* ===== RULES ===== */}
         {tab === 'rules' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Explosive first, heavy second, accessories last.", "Write every session down. If nothing has moved in a month, the problem is sleep, food or effort — not the programme.", "Give it 8-12 weeks before judging it."]} />
             <Block title="The rules that make this work" items={[
               ['Explosive work first and fresh, always', 'Jumps, throws and sprints go at the START of a session, never at the end. Power trained tired is conditioning with injury risk attached.'],
               ['Hypertrophy: 1-2 reps in reserve', 'Stop most sets when you could have done 1-2 more clean reps. Take the last set of isolation exercises to genuine failure. Training everything to failure wrecks recovery for marginal extra growth.'],
@@ -821,13 +784,6 @@ export default function Programs() {
               ['Rest properly', '2-3 min on heavy compounds and all power work, 60-90s on isolation. Cutting rest to feel worked costs you load, and load is what drives growth.'],
               ['Keep legs away from match day', 'Legs + Speed on Tuesday leaves four days before Saturday football. If the fixture moves, move legs so there are at least 48 hours before kick-off.'],
               ['Deload every 6-8 weeks', 'One week at roughly 60% of normal volume, keeping intensity. Not optional. This is when your body catches up and the next block goes better.'],
-            ]} />
-            <Block title="Recovery — the part that decides whether it works" items={[
-              ['Protein: 1.6-2.2g per kg bodyweight', 'The number that turns training into muscle. Spread across 3-4 meals. Non-negotiable if you want size.'],
-              ['Eat enough overall', 'Three lifts plus football in a calorie deficit is how you get flat, weak and injured. If you want size, eat in a surplus of 300-500 kcal and accept some fat gain.'],
-              ['Sleep 8h+', 'With football on top, under-sleeping is not a minor issue — it is the thing that will stall you. Growth and CNS recovery both happen asleep. See the Night Routine.'],
-              ['Creatine 5g daily', 'Most evidence-backed supplement for exactly this kind of training: strength, power output and repeated sprint ability. Timing irrelevant, consistency is not.'],
-              ['Watch the warning signs', 'Sleep getting worse, resting heart rate climbing, motivation gone, numbers stalling across multiple lifts, niggles appearing. Any two of those means take a deload now rather than in three weeks.'],
             ]} />
             <Block title="How to adjust it" items={[
               ['If you are always sore or run down', 'Drop one set from every exercise for a week before changing anything else. Three days plus football is already a full week.'],

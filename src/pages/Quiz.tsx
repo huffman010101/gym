@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ArcReactor } from '../components/Jarvis';
 import { ChevronRight, ChevronLeft, Dumbbell, Trophy, Zap, Flame, Shield, Wind, Heart } from 'lucide-react';
 
 interface QuizData {
@@ -87,8 +88,8 @@ export default function Quiz() {
     <div className="min-h-screen bg-transparent flex flex-col">
       <div className="flex items-center justify-between px-6 py-4 border-b border-white/5">
         <div className="flex items-center gap-2">
-          <Dumbbell className="text-orange-500" size={22} />
-          <span className="font-black">GymForge</span>
+          <ArcReactor size={24} />
+          <span className="font-orbitron text-[12px] tracking-[0.25em] hud-text-cyan">J.A.R.V.I.S.</span>
         </div>
         <span className="text-gray-600 text-sm">{step} / {TOTAL}</span>
       </div>

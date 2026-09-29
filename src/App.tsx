@@ -14,11 +14,9 @@ import Football from './pages/Football';
 import Padel from './pages/Padel';
 import Money from './pages/Money';
 import Uni from './pages/Uni';
-import Journey from './pages/Journey';
 import Feed from './pages/Feed';
 import Knowledge from './pages/Knowledge';
 import CheatSheet from './pages/CheatSheet';
-import Dating from './pages/Dating';
 import Backtest from './pages/Backtest';
 import VideoNotes from './pages/VideoNotes';
 import ApiKeySetup from './components/ApiKeySetup';
@@ -77,11 +75,9 @@ export default function App() {
         <Route path="/padel" element={<Padel />} />
         <Route path="/money" element={<Money />} />
         <Route path="/uni" element={<Uni />} />
-        <Route path="/journey" element={<Journey />} />
         <Route path="/feed" element={<Feed />} />
         <Route path="/knowledge" element={<Knowledge />} />
         <Route path="/cheatsheet" element={<CheatSheet />} />
-        <Route path="/dating" element={<Dating />} />
         <Route path="/backtest" element={<Backtest />} />
         <Route path="/videonotes" element={<VideoNotes />} />
       </Routes>

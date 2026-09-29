@@ -7,14 +7,14 @@ import { SectionHeader, TabBar, OneThing } from '../components/Hud';
 type Tab = 'skills' | 'online' | 'launch' | 'invest' | 'trading' | 'tax' | 'econ' | 'mindset';
 
 const TABS: { id: Tab; label: string }[] = [
+  { id: 'mindset', label: 'Start Here' },
   { id: 'skills', label: 'Skills' },
   { id: 'online', label: 'Online Income' },
   { id: 'launch', label: 'Launch a Business' },
   { id: 'invest', label: 'Investing' },
-  { id: 'trading', label: 'Trading' },
   { id: 'tax', label: 'Tax' },
+  { id: 'trading', label: 'Trading' },
   { id: 'econ', label: 'Economics' },
-  { id: 'mindset', label: 'Money Rules' },
 ];
 
 
@@ -69,7 +69,7 @@ export default function Money() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['skills', 'online', 'launch', 'invest', 'trading', 'tax', 'econ', 'mindset'] as const).includes(t as Tab) ? (t as Tab) : 'skills';
+    return (['skills', 'online', 'launch', 'invest', 'trading', 'tax', 'econ', 'mindset'] as const).includes(t as Tab) ? (t as Tab) : 'mindset';
   });
   // Follow ?tab= changes while already on this page (links between its own
   // tabs), not just on first mount.
@@ -89,6 +89,7 @@ export default function Money() {
         {/* ===== SKILLS ===== */}
         {tab === 'skills' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["The best first skills pay quickly and compound: sales, copywriting, video editing, coding with AI.", "Pick one. Switching skills every month is how people stay broke."]} />
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2 flex items-center gap-2"><Rocket size={16} className="text-yellow-400" /> The Formula</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -133,6 +134,7 @@ export default function Money() {
         {/* ===== ONLINE INCOME ===== */}
         {tab === 'online' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Freelancing is the reliable start: one skill, one platform, ten portfolio pieces, then outreach.", "Charge more as soon as you have proof. Your first rate is always too low."]} />
             <Block title="Freelancing (the reliable one)" items={[
               ['The platforms are the start, not the end', 'Fiverr/Upwork for first reviews, then move clients off-platform. Real money is in direct outreach: 20 personalised DMs/emails a day to businesses in one niche.'],
               ['Niche down hard', '"Video editor" competes with the planet. "Short-form editor for fitness coaches" owns a lane. Riches are in niches.'],
@@ -170,6 +172,7 @@ export default function Money() {
         {/* ===== LAUNCH ===== */}
         {tab === 'launch' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Validate before you build: get five people to pay or pre-order before spending on stock.", "Start as a sole trader, keep every receipt, open a separate bank account."]} />
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2 flex items-center gap-2"><Rocket size={16} className="text-yellow-400" /> From Zero to First Business — the full guide</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -211,14 +214,6 @@ export default function Money() {
               ['Overdeliver the first five', 'First clients = your case studies, testimonials, referrals and reviews. Treat a £100 job like a £1,000 one — the second five clients come from the first five.'],
               ['Ask for the referral', '"Who else do you know who needs this?" at the moment they\'re happiest (delivery day). Referred customers close 4× easier.'],
               ['Systemise then scale', 'Write down your delivery process → templatise → raise prices → productise into packages → (much later) hire delivery help. Each step only after the previous is boring-reliable.'],
-            ]} />
-            <Fold title="The Millionaire Roadmap" tag="The honest 10-year version" items={[
-              ['The equation', 'Wealth = (income − lifestyle) × investment returns × time. Millionaires are made by all four levers, and the biggest early lever is INCOME — a 22-year-old saving £200/month never catches a 24-year-old earning £2k/month more.'],
-              ['Phase 1 (now-2 yrs): build the earner', 'One high-income skill to £2-5k/month (Skills tab) + degree as backup + tiny living costs while young. Net worth barely moves — earning power moves massively. This phase decides everything.'],
-              ['Phase 2 (2-5 yrs): own something', 'Employee/freelancer income has a ceiling; OWNERSHIP doesn\'t. Turn the skill into an agency/product/business with revenue not tied to your hours. Invest 20%+ of everything into index funds on autopilot the whole time.'],
-              ['Phase 3 (5-10 yrs): compound', 'Business profits + investments + possibly property. £3k/month invested at ~8% = £1M in ~15 years; a business sale or scale can collapse that timeline to 5-7. Boring consistency is the whole trick.'],
-              ['What the data says about real millionaires', 'Most are made in unglamorous businesses (trades, agencies, logistics, B2B services) + decades of index investing. Almost none from day trading, crypto punts, or dropshipping courses. The flashy paths are lottery tickets; the boring path is a conveyor belt.'],
-              ['The behaviours that actually correlate', 'Live below your means while income grows · never carry consumer debt · automate investing · stay married to the process for a decade · avoid the two wealth-killers: lifestyle inflation and starting over every 6 months.'],
             ]} />
             <Fold title="Starting an Activewear Brand" tag="Short sets · tracksuits · hats — the real path" items={[
               ['The honest reality first', 'Clothing is a brutal, crowded market with real upfront cost and real inventory risk. What actually sells is not "nice designs" — it is a BRAND people want to belong to. Gymshark started as a teenager screen-printing in a garage with an audience built first. The audience is the moat; the clothes are the product.'],
@@ -267,6 +262,7 @@ export default function Money() {
         {/* ===== INVESTING ===== */}
         {tab === 'invest' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Emergency fund first, then a Stocks & Shares ISA with a global index fund, automated monthly.", "Low fees and time in the market beat picking stocks. Do not touch it when it drops."]} />
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2 flex items-center gap-2"><TrendingUp size={16} className="text-yellow-400" /> Being Smart With Money — the whole thing in order</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -317,13 +313,6 @@ export default function Money() {
               ['The real numbers', '£200/month at ~8% average: 10 yrs ≈ £36k · 20 yrs ≈ £118k · 30 yrs ≈ £298k — of which only £72k was ever your own deposits. The rest is compounding doing the work.'],
               ['Your income is still the biggest lever', 'At your stage, going from £500 to £2,000/month income (Skills tab) moves your future far more than optimising which fund you picked. Earn more, invest the difference, keep lifestyle flat.'],
               ['The first £10k is the hardest', 'Progress feels invisible early because your contributions dwarf the growth. Around £100k, growth starts outpacing what you put in. Push through the boring phase — that is the entire game.'],
-            ]} />
-            <Fold title="Investing 101 — from absolute zero" tag="The full beginner path, UK edition" items={[
-              ['What a stock actually is', 'A share = a slice of a real company\'s profits and assets. You make money two ways: the price rising (growth) and dividends (profit paid out). You\'re buying businesses, not lottery tickets.'],
-              ['What an index fund is and why it wins', 'One purchase = tiny slices of hundreds of companies (S&P 500 = 500 biggest US firms; a global tracker = the world). No picking winners, near-zero fees, and it has beaten ~90% of professional stock-pickers over 15-year periods. This is the vehicle.'],
-              ['The account order (UK)', '1) Stocks & Shares ISA — £20k/year allowance, ALL gains tax-free forever, open with a low-fee broker (Vanguard, Trading 212, InvestEngine). 2) Employer pension with matching when you work — free money. 3) Only then anything else.'],
-              ['Your first investment, concretely', 'Open ISA → pick ONE global index fund or S&P 500 fund (look for "accumulation" version, fees under 0.25%) → set an automatic monthly buy. That\'s genuinely it. Complexity is a fee-generating illusion.'],
-              ['Crashes are features, not bugs', 'The market drops 30-50% every decade or so. Sellers lock in the loss; buyers get the discount. Automate the monthly buy and never check during crashes — boring wins.'],
             ]} />
             <Fold title="Financial Freedom — the actual maths" tag="FIRE numbers made simple" items={[
               ['The freedom formula', 'Financial freedom = investments × ~4% ≥ your yearly spending. Spend £24k/year? You need ~£600k invested. That\'s the whole equation behind every "FIRE" video.'],
@@ -512,6 +501,7 @@ export default function Money() {
         {/* ===== TAX ===== */}
         {tab === 'tax' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Open a Stocks & Shares ISA — everything inside is tax-free.", "Side income over £1,000 a year means a self assessment. Keep records from day one."]} />
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2 flex items-center gap-2"><Banknote size={16} className="text-yellow-400" /> Tax — the thing nobody teaches you</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -608,6 +598,7 @@ export default function Money() {
         {/* ===== ECONOMICS ===== */}
         {tab === 'econ' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Interest rates move everything: mortgages, savings, and what stocks are worth.", "Turn news into one question: does this change what I should do with my money this year? Usually the answer is no."]} />
             <div className="bg-gradient-to-br from-yellow-500/15 to-[#111] border border-yellow-500/30 rounded-2xl p-5">
               <div className="flex items-start justify-between gap-3 mb-3">
                 <h3 className="font-black text-yellow-300">Where things stand</h3>
@@ -699,6 +690,7 @@ export default function Money() {
         {/* ===== MINDSET ===== */}
         {tab === 'mindset' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Money follows skill. Pick one skill that pays and put an hour a day into it for 90 days.", "Spend less than you earn, automate saving the day you get paid, and never carry card debt.", "Earn your first £1 online — it proves the whole thing works."]} />
             <Block title="Money Rules to Live By" items={[
               ['Earn more > save more (at the start)', 'You can\'t frugal your way from £200/month. Early on, 90% of energy goes into raising income; saving optimises what earning creates.'],
               ['Pay yourself first', 'Fixed % of every pound in (start at 20%: 10% invest, 10% save) moves automatically on payday. Budget what remains, never the reverse.'],

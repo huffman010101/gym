@@ -153,6 +153,7 @@ export default function Combat() {
         {/* ============ FUNDAMENTALS ============ */}
         {tab === 'fundamentals' && (
           <div className="fade-up stagger space-y-3">
+            <OneThing points={["Stance and base first: feet shoulder-width, weight on the balls, chin down, hands up.", "Everything else in fighting is built on not being off-balance."]} />
             <SectionTitle icon={Shield} title="Stance & Base" sub="Everything in fighting is built on stance. Get this wrong and nothing else works." />
             <Technique name="Fighting Stance" tag="The foundation of striking and takedown defence"
               steps={[
@@ -225,6 +226,7 @@ export default function Combat() {
         {/* ============ TAKEDOWNS ============ */}
         {tab === 'takedowns' && (
           <div className="fade-up stagger space-y-3">
+            <OneThing points={["Level change, penetrate, finish through them — not at them.", "Sprawl and whizzer are the two defences to own first."]} />
             <SectionTitle icon={Target} title="Takedowns" sub="Level change → penetration step → finish through them, not into them." />
             <Technique name="Double Leg" tag="The highest-percentage takedown in MMA"
               steps={[
@@ -272,6 +274,7 @@ export default function Combat() {
         {/* ============ GROUND ============ */}
         {tab === 'ground' && (
           <div className="fade-up stagger space-y-3">
+            <OneThing points={["Position before submission: back, mount, side control, guard — in that order of value.", "Escape first, then attack. Hip escapes are the most important movement on the ground."]} />
             <SectionTitle icon={Users} title="Positional Hierarchy" sub="Ground fighting is a ladder. Position before submission — always." />
             <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
               <div className="space-y-2 text-sm">
@@ -319,6 +322,7 @@ export default function Combat() {
         {/* ============ CHOKES/SUBS ============ */}
         {tab === 'chokes' && (
           <div className="fade-up stagger space-y-3">
+            <OneThing points={["Drill slowly with a willing partner and tap early — chokes can cause real injury.", "Rear naked choke and guillotine first. Learn the escapes as you learn the attack."]} />
             <div className="bg-red-500/5 border border-red-500/20 rounded-xl px-4 py-3 flex items-start gap-2.5">
               <AlertTriangle size={15} className="text-red-400 flex-shrink-0 mt-0.5" />
               <p className="text-xs text-red-200/80 leading-relaxed">
@@ -371,6 +375,7 @@ export default function Combat() {
         {/* ============ STRATEGY ============ */}
         {tab === 'hips' && (
           <div className="fade-up stagger space-y-3">
+            <OneThing points={["Punches start at the rear hip. Turn it and the power arrives; arm-only shots are weak.", "On the ground, your hips are the lever: escape with them, pressure with them."]} />
             <SectionTitle icon={Zap} title="Using your hips" sub="The one thing that separates people who look like they know what they're doing from people who don't." />
 
             <div className="bg-gradient-to-br from-red-500/12 to-[#111] border border-red-500/25 rounded-2xl p-5">
@@ -451,6 +456,7 @@ export default function Combat() {
 
         {tab === 'drills' && (
           <div className="fade-up stagger space-y-3">
+            <OneThing points={["Shadowbox 3 rounds a day. It is the highest-value thing you can do alone.", "Drill slowly and perfectly, then add speed. Sloppy fast reps build sloppy fighters."]} />
             <SectionTitle icon={Target} title="Technique drills" sub="How the technique in the other tabs actually gets into your body. Solo, on the bag, and with a partner." />
 
             <div className="bg-gradient-to-br from-red-500/12 to-[#111] border border-red-500/25 rounded-2xl p-5">
@@ -530,6 +536,7 @@ export default function Combat() {
 
         {tab === 'arts' && (
           <div className="fade-up stagger space-y-3">
+            <OneThing points={["Start with one grappling art and one striking art: BJJ or wrestling, plus boxing or Muay Thai.", "Pick the gym with the best coaches and live sparring, not the closest one."]} />
             <SectionTitle icon={Swords} title="The martial arts, honestly" sub="What each one actually teaches, what it costs you, and where to start." />
 
             <div className="bg-gradient-to-br from-red-500/12 to-[#111] border border-red-500/25 rounded-2xl p-5">
@@ -571,12 +578,6 @@ export default function Combat() {
               ['Physical cost', 'You will be thrown, repeatedly, from day one. Learn to breakfall properly before anything else, and be honest with your coach about any back or shoulder issues.'],
             ]} />
 
-            <Fold title="Sambo, catch wrestling and the rest" tag="Worth knowing they exist" items={[
-              ['Sambo', 'Soviet-developed blend of judo throws and submission grappling; Combat Sambo adds striking, which makes it about the closest single traditional art to MMA. Excellent leglock culture. Rare in the UK but outstanding if you find a real coach.'],
-              ['Catch wrestling', 'Submission wrestling with a brutal, pin-and-punish flavour. Historically important, currently niche, and quality varies enormously by coach.'],
-              ['Sumo', 'Genuinely elite at balance, leverage and explosive clinch entries, though the ruleset limits transfer. Nobody is suggesting you take it up — but do not laugh at the athleticism.'],
-              ['The general rule', 'Any grappling art where you regularly go live against someone resisting will make you meaningfully harder to handle. The specific label matters far less than whether the room does live rounds.'],
-            ]} />
 
             <SectionTitle icon={Hand} title="The striking arts" />
 
@@ -930,14 +931,6 @@ export default function Combat() {
               ['Skill first, lifting second, on any shared day', 'If a session and a lift land on the same day, do the technical work fresh and lift after, separated by a few hours where possible. Skill practised tired builds tired-looking skill.'],
             ]} />
 
-            <Fold title="Fight camp structure — how a pro periodises it" tag="What changes as the fight gets closer" items={[
-              ['Off-camp (no fight booked) — build', '10-16 weeks. This is where strength and size are actually built, because you have the recovery budget for it. Heavier lifting, more volume, lower sparring intensity, aerobic base. Nobody gets meaningfully stronger during a camp; they just try not to lose it.'],
-              ['Camp weeks 8-5 — convert', 'Strength volume drops, power and speed work rises, skill work becomes fight-specific (game-planning for a style), sparring volume climbs. Lifting shifts to maintenance: fewer sets, same intensity — that is the combination that preserves strength on minimal fatigue.'],
-              ['Camp weeks 4-2 — sharpen', 'Peak sparring, hardest fight-specific conditioning, minimal gym work (2 short sessions, heavy but very low volume). Everything here is about being sharp, not about being fitter — fitness is already banked by now.'],
-              ['Final 7-10 days — taper', 'Volume drops sharply, intensity stays. Short, crisp, high-quality sessions. Fatigue clears faster than fitness fades, which is exactly why a taper makes you better rather than rusty. No hard sparring in the last 10 days — the risk is all downside.'],
-              ['The interference effect, managed', 'Heavy endurance work blunts strength adaptation when they are stacked too close. Where you have the choice, separate lifting and hard conditioning by 6+ hours, or put them on different days. Where you do not have the choice, put the quality you are prioritising FIRST in the day.'],
-              ['Deload every 4th week', 'Cut volume roughly in half, keep intensity. Most training injuries and plateaus are just accumulated fatigue that never got cleared.'],
-            ]} />
 
             <Block title="Benchmarks — how you know it is working" items={[
               ['Trap bar deadlift 2× bodyweight (3RM)', 'A reasonable general strength ceiling for a fighter. Past this, more maximal strength has diminishing returns and your training time is better spent on speed and skill.'],
@@ -948,19 +941,12 @@ export default function Combat() {
               ['The honest one — round three', 'Can you still produce technically clean, hard work in the third round of hard sparring? Everything above is a proxy for that. That is the actual test.'],
             ]} />
 
-            <Fold title="Going pro — the honest picture" tag="Worth knowing before you organise your life around it" items={[
-              ['The path', 'Amateur record first (most sensible routes want 5+ amateur fights), then regional pro shows, then a regional promotion title, then possibly a bigger organisation. Realistically 4-8 years from starting to any meaningful pro level, with full-time training for most of it.'],
-              ['The money reality', 'Regional pro purses are commonly a few hundred to a couple of thousand pounds per fight, with maybe 2-4 fights a year, out of which come coaching fees, camp costs, medicals and licensing. Almost everyone below the top tier has another job or another income. Plan for that rather than being surprised by it.'],
-              ['The brain-health trade-off, stated plainly', 'Repeated head impacts carry a real, evidenced risk of long-term neurological damage, and that risk comes mostly from cumulative sparring exposure rather than fights. Control it deliberately: technical and light sparring most of the time, hard sparring rarely and with a purpose, never spar concussed, and take head-knock recovery seriously. This is the single most important decision you will make in the sport, and it is yours to make with the facts.'],
-              ['What actually separates people', 'Not talent and not toughness — training age, coaching quality, injury avoidance and consistency over years. The fighters who make it are usually the ones who were still training normally in year five, having avoided the big injuries and the burnout.'],
-              ['Wrestling is the highest-leverage base', 'Across MMA, wrestling ability most reliably decides where the fight takes place, and whoever decides that usually wins. If you are starting from scratch and want maximum return per hour, wrestle.'],
-              ['Get a coach and get in rooms', 'None of this replaces a real coach watching you move. Use this section to understand WHY your coach is asking for something and to organise your own training around the sessions — not as a substitute for the sessions.'],
-            ]} />
           </div>
         )}
 
         {tab === 'tough' && (
           <div className="fade-up stagger space-y-3">
+            <OneThing points={["Conditioning is gradual adaptation, not damage. More, lighter, over months.", "Never kick trees or hard objects — that is how shins break."]} />
             <SectionTitle icon={Shield} title="Conditioning the body" sub="Shins, forearms, body and hands — what genuinely adapts, what doesn't, and how to do it without wrecking yourself." />
 
             <div className="bg-gradient-to-br from-red-500/12 to-[#111] border border-red-500/25 rounded-2xl p-5">

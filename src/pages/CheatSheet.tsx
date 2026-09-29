@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, BookOpen, Lock, ListChecks } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
+import { SectionHeader } from '../components/Hud';
 import { DATING_CARDS, PHASE_ORDER, PHASE_LABELS } from '../lib/datingContent';
 
 export default function CheatSheet() {
@@ -30,19 +31,7 @@ export default function CheatSheet() {
   return (
     <main className="min-h-screen bg-transparent bg-gradient-to-b from-pink-950/40 via-transparent to-transparent text-white pb-24">
       <div className="max-w-2xl mx-auto px-5 pt-6">
-        <Link to="/mind?tab=secret" className="inline-flex items-center gap-1.5 text-gray-500 hover:text-gray-300 text-sm mb-5">
-          <ArrowLeft size={15} /> Mind
-        </Link>
-
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-11 h-11 bg-pink-500/10 rounded-xl flex items-center justify-center">
-            <BookOpen className="text-pink-500" size={22} />
-          </div>
-          <div>
-            <h1 className="text-2xl font-black">Cheat Sheet</h1>
-            <p className="text-gray-500 text-sm">Check before you go out — everything, one page</p>
-          </div>
-        </div>
+        <SectionHeader icon={BookOpen} title="Cheat Sheet" subtitle="Read it before you go out" back={{ to: '/mind?tab=secret', label: 'Game Plan' }} />
 
         {!unlocked ? (
           <div className="fade-up">
@@ -68,13 +57,6 @@ export default function CheatSheet() {
           </div>
         ) : (
           <div className="fade-up stagger space-y-3">
-            <Link to="/dating"
-              className="flex items-center justify-between bg-gradient-to-r from-pink-500/15 to-purple-500/10 border border-pink-500/25 rounded-2xl px-5 py-3.5 mb-1 hover:from-pink-500/20 transition-all group press">
-              <div className="flex items-center gap-3">
-                <ListChecks className="text-pink-400 flex-shrink-0" size={18} />
-                <p className="font-bold text-sm">Need the full breakdown? Open Full Reference</p>
-              </div>
-            </Link>
             {byPhase.map(({ phase, cards }) => (
               <div key={phase} className="bg-[#111] border border-white/8 rounded-2xl p-4">
                 <h3 className="font-black text-sm text-pink-300 mb-2.5 uppercase tracking-wide">{PHASE_LABELS[phase]}</h3>

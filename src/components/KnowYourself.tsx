@@ -578,33 +578,3 @@ export default function KnowYourself() {
     </div>
   );
 }
-
-/* The dating half of what used to sit under Know Yourself. It belongs with
- * the Game Plan, so Mind renders it there; the helpers stay local to this file. */
-export function DatingMindset() {
-  return (
-    <div className="space-y-4">
-      <Fold title="Waiting for her to look at you first" tag="The specific thing costing you the ones you want" items={[
-        ['You have built a filter that excludes exactly who you want', 'If you only approach people who look at you first, you only ever approach people who were already interested. The ones you actually want — who are being looked at all night and have learned not to look back — are structurally excluded by your own rule. That is not bad luck; it is the filter working as designed.'],
-        ['A look is a weak signal anyway', 'People avoid eye contact when they are interested at least as often as when they are not, especially in a club, especially with someone tall who they have clocked and do not want to seem eager toward. You are reading a noisy signal as if it were data.'],
-        ['Approach on your decision, not her signal', 'The rule that fixes it: you decide, in advance, that you will speak to someone because YOU want to. Not because she gave you permission. That single change moves you from reactive to deciding, and it is most of what people mean when they say someone has presence.'],
-        ['It also removes the sting', 'When the approach was your decision rather than a response to a signal you thought you read, a no means far less. You were not rejected — an idea you had did not land.'],
-      ]} />
-
-      <Fold title="Outcome attachment — what it actually is" tag="You named it yourself, so here is the mechanism" items={[
-        ['It is needing a specific result to feel okay', 'Not wanting one — wanting is fine and normal. Attachment is when the result determines how you feel about yourself afterwards. That is the part people detect, and it is the part that repels.'],
-        ['It leaks in the body before the words', 'Slightly too much eye contact, laughing a beat early, hovering, checking her reaction after each sentence, hanging in a conversation past its natural end. Nobody consciously spots these; everybody feels them.'],
-        ['The fix is changing what counts as success', 'Define the night by behaviour you control — ten conversations started, stayed until the end of one, said the thing rather than sitting on it. You cannot control whether someone wants you. You can control whether you were the version of you that you respect. Judge that.'],
-        ['Have somewhere else to be', 'Non-neediness is arithmetic more than attitude. If the week contains training, work, friends and things you would do with nobody watching, no single interaction can carry much weight. The most effective anti-neediness work is not psychological — it is having a full week.'],
-        ['Appreciation, since you raised it', 'You are right that it is connected. If you cannot notice what is already good — the friends, the body, the fact you get told you are good-looking — everything becomes a deficit to be fixed by the next result. Two minutes a night listing three things is not a wellness cliché, it is the thing that stops you needing the win.'],
-      ]} />
-
-      <Fold title="On wanting to be the guy everyone wants" tag="The honest version of the goal" items={[
-        ['Universal appeal is not an available option', 'Nobody has it. Being strongly wanted by some people requires being distinctly something — and anything distinct repels a portion of the room. The people you can think of who "everyone wants" are simply vivid enough that the ones who do not like them are not the ones talking.'],
-        ['Aiming to be liked by everyone makes you bland', 'It is also, precisely, outcome attachment with a bigger audience. The tuning-yourself-to-the-room habit is what removes the thing that would have made you compelling.'],
-        ['Unpressed is a by-product, not a target', 'You cannot practise being unbothered. You get there by having enough evidence of your own behaviour that other people\'s reactions stop being load-bearing. That is what the boxes above are building, slowly.'],
-        ['The version worth aiming at', 'Not wanted by everyone — hard to unsettle, warm to be around, clearly something rather than agreeable to all. That one is achievable, and it is mostly built from keeping promises to yourself where nobody sees.'],
-      ]} />
-    </div>
-  );
-}

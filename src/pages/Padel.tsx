@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ChevronDown, CircleDot } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
-import { SectionHeader, TabBar } from '../components/Hud';
+import { SectionHeader, TabBar, OneThing } from '../components/Hud';
 
 type Tab = 'plan' | 'technique' | 'strategy' | 'walls';
 
@@ -80,6 +80,7 @@ export default function Padel() {
         {/* ===== THE PLAN ===== */}
         {tab === 'plan' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Padel is won at the net. Everything you practise should help you get there and stay there.", "Two hours of drills a week beats five hours of just playing.", "Master the bandeja before anything flashy."]} />
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2">The one thing that separates levels</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -133,13 +134,6 @@ export default function Padel() {
               ['Learn to lose a point on purpose', 'When you are stretched and out of position, a high defensive lob that resets the point is a win. Trying to hit a winner from a bad position is how you gift points away.'],
             ]} />
 
-            <Block title="The honest picture on getting seriously good" items={[
-              ['Padel is young and the ceiling is open', 'It is growing extremely fast, which means the competitive scene in most countries is far less saturated than tennis or football. Getting to a genuinely high amateur or competitive level is realistic for someone who trains properly.'],
-              ['Coaching is worth more here than in most sports', 'The technique is unintuitive — the bandeja, letting the glass work for you, the underarm serve. A handful of coached sessions fixes things that would take you a year to work out alone.'],
-              ['Find better players and lose to them', 'The fastest way to improve is regularly playing people slightly better than you. Winning every game against weaker players is pleasant and teaches you nothing.'],
-              ['Fixed partner beats random pairing', 'Doubles is about coordination. Playing regularly with the same partner builds a shared understanding that individually better but unfamiliar pairs cannot match.'],
-              ['Timeline', 'Roughly 3 months of drilling to feel like a different player, 12 months to be genuinely competitive in a club setting. Most people never get there because they play twice a week for years and never once drill.'],
-            ]} />
 
             <Block title="Running football and padel together" items={[
               ['They complement each other well', 'Both need lateral movement, reactive agility and rotational power — the same gym work serves both. Padel is also far lower impact than football, so it is a good session in a heavy week.'],
@@ -160,6 +154,7 @@ export default function Padel() {
         {/* ===== TECHNIQUE ===== */}
         {tab === 'technique' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Continental grip for almost everything, compact swings, contact out in front.", "The bandeja keeps you at the net — it is your most important shot.", "Lob to get back to the net; smash only what you can finish."]} />
             <Block title="Grip & Ready Position" items={[
               ['Continental grip, always', 'Hold it like shaking hands with the racket edge-on — same grip for forehand, backhand, and volleys. Switching grips mid-point is what beginners waste years on; padel rewards one grip mastered deeply.'],
               ['Ready stance', 'Knees soft, racket up in front of your chest, weight forward on the balls of your feet. You should be able to move in any direction within one step.'],
@@ -221,15 +216,11 @@ export default function Padel() {
         {/* ===== STRATEGY ===== */}
         {tab === 'strategy' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Two of you at the net win most points. Move as a pair, like connected by a rope.", "Aim down the middle and at feet. Most points are lost, not won."]} />
             <Block title="Court Position — the whole game in one rule" items={[
               ['Get to the net, stay at the net', 'Padel is won and lost at the net. The team at the net controls the point; the team stuck at the back is defending. Every rally, your first job is advancing forward safely.'],
               ['Move as a pair, not two singles', 'You and your partner should move side to side together, maintaining the same depth — if one pushes to the net, the other follows. Gaps between partners are where points are lost.'],
               ['Cover the middle, not the lines', 'Most winning shots go through the middle of the court, not down the lines. Stand slightly toward the middle and let the lines go if forced to choose.'],
-            ]} />
-            <Block title="The Lob — your ticket back to the net" items={[
-              ['When you\'re stuck at the back', 'If your opponents control the net, a deep, high lob over their heads (toward the back glass) buys time to advance behind it. Padel\'s entire back-court strategy runs through the lob.'],
-              ['Lob to the middle or the weaker player', 'A lob hit down the middle is harder for a pair to coordinate on (who takes it?). A lob to the weaker player\'s backhand overhead is close to a free point.'],
-              ['Never lob short', 'A short lob gets smashed for a winner. If in doubt, hit it deeper — a long lob is a reset; a short one is a gift.'],
             ]} />
             <Block title="Doubles Tactics" items={[
               ['Target the weaker player', 'Politely but relentlessly — most points at amateur level are won by finding and attacking the lesser player, especially their backhand.'],
@@ -242,6 +233,7 @@ export default function Padel() {
         {/* ===== WALL PLAY ===== */}
         {tab === 'walls' && (
           <div className="fade-up stagger space-y-4">
+            <OneThing points={["Let it come off the glass — the wall gives you time, not trouble.", "Turn side-on early, move back with the ball, hit after the rebound drops."]} />
             <Block title="Reading the Glass" items={[
               ['The wall is your friend, not your enemy', 'Balls off the back glass are still very playable — the bounce is predictable once you\'ve read enough of them. Panic at the wall loses more points than the wall itself does.'],
               ['Let it bounce off the glass before you swing', 'The instinct is to hit the ball before it hits the wall — usually wrong. Let ball-bounce-then-wall (or wall-then-bounce) happen and read the angle before committing to your swing.'],

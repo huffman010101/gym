@@ -1,14 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, Eye, ChevronDown, Heart, BookOpen, ListChecks, Compass } from 'lucide-react';
+import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, Eye, ChevronDown, Heart, BookOpen, ListChecks, Compass, Moon } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import { SectionHeader, TabBar, OneThing } from '../components/Hud';
-import MorningRoutine from '../components/MorningRoutine';
-import NightRoutine from '../components/NightRoutine';
 import TomorrowPlan from '../components/TomorrowPlan';
-import HighValue from '../components/HighValue';
-import Security from '../components/Security';
-import KnowYourself, { DatingMindset } from '../components/KnowYourself';
+import KnowYourself from '../components/KnowYourself';
 
 type Tab = 'playbook' | 'know' | 'social' | 'confidence' | 'discipline' | 'routine' | 'secret';
 const TAB_IDS = ['playbook', 'know', 'social', 'confidence', 'discipline', 'routine', 'secret'] as const;
@@ -297,394 +293,230 @@ export default function Mind() {
           </div>
         )}
 
+        {/* ============ CHARISMA & PRESENCE ============ */}
         {tab === 'social' && (
-          <div className="fade-up stagger space-y-4">
+          <div className="fade-up stagger space-y-3">
             <Tldr points={[
               'Slow down everything — speech, walk, reactions. Calm reads as confident before you say a word.',
               'Warm first: smile, eye contact, say hello before they do. Warmth plus composure is the whole formula.',
               'Listen properly: stop queueing your reply, ask the follow-up, remember a detail and bring it up next time.',
               'Hold your frame: do not over-explain, stay amused rather than wounded when you are teased.',
             ]} />
-            <Card icon={Sparkles} title="The Charisma Formula" items={[
-              ['Presence', 'Charisma is 90% making people feel like the only person in the room. Phone away, full eye contact, react to what they actually said — not what you were waiting to say.'],
-              ['Warmth + Power', 'Warmth alone = nice but forgettable. Power alone = intimidating. Both together = magnetic. Smile easily AND hold your ground on opinions.'],
-              ['Slow down everything', 'Charismatic people move, speak and turn their head unhurried. Rushed movement broadcasts nervousness. Pause before you answer — it reads as thoughtful, not slow.'],
-              ['Expressiveness', 'Monotone kills. Let your face and voice actually show amusement, curiosity, surprise. People mirror the energy you bring.'],
+            <Card icon={Mic2} title="Voice and body language" items={[
+              ['Speak from the chest, slower', 'Lower and 20% slower than feels natural. Rushed, high speech is the most common tell of nerves.'],
+              ['End statements down', 'Rising at the end turns a statement into a request for approval.'],
+              ['Pause instead of filling', 'A one-second pause beats "um" and "like". Silence reads as composure.'],
+              ['Take up space calmly', 'Feet shoulder-width, shoulders down, hands still. Not puffed up — just not shrinking.'],
+              ['Eye contact', 'Hold it while you listen, break it sideways while you think. Looking down reads as submission.'],
             ]} />
-            <Card icon={Mic2} title="Voice" items={[
-              ['Speak from the chest', 'Breathe into your belly and let the voice resonate low. Higher, throaty voice = nerves. Practice reading aloud 5 min/day at the bottom of your comfortable range.'],
-              ['End statements DOWN', 'Upward inflection turns statements into questions and leaks approval-seeking. Drop the pitch at the end of sentences.'],
-              ['Volume slightly above comfortable', 'Quiet talkers get talked over. You should never be asked to repeat yourself twice in one conversation.'],
-              ['Silence is a power tool', 'Comfort with pauses signals status. Don\'t fill every gap — let a beat land after you make a point.'],
+            <Card icon={MessageCircle} title="Conversation" items={[
+              ['Go deeper, not wider', 'Pick something they said and follow it: "Wait, why did you quit?" beats a new topic every time.'],
+              ['Statements over questions', '"You seem like the one who plans every trip" invites play. "What do you do?" invites autopilot.'],
+              ['React for real', 'Laugh when it is funny, be surprised when it is surprising. Flat, polite responses kill conversations.'],
+              ['Stories: setup, tension, payoff', 'Cut everything that is none of those three. Thirty seconds, not three minutes.'],
+              ['Leave on a high', 'End while it is still good. People remember the peak and the end.'],
             ]} />
-            <Card icon={Eye} title="Body Language" items={[
-              ['Take up space calmly', 'Shoulders back and down, chest open, arms uncrossed, feet planted shoulder-width. Shrinking postures read as apologising for existing.'],
-              ['Eye contact rhythm', 'Hold while THEY speak (shows engagement), break naturally to the side (not down — down reads submissive) while you think.'],
-              ['Slow nod, real smile', 'A slow triple-nod while listening makes people open up. A smile that reaches the eyes beats a held grin.'],
-              ['Walk like you own the route', 'Head level, pace unhurried, no darting eyes. Practice literally: walk through busy places holding your line politely.'],
+            <Card icon={Heart} title="Listening — the charisma nobody sees" items={[
+              ['Stop queueing your reply', 'If you are rehearsing what to say next, you are not listening. This one habit is most of it.'],
+              ['Follow up, do not switch', 'Ask about what they just said before you move on.'],
+              ['Do not hijack', '"That happened to me too" turns their story into yours. Save it.'],
+              ['Do not fix unless asked', 'Most people want to be heard, not solved. Ask: "Do you want advice or just to vent?"'],
+              ['Remember and call back', 'Bring up a detail days later. Nothing makes people feel more valued.'],
             ]} />
-            <Card icon={MessageCircle} title="Conversation Skill" items={[
-              ['Statements > questions', 'Interviews are boring. Instead of "Where are you from?" try "You\'ve got a London accent — I\'m guessing south." Assumptions invite play; interrogations invite one-word answers.'],
-              ['Thread, don\'t topic-hop', 'Every sentence someone says contains 3 threads. "I just got back from Spain with my sister" = Spain, travel, family. Pick one and pull.'],
-              ['Give real reactions', '"No way — that changes everything, what did you do?" beats "oh nice". Being easily delighted is charisma fuel.'],
-              ['Exit on a high', 'Leave conversations at the peak, not the fizzle. "I need to head off — this was the best chat I\'ve had all week." People remember endings.'],
+            <Card icon={Sparkles} title="Humour and banter" items={[
+              ['Funny = truth, exaggerated', 'Say the true thing everyone noticed, then push it slightly too far.'],
+              ['Pause before the punchline', 'Slow down right before it, then hold a straight face after.'],
+              ['Callbacks', 'Referencing an earlier moment is the easiest laugh there is and builds an inside joke.'],
+              ['Banter is playful disagreement', 'Tease what they chose, never what they cannot change. Never punch down.'],
             ]} />
-            <Card icon={MessageCircle} title="How to Be Funny (it's mechanics, not magic)" items={[
-              ['Funny = truth + exaggeration or truth + unexpected angle', 'Notice the true absurd thing everyone half-sees, then push it further ("this gym playlist was chosen by someone going through something") or flip the frame. Observation is 80% of comedy — train it by narrating life absurdities in your head.'],
-              ['Commit fully or don\'t', 'A bit delivered at 100% conviction lands; the same line mumbled with a pre-apology dies. If you start a joke, ride it to the end — even a miss committed to reads as confidence.'],
-              ['Timing: pause BEFORE the punchline', 'The half-second beat is what makes lines land. Rushing to the punchline because you\'re nervous kills more jokes than bad material.'],
-              ['Callbacks are cheat codes', 'Referencing the group\'s earlier joke ("this is the gym playlist guy all over again") gets bigger laughs than new material — it rewards the group\'s shared history.'],
-              ['Self-deprecation: small doses, from height', 'Mocking your own small flaws from obvious confidence = charming. Constantly putting yourself down = the group\'s designated target. Ratio: 1 self-jab per 5 outward observations, never about things you\'re actually insecure about.'],
-              ['Steal structure, not jokes', 'Watch stand-ups and funny mates for HOW they build (setup economy, act-outs, escalation), not lines to repeat. Repeated jokes land once; mechanics land forever.'],
+            <Card icon={Compass} title="Frame" items={[
+              ['What it is', 'Non-reactivity, not dominance. You stay yourself whether people approve or not.'],
+              ['Do not over-explain', 'The main tell. State it once, calmly, and stop.'],
+              ['Agree and amplify', 'When teased, agree and exaggerate it. Defending yourself is what makes it land.'],
+              ['Do not accept a framing you disagree with', 'You can be relaxed and still say "nah, I do not see it like that".'],
+              ['Apologise when you are wrong', 'Owning a mistake quickly is a frame move. Only insecure people cannot.'],
             ]} />
-            <Card icon={Eye} title="Group Status — never the punching bag" items={[
-              ['Why groups test you', 'Every group playfully probes for who can be teased hardest. The test isn\'t the joke — it\'s your response. Pass the test and it stops; fail repeatedly and it becomes your role. Roles calcify fast, so respond right EARLY.'],
-              ['The response ladder', 'Level 1 — laugh WITH genuinely and add to it ("mate you\'ve been saving that one all week"). Level 2 — agree and amplify to absurdity ("yeah I sleep in my gym clothes, saves time"). Level 3 — flip it back with a smile, once, clean. Never: visible hurt, over-explaining, or silent sulking — those feed it.'],
-              ['Amused, never wounded', 'The unbotherable guy is untouchable. The moment teasing visibly lands, you\'ve taught the group where the button is. If something genuinely crosses a line, address it once, privately, calm: "the X stuff — done with it." Calm directness ends what reactions escalate.'],
-              ['Give status to get status', 'High-status group members bring others in: set up mates\' stories ("tell them about Saturday"), laugh loudly at others\' jokes, remember details. The guy who makes the group work is above the pecking order, not in it.'],
-              ['Don\'t compete for every laugh', 'Trying to top every joke reads as thirsty. Land your moments, let others have theirs. Scarcity applies to humour too.'],
-              ['Never punch down, rarely punch first', 'Tease the confident mates, never the struggling one. Groups clock cruelty instantly and it costs more status than it wins laughs.'],
+            <Card icon={Eye} title="Status in a group" items={[
+              ['Why groups test you', 'Teasing is how groups find out who stays level. It is usually not hostility.'],
+              ['Amused, never wounded', 'Laugh, return it lightly, move on. Sulking or over-reacting is what makes you the target.'],
+              ['Give status to get status', 'Bring quieter people in, credit others\' jokes. The one who elevates others is the one people follow.'],
+              ['Restraint', 'Speak less than you want to, compliment rarely and precisely, keep confidences, do not narrate your life.'],
             ]} />
-            <Card icon={MessageCircle} title="Active Listening — the actual mechanics" items={[
-              ['Stop queueing your reply — this is the whole thing', 'If you are composing your next line while they talk, you are not listening, and they can feel it even if they cannot name it. The fix is uncomfortable and simple: let yourself have nothing ready when they finish. Trust that you will find something once you have actually heard them.'],
-              ['The one-second pause', 'Wait a beat before you respond. It signals you were considering rather than waiting, it stops you interrupting, and it makes whatever you say next land harder. Most people find this genuinely difficult, which is exactly why it is noticeable when you do it.'],
-              ['Ask the follow-up, not a new question', 'The amateur asks "what do you do?" then "where are you from?" — a checklist. The upgrade is going deeper into the answer they just gave: "what made you pick that?", "what was that actually like?". Depth makes people feel interesting; breadth makes them feel processed.'],
-              ['Do not hijack with your own story', 'The most common failure: they mention a bad flight, you launch into YOUR worse flight. It feels like relating; it lands as taking the floor. Give the moment back — "what happened?" — and tell your version later, if at all.'],
-              ['Do not fix unless they asked', 'Especially when someone is venting. Jumping to solutions tells them the feeling was an inconvenience to be cleared. Ask outright: "do you want to think it through, or do you just need to get it out?" People are surprised and relieved that someone asked.'],
-              ['Remember, then call back later', 'The highest-value habit here. Note the detail — the sister, the interview, the injury — and raise it next time you see them: "how did the interview go?" Almost nobody does this, and it is the single strongest signal that someone actually mattered to you. If your memory is bad, write three details in your phone afterwards. That is not cheating.'],
-              ['Let silence sit', 'Most people fill a two-second gap. If you do not, the other person usually keeps going — and the thing they add after the pause is often the real thing. Comfortable silence is a listening tool, not an awkwardness to fix.'],
-            ]} />
-            <Card icon={MessageCircle} title="Storytelling & Banter" items={[
-              ['Story structure: setup → tension → payoff', 'Setup: one line of context ("So I\'m at the gym at 6am, dead empty…"). Tension: the thing that went wrong or got weird. Payoff: the punchline or the lesson. Cut everything that isn\'t one of those three.'],
-              ['Tell it for them, not for you', 'Eye contact, act out the voices, pause before the payoff. A mid story told with energy beats a great story mumbled.'],
-              ['Callback humour', 'Reference a joke or moment from earlier in the conversation ("classic — just like your Spain disaster"). Callbacks build an inside world and prove you were listening. The longer the gap, the harder it lands.'],
-              ['Banter = playful disagreement', 'Take the opposite side of something trivial with a grin, exaggerate, never punch at real insecurities. If they escalate the bit, play along — dropping the bit to be literal kills it.'],
-              ['Know when to lead vs follow', 'Lead when energy dips (new topic, suggestion, tease). Follow when they light up about something — feed it with reactions and questions. Charisma is reading which mode the moment needs.'],
-              ['Banter still runs on listening', 'Every callback, every tease that lands, every well-timed follow-up comes from having actually heard them. The mechanics are in the Active Listening card above — this card is what you do with what you heard.'],
-            ]} />
-          </div>
-        )}
-
-        {tab === 'social' && (
-          <div className="fade-up stagger space-y-4">
-            <Card icon={Sparkles} title="Frame — what it actually is" items={[
-              ['The definition', 'Frame is whose interpretation of the situation the interaction runs on. Two people always arrive with slightly different versions of "what is happening here" — who is impressive, what is a big deal, whether this is a problem. Whichever version holds is the frame the conversation runs on, and it is settled by who is more certain, not who is louder.'],
-              ['It is non-reactivity, not dominance', 'The single biggest misunderstanding. Frame is not staring people down, refusing to back off, or winning every exchange. It is that your read on reality does not move because someone poked it. The calmest person in the room usually has the strongest frame, and the person working hardest to prove they have one does not.'],
-              ['It comes from somewhere real or it collapses', 'Frame is downstream of actually having standards, a full life and something you are building. You cannot perform it for long — under sustained pressure it reverts to whatever is underneath. This is why the gym, the work and the standards matter more than any technique on this page.'],
-              ['The willingness to lose the interaction', 'The root of frame is being genuinely willing to be disliked, disagreed with, or to walk away. The moment you need a specific outcome from someone, they have the frame by default — and everyone can sense it. Non-neediness is not an attitude you adopt, it is a consequence of having other options.'],
-            ]} />
-            <Card icon={Sparkles} title="Holding it — and the tells that you have not" items={[
-              ['Over-explaining is the main tell', 'Justifying a decision nobody challenged, adding reasons after "no", explaining why you were late three times. One sentence, no apology tour. If they want more, they will ask.'],
-              ['Changing your opinion under mild pressure', 'Someone raises an eyebrow and you soften what you said. Notice it. You are allowed to hold a view someone else finds boring, wrong or uncool — that is most of what frame looks like in practice.'],
-              ['Nervous laughter and rushed speech', 'Laughing to fill your own sentences, speeding up when someone goes quiet, trailing off. Slow down. The pause is the frame; rushing to fill it hands it over.'],
-              ['Answer the question asked, not the accusation implied', 'When someone says "you actually go the gym that much?", the frame-loss answer is a defence. The frame-hold answer is a plain one: "yeah, five days." No justification, no joke to soften it.'],
-              ['Agree and amplify when teased', 'Take the tease further than they did, with a grin. It shows the comment could not land anywhere painful, and it ends the test instantly. Getting defensive confirms it landed; being humourless is worse.'],
-              ['Do not accept a framing you disagree with just to be agreeable', 'The most common quiet loss: someone characterises you or the situation wrongly and you go along with it to avoid friction. You can reject a premise warmly — "nah, that is not really it" — and carry on.'],
-              ['With authority figures too', 'A lecturer, a boss, someone senior. Respect their position without shrinking. Ask the question, state the disagreement, hold eye contact. Deference and self-erasure are not the same thing, and people in authority notice the difference immediately.'],
-            ]} />
-            <Card icon={Eye} title="Scarcity & Restraint" items={[
-              ['Don\'t announce plans, reveal results', 'Talking about goals leaks the reward before the work. Show up transformed instead — mystery plus proof beats promises.'],
-              ['Miss occasionally', 'Not every party, not every reply within minutes, not endlessly available. People value what has scarcity. (Genuine busyness building your life — not games.)'],
-              ['Never over-explain', 'Reasons on request, not preemptive essays. Over-explaining signals you expect to be doubted.'],
-              ['Keep confidences like a vault', 'Never gossip. The person hearing your gossip learns you leak. "He never talks about people" is elite reputation.'],
-              ['Compliment rarely, precisely', 'When compliments are scarce and specific, yours mean something. The person who validates everything validates nothing.'],
-            ]} />
-          </div>
-        )}
-
-        {tab === 'social' && (
-          <Collapsible title="Icons — steal one trait" tag="Beckham, Federer, Reynolds and others: what to take from each">
-          <div className="fade-up stagger space-y-4">
-            <div className="card-premium p-5">
-              <h3 className="font-bold mb-2 flex items-center gap-2"><Sparkles size={16} className="text-pink-400" /> Steal Like an Artist</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Every man people love has a specific, learnable signature. Don't copy the whole person — extract the ONE
-                trait that makes them magnetic and install it. Below: the icon, why people love them, and the exact thing to take.
-              </p>
-            </div>
-            {[
-              ['David Beckham', 'Beloved for: relentless grooming + soft-spoken humility despite mega-fame.', 'Three decades in front of cameras and paparazzi and there is barely a scruffy photo of him — that is not luck, it is a standard he never drops even off-duty. He also lets his career do the talking; you\'d struggle to find him hyping himself in an interview.', 'Take: the grooming standard — never once caught scruffy in 30 years — and the trick of letting achievements talk while you stay understated. Quiet + immaculate is a devastating combo.'],
-              ['Cristiano Ronaldo', 'Beloved for: the most public work ethic in sport. Nobody questions whether he earned it.', 'Teammates across three different countries have said the same thing independently: he is always first in and last out. His body at 40 versus most players at 40 is the entire argument for consistency over talent.', 'Take: the routine IS the identity — sleep, training, diet, recovery, non-negotiable. And his answer to doubters: no speeches, just scoreboard. Let output be your response to everything.'],
-              ['Ryan Reynolds', 'Beloved for: quick wit that never punches down; self-deprecation from obvious confidence.', 'His own marketing (Aviation Gin, Mint Mobile) is built almost entirely on him mocking himself first — which is why the jokes land instead of feeling like a brand talking down to you.', 'Take: his humour formula — deadpan delivery, jabs at himself before anyone else can, warmth under every roast. Proof that funny + kind beats funny + cruel every time.'],
-              ['Daniel Craig\'s Bond', 'Beloved for: total composure — economy of words and movement under chaos.', 'Watch any scene under pressure: minimal facial movement, no wasted motion, and when he does react it\'s small and deliberate. The stillness reads as more dangerous than any amount of shouting would.', 'Take: the physical stillness. No fidgeting, no rushing, no nervous laughter. Speak 30% less, move 30% slower, react 30% later. (Full breakdown in the Aura tab.)'],
-              ['Roger Federer', 'Beloved for: grace in victory AND defeat — two decades without a public tantrum.', 'His 2009 Australian Open runner-up speech — crying, composed, generous to the winner in the same breath — is still cited as the standard for how to lose in public.', 'Take: how you lose is your reputation. Losing a point, a match, a girl, a deal with class is remembered longer than most wins. (Pairs with the rejection-grace rule in Secret.)'],
-            ].map(([name, why, detail, take]) => (
-              <div key={name as string} className="bg-[#111] border border-white/8 rounded-2xl p-5">
-                <h3 className="font-bold text-pink-300 mb-1">{name as string}</h3>
-                <p className="text-gray-400 text-sm mb-2">{why as string}</p>
-                <p className="text-gray-600 text-xs leading-relaxed mb-2 italic">{detail as string}</p>
-                <p className="text-gray-500 text-sm leading-relaxed"><span className="text-gray-300 font-semibold">{(take as string).split(':')[0]}:</span>{(take as string).split(':').slice(1).join(':')}</p>
+            <Collapsible title="Icons — steal one trait" tag="Pick one, study it for a month">
+              <div className="space-y-3 text-sm">
+                {[
+                  ['Daniel Craig\'s Bond', 'Composure. Economy of words and movement under pressure.'],
+                  ['David Beckham', 'Relentless grooming and soft-spoken humility despite everything.'],
+                  ['Ryan Reynolds', 'Quick wit that never punches down.'],
+                  ['Roger Federer', 'Grace in winning and losing.'],
+                  ['Cristiano Ronaldo', 'A work ethic nobody questions.'],
+                ].map(([n, t]) => (
+                  <p key={n} className="text-gray-400"><span className="font-semibold text-gray-200">{n}</span> — {t}</p>
+                ))}
               </div>
-            ))}
-            <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
-              <h3 className="font-bold mb-2">How to actually use this</h3>
-              <p className="text-gray-500 text-sm leading-relaxed">
-                Pick ONE icon whose gap matches yours (fidgety? Craig. Scruffy? Beckham. Too harsh? Reynolds. Sore loser? Federer. Coasting? Ronaldo).
-                Study 20 minutes of their interviews watching for the trait, then run it for a month until it\'s yours.
-                One trait at a time — a collage of impressions is a costume; one absorbed trait is character.
-              </p>
-            </div>
+            </Collapsible>
           </div>
-          </Collapsible>
         )}
 
+        {/* ============ CONFIDENCE ============ */}
         {tab === 'confidence' && (
-          <div className="fade-up stagger space-y-4">
+          <div className="fade-up stagger space-y-3">
             <Tldr points={[
               'Confidence is evidence, not a feeling. Keep small promises to yourself and it builds on its own.',
               'Do one scared thing a day. Nerves shrink with reps, never with more thinking.',
               'Stop outsourcing your worth: decide your standards before the moment, then act on them.',
               'Talk to yourself like a coach: second person, specific, never "I am an idiot".',
             ]} />
-            <Card icon={Flame} title="Where Real Confidence Comes From" items={[
-              ['Evidence, not affirmations alone', 'Confidence = a stack of kept promises to yourself. Every workout finished, every cold shower, every scary conversation had — that\'s a deposit. The account balance is self-belief.'],
-              ['Competence loop', 'Pick skills and actually get good: lifting, fighting, talking, a craft. Confidence without competence collapses under pressure; competence makes it unshakeable.'],
-              ['Do the thing scared', 'Courage precedes confidence, never the reverse. The rep is: feel the fear, act anyway, survive, update your identity. Repeat until fear becomes fuel.'],
-              ['Stop outsourcing your worth', 'If a like, a text-back or someone\'s mood can move your state, they own your state. Self-validation is a practice: judge YOUR day by YOUR standards each night.'],
+            <Card icon={Flame} title="Where it actually comes from" items={[
+              ['Evidence', 'Every kept promise to yourself is proof you can rely on you. Affirmations without evidence do not hold.'],
+              ['Competence', 'Get good at something hard — lifting, football, a skill that pays. Competence spills into everything.'],
+              ['Reps of discomfort', 'You do not wait to feel confident, then act. You act, and the feeling follows.'],
+              ['Your own scoreboard', 'If your mood depends on how a night went or how many likes you got, someone else holds the controls.'],
             ]} />
-            <Card icon={Flame} title="Daily Confidence Protocol" items={[
-              ['Morning: win the first hour', 'Make the bed, train or move, cold exposure, no phone for 30 min. Starting with discipline colours the whole day\'s self-image.'],
-              ['One rejection or discomfort daily', 'Ask for a discount, give a stranger a compliment, take the front seat in class. Deliberately touching discomfort daily shrinks its power everywhere.'],
-              ['Posture audit x3', 'Three times a day: shoulders down-and-back, spine tall, slow exhale. State follows body.'],
-              ['Night: log 3 wins', 'Write three things you did right today, however small. Your brain keeps score of whatever you count — count wins.'],
+            <Card icon={Heart} title="Nerves in the moment" items={[
+              ['Long exhale', 'Breathe out for twice as long as you breathe in, three times. It is the fastest off-switch your body has.'],
+              ['Name it', '"This is nerves, it is normal." Naming a feeling lowers it.'],
+              ['Three seconds', 'Decide, then move within three seconds. Waiting only lets the story in your head grow.'],
+              ['Turn outward', 'Get curious about them. Nerves are self-focus; curiosity replaces it.'],
             ]} />
-            <div className="bg-white/5 border border-white/10 rounded-xl px-4 py-3">
-              <p className="text-gray-400 text-xs leading-relaxed">
-                Feeling no drive to start things is usually a dopamine problem, not a confidence problem — that full
-                breakdown (the 14-day detox, deep work, why motivation never comes first) lives in the
-                <span className="text-pink-300 font-semibold"> Focus & Discipline</span> tab so it's covered once, properly.
-              </p>
-            </div>
-            <Card icon={Flame} title="Approval-Seeking Detox" items={[
-              ['Spot the leaks first', 'Checking who liked your story, rephrasing opinions mid-sentence when someone frowns, laughing at unfunny jokes, saying "yeah" to plans you hate, posting then monitoring. These are approval leaks — each one trains your brain that other people hold your remote control.'],
-              ['The core reframe', 'People\'s reactions to you are mostly about THEM — their mood, their day, their insecurities. You\'re a background character in everyone else\'s film. This isn\'t sad, it\'s freedom: the audience you\'re performing for isn\'t even watching.'],
-              ['Opinion reps', 'State small preferences plainly, daily, without softening: "I don\'t rate that film." No "haha idk maybe it\'s just me though". Disagreement survived = evidence you don\'t need consensus to be fine.'],
-              ['Do things without broadcasting', 'Train, read, build for a month without posting any of it. Decoupling achievement from announcement rewires WHO the achievement was for.'],
-              ['The 24-hour test', 'Before chasing any validation (rewording a text 5 times, fishing for a compliment), ask: will this person\'s approval matter in 24 hours? A year? Almost nothing passes the test.'],
-              ['Approval comes back inverted', 'The brutal irony: needing approval repels it, indifference attracts it. People sense which one you are within minutes. Fix the need and the approval arrives unrequested — at which point you won\'t need it.'],
+            <Card icon={Mic2} title="Self-talk that works" items={[
+              ['Use your own name or "you"', '"Roy, you have done harder than this" works better than "I can do this" — it creates distance from the fear.'],
+              ['True, specific, present', '"You kept your word three days running" beats "I am amazing". The brain rejects claims it has no evidence for.'],
+              ['Before social', '"Be warm first. Say the thing. The outcome is not the point."'],
+              ['After a miss', '"What is the lesson? Next rep." Never turn a mistake into an identity: "I messed that up", not "I am useless".'],
             ]} />
-            <Collapsible title="Handling Nerves in the Moment" tag="Pre-approach, pre-talk, pre-fight">
-              <div className="space-y-3 text-sm">
-                <p className="text-gray-400"><span className="font-bold text-gray-200">Physiological sigh:</span> double inhale through the nose, long exhale through the mouth, x3. Fastest known way to drop acute stress.</p>
-                <p className="text-gray-400"><span className="font-bold text-gray-200">Rename it:</span> anxiety and excitement are the same chemistry. Say "I'm excited" — performance measurably improves versus trying to calm down.</p>
-                <p className="text-gray-400"><span className="font-bold text-gray-200">3-second rule:</span> when you notice the urge to act (approach, speak up, raise your hand), move within 3 seconds. Hesitation compounds; action interrupts it.</p>
-                <p className="text-gray-400"><span className="font-bold text-gray-200">Focus outward:</span> nerves come from self-monitoring. Put 100% attention on the other person or the task — self-consciousness needs an audience of you.</p>
-              </div>
-            </Collapsible>
-            <div className="card-premium p-5">
-              <h3 className="font-bold mb-2 flex items-center gap-2"><Brain size={16} className="text-pink-400" /> How Self-Talk Actually Works</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Your brain treats your own voice as the most credible source it knows. Repeated statements become the default
-                filter you see yourself through — this is trainable. Rules: present tense, personal, and either believable
-                or phrased as becoming ("I'm becoming…"). Say them in the mirror, out loud, morning and night. Cringe fades;
-                the wiring stays.
-              </p>
-            </div>
-            {[
-              ['Identity', ['I keep the promises I make to myself.', 'I am the kind of man who does hard things first.', 'I don\'t need the room\'s approval — I bring my own.', 'Discipline is my default, not my exception.']],
-              ['Before social situations', ['People are lucky to talk to me — I bring energy others don\'t.', 'I\'m curious about everyone and intimidated by no one.', 'My presence is enough. I don\'t perform, I connect.', 'Whatever happens, I handle it. I always handle it.']],
-              ['Before training / competing', ['My body does what my mind commands.', 'Fatigue is information, not an instruction.', 'I\'ve done the work. Now I collect.', 'Pressure is a privilege — it means I\'m in the arena.']],
-              ['After setbacks', ['This is data, not a verdict.', 'I judge myself on response, not results.', 'Losing a rep doesn\'t make me a loser. Quitting would.', 'Six months from now this is a story I tell, not a wound I carry.']],
-            ].map(([title, lines]) => (
-              <div key={title as string} className="bg-[#111] border border-white/8 rounded-2xl p-5">
-                <h3 className="font-bold mb-3 text-pink-300">{title as string}</h3>
-                <div className="space-y-2">
-                  {(lines as string[]).map(l => (
-                    <p key={l} className="text-gray-300 text-sm bg-white/3 border border-white/5 rounded-lg px-3 py-2">“{l}”</p>
-                  ))}
-                </div>
-              </div>
-            ))}
-            <Card icon={Brain} title="Kill the Inner Critic" items={[
-              ['Catch → Name → Reframe', 'Notice the thought ("I\'ll embarrass myself"), label it ("that\'s the fear talking"), replace with a coach\'s line ("worst case, I learn something").'],
-              ['Talk to yourself in second person', '"You\'ve got this, Roy" outperforms "I\'ve got this" in studies — it creates coach-distance from the emotion.'],
-              ['Never narrate a miss with identity', '"I missed the lift" ✅. "I\'m weak" ❌. Behaviour language is fixable; identity language sticks.'],
+            <Card icon={ListChecks} title="Unbothered — approval detox" items={[
+              ['Spot the leaks', 'Over-explaining, fishing for compliments, checking faces after a joke, posting for reactions.'],
+              ['Opinion reps', 'Give a real opinion once a day, even a small one. Disagree politely at least once a week.'],
+              ['Do things without broadcasting', 'Train, build, improve — and tell nobody for a month. Watch how little you need the audience.'],
+              ['Criticism', 'Ask: is it true, and is this person someone whose advice I would take? If neither, let it go.'],
+              ['Comparison', 'You are comparing your inside to their highlight reel. Compare yourself to you three months ago.'],
             ]} />
-            <Security />
-            <Card icon={Brain} title="Psychology of Positivity (the real kind)" items={[
-              ['The no-complaint rule', 'Zero complaining unless paired with an action ("this is broken, here\'s what I\'m doing"). Complainers signal helplessness; problem-solvers signal power. Try 7 days clean.'],
-              ['Reframe on impact', 'First thought after a setback: "good — because…". Missed train = time to make the call. Rejection = data + a story. This is trainable and it\'s the core of resilience psychology.'],
-              ['Gratitude with teeth', 'Nightly: 3 specific things that went right and WHY they happened. Trains your attention to spot opportunity instead of threat — measurable mood and optimism shifts within weeks.'],
-              ['Energy is a choice you make hourly', 'People remember how you made the room feel. Deciding to bring warmth and energy — especially when neutral — is the most underrated social skill on earth.'],
-              ['Abundance beats scarcity in every decision', 'One opportunity/person/chance is never the only one. Scarcity thinking causes clinging, rushing, settling. Abundance thinking is calm — and it\'s self-fulfilling because calm attracts options.'],
-              ['Guard the inputs', 'Doomscrolling, gossip, blackpill content — your mind eats what you feed it. Curate feeds as strictly as your diet. Positivity is an input problem before it\'s a mindset problem.'],
+            <Card icon={Sparkles} title="Positivity — the real kind" items={[
+              ['No complaining', 'Complaining trains your brain to hunt for problems and makes you tiring company. Act or accept.'],
+              ['Gratitude with teeth', 'Three specific things each night. It is what stops you needing the next win to feel okay.'],
+              ['Guard the inputs', 'Doomscrolling, gossip, blackpill content — your mind eats what you feed it.'],
             ]} />
           </div>
         )}
 
+        {/* ============ DISCIPLINE ============ */}
         {tab === 'discipline' && (
-          <div className="fade-up stagger space-y-4">
+          <div className="fade-up stagger space-y-3">
             <Tldr points={[
               'Your phone wins because it pays instantly. Put it in another room while you work and the fight is over.',
               'Effort before reward, always: the scroll comes after the work, never before it.',
-              'Start with five minutes. Motivation follows action; it never leads.',
+              'Start with five minutes. Motivation follows action; it never leads. Use LOCK IN on the command screen.',
               'When emotion spikes, pause before you act: name it, breathe out slowly, then decide.',
             ]} />
-            <div className="card-premium p-5">
-              <h3 className="font-bold mb-2 flex items-center gap-2"><Brain size={16} className="text-pink-400" /> Why You Feel Groggy and Scroll Instead of Working</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                It's not laziness, it's a dopamine economy problem. Short-form content, porn, junk food and gaming deliver huge,
-                effort-free dopamine spikes constantly — next to that, deep work and hard tasks feel like they pay in pennies,
-                so your brain rationally avoids them. The fix isn't more willpower; it's resetting the baseline so real effort
-                feels rewarding again. Everything below is that reset, in order.
-              </p>
-            </div>
-            <div className="bg-gradient-to-br from-pink-500/15 to-[#111] border border-pink-500/30 rounded-2xl p-5">
-              <h3 className="font-black mb-1 flex items-center gap-2 text-pink-300"><Flame size={16} /> Uncook Your Brain</h3>
-              <p className="text-gray-500 text-xs leading-relaxed mb-4">
-                Ten rules. Not a program, not a phase — just how you live. Do these and the fog lifts within about two weeks.
-              </p>
-              <div className="space-y-3">
-                {[
-                  ['No music in the shower', 'Sit with your own thoughts. If every quiet moment is filled with audio you never actually process anything — the shower is where ideas surface.'],
-                  ['Wake up to sunlight, not your phone', 'Light in your eyes within 30 min sets your body clock. Phone first thing spikes dopamine before you\'ve earned anything, and the whole day feels flat by comparison.'],
-                  ['No gooning', 'Porn is the single biggest artificial dopamine hit available on demand. Cutting it moves your drive, focus and confidence more than anything else on this list.'],
-                  ['Chill with the short-form', 'You don\'t have to quit forever — but 20 minutes of scrolling rewires what "interesting" feels like. Cap it, and never before a work block.'],
-                  ['One task, phone in another room', 'Not face down. Not on silent. Another room. Proximity beats willpower every single time.'],
-                  ['Go 100% in or don\'t bother', 'Half-focused work for 3 hours is worse than 45 fully locked-in minutes. Decide which one you\'re doing before you start.'],
-                  ['Walk without headphones', '20 minutes, no input. This is when your brain files things away and solves the problems you were stuck on.'],
-                  ['Eat one meal a day with no screen', 'Nothing else happening. Trains the ability to just be present, which is the whole skill underneath all of this.'],
-                  ['Boredom is the point', 'That restless itch when you put the phone down IS your baseline recovering. Sit in it instead of reaching — it passes faster than you think.'],
-                  ['No phone first or last 30 min of the day', 'These two windows set your daily baseline and your sleep quality. Protect them and everything else gets easier.'],
-                ].map(([t, d], i) => (
-                  <div key={t} className="flex gap-3">
-                    <span className="text-pink-400/70 font-black text-xs mt-0.5 w-4 flex-shrink-0">{i + 1}</span>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-sm text-gray-200">{t}</p>
-                      <p className="text-gray-500 text-xs leading-relaxed mt-0.5">{d}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <Card icon={Brain} title="The Dopamine Detox — a real 14-day protocol" items={[
-              ['What you\'re actually detoxing', 'Not dopamine itself (you\'d die — it drives all motivation) but the CHEAP, high-frequency sources: short-form video, porn, junk food, gaming, random browsing. You\'re lowering the noise floor so normal life registers as rewarding again.'],
-              ['Days 1-4 — withdrawal (expect this)', 'Delete or screen-time-lock TikTok/Reels/Shorts, no porn, phone stays outside the bedroom, no snacking between meals. You WILL feel restless, grey, and bored — that\'s receptors healing, not depression. Do not quit here; this is the part that works.'],
-              ['Days 5-9 — the flat zone', 'Boredom peaks, then starts lifting. Fill freed time with training, walking, reading, and people — not another screen. Journaling what you notice (energy, sleep, urges) keeps you honest about progress you can\'t feel day-to-day.'],
-              ['Days 10-14 — the payoff', 'Normal activities — a conversation, a workout, a boring lecture — start generating real interest again. This is the point of the whole protocol: hard, valuable things become startable without dragging yourself.'],
-              ['What stays in, the whole time', 'Training, reading, real conversations, sunlight, music/podcasts while moving. You\'re cutting the cheap dopamine, not living like a monk — the detox targets specific sources, not all pleasure.'],
-              ['After day 14 — controlled reintroduction', 'Add things back ONE at a time, with a rule attached (e.g. short-form only after the day\'s deep work block is done). If a reintroduced habit creeps back to compulsive, cut it again for a week. This is maintenance forever, not a one-time fix.'],
+            <Card icon={Flame} title="Uncook your brain — the rules" items={[
+              ['Phone out of the bedroom', 'It charges in another room. This single change fixes mornings and nights.'],
+              ['No phone for the first and last hour', 'The first hour sets your dopamine baseline for the day.'],
+              ['No short-form before the work is done', 'Short-form video makes everything slower feel unbearable. It goes after, not before.'],
+              ['Remove the easiest apps', 'Delete or move them off the home screen. Friction beats willpower every time.'],
+              ['Let yourself be bored', 'Walks without headphones, meals without a screen. Boredom is where ideas and calm come back.'],
+              ['No porn', 'It is the most concentrated effort-free reward there is, and it drains drive for everything else.'],
             ]} />
-            <Card icon={Flame} title="Mastering Dopamine — the operating rules" items={[
-              ['Effort BEFORE reward, always', 'Phone after the work block, dessert after the meal, scroll after the study session. Sequencing alone retrains the brain that effort precedes reward — the exact wiring "lazy" brains have backwards.'],
-              ['Motivation follows action, it never leads it', 'Waiting to "feel like it" is the trap — dopamine releases DURING progress, not before it. Start any task at 10% effort and motivation typically arrives within 5 minutes. Action first, feeling second, no exceptions.'],
-              ['Variable reward is why apps win — use it against them', 'Unpredictable rewards (a great video, a like, a match) are more addictive than predictable ones. You can\'t out-willpower an engineered system — you remove access instead (delete the app, greyscale the phone, log out).'],
-              ['Novelty-seeking needs a legal outlet', 'The same brain chemistry that loves infinite scroll loves new skills, new places, new training stimuli. Redirect the craving for "new" into deliberate variety in productive things — new lifts, new topics, new routes — instead of fighting the craving itself.'],
-              ['Protect the morning dopamine baseline', 'No phone for the first 30-60 minutes — it spikes dopamine before you have done anything, and real tasks then feel dull by comparison. Full protocol in the Morning Routine tab.'],
+            <Card icon={Brain} title="Deep work" items={[
+              ['One block, one outcome', '60-90 minutes on one specific result: "finish problem set 3", not "revise".'],
+              ['Environment', 'Phone in another room, one tab, water on the desk, door shut.'],
+              ['Hardest thing first', 'Before messages, before the gym if you can. Willpower is highest early.'],
+              ['Shallow work after', 'Emails, admin, messages go in a block at the end, never scattered through.'],
             ]} />
-            <Card icon={Brain} title="Deep Work — the actual system" items={[
-              ['Define the block, not the day', '90-minute sessions, one single task, phone physically in another room (proximity beats willpower every time). Two real 90-min blocks outperform 8 distracted hours — most people never get level 2 focus, they get the illusion of work.'],
-              ['Environment does half the work', 'Same desk, same time, same starting ritual (water poured, notifications off, one specific playlist with no lyrics). Repetition trains an association: "this setup = deep focus" — you drop into the state faster every time you run the ritual.'],
-              ['Kill switching cost, not just distraction', 'Every notification or tab-switch costs ~20 minutes of full refocus, even if the check itself takes 5 seconds. Batch messages/emails into 2-3 windows a day instead of live-checking — the batching alone can double usable focus time.'],
-              ['Single-tasking is a trained skill', 'Multitasking is a myth — you\'re rapidly switching, and each switch has a cost. Close every tab except the one you need. If research is required, do it in a separate block, not mid-task.'],
-              ['Shallow work has a place — after, not during', 'Admin, replies, and easy tasks go in low-energy windows (post-lunch dip, evening). Never let shallow work eat your peak-energy hours — that\'s the highest-value theft your day can suffer.'],
+            <Card icon={ListChecks} title="When you want to quit" items={[
+              ['The five-minute contract', 'Just start for five minutes. You will almost always keep going.'],
+              ['Never miss twice', 'Missing once is life. Missing twice is the start of a new habit.'],
+              ['Track the streak, not the mood', 'Your feelings will lie; the streak on the command screen will not.'],
+              ['Rename the discomfort', 'That feeling is not a sign to stop. It is the feeling of getting better.'],
             ]} />
-            <Card icon={Flame} title="Discipline for Hard Things — when everything in you wants to quit" items={[
-              ['The 5-minute contract', 'Commit to just 5 minutes of the avoided task. Quitting after 5 is technically allowed — you almost never will, because starting was 90% of the resistance. Use this on literally anything you\'re avoiding.'],
-              ['Shrink the task until it\'s stupid', '"Revise the whole module" paralyses; "read 3 pages" doesn\'t. If you\'re stalling, the task is too big — cut it in half repeatedly until starting feels trivial. Momentum rebuilds the scope on its own once you\'re moving.'],
-              ['Discipline is a trainable muscle, literally', 'The anterior midcingulate cortex — the brain region tied to doing things you don\'t want to do — grows with use, confirmed in longevity/willpower research. Every cold shower, every session done unmotivated is a physical rep for this region. You\'re not born with or without discipline; you\'re training a muscle that atrophies from comfort.'],
-              ['Design your environment, don\'t rely on willpower', 'Phone in another room, gym bag packed the night before, distracting apps deleted (reinstalling is enough friction to matter). Willpower is a finite, exhaustible resource; environment design doesn\'t run out by 3pm.'],
-              ['Track the streak, not the mood', 'A visible daily-habit streak converts "do I feel like it?" into "do I break the chain?" — a far easier question to answer honestly. Never miss twice: one missed day is life happening; two in a row is the old pattern creeping back.'],
-              ['Reframe the discomfort itself', 'Boredom and effort during deep work or training are supposed to feel like that — it\'s not a sign something\'s wrong, it\'s the cost of a life most people won\'t pay. The people you respect most simply accepted that cost earlier and more often than everyone else.'],
+            <Card icon={Heart} title="Controlling emotions" items={[
+              ['Emotions are data, not commands', 'Feel it fully; you do not have to act on it.'],
+              ['The pause', 'Between the trigger and your response, breathe out slowly once. That pause is the whole skill.'],
+              ['Never act at the peak', 'No texts, decisions or confrontations while angry. Sleep on it.'],
+              ['10-10-10', 'Will this matter in 10 minutes, 10 months, 10 years?'],
             ]} />
-            <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
-              <h3 className="font-bold mb-3 text-pink-300">Daily System — putting it all together</h3>
-              <div className="space-y-2">
-                {[
-                  ['On waking', 'No phone for 30-60 min. Water, light, movement. This protects your dopamine baseline before the day starts spiking it artificially.'],
-                  ['First work block', 'Hardest task of the day, first, while willpower is highest. 90 min, phone in another room, one task, environment ritual run beforehand.'],
-                  ['Midday', 'Shallow work (emails, admin, replies) in the post-lunch dip — never during peak focus hours.'],
-                  ['Second work block', 'Second 90-min session if the day allows it. Same ritual, same rules.'],
-                  ['Reward, deliberately placed', 'Phone/scrolling/games AFTER the blocks are done, not as a break from them. This is the effort-before-reward rule in daily practice.'],
-                  ['Evening', 'Screens down earlier than you think you need to. Review: did I run the blocks? Track the leading behaviour, not just how the day felt.'],
-                ].map(([t, d]) => (
-                  <div key={t}>
-                    <p className="font-semibold text-sm text-gray-200">{t}</p>
-                    <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <Card icon={Compass} title="The Stoic core" items={[
+              ['Control what you control', 'Your effort, judgement and response are yours. Other people, outcomes and the past are not. Spend energy only on the first.'],
+              ['Memento mori', 'You will die, and you do not know when. Not morbid — clarifying.'],
+              ['Rehearse the worst', 'Picture what could go wrong, calmly. It takes the fear out and lets you prepare.'],
+              ['Choose discomfort', 'Cold showers, hard sessions, early starts. Chosen hardship makes unchosen hardship smaller.'],
+              ['The evening review', 'What did I do well, what could I do better, what will I do tomorrow.'],
+            ]} />
+            <Card icon={Eye} title="The code" items={[
+              ['Your word is the currency', 'Say less, do what you said.'],
+              ['Radical responsibility', 'Whatever happened, what is your part and what will you do now?'],
+              ['Handle hard things quietly', 'Composure in public, feelings dealt with in private or with people you trust.'],
+              ['Strength protects', 'Strength exists to protect, never to intimidate.'],
+              ['Build more than you consume', 'Every day, make something: a rep, a page, a skill, a pound earned.'],
+            ]} />
           </div>
         )}
 
-        {tab === 'discipline' && (
-          <div className="fade-up stagger space-y-4">
-            <div className="card-premium p-5">
-              <h3 className="font-bold mb-2 flex items-center gap-2"><Brain size={16} className="text-pink-400" /> Stoicism — the Operating System</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Marcus Aurelius ran an empire on this. Seneca advised one. Epictetus taught it as a freed slave.
-                It isn't suppressing emotions or being cold — it's <span className="text-gray-200 font-semibold">feeling everything and being commanded by nothing</span>.
-                The core: some things are in your control (your judgements, responses, effort, character), everything else isn't
-                (others' opinions, outcomes, the past, the weather). Spend your energy exclusively on the first list.
-              </p>
-            </div>
-            <Card icon={Flame} title="Controlling Emotions — the actual mechanics" items={[
-              ['Emotions are data, not commands', 'Anger, fear, jealousy, desire — all information about what you value. Feel it fully, read it, THEN decide the response. The untrained man IS his emotions; the trained man HAS them.'],
-              ['The sacred pause', 'Between what happens and how you respond there is a gap — that gap is your whole power. Practice: when triggered, one slow breath before any word or action. The pause is where every regrettable text, punch and outburst dies.'],
-              ['Name it to tame it', 'Literally label the emotion in your head: "this is anger", "this is embarrassment". Naming shifts activity from the amygdala (react) to the prefrontal cortex (choose) — proven in brain imaging. Sounds too simple; works every time.'],
-              ['The body is the volume dial', 'Emotions live in physiology. Slow long exhales (double the inhale), unclench the jaw, drop the shoulders — you cannot stay furious with a slow heart rate. Regulate the body and the mind follows.'],
-              ['It\'s the judgement, not the event', '"Men are disturbed not by things, but by their opinions about things" — Epictetus. Traffic isn\'t stressful; "I must not be late" is. Find the judgement under the emotion and question it — half of them collapse on inspection.'],
-              ['The 10-10-10 test', 'Will this matter in 10 minutes? 10 months? 10 years? Most storms fail the second question. Respond at the scale the thing actually deserves.'],
-              ['Never act at the peak', 'Make no decisions, send no messages, have no confrontations at maximum emotion. The rule: strong feeling = automatic 24h delay on anything irreversible. You\'ll keep the same options with a clearer head.'],
-            ]} />
-            <Card icon={Brain} title="The Great Stoic Lessons" items={[
-              ['Amor fati — love your fate', 'Don\'t just tolerate what happens — use it. Every setback is training material: rejection trains detachment, loss trains gratitude, failure trains humility. "The impediment to action advances action. What stands in the way becomes the way." — Marcus Aurelius.'],
-              ['Memento mori — remember you die', 'Not morbid — clarifying. You have limited days; acting like they\'re infinite is how men waste decades on games, grudges and scrolling. Ask daily: if this were a numbered day, is this how I\'d spend it?'],
-              ['Premeditatio malorum — rehearse the worst', 'Before big things, calmly imagine them going wrong: she says no, you fail the exam, the business flops. Two effects: the fear shrinks when examined, and you\'re prepared instead of shocked. Then the actual outcome is usually better than rehearsed.'],
-              ['Voluntary discomfort', 'Cold showers, fasting till dinner, sleeping on the floor occasionally, hard training. Seneca practised poverty days on purpose: "Is this the condition I so feared?" Comfort is a drug; regular hardship keeps your baseline unbreakable.'],
-              ['The view from above', 'Zoom out: you\'re one man in a city of millions on a rock in space. The embarrassing moment nobody will remember, the argument that means nothing — perspective is instant emotional medicine.'],
-              ['Judge yourself only on what you control', 'Effort, preparation, character, response — yours. Results, opinions, luck — not yours. A man who grades himself on inputs is unshakeable; a man who grades himself on outcomes is a slave to dice.'],
-              ['The evening review', 'Seneca\'s nightly practice: What did I do well? Where did I fail my standards? What will I do differently? Three questions, three minutes, compounding self-command. (Pairs with the 3 wins log in the tracker.)'],
-            ]} />
-            <Card icon={Heart} title="Being a Man — the code" items={[
-              ['Strength exists to protect', 'The whole point of building a dangerous, capable body and mind is having it and choosing gentleness. A strong man is safe to be around — his family relaxes when he enters the room, not tenses.'],
-              ['Your word is the whole currency', 'Say what you\'ll do, do what you said — to others and to yourself. A man whose word is reliable needs no reputation management; his track record IS the reputation.'],
-              ['Take radical responsibility', 'Your body, your money, your reactions, your failures — yours, even when circumstances contributed. "Whose fault is it?" is a boy\'s question. "What do I do now?" is a man\'s.'],
-              ['Handle hard things quietly', 'Do the difficult thing without announcing the difficulty. Complaining recruits an audience for your suffering; acting recruits a solution. People notice the man who just handles it.'],
-              ['Protect the smaller, respect the weaker', 'How you treat waiters, children, animals, and people who can do nothing for you is your actual character. Cruelty-down is the most reliable red flag in men; kindness-down is the most reliable green one.'],
-              ['Emotions felt in private, composure held in public', 'Not suppression — timing. Cry, rage, grieve fully — with people you trust or alone, then return composed. The men people lean on have feelings AND a container for them.'],
-              ['Build more than you consume', 'A man\'s ledger: what did you create, teach, fix, and provide vs what did you take, watch, and scroll? Keep the first column longer, forever.'],
-              ['Standards over moods', 'Train when unmotivated, work when tired, kind when irritated. Moods are weather; standards are climate. The entire difference between men you respect and men you don\'t is which one they obey.'],
-            ]} />
-            <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
-              <h3 className="font-bold mb-3 text-pink-300">Daily Stoic Practice — 10 minutes</h3>
-              <div className="space-y-2">
-                {[
-                  ['Morning (3 min)', 'Read one Stoic passage (Meditations, or the Daily Stoic) + premeditate the day\'s hardest moment and choose your response in advance.'],
-                  ['Midday (1 min)', 'One voluntary discomfort: cold finish to the shower, skip the snack, take the stairs, hold the tongue.'],
-                  ['During the day', 'The sacred pause on every trigger. Name the emotion. Ask: in my control or not? Act only on the first category.'],
-                  ['Evening (3 min)', 'Seneca\'s review: what went well, where did I fail my code, what changes tomorrow. Write it — thinking it doesn\'t count.'],
-                  ['Reading list', 'Meditations (Marcus Aurelius, Gregory Hays translation) · Letters from a Stoic (Seneca) · The Daily Stoic (Holiday) · Discourses (Epictetus). One page a day beats a binge.'],
-                ].map(([t, d]) => (
-                  <div key={t}>
-                    <p className="font-semibold text-sm text-gray-200">{t}</p>
-                    <p className="text-gray-500 text-sm leading-relaxed">{d}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
+        {/* ============ MORNING & NIGHT ============ */}
         {tab === 'routine' && (
-          <div className="fade-up space-y-4">
+          <div className="fade-up space-y-3">
             <Tldr points={[
-              'Morning: phone stays away for the first hour. Light, water, move, five minutes of meditation, say your three lines out loud.',
+              'Morning: phone stays away for the first hour. Water, daylight, move, five minutes of meditation, say your three lines out loud.',
               'Night: phone charges outside the bedroom, same bedtime every night, write tomorrow\'s top three.',
               'The routine is not the goal. It is what makes the rest of the day easy.',
             ]} />
             <div className="flex gap-1.5">
               {(['morning', 'night'] as const).map(v => (
                 <button key={v} onClick={() => setRoutineView(v)}
-                  className={`flex-1 py-2 rounded-xl text-sm font-semibold transition-all ${routineView === v ? 'bg-pink-500 text-white' : 'bg-white/5 text-gray-400'}`}>
+                  className={`flex-1 py-2 rounded-xl font-hud text-sm font-bold uppercase tracking-wider border transition-all ${routineView === v ? 'bg-cyan-400/15 border-cyan-300/60 text-cyan-50' : 'bg-white/[0.03] border-white/10 text-gray-400'}`}>
                   {v === 'morning' ? 'Morning' : 'Night'}
                 </button>
               ))}
             </div>
-            {routineView === 'morning' ? <MorningRoutine /> : <><TomorrowPlan /><NightRoutine /></>}
+            {routineView === 'morning' ? (
+              <>
+                <Card icon={ListChecks} title="The first hour — in order" items={[
+                  ['1. Wake at the same time', 'Every day, within 30 minutes, weekends included. It is the anchor for everything else.'],
+                  ['2. Water and daylight', '500ml of water, then 5-10 minutes outside. Daylight sets your body clock and wakes you faster than coffee.'],
+                  ['3. Move', 'A 10-minute walk or mobility. Finish your shower cold for 30-60 seconds if you want the edge.'],
+                  ['4. Meditate — five minutes', 'See below. Five minutes, not twenty; you will actually do it.'],
+                  ['5. Say your three lines', 'Out loud. See below.'],
+                  ['6. Top three, then the hardest one', 'Write today\'s three priorities and start the hardest with a LOCK IN session. Phone only after that.'],
+                ]} />
+                <Card icon={Brain} title="Meditation — how to actually start" items={[
+                  ['The whole method', 'Sit, eyes closed, breathe normally. Count breaths from 1 to 10, then start again. When you drift — and you will — notice it and go back to 1.'],
+                  ['That drift is the rep', 'Noticing you wandered and coming back is the exercise, not a failure of it.'],
+                  ['Build slowly', 'Five minutes for two weeks, then ten. An app like Waking Up or Headspace helps if you want guidance.'],
+                  ['What you get', 'A longer gap between feeling something and reacting to it. That gap is composure.'],
+                ]} />
+                <Card icon={Mic2} title="Saying positive things — the version that works" items={[
+                  ['Three lines, present tense', 'For example: "I keep my word to myself." "I am warm first." "I finish what I start."'],
+                  ['True or being made true', 'Only say what you are acting on. A line with no evidence behind it gets rejected by your own brain.'],
+                  ['Then prove one', 'Pick one line and do something today that makes it true. That is what turns words into identity.'],
+                ]} />
+              </>
+            ) : (
+              <>
+                <TomorrowPlan />
+                <Card icon={ListChecks} title="The last hour — in order" items={[
+                  ['1. Screens off 30-60 minutes before bed', 'Phone on charge outside the bedroom. Use a cheap alarm clock.'],
+                  ['2. Plan tomorrow', 'Your top three (above). A decided morning is an easy morning.'],
+                  ['3. The three-minute review', 'What went well, what to do better, one win for your evidence log in Know Yourself.'],
+                  ['4. Wind down', 'Shower, five minutes of stretching, read something on paper.'],
+                  ['5. Same bedtime', 'Within 30 minutes every night. 8 hours is what training, skin and mood all run on.'],
+                ]} />
+                <Card icon={Moon} title="Sleep that actually works" items={[
+                  ['The room', 'Cool (16-19°C), dark, quiet. An eye mask and earplugs are cheap and work.'],
+                  ['Cut-offs', 'No caffeine after 2pm, no big meal in the last 2-3 hours. Alcohol wrecks sleep quality even when it knocks you out.'],
+                  ['Cannot sleep?', 'After 20 minutes, get up, read somewhere dim, come back when sleepy. Lying there frustrated trains your brain that bed means awake.'],
+                  ['Your WHOOP', 'Log it each morning on the command screen. Low recovery two days running usually means sleep, alcohol or stress.'],
+                ]} />
+              </>
+            )}
           </div>
         )}
+
+
+
+
+
+
+
 
         {tab === 'secret' && !unlocked && (
           <div className="fade-up">
@@ -711,266 +543,94 @@ export default function Mind() {
         )}
 
         {tab === 'secret' && unlocked && (
-          <div className="fade-up stagger space-y-4">
+          <div className="fade-up stagger space-y-3">
+            <div className="flex items-center justify-between">
+              <p className="font-hud text-[11px] font-bold uppercase tracking-[0.25em] text-cyan-300/80 flex items-center gap-1.5"><Unlock size={12} /> Game Plan</p>
+              <button onClick={relock} className="text-[11px] text-gray-500 hover:text-gray-300 flex items-center gap-1"><Lock size={11} /> Lock it</button>
+            </div>
             <Tldr points={[
               'Approach more — it is not close. Waiting for a look filters out exactly the ones you want.',
               'Warm first and smile before you speak. At your height, stand side-by-side, not face-to-face.',
               'Want it, do not need it: count conversations started, not results.',
               'Move within the first twenty minutes and leave on a high rather than outstaying it.',
             ]} />
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-pink-400 text-xs font-bold uppercase tracking-widest">
-                <Unlock size={13} /> Unlocked — The Social Playbook
+            <Link to="/cheatsheet" className="flex items-center justify-between rounded-2xl border border-cyan-400/30 bg-cyan-400/[0.06] px-4 py-3">
+              <div>
+                <p className="font-semibold text-sm text-cyan-100">The cheat sheet</p>
+                <p className="text-xs text-gray-500">One page. Read it before you go out.</p>
               </div>
-              <button onClick={relock}
-                className="flex items-center gap-1.5 text-gray-500 hover:text-pink-400 text-xs font-bold transition-colors">
-                <Lock size={12} /> Lock it
-              </button>
-            </div>
-            <div className="bg-gradient-to-br from-pink-500/15 to-[#111] border border-pink-500/30 rounded-2xl p-5">
-              <h3 className="font-black text-pink-300 mb-2">Why you are being out-performed by people who look worse than you</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Looks get you <span className="text-gray-200 font-semibold">looked at</span>. Almost nothing else.
-                They do not start conversations, hold them, or end the night with anyone. Your face is the top of the
-                funnel and your behaviour is every stage after it — which is why a 7 who talks to fifteen people
-                consistently beats a 9 who talks to three. The gap between you and your mates is almost certainly not
-                attractiveness. It is attempts, initiative and warmth, and all three are trainable.
-              </p>
-            </div>
+              <ChevronDown size={16} className="-rotate-90 text-cyan-300" />
+            </Link>
 
-            <Card icon={Flame} title="The diagnosis — in the order it is usually true" items={[
-              ['1. You are not approaching enough, and it is not close', 'This explains more of these gaps than everything else combined. Count it honestly on the next night out: how many conversations did YOU start with someone you had never met? If the answer is under five and your mates are in double figures, you have found it. Nothing else on this page matters until that number moves.'],
-              ['2. You are waiting to be chosen', 'Being good-looking teaches you a bad habit, because sometimes it works — someone comes to you, so you learn to stand and be available. In a loud, dark room where everyone is in groups, almost nobody will do that work for you. Your mates are not luckier; they are the ones moving.'],
-              ['3. You are the quiet one in a loud group', 'Whoever is visibly leading a group gets read as the highest-status person in it, and attention follows that read — not the best face. If your friends are the ones talking, suggesting, being loud, you become the backdrop. This is a positioning problem, not a looks problem.'],
-              ['4. You are protecting yourself, not trying', 'Standing at the edge, going to the bar, checking your phone, deciding nobody is your type before you have spoken to anyone. These are avoidance dressed up as standards. Notice them and you can stop doing them.'],
-              ['5. Your face at rest is doing you no favours', 'Tall plus a neutral expression reads as unapproachable. You know what you feel; they only see what you show. This is a real, mechanical fix — see the height section below.'],
+            <Card icon={Compass} title="Your diagnosis — why mates who look worse are pulling more" items={[
+              ['Looks get you looked at. Almost nothing else.', 'They do not start conversations or end the night with anyone. A 7 who talks to fifteen people beats a 9 who talks to three.'],
+              ['You are not approaching enough', 'Almost certainly the whole gap. Attempts, initiative and warmth — all trainable.'],
+              ['You are waiting to be chosen', 'Only approaching girls who look first filters out the ones you want: the ones who get looked at all night have learned not to look back.'],
+              ['You have more to lose, so you risk less', 'Good-looking guys protect the image. The fix is volume at zero stakes until a "no" means nothing.'],
+              ['It has dropped because of a spiral', 'Fewer attempts → fewer results → more hesitation. Break it with reps, not with thinking.'],
             ]} />
-
-            <Card icon={Brain} title="The psychology — why this happens specifically to good-looking guys" items={[
-              ['The halo effect is front-loaded and short', 'Attractiveness strongly shapes the first impression and then stops mattering very quickly. Within a minute you are being judged on warmth, humour and whether you are making the interaction easy. Looks buy you a shorter queue, not a result.'],
-              ['Attractive people get approached LESS, not more', 'People routinely read very attractive strangers as intimidating and less likely to respond well, so they self-select out. Your inbound is lower than you would expect for exactly the reason you assume it should be higher — which is why relying on inbound is a losing strategy for you specifically.'],
-              ['You have more to lose, so you risk less', 'If you believe you are good-looking, a rejection is not just a no — it threatens the story you have about yourself. That makes every approach more expensive for you than for a mate who has nothing to protect, so you take fewer swings. He is not braver. It just costs him less.'],
-              ['Clubs run on emotional contagion, not conversation', 'Nobody can hear you. What transfers is energy and state — people feel what you are feeling within seconds. Someone having a genuinely good time with his mates is magnetic in a way that a well-constructed sentence is not. This is why the same line lands or dies depending entirely on who you were being when you said it.'],
-              ['Social proof does most of the work', 'Being visibly enjoyed by other people — mates, staff, anyone — is read as evidence you are worth knowing. It is why pre-selection is real, and why standing alone against a wall is expensive regardless of your face.'],
-              ['You are comparing your whole night to their highlights', 'You see every one of your mate\'s hits and almost none of his misses, because nobody narrates the girl who walked off. Availability bias. His conversion rate is far lower than your memory of his night suggests.'],
-              ['Nobody is watching you fail', 'The spotlight effect: you massively overestimate how much attention your rejections get. In a dark club, an interaction that goes nowhere is invisible within ten seconds to everyone but you.'],
+            <Card icon={Eye} title="Being 6ft 4 in a club" items={[
+              ['You loom and you cannot hear', 'Standing over someone reads as intimidating. Lean in, lower yourself, get to ear level.'],
+              ['Side-by-side, not face-to-face', 'Stand next to her facing the room. Less pressure, easier to hear, easier to stay.'],
+              ['Smile before you speak, every time', 'Height plus a neutral face reads as stern. The smile is what makes it approachable.'],
+              ['Do not shrink', 'Slouching to seem less tall just looks unsure. Use your height at distance, soften it up close.'],
             ]} />
-
-            <Card icon={Flame} title="Being 6ft 4 in a club — the specific problems" items={[
-              ['You loom, and you cannot hear', 'At your height you are physically above the conversation and too far from someone\'s ear to hear them. So you lean down and in, which either looks predatory or ends up as an awkward shouted exchange. Fix it by changing the geometry, not the volume.'],
-              ['Go side-by-side, not face-to-face', 'Standing shoulder to shoulder, both facing the room, puts your ears at a workable angle, removes the looming, and is far less confrontational. It is the single best positional fix for a tall man and it changes how the first thirty seconds feel.'],
-              ['Get lower on purpose', 'Sit if there is seating. Lean on the bar or a rail. Widen your stance. Anything that takes the height difference from intimidating to comfortable. Never bend at the waist over someone — lean from the hips with your feet closer instead.'],
-              ['Your height is an asset at distance and a liability up close', 'Across a room you are the most visible person in it, which is genuinely rare and valuable. Within a metre it becomes a logistics problem. Use the first to get noticed and manage the second deliberately.'],
-              ['Smile before you speak, every time', 'Tall and unsmiling is read as a threat; tall and warm is read as safe and high-status at the same time — which is the best combination available to you. A real smile as you turn toward someone does more for a tall man than any opener.'],
-              ['Do not compensate by being small', 'Hunching, shrinking, over-apologising. Being large and relaxed is the point. Take up your space and be visibly easy-going in it.'],
-            ]} />
-
-            <Card icon={Flame} title="Why it has dropped recently" items={[
-              ['It is almost certainly a spiral, not a decline', 'Fewer results make you hesitate. Hesitating means fewer attempts. Fewer attempts guarantees fewer results, which confirms the story. Nothing about you changed — your behaviour did, gradually, and the feedback made it worse. This is ordinary avoidance psychology and it resolves the same way it started: by moving the input.'],
-              ['Avoidance feels like protection and works like a trap', 'Every night you go out and do not approach, you teach yourself that approaching is dangerous. The relief when you avoid it is the reward that keeps the pattern running. The only thing that breaks it is doing the thing and surviving it, repeatedly and at low stakes.'],
-              ['Break it with volume at zero stakes', 'One night, deliberately chase rejection: ten conversations, no outcome expected, no phone, no drink in your hand as a prop. Judge the night purely on whether you started ten. You will find four of them go fine, which is the point — the fear was carrying most of the weight.'],
-              ['Fix the state before the technique', 'Arrive with your mates already in a good mood rather than trying to switch on at the door. Sober enough to be sharp, loose enough not to be self-conscious. The state you walk in with is most of what transfers.'],
-              ['Do not change five things at once', 'Volume first, for three or four nights. Only once that number is up should you think about anything else here — otherwise you cannot tell what worked.'],
-            ]} />
-
             <Card icon={Flame} title="How to move in a club" items={[
-              ['Stop standing still — circulate on a loop', 'Pick a loop: bar, edge of the floor, the other side, smoking area, back. Walk it slowly with purpose every fifteen minutes or so. Moving with purpose reads as belonging; standing in one spot reads as waiting. It also puts you near forty different people instead of the same four.'],
-              ['Never walk with your head down or your phone up', 'Head up, eyes at head height, unhurried pace. This is the single most visible difference between men who look comfortable in a room and men who do not, and at your height everyone can see which one you are from across it.'],
-              ['Stand where people have to pass you', 'The ends of the bar, the gap between the floor and the bar, near the entrance to a room. Not in a corner, not against the back wall. Proximity does a huge amount of the work and people cannot start a conversation with someone they never come within a metre of.'],
-              ['Own your space physically', 'Feet planted about shoulder width, weight even, shoulders back and relaxed, drink held low at your side rather than up at your chest. A drink held high across the body is a shield and it reads as one.'],
-              ['Face outward, not into your group', 'If you and your mates stand in a closed circle, you are a wall. Stand with your back to nobody, shoulder to shoulder, facing the room. It makes the group approachable and it means you can actually see what is happening.'],
-              ['Move toward, not at', 'Approach from the side or at an angle rather than head-on, arriving beside someone rather than in front of them. Head-on into a group of two is confrontational; slotting in beside them is not. For a tall man this matters more than for anyone else.'],
-              ['Be the one who suggests things', 'Where to stand, when to move rooms, getting the next round in. Whoever makes the small decisions is read as the person leading the group, and that read is worth more in a club than anything you say.'],
-              ['Dance badly but without apology', 'Actual skill is irrelevant. Moving at all, loosely, without looking like you are checking who is watching, is attractive because it signals you are not monitoring yourself. Rigidly standing still at the edge of a dance floor signals the opposite.'],
-              ['Three seconds, then speak', 'If you catch eye contact, you have about three seconds before it curdles. Smile, walk over, say anything. The pause is where it dies, and the walk over is the whole decision.'],
-              ['Leave the room sometimes', 'Going to the smoking area or another floor and coming back resets everything and puts you past new people. Static position, static night.'],
+              ['Go earlier, small group, two drinks', '11pm is friendlier than 1am. Two or three mates. You cannot run any of this drunk.'],
+              ['Warm up first', 'Talk to everyone for 20-30 minutes — bar staff, groups of lads, anyone. The first real approach should not be cold.'],
+              ['Circulate, do not stand still', 'Loop the venue, stand where people pass, face outward not into your group.'],
+              ['Three seconds', 'See her, decide, go. Hesitation builds a story in your head and weirdness in your walk-up.'],
+              ['Keep it simple — it is loud', 'Smile, lean to her ear: "I had to come say hi — I\'m Roy." Then side-by-side.'],
+              ['Win the friends', 'Greet them early and warmly. Ignored friends extract her within five minutes.'],
+              ['Somewhere quieter', '"It\'s way too loud — come grab a drink at the bar." An invitation, never a pull.'],
             ]} />
-
-            <Card icon={Flame} title="The night, practically" items={[
-              ['Move within the first twenty minutes', 'The longer you stand in the same spot, the harder starting gets. Talk to someone — anyone, staff included — early, purely to be someone who is already talking rather than someone who has to start.'],
-              ['Open with warmth, not a line', 'Situation, observation, or a simple hello with a real smile. Content is almost irrelevant at volume; the delivery and the fact you went first is what is being read.'],
-              ['Say something within three seconds of eye contact', 'Sustained eye contact with no words becomes uncomfortable fast. Look, smile, speak. The pause is where it dies.'],
-              ['Move the interaction somewhere quieter', 'A step away from the speaker, the edge of the floor, the smoking area. You cannot build anything at a hundred decibels, and being the one who suggests moving reads as decisive.'],
-              ['Leave on a high rather than outstaying it', 'Getting the number or the plan while it is still good beats standing there until it flattens. Endings are remembered disproportionately.'],
-              ['Go with friends who move', 'You will match the group\'s behaviour more than you think. If your mates are pulling, follow them into rooms rather than holding the table.'],
+            <Card icon={MessageCircle} title="What to actually say" items={[
+              ['Direct beats lines', '"This is random, but you looked interesting and I had to say hi." Nerve is the attractive part.'],
+              ['Situational works too', 'Comment on the shared thing — the queue, the music — then "I\'m Roy, by the way."'],
+              ['Statements, not interviews', '"You seem like trouble" invites play. "What do you do?" invites autopilot.'],
+              ['Tease lightly, then be sincere', 'Playful teasing followed by one specific, genuine compliment. The contrast is what creates tension.'],
+              ['Show your intent', 'Hold eye contact a beat longer, with a slight smile. You are not trying to be her mate.'],
             ]} />
-
-            <Card icon={Brain} title="The honest part" items={[
-              ['Kissed-per-night is a bad scoreboard', 'It is the easiest thing to count, which is why people count it, and it correlates with almost nothing you actually want. Tracking it makes you outcome-dependent, and outcome-dependence is legible within about ten seconds. Judge nights on whether you were the version of yourself you wanted to be.'],
-              ['Clubs are the hardest possible venue', 'Loud, dark, drunk, everyone in defensive groups. It is the worst environment for exactly the traits you would benefit from — conversation, listening, warmth over volume. If your results are thin in clubs and fine elsewhere, that is a venue mismatch, not a personal failing. Daytime, gyms, societies, friends of friends: all higher yield per hour and all suit you better.'],
-              ['This is a skill, not a verdict on you', 'Your mates are better at a specific social skill and have more reps. Skills close fast with practice, and this one closes faster than most. Nothing here means anything about your worth, and the moment it starts feeling like it does, that is the thing to fix first.'],
-              ['Being liked beats being wanted', 'The men who do well over years are the ones people are glad to see. Warmth, remembering things, making people comfortable — the listening work in the Charisma tab is more useful to you than anything on this page.'],
+            <Card icon={Heart} title="Frame and mindset" items={[
+              ['No pedestal', 'The moment someone is "above" you, it shows in every word. You are both finding out if you get on.'],
+              ['Qualify, do not perform', 'Instead of proving yourself, find out if she is someone worth your time — her humour, her ambition.'],
+              ['Outcome attachment', 'Needing a result leaks through your body: laughing early, hovering, checking. Define the night by what you did.'],
+              ['Rejection is information', 'A "no" is poor fit found early. Smile, "no worries, have a good night", walk away slowly. The room notices grace.'],
+              ['A full life is the real scarcity', 'Training, building, football, friends. You are naturally less available because you are busy — and it shows.'],
             ]} />
-
-            <Link to="/cheatsheet"
-              className="flex items-center justify-between bg-gradient-to-r from-pink-500/15 to-purple-500/10 border border-pink-500/25 rounded-2xl px-5 py-4 hover:from-pink-500/20 transition-all group press">
-              <div className="flex items-center gap-3">
-                <BookOpen className="text-pink-400 flex-shrink-0" size={20} />
-                <div>
-                  <p className="font-black text-sm">Open the Cheat Sheet</p>
-                  <p className="text-gray-500 text-xs">One page, everything you need — check it before you go out</p>
-                </div>
-              </div>
-            </Link>
-            <Link to="/dating"
-              className="flex items-center justify-between bg-white/3 border border-white/10 rounded-2xl px-5 py-3.5 hover:border-pink-500/25 transition-all group press">
-              <div className="flex items-center gap-3">
-                <ListChecks className="text-pink-400/70 flex-shrink-0" size={17} />
-                <p className="font-bold text-xs text-gray-300">Or browse the Full Reference — every principle, by category</p>
-              </div>
-            </Link>
-            <div className="card-premium p-5">
-              <h3 className="font-bold mb-2 flex items-center gap-2"><Heart size={16} className="text-pink-400" /> Ground Rules First</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                None of this works as a trick, and all of it works as a skill. You're not extracting anything from anyone —
-                you're becoming someone women genuinely enjoy being around, and being direct about your interest.
-                Read her signals honestly: if she's engaged, continue; if she's polite-but-flat, wish her a good day and exit
-                gracefully. Grace in rejection is the single most attractive trait you can build, because it means you were never desperate.
-              </p>
-            </div>
-            <Collapsible title="Frame — Hold It, Never Hand It Over" tag="The concept underneath everything else here">
-              <div className="space-y-3 text-sm text-gray-400">
-                <p><span className="font-bold text-gray-200">Frame is whose reality the interaction runs on.</span> Two people meet with two versions of "what's happening here" — attraction, banter, and outcomes all get decided by whichever frame wins. You keep yours by not flinching, over-explaining, or auditioning for the other person's approval.</p>
-                <p><span className="font-bold text-gray-200">Never put her on a pedestal.</span> The instant you treat someone as above you — more impressive, more valuable, someone you need to win over — you've handed them the frame and it shows in every word after. She's a person you're getting to know, not a judge scoring you. You approach; you don't apply.</p>
-                <p><span className="font-bold text-gray-200">You are the prize too.</span> Not arrogance — accuracy. You bring a full life, standards, and things you won't compromise on. The right mindset going in isn't "I hope she likes me," it's "let's see if we actually vibe" — a two-way evaluation, not an interview where only you're being assessed.</p>
-                <p><span className="font-bold text-gray-200">Qualify, don't perform.</span> Instead of stacking reasons she should like you, ask questions that check if SHE'S someone worth your time: her humour, her ambition, how she treats people. The switch from "please be impressed" to "let's see if you're interesting" changes your entire energy — and it's usually the difference people can't name but feel instantly.</p>
-                <p><span className="font-bold text-gray-200">Reframe rejection before it happens.</span> A "no" doesn't mean you lost — it means poor fit, found early, cheaply. Frame stays intact when outcomes don't define your worth. This is why the men with real frame are calm about rejection: it was never a referendum on them.</p>
-                <p><span className="font-bold text-gray-200">Frame breaks in small moments, not big ones.</span> Changing your opinion because she disagreed, over-explaining a joke that didn't land, rushing to fix a silence, apologising for existing — these tiny concessions leak frame faster than any single big mistake. Hold your positions lightly and calmly; you can be flexible without being someone who folds.</p>
-                <p><span className="font-bold text-gray-200">Standards over impressing.</span> Decide beforehand what you won't tolerate — disrespect, flakiness, disappearing acts — and hold that line regardless of how attracted you are. A man with standards he actually enforces is rarer and more magnetic than a man with a perfect opening line.</p>
-              </div>
-            </Collapsible>
-            <Collapsible title="The Approach" tag="First 10 seconds">
-              <div className="space-y-3 text-sm text-gray-400">
-                <p><span className="font-bold text-gray-200">Within 3 seconds of noticing her</span> — hesitation builds a story in your head and weirdness in your walk-up. See, decide, go.</p>
-                <p><span className="font-bold text-gray-200">Front or side, never behind.</span> Approach from an angle she can see, comfortable distance, relaxed pace. In daytime, a slight pause + "excuse me" is perfect.</p>
-                <p><span className="font-bold text-gray-200">Be direct and own it:</span> "This is random, but I saw you and thought you looked interesting — I had to say hi. I'm Roy." Direct beats routines because it demonstrates the scarcest asset: nerve.</p>
-                <p><span className="font-bold text-gray-200">Voice slow, volume up, smile real.</span> Nerves make guys rush and mumble. If you feel shaky, slow down 20% more.</p>
-                <p><span className="font-bold text-gray-200">Situational openers work too:</span> comment on the thing you're both experiencing (the queue, the playlist, her book) then transition: "I'm Roy, by the way."</p>
-              </div>
-            </Collapsible>
-            <Collapsible title="How to Speak to Her" tag="Conversation that creates attraction">
-              <div className="space-y-3 text-sm text-gray-400">
-                <p><span className="font-bold text-gray-200">Statements and assumptions, not interviews.</span> "You seem like the friend who plans the whole trip" invites her to play. "What do you do?" invites autopilot.</p>
-                <p><span className="font-bold text-gray-200">Tease lightly, warmly.</span> Playful disagreement and gentle teasing ("you're trouble, I can tell") signals confidence — always with a smile, never at her insecurities.</p>
-                <p><span className="font-bold text-gray-200">Push-pull rhythm.</span> Show interest, then playfully withdraw it: "You're actually funny… this might be a terrible idea." Tension is what separates flirting from friendliness.</p>
-                <p><span className="font-bold text-gray-200">Hold eye contact a beat longer</span> than friendly, with a slight smile. Most attraction is communicated in the look, not the words.</p>
-                <p><span className="font-bold text-gray-200">Don't hide your intent.</span> You're not her buddy. Flirting = your interest is visible AND you're unbothered about the outcome.</p>
-              </div>
-            </Collapsible>
-            <Collapsible title="Building Comfort" tag="From stranger to 'I feel like I've known you ages'">
-              <div className="space-y-3 text-sm text-gray-400">
-                <p><span className="font-bold text-gray-200">Trade depth gradually.</span> Share something real about yourself first (dreams, family, an embarrassing story) — vulnerability from strength invites hers.</p>
-                <p><span className="font-bold text-gray-200">Listen like it's a skill, because it is.</span> Remember details and call back to them later ("wait — is this the sister from the Spain story?"). Callbacks build an inside world between you two.</p>
-                <p><span className="font-bold text-gray-200">Us-frame.</span> Little conspiracies: "we're definitely judging this DJ together." Shared jokes create "us vs the room."</p>
-                <p><span className="font-bold text-gray-200">Comfort ≠ boring.</span> Keep flirting while going deeper. Deep + zero tension = friend zone; tension + zero depth = forgettable.</p>
-              </div>
-            </Collapsible>
-            <Collapsible title="Making Her Feel Special" tag="The part most guys skip">
-              <div className="space-y-3 text-sm text-gray-400">
-                <p><span className="font-bold text-gray-200">Compliment what she chose, not just what she was born with.</span> Her taste, her humour, her ambition, the way she tells a story. "You light up when you talk about that" lands deeper than "you're pretty."</p>
-                <p><span className="font-bold text-gray-200">Specific beats generic, always.</span> One precise observation about her ("you ask better questions than anyone I've met this month") outweighs ten "you're amazing"s.</p>
-                <p><span className="font-bold text-gray-200">Full presence is the gift.</span> Phone away, body turned to her, unhurried. In a distracted world, undivided attention feels rare because it is.</p>
-                <p><span className="font-bold text-gray-200">Remember and follow through.</span> If she mentions an exam, a trip, a hard week — ask about it next time unprompted. Reliability is romance.</p>
-              </div>
-            </Collapsible>
-            <Collapsible title="Texting Game" tag="Momentum over monologues">
-              <div className="space-y-3 text-sm text-gray-400">
-                <p><span className="font-bold text-gray-200">Match her length and pace, roughly.</span> She sends two lines, you send around two lines. She takes an hour, you don't need to reply in 30 seconds. Mirroring reads as calibrated; triple-texting reads as anxious. One follow-up max, then let it breathe.</p>
-                <p><span className="font-bold text-gray-200">Text with intent.</span> Every text should have a job: a question, a bit, or a plan. "haha yeah" is a dead-end — if you have nothing to add, that's the moment to propose something instead.</p>
-                <p><span className="font-bold text-gray-200">Humour and specificity beat "hey, how's it going".</span> Callback to your conversation ("saw a guy order the thing you swore you'd never admit you like") lands 10× harder than a generic check-in. Specific = you remembered = you care.</p>
-                <p><span className="font-bold text-gray-200">Don't perform interest you don't have.</span> Hot-and-cold reads worse than honest and direct. If you like her, text like it. If you're unsure, don't manufacture daily conversation out of obligation — inconsistency is the real turn-off.</p>
-                <p><span className="font-bold text-gray-200">Reply speed says more than words.</span> {'Instant replies (under a minute, always) read as: nothing else going on, low value on your time. Calibrated replies (minutes to a few hours, varies naturally) read as: you have a life. Deliberately slow, scheduled replies read as a game — most people clock it and it repels more than it attracts.'}</p>
-                <p><span className="font-bold text-gray-200">Double texting: dead vs alive.</span> {'A second text that ADDS something (a new thought, a joke, a plan) is fine and often good — it shows you\'re thinking about them. A second text that just chases a reply ("hello??", "you there?") signals anxiety and should never happen. Test: does this message stand alone with something new, or is it just asking "why haven\'t you replied"?'}</p>
-                <p><span className="font-bold text-gray-200">Slow replies aren't always disinterest.</span> {"People read a 6-hour gap as rejection when it's often just someone living their life. The fix isn't decoding gaps like tea leaves — it's not over-indexing on any single data point. Look at the PATTERN over a week, not any one delay."}</p>
-                <p><span className="font-bold text-gray-200">The real skill: not needing the reply.</span> {"Whether you get a fast reply or a slow one shouldn't change your mood. The moment you're checking your phone waiting, you've handed them your state. Text well, then go live your life — the phone will still be there."}</p>
-                <p><span className="font-bold text-gray-200">The plan is the point.</span> Texting exists to get to the date. Two or three good exchanges, then: "Thursday, that ramen place you doubted — 7?" Prolonged pen-pal phases kill more connections than bad openers ever have.</p>
-              </div>
-            </Collapsible>
-            <Collapsible title="Building Genuine Connection" tag="The difference between game and connection">
-              <div className="space-y-3 text-sm text-gray-400">
-                <p><span className="font-bold text-gray-200">Make her feel heard, specifically.</span> Generic compliments bounce off; specific callbacks stick. "You said last week you were dreading that presentation — how did it actually go?" is worth more than a hundred "you're gorgeous" texts.</p>
-                <p><span className="font-bold text-gray-200">Escalate at HER pace, not a script's.</span> Depth, flirting, touch, plans — each step should match the energy she's giving back. If she opens up, meet her there. If she keeps it light, stay light and let it build. Scripted sequences ignore the person in front of you, and it shows.</p>
-                <p><span className="font-bold text-gray-200">Read actual signals, don't project.</span> Interested looks like: she asks questions back, extends conversations, remembers your details, finds reasons to stay near. Polite looks like: short answers, no questions, exits when convenient. Believe the pattern, not the one ambiguous moment — and never argue with a no.</p>
-                <p><span className="font-bold text-gray-200">Let her surprise you.</span> Curiosity about who she actually is — not a category of girl — is rare enough to be magnetic. The guys who connect are the ones who update what they think in real time instead of running a routine.</p>
-              </div>
-            </Collapsible>
-            <Collapsible title="Nights Out — The Full Game Plan" tag="Bars, clubs, and how to actually talk to women out">
-              <div className="space-y-3 text-sm text-gray-400">
-                <p><span className="font-bold text-gray-200">Logistics first.</span> Go earlier than the crowd (11pm energy is friendlier than 1am chaos), small group of 2-3 (big packs are unapproachable and distracting), and stay light on drink — 2 drinks of social lubricant, never sloppy. You cannot run any of this drunk.</p>
-                <p><span className="font-bold text-gray-200">Warm up immediately.</span> Talk to EVERYONE for the first 30 min — bouncers, bartenders, groups of guys, everyone. You\'re not approaching yet; you\'re getting your social engine warm so the first real approach isn\'t cold.</p>
-                <p><span className="font-bold text-gray-200">Positioning beats approaching.</span> Stand where traffic flows — near the bar, not hidden in a booth. Eye contact + smile at girls as they pass; if she holds it or looks back twice, that\'s your green light and half the work is done.</p>
-                <p><span className="font-bold text-gray-200">Loud venue = simple and close.</span> Forget clever openers, they can\'t hear you. Warm smile, lean toward her ear: "I had to come say hi — I\'m Roy." Then physically position side-by-side (easier than shouting face-to-face).</p>
-                <p><span className="font-bold text-gray-200">Handle the group.</span> Her friends decide your fate. Greet them early ("are you looking after her tonight? good"), win a smile from them, then turn back. Ignoring friends = friends extract her in 5 minutes.</p>
-                <p><span className="font-bold text-gray-200">Move it somewhere quieter.</span> "It\'s way too loud here — let\'s grab a drink at the bar / get some air by the smoking area." Venue changes within the night build hours of comfort in minutes. Always an invitation, never a pull.</p>
-                <p><span className="font-bold text-gray-200">Close honestly.</span> Number early once it\'s clearly on ("we\'re getting food this week — what\'s your number?"), because clubs eat conversations. If the vibe is instant, suggest the food spot after. And if she\'s hesitant at ANY step — smile, wish her a good night, exit like a king. The whole room notices how you handle a no.</p>
-              </div>
-            </Collapsible>
-            <Collapsible title="The Emotional Rollercoaster" tag="Why 'nice and pleasant' gets forgotten">
-              <div className="space-y-3 text-sm text-gray-400">
-                <p><span className="font-bold text-gray-200">The principle: emotion is the memory glue.</span> People remember how you made them FEEL, and a range of feelings beats one pleasant note held for hours. A conversation that goes laughter → mock outrage → genuine depth → back to laughter is an experience; polite agreement is wallpaper. This isn't about hurting anyone — it's about being emotionally alive instead of flat.</p>
-                <p><span className="font-bold text-gray-200">Contrast is the mechanism.</span> Tease her, THEN drop a sincere specific compliment — the sincerity lands 5× harder against the teasing backdrop. Be playfully disagreeable, then genuinely fascinated by her answer. All warmth = friend. All tease = clown. The switch between them = tension.</p>
-                <p><span className="font-bold text-gray-200">Take her through emotional locations.</span> Within one conversation, visit: funny (banter, absurd hypotheticals), competitive ("you'd lose and you know it"), nostalgic ("what did tiny [her name] want to be?"), dreamy (travel, ambitions), conspiratorial (whispered judging of the room), sincere (one real moment). Each shift feels like time passing together — this is why one great conversation can feel like three dates.</p>
-                <p><span className="font-bold text-gray-200">Push-pull, the clean version.</span> "You're actually terrible news… and I kind of like it." Push (playful distance) + pull (real interest) in one line. Use sparingly — one or two per conversation, always with a grin, never targeting real insecurities.</p>
-                <p><span className="font-bold text-gray-200">Plan dates that ARE rollercoasters.</span> Adrenaline transfers: fast rides, scary films, spicy food challenges, competitive games — the arousal of excitement gets attributed to you (misattribution of arousal — real psychology). Structure: activity with energy → wind-down with depth. The date tells the emotional story so you don't have to force it.</p>
-                <p><span className="font-bold text-gray-200">Absence is part of the ride.</span> An intense, brilliant evening followed by a quiet day is the rhythm that creates thinking-about-you. Constant contact flattens the wave (see Making Her Chase below).</p>
-                <p><span className="font-bold text-gray-200">The hard line:</span> variance in FUN and DEPTH, never in respect or reliability. Hot-cold on "do I actually care about you" isn't a rollercoaster, it's manipulation, and it attracts anxious attachment, not love. Be a rollercoaster of experiences and a rock of character — that combination is rare and it's the whole formula.</p>
-              </div>
-            </Collapsible>
-            <Collapsible title="Making Her Chase" tag="Scarcity that's real, not games">
-              <div className="space-y-3 text-sm text-gray-400">
-                <p><span className="font-bold text-gray-200">The principle: pursuit follows value + scarcity.</span> People chase what's valuable AND not fully available. Fake scarcity (ignoring texts on a timer) collapses the moment she gets bored; real scarcity — a genuinely full life — only gets more attractive the closer she looks. Build the real version.</p>
-                <p><span className="font-bold text-gray-200">Actually be building something.</span> The gym, the football, the money skills, this whole app's contents — a man with a mission has natural slow replies because he's genuinely mid-set, mid-session, mid-work. "Sorry, was training" hits different when it's true and their Instagram confirms it. Purpose is the aphrodisiac; busyness is just its side effect.</p>
-                <p><span className="font-bold text-gray-200">Reply pace: calibrated, not calculated.</span> Don't be glued to your phone answering in 30 seconds, and don't run a 3-hour timer either. Natural rhythm: respond when you actually surface from what you're doing. Quality of reply beats speed — one funny, specific message after 2 hours beats five instant "lol"s.</p>
-                <p><span className="font-bold text-gray-200">End interactions first (sometimes).</span> Leave the conversation at its peak — "right, gym calls. Continue this Thursday." The person who ends the interaction on a high is the one who gets thought about. Never abruptly, never as punishment.</p>
-                <p><span className="font-bold text-gray-200">Let her invest.</span> Chasing dies when you do 100% of the work. After you've led the start, leave space: let her text first sometimes, ask you questions, suggest the next plan. People value what they invest in — psychology 101. If you always fill every gap, there's nothing for her to reach for.</p>
-                <p><span className="font-bold text-gray-200">Be visibly desired, quietly.</span> A social life with women friends, group photos, stories of a full life — pre-selection is the strongest attraction trigger there is. Never flaunt it at her or name-drop other girls; the signal works because it's ambient, not performed.</p>
-                <p><span className="font-bold text-gray-200">Warmth when present, gone when gone.</span> The combination that creates chase: fully engaged, magnetic attention when you're with her — then genuinely absorbed in your life when you're not. Hot-present/cold-absent, not lukewarm-always. Constant mediocre contact kills more attraction than distance ever has.</p>
-                <p><span className="font-bold text-gray-200">The line you don't cross:</span> all of this only works from abundance, not strategy-anxiety. If you're staring at your phone calculating minutes, you're chasing — just silently. Go train, go build, and let the fullness be real. And once she IS chasing and you like her — reward it. Punishing interest she shows is how you lose the ones worth keeping.</p>
-              </div>
-            </Collapsible>
-            <Collapsible title="Taking Her Home from the Club" tag="The endgame — done right">
-              <div className="space-y-3 text-sm text-gray-400">
-                <p><span className="font-bold text-gray-200">Prerequisites, honestly.</span> This only happens when the whole night built it: strong connection, escalating vibe, her matching your energy at every step. You can't "technique" someone home who isn't feeling it — and both of you need to be sober enough that it's a real choice. If she's drunk past clear judgement, the strong move is her number and a proper date; that restraint reads as class AND gets the girl more often than the push does.</p>
-                <p><span className="font-bold text-gray-200">Build the bridge early.</span> Mid-conversation, plant seeds naturally: mention your amazing rooftop view, the vinyl collection, that you make the best 2am toastie in the city. Now "coming back" has a story attached that isn't just the obvious — it gives her a comfortable yes to say.</p>
-                <p><span className="font-bold text-gray-200">The invitation: casual, specific, low-pressure.</span> Near the night\'s peak (not closing time desperation): "I\'m heading back to mine — come see the view / for a drink. You can judge my flat." Light tone, direct intent. One ask. If it\'s "I shouldn\'t / not tonight" — "fair, then let me take your number and do this properly." Zero sulk. The graceful reaction converts half of tonight\'s no\'s into next week\'s date.</p>
-                <p><span className="font-bold text-gray-200">Logistics are seduction.</span> Uber ordered in one tap, you know your address flow, place is CLEAN (the state of your room has ended more nights than rejections have — clean sheets, no chaos, decent lighting, phone charger available). Water and snacks in the fridge. The guy whose life is together at 2am is rare.</p>
-                <p><span className="font-bold text-gray-200">Friends checkpoint.</span> She\'ll often check with friends — encourage it, don\'t fight it: "make sure your mates know where you are." Supporting her safety check makes YOU the safe option and defuses friend-blocking.</p>
-                <p><span className="font-bold text-gray-200">Back at yours: no lunging.</span> Keep the night\'s energy — music on, the drink/toastie you promised, show the view. Sit close, keep the flirt running, let it build to a kiss naturally. Escalate step by step with her response as the throttle (Intimacy section covers the rest). The rush communicates "the talking was fake"; the patience communicates the opposite.</p>
-                <p><span className="font-bold text-gray-200">Any no along the way is final and fine.</span> A no to coming back, a no to anything at yours — instant, cheerful acceptance. "All good — the toastie offer stands for another night." Aftercare applies to the whole night: whatever happens, she gets home safe (order the car yourself if needed), and the next-day text isn\'t cold. That\'s the reputation that keeps working long after tonight.</p>
-              </div>
-            </Collapsible>
-            <Collapsible title="Getting a Girlfriend" tag="From dates to something real">
-              <div className="space-y-3 text-sm text-gray-400">
-                <p><span className="font-bold text-gray-200">Screen, don\'t just chase.</span> You\'re choosing too. Watch for: how she treats waiters, whether she asks about you, reliability (does she flake?), how she talks about exes, whether her life has its own engine. Beauty gets someone dates; character gets them a relationship.</p>
-                <p><span className="font-bold text-gray-200">Consistency is the courtship.</span> One date a week minimum, planned by you, escalating in depth: activity date → dinner → cooking at yours → meeting friends. Momentum with patience — rushing reads as scarcity, drifting reads as indifference.</p>
-                <p><span className="font-bold text-gray-200">Depth trades build the bond.</span> Each date, exchange something realer: fears, family, ambitions, embarrassments. You lead the vulnerability, she matches. That ladder IS falling for each other.</p>
-                <p><span className="font-bold text-gray-200">Be boyfriend material before asking for the title.</span> Emotional steadiness, keeping plans, remembering details, having your own mission (gym, money, football — this whole app). The relationship conversation goes well when it\'s obvious you\'re a catch committing, not a fan hoping.</p>
-                <p><span className="font-bold text-gray-200">The exclusivity talk — direct, relaxed.</span> After 6-10 great dates when it\'s clearly mutual: "I\'m not interested in seeing anyone else — I want this to be us. What do you think?" No ultimatums, no hint-dropping. If she hesitates, don\'t negotiate; take it as information.</p>
-                <p><span className="font-bold text-gray-200">Red flags override chemistry.</span> Contempt, chronic flaking, secret-keeping, punishing you with silence — attraction makes these easy to excuse and they only grow. Walking away early is a skill that saves years.</p>
-              </div>
-            </Collapsible>
-            <Collapsible title="Intimacy — Doing It Right" tag="18+ · what actually matters in bed">
-              <div className="space-y-3 text-sm text-gray-400">
-                <p><span className="font-bold text-gray-200">Consent and communication are the foundation — and they\'re attractive.</span> Enthusiastic yes at every stage, and check-ins that double as dirty talk ("you like that?"). A partner who clearly cares about her experience is rarer and hotter than any technique. If she\'s hesitant or drunk, the move is always to slow down or stop.</p>
-                <p><span className="font-bold text-gray-200">Slow is the cheat code.</span> The #1 mistake is rushing. Kissing, neck, ears, inner thighs — build for far longer than feels necessary. Arousal for her is a slow curve, and the buildup decides everything that follows. Teasing (approaching, retreating) beats grabbing.</p>
-                <p><span className="font-bold text-gray-200">Fingering — technique over enthusiasm.</span> Start outside: the clitoris is the centre of her pleasure, not the inside. Gentle circles over/around it, light pressure first, through underwear before under. Wetness first, always — if she\'s not, more kissing and buildup, never force. Inside: one finger, then two, pads facing upward with a slow "come here" curl toward the front wall (the spongier area a couple of inches in) while your palm or thumb keeps contact with the clit. <span className="text-gray-300">Rhythm and consistency beat speed and force</span> — when something makes her respond, keep doing exactly that; changing it up at the peak is the classic error.</p>
-                <p><span className="font-bold text-gray-200">Read her, not a script.</span> Breathing quickening, hips moving toward you, hands pulling you in = continue. Stillness, tensing up, pulling back = change or pause and check in softly. Her body gives constant feedback; the skill is listening.</p>
-                <p><span className="font-bold text-gray-200">Sex itself — pace and presence.</span> Start slower than you think, full attention on her reactions. Angles matter more than speed: positions where she controls depth (her on top) or where there\'s clitoral contact/access (a hand or hers during) are how most women actually finish — penetration alone often isn\'t. Deep, consistent rhythm when she\'s building; don\'t sprint-finish the moment it feels good for you.</p>
-                <p><span className="font-bold text-gray-200">Lasting longer.</span> Slow your breathing (long exhales), vary pace before you\'re at the edge not after, switch positions to reset, and focus on her. Kegels and less frequent, slower self-pleasure train control. Nerves cause most early finishes — experience and comfort fix more than any trick.</p>
-                <p><span className="font-bold text-gray-200">Aftercare is part of it.</span> The minutes after — staying close, warmth, no phone-grab — are what she remembers and retells. Cold exits undo everything the rest did.</p>
-                <p className="text-gray-600">Protection every time until you\'re exclusive and tested — condoms are non-negotiable with new partners. This is the confident-guy move, not the buzzkill.</p>
-              </div>
-            </Collapsible>
-            <Collapsible title="Numbers, Dates & Momentum" tag="Closing without weirdness">
-              <div className="space-y-3 text-sm text-gray-400">
-                <p><span className="font-bold text-gray-200">Ask at the peak,</span> not the fizzle: "I need to run — but I want to continue this. What's your number?" Assumptive, warm, simple.</p>
-                <p><span className="font-bold text-gray-200">Text with purpose.</span> Callback to your conversation within a day ("found the song you butchered at karaoke"), then propose something concrete: day, time, place. Endless texting kills momentum.</p>
-                <p><span className="font-bold text-gray-200">Plan dates that create stories.</span> Walk + street food + a view beats a staring contest over dinner. Movement and novelty do the bonding for you.</p>
-                <p><span className="font-bold text-gray-200">If she's hesitant or goes quiet — release gracefully.</span> "No stress at all — enjoy your week." Chasing communicates scarcity; grace communicates options. And it's just the right way to treat people.</p>
-              </div>
-            </Collapsible>
-            <DatingMindset />
-            <HighValue />
+            <Card icon={MessageCircle} title="Texting and getting the date" items={[
+              ['Number at the peak', '"I need to find my mates — but I want to continue this. What\'s your number?"'],
+              ['Callback within a day', 'Reference something from the night, then a concrete plan: day, time, place.'],
+              ['Every text has a job', 'A question, a joke or a plan. "Haha yeah" is where you propose something instead.'],
+              ['Match her pace', 'Similar length, natural reply speed. No timers, no double texts that only chase a reply.'],
+              ['Not needing the reply', 'Send it and go live your life. Your mood should not depend on how fast she answers.'],
+            ]} />
+            <Card icon={Sparkles} title="Dates and connection" items={[
+              ['Dates that move', 'Walk, street food, a view, a game, something competitive. Movement and novelty do the bonding.'],
+              ['Range of feeling', 'Funny, competitive, sincere, back to funny. One flat pleasant note is forgettable.'],
+              ['Make her feel heard', 'Specific callbacks ("how did that presentation go?") beat any compliment about looks.'],
+              ['Escalate at her pace', 'Match the energy she gives back. Believe the pattern of signals, not one ambiguous moment.'],
+            ]} />
+            <Card icon={ListChecks} title="Reading interest — and respecting it" items={[
+              ['Interested looks like', 'She asks questions back, stays close, remembers your details, extends the conversation.'],
+              ['Polite looks like', 'Short answers, no questions, eyes elsewhere. Wish her a good night and move on.'],
+              ['Consent is the whole game', 'Enthusiastic yes at every step. If she is drunk or hesitant, the move is her number and a proper date.'],
+              ['Any no is final and fine', 'Instant, cheerful acceptance. Whatever happens, she gets home safe.'],
+            ]} />
+            <Card icon={Heart} title="Going back, and intimacy" items={[
+              ['Only when the night built it', 'Strong connection, her matching your energy, both sober enough for a real choice.'],
+              ['Low-pressure invite', '"I\'m heading back to mine — come for a drink." One ask. "Not tonight" → "then let me take you out properly."'],
+              ['Your place, sorted', 'Clean room, clean sheets, water in the fridge, a charger. More nights have been lost to a messy room than to rejection.'],
+              ['Slow is the skill', 'Build for longer than feels necessary, read her body, check in. Protection every time until exclusive and tested.'],
+              ['After', 'Stay close, no phone-grab, make sure she gets home safe, and a warm text the next day.'],
+            ]} />
+            <Card icon={Compass} title="Getting a girlfriend" items={[
+              ['You are choosing too', 'How she treats waiters, whether she asks about you, whether she flakes, how she talks about exes.'],
+              ['Consistency is the courtship', 'A date a week, planned by you, getting deeper each time.'],
+              ['The talk', 'After 6-10 good dates: "I\'m not interested in seeing anyone else — I want this to be us. What do you think?"'],
+              ['Red flags beat chemistry', 'Contempt, chronic flaking, silent treatment. Walking away early saves years.'],
+            ]} />
+            <GCallout tone="emerald" title="The honest part" text="Kisses per night is a bad scoreboard, and clubs are the hardest venue there is. This is a skill, not a verdict on you — and being genuinely liked beats being briefly wanted." />
           </div>
         )}
       </div>

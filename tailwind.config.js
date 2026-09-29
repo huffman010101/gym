@@ -25,6 +25,13 @@ export default {
         teal: cyan,
         orange: gold,
       },
+      // /8 and /12 are used ~100 times across the app but are not in Tailwind's
+      // default opacity scale, so those classes silently generated nothing and
+      // borders fell back to near-white. Registering them fixes every one.
+      opacity: {
+        8: '0.08',
+        12: '0.12',
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
