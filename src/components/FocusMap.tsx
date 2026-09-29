@@ -38,16 +38,15 @@ const GOALS: Goal[] = [
     { to: '/looksmax?tab=techniques', label: 'Looks → Body & Habits', why: 'Body fat, debloat, sleep' },
   ] },
   { id: 'girls', label: 'Girls & confidence', dests: [
+    { to: '/mind?tab=playbook', label: 'Mind → The Playbook', why: 'The confident, charismatic guy on one screen' },
     { to: '/mind?tab=secret', label: 'Mind → Game Plan', why: 'Clubs, approaching, texting, dates' },
     { to: '/mind?tab=confidence', label: 'Mind → Confidence', why: 'Unbothered, no matter what' },
-    { to: '/mind?tab=aura', label: 'Mind → Aura & Presence', why: 'Frame and how you carry yourself' },
-    { to: '/mind?tab=charisma', label: 'Mind → Charisma', why: 'Voice, humour, listening' },
+    { to: '/mind?tab=social', label: 'Mind → Charisma & Presence', why: 'Voice, humour, listening, frame' },
   ] },
   { id: 'discipline', label: 'Discipline & no distractions', dests: [
     { to: '/mind?tab=know', label: 'Mind → Know Yourself', why: 'Your values, leaks and personal plan' },
-    { to: '/mind?tab=morning', label: 'Mind → Morning Routine', why: 'No phone, meditate, say it out loud' },
-    { to: '/mind?tab=focus', label: 'Mind → Focus & Discipline', why: 'Dopamine detox and deep work' },
-    { to: '/mind?tab=night', label: 'Mind → Night Routine', why: 'Sleep that makes tomorrow work' },
+    { to: '/mind?tab=morning', label: 'Mind → Morning & Night', why: 'No phone, meditate, say it out loud' },
+    { to: '/mind?tab=discipline', label: 'Mind → Discipline', why: 'Dopamine detox and deep work' },
   ] },
   { id: 'money', label: 'Make money', dests: [
     { to: '/money?tab=skills', label: 'Money → Skills', why: 'Pick the one skill that pays' },

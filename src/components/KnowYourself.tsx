@@ -575,7 +575,15 @@ export default function KnowYourself() {
         )}
       </div>
 
-      {/* ---------- THE SHORT PROSE HALF ---------- */}
+    </div>
+  );
+}
+
+/* The dating half of what used to sit under Know Yourself. It belongs with
+ * the Game Plan, so Mind renders it there; the helpers stay local to this file. */
+export function DatingMindset() {
+  return (
+    <div className="space-y-4">
       <Fold title="Waiting for her to look at you first" tag="The specific thing costing you the ones you want" items={[
         ['You have built a filter that excludes exactly who you want', 'If you only approach people who look at you first, you only ever approach people who were already interested. The ones you actually want — who are being looked at all night and have learned not to look back — are structurally excluded by your own rule. That is not bad luck; it is the filter working as designed.'],
         ['A look is a weak signal anyway', 'People avoid eye contact when they are interested at least as often as when they are not, especially in a club, especially with someone tall who they have clocked and do not want to seem eager toward. You are reading a noisy signal as if it were data.'],

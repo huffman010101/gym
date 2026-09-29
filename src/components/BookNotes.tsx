@@ -146,9 +146,9 @@ export default function BookNotes() {
         </p>
         <div className="flex flex-wrap gap-2">
           {[
-            ['/mind?tab=charisma', 'Mind → Charisma'],
-            ['/mind?tab=focus', 'Mind → Focus & Discipline'],
-            ['/mind?tab=code', 'Mind → The Code'],
+            ['/mind?tab=social', 'Mind → Charisma & Presence'],
+            ['/mind?tab=discipline', 'Mind → Discipline'],
+            ['/mind?tab=playbook', 'Mind → The Playbook'],
             ['/money?tab=invest', 'Money → Investing'],
             ['/uni?tab=smarter', 'Uni → Get Smarter'],
           ].map(([to, label]) => (

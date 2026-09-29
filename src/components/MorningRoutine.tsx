@@ -232,7 +232,7 @@ export default function MorningRoutine() {
             </div>
           ))}
         </div>
-        <Link to="/mind?tab=focus" className="inline-block text-xs font-bold bg-emerald-500/15 text-emerald-300 px-3 py-1.5 rounded-full">
+        <Link to="/mind?tab=discipline" className="inline-block text-xs font-bold bg-emerald-500/15 text-emerald-300 px-3 py-1.5 rounded-full">
           Full method → Mind · Focus &amp; Discipline
         </Link>
       </div>

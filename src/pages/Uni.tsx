@@ -505,7 +505,7 @@ export default function Uni() {
                 attention training &mdash; is the Mind section's subject, not restated here. Learn the system there and
                 point it at the revision above.
               </p>
-              <Link to="/mind?tab=focus" className="inline-block text-[11px] font-bold bg-sky-500/10 border border-sky-500/25 text-sky-200 px-3 py-1.5 rounded-full">
+              <Link to="/mind?tab=discipline" className="inline-block text-[11px] font-bold bg-sky-500/10 border border-sky-500/25 text-sky-200 px-3 py-1.5 rounded-full">
                 Mind &rarr; Focus &amp; Discipline
               </Link>
             </div>
