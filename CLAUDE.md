@@ -88,9 +88,9 @@ Vite + React 18 + TypeScript SPA, **HashRouter** (required for GitHub Pages), Ta
   green and amber are left alone because they carry meaning (warning, good, caution, status).
 - Content is hardcoded arrays of `[title, description]` tuples passed to those helpers. Adding content
   means adding tuples, not new components.
-- `src/components/` — cross-section pieces (`BottomNav`, `SearchBar`, `DailyHabits`, `ApiKeySetup`) plus
-  a few large content components that are rendered as a single tab by a page
-  (`Security`, `HighValue`, `MorningRoutine`, `NightRoutine` are all tabs of `Mind.tsx`).
+- `src/components/` — cross-section pieces (`BottomNav`, `SearchBar`, `ApiKeySetup`, `Hud`, `Jarvis`,
+  `LockIn`, `WhoopPanel`, `FocusMap`) plus a few large interactive components rendered as a tab
+  (`KnowYourself`, `FaceDossier`, `MealPlanner`, `TomorrowPlan`, `BookNotes`).
 
 ### Theme and the command screen
 
@@ -136,20 +136,21 @@ silently destroys any content containing a stray `<`, e.g. "PED < 1".
 
 ### Offline / service worker
 
-`public/sw.js` (cache `gymforge-v37`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
+`public/sw.js` (cache `gymforge-v38`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
 asset list can only be known post-build — `scripts/inject-sw-precache.mjs` injects it into
 `dist/sw.js`. Any change to the build output pipeline needs that script to still run last.
 
 The registration logic in `index.html` caps auto-reload at **one per tab session** via a
 `gymforge_sw_reloaded` sessionStorage flag, and throttles foreground update checks to 30 minutes.
-Both guards exist because OneSignal registers a competing worker at the same scope, which caused a
-production reload loop.
+Both guards exist because OneSignal once registered a competing worker at the same scope, which caused
+a production reload loop. **OneSignal and push notifications have since been removed at the owner's
+request** (its floating bell and prompt were unwanted) — do not re-add a notification SDK or prompt.
 
 Two offline rules that are easy to break: the navigation handler must **not** attempt the network when
 `navigator.onLine === false` and must time-box the attempt (3.5s) otherwise, or a flaky connection looks
 identical to "the app won't open"; and the 9s recovery valve in `index.html` must **never** run offline —
-it deletes every cache and unregisters the worker, which offline destroys the only openable copy. Note that OneSignal's CDN is blocked in the sandbox, so this bug is
-**invisible to local Playwright testing** — reason about it rather than trusting a green test.
+it deletes every cache and unregisters the worker, which offline destroys the only openable copy. Offline behaviour that depends on real network conditions is hard to reproduce in local Playwright
+testing — reason about it rather than trusting a green test.
 
 ### State
 

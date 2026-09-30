@@ -2,26 +2,19 @@
  * GymForge service worker — offline-first.
  *
  * Design notes:
- *  - OneSignal's script is imported inside try/catch. It lives on a remote CDN,
- *    so on a plane (or anywhere the CDN is blocked) importScripts throws. If that
- *    throw escapes, the ENTIRE service worker fails to install and you get no
- *    offline support at all — precisely when you need it most.
+ *  - No push notifications: OneSignal was removed. If push is ever re-added, any
+ *    remote importScripts MUST be wrapped in try/catch — a throw there stops the
+ *    whole worker installing, which kills offline support.
  *  - The app shell is precached at install time, so the app opens offline even
  *    on a route you hadn't visited before losing signal.
  *  - Vite emits content-hashed asset filenames, so those are safe to serve
  *    cache-first. The precache list is injected at build time.
  */
 
-try {
-  importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');
-} catch (e) {
-  // Push notifications unavailable — the rest of the worker still works.
-}
-
 // Bump this on any release that must invalidate cached assets. The activate
 // handler deletes all caches that are not this one, so a bump is the only
 // reliable way to evict stale hashed JS from a device pinned to an old build.
-const CACHE = 'gymforge-v37';
+const CACHE = 'gymforge-v38';
 
 // Replaced at build time by scripts/inject-sw-precache.mjs
 const PRECACHE = self.__GYMFORGE_PRECACHE__ || ['./', './index.html'];
@@ -66,7 +59,7 @@ self.addEventListener('fetch', event => {
     return; // unparseable URL: let the network handle it rather than throwing
   }
 
-  // Cross-origin (Anthropic API, OneSignal CDN): never intercept or cache.
+  // Cross-origin (Anthropic API): never intercept or cache.
   // Serving a stale AI response would be worse than a clear network error.
   if (url.origin !== self.location.origin) return;
 

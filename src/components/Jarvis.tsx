@@ -454,23 +454,6 @@ export default function JarvisHud() {
 
       <div className="mt-3"><WhoopPanel onChange={setWhoop} /></div>
 
-      {/* Protocols */}
-      <div className="grid grid-cols-4 gap-2 mt-3">
-        {[
-          { to: '/mind?tab=morning', icon: Sunrise, label: 'Morning' },
-          { to: '/programs?tab=plan', icon: Dumbbell, label: 'Training' },
-          { to: '/mind?tab=know', icon: Fingerprint, label: 'Identity' },
-          { to: '/mind?tab=night', icon: Moon, label: 'Night' },
-        ].map(({ to, icon: Icon, label }) => (
-          <Link key={to} to={to}
-            className="hud-panel flex flex-col items-center gap-1.5 py-3 hover:border-cyan-400/40 transition-colors press">
-            <Icon size={18} className="text-cyan-300" />
-            <span className="font-hud text-[10px] font-bold uppercase tracking-[0.14em] text-gray-300">{label}</span>
-            <span className="font-hud text-[8px] uppercase tracking-[0.2em] text-gray-600 -mt-1">Protocol</span>
-          </Link>
-        ))}
-      </div>
-
       {lockOpen && <LockIn onClose={() => setLockOpen(false)} onDone={() => setLockedMins(lockedInToday())} />}
     </section>
   );

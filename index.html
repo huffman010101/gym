@@ -13,12 +13,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="GymForge" />
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
       // Register the service worker ourselves so offline support does NOT depend
-      // on the OneSignal CDN being reachable. OneSignal reuses this same
-      // registration when it loads; when it can't load (offline / blocked), the
-      // app still works offline.
+      // on any third-party CDN being reachable.
       if ('serviceWorker' in navigator) {
         // If a worker was already controlling this page, a controllerchange means
         // a NEW version just took over — reload once so the user actually sees it.
@@ -57,37 +54,6 @@
             .catch(function () { /* offline support unavailable; app still runs */ });
         });
       }
-    </script>
-    <script>
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-      OneSignalDeferred.push(async function (OneSignal) {
-        var base = location.pathname.replace(/[^/]*$/, '');
-        await OneSignal.init({
-          appId: '7284aa68-3615-4d1c-9983-e02846e4fb7b',
-          serviceWorkerPath: base + 'sw.js',
-          serviceWorkerParam: { scope: base },
-          notifyButton: { enable: true },
-          allowLocalhostAsSecureOrigin: true,
-        });
-      });
-      // Called from a real button tap in the app — dashboard-configured auto-prompts
-      // are unreliable on iOS PWAs, but a permission request fired directly from a
-      // user gesture reliably triggers the native prompt.
-      window.gymforgeEnableNotifications = function () {
-        return new Promise(function (resolve) {
-          window.OneSignalDeferred.push(async function (OneSignal) {
-            await OneSignal.Notifications.requestPermission();
-            resolve(OneSignal.Notifications.permissionNative || (OneSignal.Notifications.permission ? 'granted' : 'default'));
-          });
-        });
-      };
-      window.gymforgeNotificationStatus = function () {
-        return new Promise(function (resolve) {
-          window.OneSignalDeferred.push(function (OneSignal) {
-            resolve(OneSignal.Notifications.permissionNative || (OneSignal.Notifications.permission ? 'granted' : 'default'));
-          });
-        });
-      };
     </script>
   </head>
   <body>
