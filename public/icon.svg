@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="75%">
+      <stop offset="0%" stop-color="#0b2530"/>
+      <stop offset="55%" stop-color="#061016"/>
+      <stop offset="100%" stop-color="#02050a"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.55"/>
+      <stop offset="45%" stop-color="#22d3ee" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="core" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="35%" stop-color="#cffafe"/>
+      <stop offset="70%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#0e7490" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  </defs>
+
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="230" fill="url(#glow)"/>
+
+  <g id="reactor" transform="translate(256 256)">
+    <!-- gold outer ring -->
+    <circle r="168" fill="none" stroke="#eab308" stroke-width="10" opacity="0.9"/>
+    <circle r="152" fill="none" stroke="#facc15" stroke-width="2" opacity="0.5"/>
+    <!-- segmented cyan ring -->
+    <g stroke="#67e8f9" stroke-width="14" fill="none" opacity="0.95">
+      <circle r="130" stroke-dasharray="46 22"/>
+    </g>
+    <!-- coil blocks -->
+    <g fill="#a5f3fc">
+      <rect x="-11" y="-112" width="22" height="40" rx="4" transform="rotate(0)"/>
+      <rect x="-11" y="-112" width="22" height="40" rx="4" transform="rotate(36)"/>
+      <rect x="-11" y="-112" width="22" height="40" rx="4" transform="rotate(72)"/>
+      <rect x="-11" y="-112" width="22" height="40" rx="4" transform="rotate(108)"/>
+      <rect x="-11" y="-112" width="22" height="40" rx="4" transform="rotate(144)"/>
+      <rect x="-11" y="-112" width="22" height="40" rx="4" transform="rotate(180)"/>
+      <rect x="-11" y="-112" width="22" height="40" rx="4" transform="rotate(216)"/>
+      <rect x="-11" y="-112" width="22" height="40" rx="4" transform="rotate(252)"/>
+      <rect x="-11" y="-112" width="22" height="40" rx="4" transform="rotate(288)"/>
+      <rect x="-11" y="-112" width="22" height="40" rx="4" transform="rotate(324)"/>
+    </g>
+    <!-- inner ring + core -->
+    <circle r="66" fill="none" stroke="#e0f2fe" stroke-width="8"/>
+    <circle r="72" fill="#22d3ee" opacity="0.35" filter="url(#blur)"/>
+    <circle r="58" fill="url(#core)"/>
+    <circle r="22" fill="#ffffff"/>
+  </g>
+</svg>
