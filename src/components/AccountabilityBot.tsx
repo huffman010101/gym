@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { MessageCircleHeart, RefreshCw, Loader2 } from 'lucide-react';
 import { lockinLog } from './LockIn';
-import { loadWhoop, latest, zoneOf, todaysSession } from '../lib/whoop';
+import { loadWhoop, latest, zoneOf, todaysSession, todayKey as whoopToday } from '../lib/whoop';
 import { dailyCheckIn } from '../lib/generators';
 
 const todayStr = () => new Date().toISOString().split('T')[0];
@@ -17,7 +17,7 @@ function buildSummary(): string {
   });
   lines.push(`locked in over the last 7 days: ${week.reduce((a, b) => a + b, 0)} minutes, ${week.filter(m => m >= 25).length} days with a real session`);
   const w = latest(loadWhoop());
-  const zone = w?.date === todayStr() ? zoneOf(w.recovery) : null;
+  const zone = w?.date === whoopToday() ? zoneOf(w.recovery) : null;
   if (w && zone) lines.push(`WHOOP today: recovery ${w.recovery}% (${zone}), HRV ${w.hrv ?? '?'} ms, sleep ${w.sleepHours ?? '?'} h`);
   else lines.push('WHOOP: nothing logged today');
   const s = todaysSession(zone);

@@ -31,7 +31,11 @@ export function upsertDay(d: WhoopDay) {
   return all;
 }
 
-export const todayKey = () => new Date().toISOString().split('T')[0];
+// Local calendar date, matching how WHOOP labels a day (the day you woke up).
+export const todayKey = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+};
 
 export function latest(days: Record<string, WhoopDay>): WhoopDay | null {
   const keys = Object.keys(days).filter(k => days[k].recovery !== undefined).sort();
@@ -71,28 +75,31 @@ export function parseCycles(csv: string): WhoopDay[] {
   if (lines.length < 2) return [];
   const head = splitCsvLine(lines[0]).map(h => h.toLowerCase());
   const col = (...needles: string[]) => head.findIndex(h => needles.every(n => h.includes(n)));
-  const iStart = col('cycle start') >= 0 ? col('cycle start') : col('wake onset');
+  const iWake = col('wake onset');
+  const iStart = col('cycle start');
   const iRec = col('recovery score');
   const iHrv = col('heart rate variability');
   const iRhr = col('resting heart rate');
   const iStrain = col('day strain');
   const iAsleep = col('asleep duration');
   const iPerf = col('sleep performance');
-  if (iStart < 0 || iRec < 0) return [];
+  if ((iWake < 0 && iStart < 0) || iRec < 0) return [];
   const num = (v?: string) => { const n = parseFloat((v ?? '').replace('%', '')); return isNaN(n) ? undefined : n; };
+  // A recovery belongs to the morning you woke up. Key by the wake date as
+  // written in the file (already local time) — converting through Date would
+  // shift after-midnight sleeps onto the wrong day in the UK. Cycle start is
+  // the sleep onset, so it is only a fallback.
+  const dateOf = (v?: string) => (v && /^\d{4}-\d{2}-\d{2}/.test(v) ? v.slice(0, 10) : '');
   const days: WhoopDay[] = [];
   for (const line of lines.slice(1)) {
     const c = splitCsvLine(line);
-    const start = c[iStart];
-    if (!start) continue;
-    const date = new Date(start.replace(' ', 'T'));
-    if (isNaN(date.getTime())) continue;
-    // A cycle starts at wake; its recovery belongs to that day.
-    const key = date.toISOString().split('T')[0];
+    const key = dateOf(c[iWake]) || dateOf(c[iStart]);
+    const recovery = num(c[iRec]);
+    if (!key || recovery === undefined) continue;
     const asleep = num(c[iAsleep]);
     days.push({
       date: key,
-      recovery: num(c[iRec]),
+      recovery,
       hrv: num(c[iHrv]),
       rhr: num(c[iRhr]),
       strain: num(c[iStrain]),

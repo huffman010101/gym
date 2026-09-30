@@ -21,6 +21,10 @@ export default function WhoopPanel({ onChange }: { onChange?: (d: WhoopDay | nul
 
   const last = latest(days);
   const isToday = last?.date === todayKey();
+  // Show the most recent day even if it is not today, clearly labelled, so an
+  // import from yesterday is not a panel of dashes.
+  const shown = last;
+  const dayLabel = !last ? '' : isToday ? 'Today' : new Date(last.date + 'T12:00:00').toLocaleDateString([], { weekday: 'short', day: 'numeric', month: 'short' });
   const zone = isToday ? zoneOf(last?.recovery) : null;
   const session = todaysSession(zone);
   const trend = lastN(days, 7).filter(d => d.recovery !== undefined);
@@ -59,7 +63,7 @@ export default function WhoopPanel({ onChange }: { onChange?: (d: WhoopDay | nul
   return (
     <div className="hud-panel p-4">
       <div className="flex items-center justify-between">
-        <p className="font-hud text-[11px] font-bold uppercase tracking-[0.25em] text-cyan-300/80 flex items-center gap-1.5"><Activity size={12} /> WHOOP · Today</p>
+        <p className="font-hud text-[11px] font-bold uppercase tracking-[0.25em] text-cyan-300/80 flex items-center gap-1.5"><Activity size={12} /> WHOOP · {dayLabel || 'Today'}</p>
         <div className="flex gap-1.5">
           <button onClick={() => setLogOpen(o => !o)} className="text-[10px] font-hud font-bold uppercase tracking-wider px-2 py-1 rounded-md border border-cyan-400/30 text-cyan-200"><Plus size={10} className="inline -mt-0.5" /> Log</button>
           <button onClick={() => fileRef.current?.click()} className="text-[10px] font-hud font-bold uppercase tracking-wider px-2 py-1 rounded-md border border-white/10 text-gray-400">
@@ -82,20 +86,20 @@ export default function WhoopPanel({ onChange }: { onChange?: (d: WhoopDay | nul
         <div className="relative w-[56px] h-[56px] flex-shrink-0">
           <svg width="56" height="56" viewBox="0 0 56 56" className="-rotate-90">
             <circle cx="28" cy="28" r={R} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="5" />
-            {isToday && last?.recovery !== undefined && (
+            {shown?.recovery !== undefined && (
               <circle cx="28" cy="28" r={R} fill="none" stroke={z?.ring} strokeWidth="5" strokeLinecap="round"
-                strokeDasharray={C} strokeDashoffset={C * (1 - last.recovery / 100)} />
+                strokeDasharray={C} strokeDashoffset={C * (1 - shown.recovery / 100)} opacity={isToday ? 1 : 0.5} />
             )}
           </svg>
-          <p className={`absolute inset-0 flex items-center justify-center font-orbitron text-sm ${z?.text ?? 'text-gray-500'}`}>
-            {isToday && last?.recovery !== undefined ? `${Math.round(last.recovery)}%` : '—'}
+          <p className={`absolute inset-0 flex items-center justify-center font-orbitron text-sm ${z?.text ?? 'text-gray-400'}`}>
+            {shown?.recovery !== undefined ? `${Math.round(shown.recovery)}%` : '—'}
           </p>
         </div>
         <div className="grid grid-cols-3 gap-2 flex-1 text-center">
           {[
-            ['HRV', isToday && last?.hrv !== undefined ? `${Math.round(last.hrv)}` : '—', 'ms'],
-            ['Sleep', isToday && last?.sleepHours !== undefined ? `${last.sleepHours}` : '—', 'h'],
-            ['Strain', isToday && last?.strain !== undefined ? `${last.strain}` : '—', ''],
+            ['HRV', shown?.hrv !== undefined ? `${Math.round(shown.hrv)}` : '—', 'ms'],
+            ['Sleep', shown?.sleepHours !== undefined ? `${shown.sleepHours}` : '—', 'h'],
+            ['Strain', shown?.strain !== undefined ? `${shown.strain}` : '—', ''],
           ].map(([l, v, u]) => (
             <div key={l}>
               <p className="font-orbitron text-sm text-gray-100">{v}<span className="text-[9px] text-gray-500 ml-0.5">{v !== '—' ? u : ''}</span></p>
@@ -125,6 +129,7 @@ export default function WhoopPanel({ onChange }: { onChange?: (d: WhoopDay | nul
           <button onClick={save} className="col-span-4 rounded-lg py-2 font-hud font-bold uppercase tracking-wider text-xs bg-cyan-400/15 border border-cyan-300/40 text-cyan-100">Save today</button>
         </div>
       )}
+      {last && !isToday && <p className="text-[11px] text-gray-500 mt-2">Showing your latest data. Tap Log with this morning's numbers to set today's session.</p>}
       {msg && <p className="text-[11px] text-cyan-200/80 mt-2">{msg}</p>}
 
       <Link to={session.to} className="mt-3 flex items-center justify-between gap-3 rounded-xl border border-yellow-400/30 bg-yellow-400/[0.06] px-3.5 py-2.5 hover:bg-yellow-400/10">
