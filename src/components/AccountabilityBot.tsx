@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { MessageCircleHeart, RefreshCw, Loader2 } from 'lucide-react';
 import { lockinLog } from './LockIn';
-import { localDate } from './DailyPlan';
+import { localDate, loadWeekGoals } from './DailyPlan';
 import { loadWhoop, latest, zoneOf, todaysSession, todayKey as whoopToday } from '../lib/whoop';
 import { dailyCheckIn } from '../lib/generators';
 
@@ -30,6 +30,8 @@ function buildSummary(): string {
       lines.push(`today's plan: ${plan.priorities.filter((_, i) => doneMap[i]).length}/${plan.priorities.length} priorities done`);
     }
   } catch { /* ignore */ }
+  const goals = loadWeekGoals();
+  if (goals.length) lines.push(`this week's goals: ${goals.join('; ')}`);
   return lines.join('\n');
 }
 

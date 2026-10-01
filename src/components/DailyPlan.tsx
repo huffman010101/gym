@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { CalendarDays, Check, Plus, X, Sparkles, Loader2, ChevronDown, Target } from 'lucide-react';
+import { CalendarDays, Check, Plus, X, Sparkles, Loader2, ChevronDown, Target, Flag } from 'lucide-react';
+import { todaysSession } from '../lib/whoop';
 import { planAdvice } from '../lib/generators';
 
 /*
- * The daily plan on the command screen: today's priorities with ticks, and
- * tomorrow's planned the night before. Dates are LOCAL calendar dates — UTC
+ * The plan on the command screen: today's priorities with ticks, week goals,
+ * and the next seven days planned ahead. Dates are LOCAL calendar dates — UTC
  * dates put a plan written after midnight in the UK on the wrong day.
  * Storage keys are unchanged: gymforge_plan_YYYY-MM-DD and gymforge_plan_done_YYYY-MM-DD.
  */
@@ -23,6 +24,31 @@ const load = (day: string): Plan | null => {
     return raw ? (JSON.parse(raw) as Plan) : null;
   } catch { return null; }
 };
+
+const dateAt = (offset: number) => { const d = new Date(); d.setDate(d.getDate() + offset); return d; };
+
+/* Monday of the week a date falls in, as a local YYYY-MM-DD — the key for week goals. */
+export function weekKey(d = new Date()) {
+  const m = new Date(d);
+  m.setDate(m.getDate() - ((m.getDay() + 6) % 7));
+  return `${m.getFullYear()}-${String(m.getMonth() + 1).padStart(2, '0')}-${String(m.getDate()).padStart(2, '0')}`;
+}
+
+/* The week goals refer to. On Sunday you are planning the week ahead, so
+ * Sunday's goals belong to the coming Monday's week, not the one ending. */
+export function goalsWeekKey(now = new Date()) {
+  if (now.getDay() !== 0) return weekKey(now);
+  const mon = new Date(now);
+  mon.setDate(mon.getDate() + 1);
+  return weekKey(mon);
+}
+
+export function loadWeekGoals(key = goalsWeekKey()): string[] {
+  try { return (JSON.parse(localStorage.getItem(`gymforge_week_${key}`) || '[]') as string[]).filter(Boolean); } catch { return []; }
+}
+
+/* Training for a date, from the fixed weekly plan (recovery is unknown ahead of time). */
+const trainingFor = (d: Date) => todaysSession(null, d).title.replace(' + ankle work', '').replace(' day', '').replace(' + Speed', '');
 
 function Editor({ day, initial, onSaved, cta }: { day: string; initial: Plan | null; onSaved: (p: Plan) => void; cta: string }) {
   const [tasks, setTasks] = useState<string[]>(initial?.priorities.length ? initial.priorities : ['', '', '']);
@@ -77,27 +103,47 @@ function Editor({ day, initial, onSaved, cta }: { day: string; initial: Plan | n
 
 export default function DailyPlan() {
   const today = localDate(0);
-  const tomorrowKey = localDate(1);
   const [todayPlan, setTodayPlan] = useState<Plan | null>(() => load(today));
-  const [tomorrow, setTomorrow] = useState<Plan | null>(() => load(tomorrowKey));
   const [done, setDone] = useState<Record<number, boolean>>(() => {
     try { return JSON.parse(localStorage.getItem(`gymforge_plan_done_${today}`) || '{}') as Record<number, boolean>; } catch { return {}; }
   });
   const [editToday, setEditToday] = useState(false);
-  const evening = new Date().getHours() >= 18;
-  const [openTomorrow, setOpenTomorrow] = useState(false);
 
-  // Housekeeping: keep only today's and tomorrow's plans.
+  // The week: today plus the next six days. Each day uses the same key as
+  // today's plan, so whatever is planned for Thursday becomes Thursday's plan.
+  const days = Array.from({ length: 7 }, (_, i) => ({ offset: i, key: localDate(i), date: dateAt(i) }));
+  const [week, setWeek] = useState<Record<string, Plan | null>>(() => Object.fromEntries(days.map(d => [d.key, load(d.key)])));
+  const now = new Date();
+  const evening = now.getHours() >= 18;
+  const planningTime = evening && now.getDay() === 0; // Sunday evening
+  const [selected, setSelected] = useState<string | null>(null);
+  const wk = goalsWeekKey(now);
+  const [goals, setGoals] = useState<string[]>(() => loadWeekGoals(wk));
+  const [editGoals, setEditGoals] = useState(false);
+  const [goalDraft, setGoalDraft] = useState<string[]>(() => { const g = loadWeekGoals(wk); return [g[0] ?? '', g[1] ?? '', g[2] ?? '']; });
+
+  // Housekeeping: drop days that have passed (and old week goals), keep the future.
   useEffect(() => {
     try {
       const drop: string[] = [];
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (k && k.startsWith('gymforge_plan_') && !k.endsWith(today) && !k.endsWith(tomorrowKey)) drop.push(k);
+        if (!k) continue;
+        const m = k.match(/^gymforge_(?:plan|plan_done)_(\d{4}-\d{2}-\d{2})$/);
+        if (m && m[1] < today) drop.push(k);
+        const w = k.match(/^gymforge_week_(\d{4}-\d{2}-\d{2})$/);
+        if (w && w[1] < weekKey(dateAt(-14))) drop.push(k);
       }
       drop.forEach(k => localStorage.removeItem(k));
     } catch { /* ignore */ }
-  }, [today, tomorrowKey]);
+  }, [today]);
+
+  const saveGoals = () => {
+    const g = goalDraft.map(x => x.trim()).filter(Boolean);
+    setGoals(g);
+    try { localStorage.setItem(`gymforge_week_${wk}`, JSON.stringify(g)); } catch { /* quota */ }
+    setEditGoals(false);
+  };
 
   const toggle = (i: number) => {
     const next = { ...done, [i]: !done[i] };
@@ -154,32 +200,80 @@ export default function DailyPlan() {
           <>
             {!has && <p className="text-gray-400 text-sm mt-2">No plan for today yet. Write the three things that would make today a win — hardest first.</p>}
             <Editor key={`today-${editToday}`} day={today} initial={todayPlan} cta={has ? 'Update today' : 'Set today\'s plan'}
-              onSaved={p => { setTodayPlan(p); setEditToday(false); }} />
+              onSaved={p => { setTodayPlan(p); setWeek(w => ({ ...w, [today]: p })); setEditToday(false); }} />
           </>
         )}
       </div>
 
-      {/* ---------- Tomorrow ---------- */}
-      <div className={`hud-panel overflow-hidden ${evening && !tomorrow ? 'border-yellow-400/40 shadow-[0_0_20px_rgba(234,179,8,0.12)]' : ''}`}>
-        <button onClick={() => setOpenTomorrow(o => !o)} className="w-full flex items-center justify-between px-4 py-3 text-left">
-          <div className="min-w-0">
-            <p className="font-hud text-[11px] font-bold uppercase tracking-[0.25em] text-yellow-300/90 flex items-center gap-1.5">
-              <CalendarDays size={12} /> {tomorrow ? 'Tomorrow is planned' : 'Plan tomorrow'}
-            </p>
-            <p className="text-xs text-gray-500 mt-0.5">
-              {tomorrow
-                ? `${tomorrow.priorities.length} task${tomorrow.priorities.length === 1 ? '' : 's'} set. It becomes today's plan in the morning.`
-                : evening ? 'Two minutes tonight. Wake up with a plan instead of a feed.' : 'Best done in the evening, before bed.'}
-            </p>
+      {/* ---------- The week ---------- */}
+      <div className={`hud-panel p-4 ${planningTime ? 'border-yellow-400/40 shadow-[0_0_20px_rgba(234,179,8,0.12)]' : ''}`}>
+        <div className="flex items-center justify-between">
+          <p className="font-hud text-[11px] font-bold uppercase tracking-[0.25em] text-yellow-300/90 flex items-center gap-1.5">
+            <CalendarDays size={12} /> The week
+          </p>
+          {planningTime && <span className="text-[10px] font-hud uppercase tracking-wider text-yellow-300/80">Sunday — plan it now</span>}
+        </div>
+
+        {/* Week goals */}
+        <div className="mt-3 rounded-xl border border-yellow-400/20 bg-yellow-400/[0.04] p-3">
+          <div className="flex items-center justify-between">
+            <p className="font-hud text-[10px] uppercase tracking-[0.22em] text-yellow-400/80 flex items-center gap-1.5"><Flag size={10} /> {now.getDay() === 0 ? "Next week's goals" : "This week's goals"}</p>
+            <button onClick={() => setEditGoals(e => !e)} className="text-[10px] font-hud font-bold uppercase tracking-wider text-gray-500 hover:text-yellow-300">
+              {editGoals ? 'Close' : goals.length ? 'Edit' : 'Set'}
+            </button>
           </div>
-          <ChevronDown size={16} className={`text-yellow-300/80 flex-shrink-0 transition-transform ${openTomorrow ? 'rotate-180' : ''}`} />
-        </button>
-        {openTomorrow && (
-          <div className="px-4 pb-4 -mt-2">
-            <Editor day={tomorrowKey} initial={tomorrow} cta={tomorrow ? 'Update tomorrow' : 'Lock in tomorrow'}
-              onSaved={p => setTomorrow(p)} />
-          </div>
-        )}
+          {!editGoals && (goals.length
+            ? <ol className="mt-1.5 space-y-1">{goals.map((g, i) => <li key={i} className="text-sm text-gray-100 flex gap-2"><span className="font-orbitron text-yellow-300 text-xs mt-0.5">{i + 1}</span>{g}</li>)}</ol>
+            : <p className="text-xs text-gray-500 mt-1">Three things that would make this week a win.</p>)}
+          {editGoals && (
+            <div className="mt-2 space-y-1.5">
+              {goalDraft.map((g, i) => (
+                <input key={i} value={g} onChange={e => setGoalDraft(d => d.map((x, j) => (j === i ? e.target.value : x)))}
+                  placeholder={`${i + 1}. ${['Hit every session', 'Revise 10 hours', 'Talk to 30 new people'][i]}`}
+                  className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-sm text-gray-100 placeholder-gray-600 outline-none focus:border-yellow-400/50" />
+              ))}
+              <button onClick={saveGoals} className="w-full rounded-lg py-2 font-hud font-bold uppercase tracking-[0.16em] text-xs bg-yellow-400/10 border border-yellow-300/40 text-yellow-100">Save goals</button>
+            </div>
+          )}
+        </div>
+
+        {/* Day strip */}
+        <div className="grid grid-cols-7 gap-1 mt-3">
+          {days.map(d => {
+            const p = week[d.key];
+            const n = p?.priorities.length ?? 0;
+            const isSel = selected === d.key;
+            return (
+              <button key={d.key} onClick={() => setSelected(isSel ? null : d.key)}
+                className={`rounded-lg border px-0.5 py-2 text-center transition-colors ${isSel ? 'border-yellow-300/60 bg-yellow-400/10' : d.offset === 0 ? 'border-cyan-400/40 bg-cyan-400/[0.06]' : 'border-white/10 bg-white/[0.02] hover:border-white/25'}`}>
+                <p className={`font-hud text-[10px] font-bold uppercase ${d.offset === 0 ? 'text-cyan-200' : 'text-gray-300'}`}>
+                  {d.offset === 0 ? 'Today' : d.date.toLocaleDateString([], { weekday: 'short' })}
+                </p>
+                <p className="font-orbitron text-sm text-gray-100 leading-tight">{d.date.getDate()}</p>
+                <p className="text-[8px] text-gray-500 leading-tight mt-0.5 truncate px-0.5">{trainingFor(d.date)}</p>
+                <p className={`text-[9px] mt-1 font-bold ${n ? 'text-yellow-300' : 'text-gray-700'}`}>{n ? `${n} task${n === 1 ? '' : 's'}` : '—'}</p>
+              </button>
+            );
+          })}
+        </div>
+
+        {selected && (() => {
+          const d = days.find(x => x.key === selected)!;
+          return (
+            <div className="mt-3 border-t border-white/5 pt-3">
+              <p className="text-sm font-semibold text-gray-100">
+                {d.offset === 0 ? 'Today' : d.offset === 1 ? 'Tomorrow' : d.date.toLocaleDateString([], { weekday: 'long', day: 'numeric', month: 'short' })}
+                <span className="text-xs text-gray-500 font-normal ml-2">Training: {trainingFor(d.date)}</span>
+              </p>
+              <Editor key={selected} day={selected} initial={week[selected]} cta={week[selected] ? 'Update this day' : 'Lock in this day'}
+                onSaved={p => {
+                  setWeek(w => ({ ...w, [selected]: p }));
+                  if (selected === today) setTodayPlan(p);
+                }} />
+            </div>
+          );
+        })()}
+        {!selected && <p className="text-[11px] text-gray-500 mt-2">Tap a day to plan it. Each day becomes "Today's plan" when it arrives.</p>}
       </div>
     </div>
   );

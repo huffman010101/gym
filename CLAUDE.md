@@ -90,8 +90,10 @@ Vite + React 18 + TypeScript SPA, **HashRouter** (required for GitHub Pages), Ta
   means adding tuples, not new components.
 - `src/components/` — cross-section pieces (`BottomNav`, `SearchBar`, `ApiKeySetup`, `Hud`, `Jarvis`,
   `LockIn`, `WhoopPanel`, `FocusMap`) plus a few large interactive components rendered as a tab
-  (`KnowYourself`, `FaceDossier`, `MealPlanner`, `BookNotes`). `DailyPlan` (today's priorities +
-  planning tomorrow, local dates) sits on Home under J.A.R.V.I.S.
+  (`KnowYourself`, `FaceDossier`, `MealPlanner`, `BookNotes`). `DailyPlan` sits on Home under J.A.R.V.I.S.:
+  today's priorities, week goals (`gymforge_week_<Monday>`; on Sunday they target the coming week) and a
+  7-day strip. Every day uses `gymforge_plan_<YYYY-MM-DD>` in LOCAL dates, so a planned day becomes
+  that day's plan automatically. Housekeeping deletes only past days — never future ones.
 
 ### Theme and the command screen
 
@@ -137,7 +139,7 @@ silently destroys any content containing a stray `<`, e.g. "PED < 1".
 
 ### Offline / service worker
 
-`public/sw.js` (cache `gymforge-v40`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
+`public/sw.js` (cache `gymforge-v41`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
 asset list can only be known post-build — `scripts/inject-sw-precache.mjs` injects it into
 `dist/sw.js`. Any change to the build output pipeline needs that script to still run last.
 
