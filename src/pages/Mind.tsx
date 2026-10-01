@@ -3,7 +3,6 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, Eye, ChevronDown, Heart, BookOpen, ListChecks, Compass, Moon } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import { SectionHeader, TabBar, OneThing } from '../components/Hud';
-import TomorrowPlan from '../components/TomorrowPlan';
 import KnowYourself from '../components/KnowYourself';
 
 type Tab = 'playbook' | 'know' | 'social' | 'confidence' | 'discipline' | 'routine' | 'secret';
@@ -492,10 +491,16 @@ export default function Mind() {
               </>
             ) : (
               <>
-                <TomorrowPlan />
+                <Link to="/" className="flex items-center justify-between rounded-2xl border border-yellow-400/30 bg-yellow-400/[0.06] px-4 py-3">
+                  <div>
+                    <p className="font-semibold text-sm text-yellow-100">Plan tomorrow</p>
+                    <p className="text-xs text-gray-500">Your daily plan is on the command screen.</p>
+                  </div>
+                  <ChevronDown size={16} className="-rotate-90 text-yellow-300" />
+                </Link>
                 <Card icon={ListChecks} title="The last hour — in order" items={[
                   ['1. Screens off 30-60 minutes before bed', 'Phone on charge outside the bedroom. Use a cheap alarm clock.'],
-                  ['2. Plan tomorrow', 'Your top three (above). A decided morning is an easy morning.'],
+                  ['2. Plan tomorrow', 'Your top three, on the command screen. A decided morning is an easy morning.'],
                   ['3. The three-minute review', 'What went well, what to do better, one win for your evidence log in Know Yourself.'],
                   ['4. Wind down', 'Shower, five minutes of stretching, read something on paper.'],
                   ['5. Same bedtime', 'Within 30 minutes every night. 8 hours is what training, skin and mood all run on.'],

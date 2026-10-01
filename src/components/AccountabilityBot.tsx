@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { MessageCircleHeart, RefreshCw, Loader2 } from 'lucide-react';
 import { lockinLog } from './LockIn';
+import { localDate } from './DailyPlan';
 import { loadWhoop, latest, zoneOf, todaysSession, todayKey as whoopToday } from '../lib/whoop';
 import { dailyCheckIn } from '../lib/generators';
 
@@ -23,9 +24,9 @@ function buildSummary(): string {
   const s = todaysSession(zone);
   lines.push(`today's training: ${s.title}`);
   try {
-    const plan = JSON.parse(localStorage.getItem(`gymforge_plan_${todayStr()}`) || 'null') as { priorities: string[] } | null;
+    const plan = JSON.parse(localStorage.getItem(`gymforge_plan_${localDate()}`) || 'null') as { priorities: string[] } | null;
     if (plan?.priorities?.length) {
-      const doneMap = JSON.parse(localStorage.getItem(`gymforge_plan_done_${todayStr()}`) || '{}') as Record<number, boolean>;
+      const doneMap = JSON.parse(localStorage.getItem(`gymforge_plan_done_${localDate()}`) || '{}') as Record<number, boolean>;
       lines.push(`today's plan: ${plan.priorities.filter((_, i) => doneMap[i]).length}/${plan.priorities.length} priorities done`);
     }
   } catch { /* ignore */ }

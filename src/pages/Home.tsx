@@ -9,10 +9,11 @@ import OfflineStatus from '../components/OfflineStatus';
 import JarvisHud, { BatMark } from '../components/Jarvis';
 import BottomNav from '../components/BottomNav';
 import FocusMap from '../components/FocusMap';
+import DailyPlan from '../components/DailyPlan';
 
 /*
- * Home is deliberately just two things: J.A.R.V.I.S., and the way into every
- * section. Routines, reminders and planners live in their sections.
+ * Home is J.A.R.V.I.S., your daily plan, and the way into every section.
+ * Routines live in Mind; there are no reminders or notifications.
  */
 
 function HudLabel({ children }: { children: ReactNode }) {
@@ -50,6 +51,11 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-transparent text-white pb-24">
       <JarvisHud />
+
+      {/* Today's plan and tomorrow's */}
+      <section className="px-5 pb-5 max-w-4xl mx-auto">
+        <DailyPlan />
+      </section>
 
       {/* J.A.R.V.I.S. daily check-in */}
       <section className="px-5 pb-5 max-w-4xl mx-auto">
