@@ -575,6 +575,21 @@ export default function Mind() {
               ['Smile before you speak, every time', 'Height plus a neutral face reads as stern. The smile is what makes it approachable.'],
               ['Do not shrink', 'Slouching to seem less tall just looks unsure. Use your height at distance, soften it up close.'],
             ]} />
+            <Card icon={Flame} title="The warm-up — like a match, not a cold start" items={[
+              ['At home: raise the energy', 'Shower, your loudest playlist, move around while you get ready. Say your three lines out loud — it warms your voice up too.'],
+              ['On the way: talk first', 'Chat to the taxi driver, the person in the queue, the bouncer. Three easy conversations before you are even inside.'],
+              ['First 20 minutes: compliment everyone', 'Bar staff, lads, a group of girls on the way past — "love the jacket", "you lot are the best-dressed table here". No agenda. It flips you from watching to talking.'],
+              ['Then go — while you are warm', 'Your first real approach happens inside the first half-hour, before the warm-up wears off. Waiting until midnight means starting cold again.'],
+            ]} />
+            <Card icon={Flame} title="Momentum rules — keep the night moving" items={[
+              ['3-2-1, go', 'The moment you notice her, count down 3-2-1 and move. Your brain cannot talk you out of it in three seconds; it always can in thirty.'],
+              ['Compliment five people before the first approach', 'Genuine, specific, quick, then walk on. By the fifth one you are talking easily and nothing feels like a big deal.'],
+              ['Never stand still for more than five minutes', 'Stillness is where nerves build. Move to the bar, the dance floor, another room — momentum is physical.'],
+              ['Ten hellos by 11pm', 'Count conversations started, not results. A number to hit turns the night into reps instead of a test.'],
+              ['Straight back in after a no', 'Start another conversation within sixty seconds — anyone, about anything. A rejection only stings if you stop moving afterwards.'],
+              ['Be the one who hypes your mates', 'Open groups for them, laugh loudest, suggest the next move. The energy you give the group comes straight back to you.'],
+              ['Two drinks, not ten', 'Enough to loosen up, not enough to lose your timing. Momentum comes from reps, not from the bar.'],
+            ]} />
             <Card icon={Flame} title="How to move in a club" items={[
               ['Go earlier, small group, two drinks', '11pm is friendlier than 1am. Two or three mates. You cannot run any of this drunk.'],
               ['Warm up first', 'Talk to everyone for 20-30 minutes — bar staff, groups of lads, anyone. The first real approach should not be cold.'],
