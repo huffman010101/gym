@@ -33,7 +33,7 @@ const GOALS: Goal[] = [
   { id: 'looks', label: 'Look better', dests: [
     { to: '/looksmax?tab=scan', label: 'Looks → J.A.R.V.I.S. Scan', why: 'Every metric of your face, and a daily plan' },
     { to: '/looksmax?tab=skin', label: 'Looks → Skin', why: 'The morning and night routine' },
-    { to: '/looksmax?tab=look', label: 'Looks → Face · Hair · Style', why: 'Jaw, hair, grooming, clothes' },
+    { to: '/looksmax?tab=look', label: 'Looks → Face · Hair · Style', why: 'Jaw, neck, hyoid, colouring, fascia, symmetry, haircut, grooming, clothes' },
     { to: '/looksmax?tab=diet', label: 'Looks → Diet', why: 'Meal plan, recipes, foods for skin' },
     { to: '/looksmax?tab=techniques', label: 'Looks → Body & Habits', why: 'Body fat, debloat, sleep' },
   ] },

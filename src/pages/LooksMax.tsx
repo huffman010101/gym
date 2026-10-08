@@ -278,6 +278,27 @@ export default function LooksMax() {
                   ['Use shadow', 'Short stubble along the jawline reads as a stronger jaw, especially in photos.'],
                 ]} />
               </GFold>
+              <GFold title="Neck — the frame for your jaw" tag="The most visible muscle almost nobody trains">
+                <GPairs items={[
+                  ['Why it matters', 'A thick neck makes the head look proportionate, the jaw look wider and the shoulders flow into the face. A thin neck under a big frame at 6ft 4 reads as unfinished. It also protects you in football and combat.'],
+                  ['The four movements', 'Lying neck curls (face up, plate on forehead), lying neck extensions (face down, plate on the back of the head), and side raises lying on each side. 2-3 sets of 15-25, slow, through a full but comfortable range.'],
+                  ['How often', 'Two or three times a week at the end of a session. Pull day and legs day work well. Traps get trained by your shrugs and deadlifts already.'],
+                  ['Start absurdly light', 'Bodyweight or a towel for resistance for the first two weeks, then a 2.5kg plate. Add weight only when 25 slow reps are easy. A neck harness comes after a few months, not before.'],
+                  ['Never', 'Wrestler bridges, fast jerky reps, or anything that pinches or sends pain into the arms. Stop and see a physio if that happens.'],
+                  ['What to expect', 'Neck muscle responds fast: a centimetre or two in circumference over 3-4 months is common with consistent work. Measure just below the Adam’s apple once a month.'],
+                ]} />
+              </GFold>
+              <GFold title="Hyoid and the under-chin angle" tag="What you can change, and what you cannot">
+                <GPairs items={[
+                  ['What it is', 'The hyoid is a small bone in the throat that the tongue and floor of the mouth hang from. When it sits high and back, the angle between chin and neck is sharp. When it sits low, the under-chin slopes down to the neck.'],
+                  ['The honest part', 'Its position is mostly genetic, and no exercise moves the bone itself in a way that has been shown to last. Anyone selling a "hyoid lift" routine is overselling.'],
+                  ['What you can change', 'Fat under the chin (getting leaner shows the angle you already have). Forward head posture, which opens the angle; chin tucks fix it. And the muscles under the chin: a firm resting tongue posture keeps them tight.'],
+                  ['The tongue press', 'Press the whole tongue, including the back third, flat against the roof of your mouth, lips closed, for 10 seconds. Ten reps, twice a day. You should feel the area under the chin tighten. That is also correct mewing posture.'],
+                  ['Use your beard', 'A beard kept fuller under the jaw and tight on the neck draws a crisp line where the jaw should be. Clean the neckline one finger above the Adam’s apple, never at the jawbone.'],
+                  ['In photos', 'Push your head slightly forward and tip the chin a touch down. It tightens the under-chin instantly. Shooting from slightly above helps; from below always hurts.'],
+                  ['If it really bothers you', 'Fat under the chin that will not shift when you are lean can be treated by a doctor (fat-dissolving injections or liposuction). A low hyoid can only be changed surgically. Get lean first and decide after.'],
+                ]} />
+              </GFold>
               <GFold title="Eyes" tag="Sleep does most of it">
                 <GPairs items={[
                   ['Puffiness', 'Cold spoons or a cold flannel for 60 seconds in the morning, caffeine eye serum, less salt and alcohol the night before.'],
@@ -306,6 +327,17 @@ export default function LooksMax() {
                   ))}
                 </ol>
                 <GCallout tone="amber" title="Before a night out or photos" text="The night before: low salt, no alcohol, 3L water, head slightly raised in bed. The morning of: cold water on the face, then the routine above. Skip it on active breakouts, broken skin, or the night after retinol if you are sore." />
+              </GFold>
+              <GFold title="Colouring — skin tone and contrast" tag="Healthy colour reads as attractive before features do">
+                <GPairs items={[
+                  ['Eat your colour', 'Two portions of orange and red food a day (carrots, sweet potato, peppers, tomatoes, mango). Carotenoids build up in the skin and give a warmer, healthier tone in 6-8 weeks. In studies, people rate that look as more attractive than a tan.'],
+                  ['Blood flow', 'Cardio, sleep and not smoking give the skin a natural flush. Poor sleep and alcohol make it grey and blotchy within a day.'],
+                  ['Sun, carefully', 'A light tan suits most people, but UV is what ages skin fastest. Use a gradual-tan moisturiser or self-tan for the colour and keep SPF 30-50 every day. Avoid sunbeds; they are a proven skin cancer risk.'],
+                  ['Even out redness and patches', 'Niacinamide and azelaic acid calm redness and fade dark marks. Patches that are dry and flaky or never fade go to a GP (eczema, rosacea and fungal patches all need treatment).'],
+                  ['Contrast', 'Darker, defined brows and lashes and a well-kept beard against your skin make the face read sharper and more masculine. Fill sparse brows with a tinted brow gel; tint them at a barber if they are very light.'],
+                  ['Wear colours that suit your undertone', 'Look at the veins on your wrist. Blue or purple means a cool undertone: navy, grey, white, black, burgundy. Green means warm: olive, camel, cream, rust, brown. If you cannot tell, you are neutral and most colours work. Keep the colour you suit nearest your face.'],
+                  ['Hair colour', 'Leave it natural unless you are greying. Going darker than your brows, or bleaching, almost always looks done. If you colour, go one shade darker at most, at a salon.'],
+                ]} />
               </GFold>
               <GFold title="Mewing — the honest version">
                 <GPairs items={[
@@ -340,9 +372,13 @@ export default function LooksMax() {
               <h2 className="font-orbitron text-lg uppercase tracking-[0.12em] text-cyan-200 pt-4">Hair</h2>
               <GFold title="The right cut" tag="The single biggest style lever" defaultOpen>
                 <GPairs items={[
-                  ['Choose for your face', 'Longer face: keep height low and add width at the sides. Round face: height on top, shorter sides. Square: textured crop or a soft side part. Your scan names the exact cuts.'],
-                  ['At the barber', 'Bring two photos of the cut on someone with your hair type. Ask for a scissor-cut top and a low or mid taper so it grows out well.'],
-                  ['Keep it fresh', 'Every 3-4 weeks. A great cut at week six looks like no cut.'],
+                  ['Choose for your face', 'Longer face: keep height low and add width at the sides, a fringe helps. Round face: height and texture on top, shorter sides. Square: a textured crop or soft side part. Oval: almost anything. Your scan names the exact cuts.'],
+                  ['Cuts that suit most guys', 'Textured crop with a mid taper. Side part with a low taper. Mid-length flow if you have thick wavy hair. Messy fringe (French crop) if your hairline is not perfect. A high skin fade only if your head shape is good at the back.'],
+                  ['Match your hair type', 'Straight and fine: shorter and textured, because length goes flat. Thick: leave length on top and get the weight taken out. Wavy or curly: keep 5-8cm on top and let it do its thing. Never cut curls short on top with long sides.'],
+                  ['At your height', 'At 6ft 4 people see the top of your head first. Some height and texture on top keeps you in proportion. A very short buzz on a tall frame can make the head look small.'],
+                  ['What to say to the barber', '"Scissor cut on top, take the weight out but keep the length, a low (or mid) taper on the sides, tapered neckline not squared, and texturise it." Bring two photos of the cut on someone with your hair type.'],
+                  ['Keep it fresh', 'Every 3-4 weeks. A great cut at week six looks like no cut. Book the next one before you leave the chair.'],
+                  ['Changing cut', 'Let it grow 4-6 weeks before a big change so the barber has something to work with. Find one good barber and stick with them; the second cut is always better than the first.'],
                 ]} />
               </GFold>
               <GFold title="Styling in two minutes">
