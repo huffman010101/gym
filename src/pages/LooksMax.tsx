@@ -285,12 +285,27 @@ export default function LooksMax() {
                   ['Frame them', 'Tidy, full brows do more for your eyes than anything applied to them. See Grooming.'],
                 ]} />
               </GFold>
-              <GFold title="Cheekbones and de-puffing" tag="Before a night out or photos">
+              <GFold title="Fascia and facial massage" tag="What it really does, and the 4-minute routine">
                 <GPairs items={[
-                  ['The night before', 'Low salt, no alcohol, 3L water, sleep with your head slightly raised.'],
-                  ['The morning of', 'Cold water on the face, then 2 minutes of firm strokes from the nose out along the cheekbone to the ear and down the neck.'],
-                  ['What cannot change', 'Bone does not grow in adults. Anything promising bigger cheekbones without a surgeon is lying.'],
+                  ['What fascia is', 'A thin web of connective tissue wrapped around every muscle, including the 40-odd in your face. Under it sits lymph, the fluid that pools overnight and makes you look puffy.'],
+                  ['What massage does', 'Pushes that fluid out towards the lymph nodes in your neck. The face looks sharper and the cheekbones show more for a few hours. It also eases a tight, clenched jaw.'],
+                  ['What it does not do', 'It does not "release" fascia into a new shape, lift your face or move bone. Anyone selling permanent change from gua sha is overselling. Use it as a daily de-puff and before photos or nights out.'],
+                  ['Tools', 'Clean fingers work. A gua sha stone or ice roller adds cold and makes it easier. Always over a few drops of oil or moisturiser so you glide, never drag.'],
                 ]} />
+                <p className="font-hud text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 mt-3 mb-1.5">The routine — light pressure, 5 strokes each</p>
+                <ol className="space-y-1.5">
+                  {[
+                    ['Neck first', 'Stroke down both sides of the neck from behind the ear to the collarbone. This opens the drain, so do it first and last.'],
+                    ['Jaw', 'From the chin along the jawbone to just under the ear.'],
+                    ['Cheeks', 'From beside the nose, under the cheekbone, out to the ear. This is the stroke that brings the cheekbones out.'],
+                    ['Under the eyes', 'Ring finger only, barely any pressure, from the inner corner out to the temple.'],
+                    ['Brow and forehead', 'From the centre outwards to the temples, then hold the temples for a breath.'],
+                    ['Neck again', 'Five more strokes down to the collarbone to clear it all.'],
+                  ].map(([t, d], i) => (
+                    <li key={t} className="text-sm text-gray-300 flex gap-2.5"><span className="font-orbitron text-cyan-300 text-xs mt-0.5 w-4 flex-shrink-0">{i + 1}</span><span><span className="text-white font-semibold">{t}.</span> {d}</span></li>
+                  ))}
+                </ol>
+                <GCallout tone="amber" title="Before a night out or photos" text="The night before: low salt, no alcohol, 3L water, head slightly raised in bed. The morning of: cold water on the face, then the routine above. Skip it on active breakouts, broken skin, or the night after retinol if you are sore." />
               </GFold>
               <GFold title="Mewing — the honest version">
                 <GPairs items={[
@@ -305,12 +320,17 @@ export default function LooksMax() {
                   ['Smile', 'A relaxed, slightly closed-mouth smile photographs best. Practise on video, not in a mirror.'],
                 ]} />
               </GFold>
-              <GFold title="Symmetry and harmony">
+              <GFold title="Symmetry — what you can actually even out" tag="Habits shape the soft tissue; bone stays">
                 <GPairs items={[
-                  ['Habits', 'Chew on both sides, sleep on your back, match your brows.'],
-                  ['Balance', 'Hair and beard shift the proportions: volume on top lengthens a round face, a fuller beard adds a chin. The scan tells you which way to go.'],
-                  ['Cameras lie', 'Front cameras at arm’s length enlarge the nose and exaggerate asymmetry. Judge in a mirror or with the rear lens.'],
+                  ['Chew on both sides', 'Favouring one side builds a bigger masseter on that side over time. Feel your jaw corners while you clench: if one is fuller, chew on the other side for a few months.'],
+                  ['Release the tight side', 'Knuckle circles on the bulkier masseter for 60 seconds a day, jaw relaxed and teeth apart. If you wake with a sore jaw you are clenching at night: see a dentist about a guard.'],
+                  ['Sleep on your back', 'Sleeping on one side squashes that side every night, so it is puffier in the morning and creases there first. Back sleeping, or alternate sides, with a silk or satin pillowcase.'],
+                  ['Head and shoulders level', 'A head tilt or forward head shows in every photo as a lopsided face. Chin tucks (see Jawline) and Gym → Posture fix the base it sits on.'],
+                  ['Even expressions', 'Most people raise one brow or smile with one side. Film yourself talking for a minute, spot it, and practise the even version.'],
+                  ['Groom to balance', 'Match the brows, part your hair on the side that is fuller, and keep beard lines level. The scan tells you which way your proportions lean.'],
+                  ['Judge it properly', 'Nobody is symmetrical, and small differences read as normal. Front cameras at arm’s length exaggerate them, so use a mirror or the rear lens.'],
                 ]} />
+                <GCallout tone="red" title="See a doctor" text="Asymmetry that appears suddenly, such as one side drooping or a smile that will not lift, needs urgent help: call 999. Jaw clicking, locking or pain goes to a dentist." />
               </GFold>
               <GCallout tone="red" title="Ignore" text="Bone smashing, nose exercises, 'hunter eye' tricks, eyelid taping and DIY fillers. They range from useless to injurious." />
             </section>

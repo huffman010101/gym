@@ -1,5 +1,5 @@
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
 import Home from './pages/Home';
 import Quiz from './pages/Quiz';
@@ -47,8 +47,30 @@ function OfflineBanner() {
   );
 }
 
+// When another device's changes land, remount the pages so they re-read
+// storage — but never while you are typing, and keep the scroll position.
+function useSyncEpoch() {
+  const [epoch, setEpoch] = useState(0);
+  useEffect(() => {
+    const bump = () => {
+      const el = document.activeElement;
+      if (el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT')) {
+        el.addEventListener('blur', bump, { once: true });
+        return;
+      }
+      const y = window.scrollY;
+      setEpoch(e => e + 1);
+      requestAnimationFrame(() => window.scrollTo(0, y));
+    };
+    window.addEventListener('gymforge-synced', bump);
+    return () => window.removeEventListener('gymforge-synced', bump);
+  }, []);
+  return epoch;
+}
+
 export default function App() {
   const [hasKey, setHasKey] = useState(false);
+  const epoch = useSyncEpoch();
 
   useEffect(() => {
     setHasKey(!!getApiKey());
@@ -61,6 +83,7 @@ export default function App() {
       <OfflineBanner />
       <JarvisBoot />
       {!hasKey && <ApiKeySetup onSet={() => setHasKey(true)} />}
+      <Fragment key={epoch}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/quiz" element={<Quiz />} />
@@ -81,6 +104,7 @@ export default function App() {
         <Route path="/backtest" element={<Backtest />} />
         <Route path="/videonotes" element={<VideoNotes />} />
       </Routes>
+      </Fragment>
     </HashRouter>
     </ErrorBoundary>
   );

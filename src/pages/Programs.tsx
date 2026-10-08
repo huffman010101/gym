@@ -294,9 +294,9 @@ export default function Programs() {
 
             <DayCard day="THU" name="Pull" focus="Back and biceps — the day that builds your back" detailTab="pull" setTab={setTab}
               exercises={[
-                ['Explosive pull-up or high pull', '3 × 3'],
+                ['Explosive pull-up', '3 × 3'],
                 ['Weighted pull-up', '4 × 6-8'],
-                ['Barbell or chest-supported row', '3 × 8-10'],
+                ['Chest-supported row', '4 × 8-10'],
                 ['Face pull', '3 × 15'],
                 ['Incline DB curl', '3 × 10-12'],
                 ['Hammer curl', '2 × 12'],
@@ -385,9 +385,9 @@ export default function Programs() {
               tag="Back and biceps · explosive first"
               block="Width first, then thickness, then arms. Back responds well to high volume — do not be afraid of the set count here. Neck and grip at the end are the combat-specific pieces almost nobody trains."
               exercises={[
-                { name: 'Explosive pull-up or barbell high pull', sets: '3 × 3', targets: 'Lats · traps · biceps — power', how: "Pull-up: from a dead hang, pull as fast as you can, aiming to get your chest to the bar. High pull: light barbell, drive with the hips and pull the bar to chest height with the elbows leading. Full rest between sets — these are speed reps, not a burnout.", why: 'The explosive movement of the day. Pulling power is what almost nobody trains and it is half of every physical duel — so it goes first, while you are completely fresh.' },
+                { name: 'Explosive pull-up', sets: '3 × 3', targets: 'Lats · biceps · upper back — pulling power', how: "From a dead hang with shoulders set, pull as fast as you can, aiming to get your chest to the bar. Lower under control, reset fully, then go again. Speed is the point — stop the set the moment a rep slows down.", why: 'Pulling power for duels and grappling without any hinge, so your lower back gets the day off after Tuesday\'s deadlifts.' },
                 { name: 'Weighted pull-ups', sets: '4 × 6-8', targets: 'Lats · teres major · biceps · mid back', how: "Slightly wider than shoulder-width, full hang at the bottom with shoulders active rather than dead. Think about pulling your elbows down into your back pockets rather than pulling your chin up. Chest to the bar, controlled descent to a full stretch every rep.", why: 'The best lat width builder there is. Add weight once you can do 10 clean bodyweight reps. Lats are also your clinch and grappling strength.' },
-                { name: 'Barbell or Pendlay row', sets: '4 × 8-10', targets: 'Mid back · lats · rear delts · spinal erectors', how: "Hinge at the hips to around 45 degrees (Pendlay: torso parallel, bar resets on the floor each rep). Brace hard, pull the bar to your lower ribs or navel, elbows driving back not out. No jerking upright to move the weight — if your torso rises, the weight is too heavy.", why: 'Back thickness and the pulling strength behind snapping an opponent down. Strict, hips hinged, no jerking with the lower back.' },
+                { name: 'Chest-supported row', sets: '4 × 8-10', targets: 'Mid back · lats · rear delts', how: "Lie face-down on a bench set to about 30-45 degrees with a dumbbell in each hand (or use a chest-pad T-bar or machine row). Let the shoulder blades stretch forward at the bottom, then drive the elbows back toward your hips and squeeze for a beat. Chest stays on the pad the whole time — no heaving.", why: 'All of the back thickness of a barbell row with none of the lower-back load. A bent-over row two days after heavy deadlifts is the classic way to overload the lower back; this removes it.' },
                 { name: 'Face pulls', sets: '3 × 15-20', targets: 'Rear delts · external rotators · mid and lower traps', how: "Rope set at roughly face height. Pull the rope apart and toward your forehead, finishing with hands beside your ears and elbows high. Externally rotate at the end so your knuckles face the ceiling. Light weight and a two-second squeeze beats heavy.", why: 'Rear delts and external rotators. This is both a posture exercise and the thing that keeps your shoulders healthy under all the pressing.' },
                 { name: 'Incline DB curl', sets: '3 × 10-12', targets: 'Biceps — long head, under stretch', how: "Bench at 45-60 degrees, arms hanging straight down behind the body line — that stretch is the whole point of the exercise. Curl without letting the elbows drift forward, squeeze at the top, lower slowly to a full stretch.", why: 'Incline puts the biceps long head on stretch, which is where the growth is. Biceps also assist every pull and underhook.' },
                 { name: 'Hammer curl', sets: '3 × 12', targets: 'Brachialis · brachioradialis · forearms', how: "Neutral grip, palms facing each other, held throughout. Elbows fixed at your sides, no swinging. Curl to shoulder height and lower under control. The brachialis sits under the biceps and pushes it up, adding visible arm thickness.", why: 'Brachialis and forearm — arm thickness plus the grip strength that decides clinch battles.' },
@@ -427,7 +427,7 @@ export default function Programs() {
         {/* ===== LEGS ===== */}
         {tab === 'legs' && (
           <div className="fade-up stagger space-y-4">
-            <OneThing points={["Fast first, then heavy: jumps and sprints while fresh, trap bar deadlift, split squats, Nordics, calves.", "Your ankle is not fully healed — step down from boxes, no depth jumps yet, and do the finisher every session.", "Keep legs at least 48 hours before a game."]} />
+            <OneThing points={["Fast first, then heavy: jumps and sprints while fresh, trap bar deadlift, split squats, Nordics, calves.", "Your ankle is not fully healed — step down from boxes, no depth jumps yet, and do the finisher every session.", "Keep legs at least 48 hours before a game.", "The trap bar is your one heavy back exercise of the week: brace hard and leave two reps in the tank. Pull day uses chest-supported rows so your lower back recovers."]} />
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2">One leg day: fast first, then heavy</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -451,6 +451,15 @@ export default function Programs() {
                 { name: 'Seated calf raise', sets: '2 × 12-15', targets: 'Soleus', how: "Seated with the pad over the knees, balls of the feet on the platform. Knees bent to 90 degrees is what shifts the work from the gastroc to the soleus. Full stretch at the bottom, hard squeeze at the top, slow throughout.", why: 'Seated targets the soleus, which the standing version misses. The soleus takes enormous load in running.' },
               ]}
             />
+            <Block title="Your back — how the week protects it" items={[
+              ['One heavy hinge a week, and this is it', 'The trap bar deadlift on Tuesday is the only exercise in the plan that loads your lower back heavily. Pull day uses chest-supported rows and pull-ups, so your lower back recovers between Tuesday and Saturday\'s football.'],
+              ['Why the trap bar, not a straight bar', 'You stand inside the weight, so your torso stays more upright and the load sits closer to your spine. It is the most back-friendly way to lift heavy from the floor.'],
+              ['Brace before every rep', 'Big breath into your belly, tighten as if someone is about to punch you in the stomach, then lift. Reset the brace on the floor between reps — no bouncing.'],
+              ['Leave two reps in the tank', 'Every set of 5 should feel like you could have done 7. Grinding out the last rep is where backs round and get hurt.'],
+              ['If your back feels it the next day', 'Normal muscle soreness in the lower back for a day is fine. Stiffness past 48 hours means the load or the form is off: drop the weight 10-15% for two weeks and film a set from the side.'],
+              ['Swaps if your back is sore', 'Trap bar deadlift → leg press or belt squat for the same sets. Bulgarian split squat → hold one dumbbell in front (goblet) instead of two at your sides. Ab wheel on core day → dead bugs.'],
+              ['When to see someone', 'Pain that travels down your leg, numbness or tingling, or pain that wakes you at night is not a gym problem. See a GP or physio before lifting heavy again.'],
+            ]} />
             <Fold title="Starting legs with weak ankles" tag="Where to begin, and what to leave until later" items={[
               ['Get it checked if any of this applies', 'Be honest about which problem you have. "Weak" is trainable. But if you get actual pain, swelling, a feeling of the ankle giving way under you, or you had a bad sprain that never got proper rehab, that needs a physio looking at it rather than a training plan — recurrent instability usually means specific tissue that did not heal properly, and loading it harder makes it worse. Everything below assumes weak and stiff, not injured.'],
               ['The principle: train legs hard where the ankle is not the limit', 'You do not have to wait for your ankles to be strong before training legs. You just have to pick movements where the ankle is not the thing being tested — which is most of the highest-value leg exercises anyway.'],

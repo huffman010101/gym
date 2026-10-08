@@ -139,7 +139,7 @@ silently destroys any content containing a stray `<`, e.g. "PED < 1".
 
 ### Offline / service worker
 
-`public/sw.js` (cache `gymforge-v41`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
+`public/sw.js` (cache `gymforge-v42`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
 asset list can only be known post-build — `scripts/inject-sw-precache.mjs` injects it into
 `dist/sw.js`. Any change to the build output pipeline needs that script to still run last.
 
@@ -159,6 +159,14 @@ testing — reason about it rather than trusting a green test.
 
 No state library. Everything persists to `localStorage` under `gymforge_*` keys, read lazily in
 `useState` initialisers wrapped in try/catch. Keys are listed across the pages that own them.
+
+**Cross-device sync** (`src/lib/sync.ts`, UI `SyncPanel` on Home) mirrors every `gymforge_*` key to one
+file in the user's own secret GitHub gist via a `gist`-scoped token. It wraps
+`localStorage.setItem/removeItem`, stamps each key's write time in `gfsync_meta`, and merges newest-wins per
+key with tombstones for deletes. Sync config lives under `gfsync_*` so it is never synced itself;
+`gymforge_api_key` and values over 250KB (photos) never leave the device. Remote changes fire a
+`gymforge-synced` event and `App.tsx` remounts the routes (deferred while an input has focus). So pages
+need nothing special — just keep using `gymforge_*` keys read in `useState` initialisers.
 
 ## Dead code — ignore these
 

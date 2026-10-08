@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { ChefHat, Shuffle, Repeat, X, Clock, Flame, Beef, Sparkles, Loader2, AlertCircle, Search, Trash2, Leaf } from 'lucide-react';
+import { ChefHat, Shuffle, Repeat, X, Clock, Flame, Beef, Sparkles, Loader2, AlertCircle, Search, Trash2, Leaf, Minus, Plus, Target } from 'lucide-react';
 import { MEALS, SLOT_LABEL, LOOKS_FOODS } from '../data/meals';
 import type { Meal, Slot } from '../data/meals';
 import { generateRecipe, explainFailure } from '../lib/generators';
+import FoodDay from './FoodDay';
 
 /*
  * The Diet tab's planner: a day of meals you can swap slot by slot, every
@@ -13,6 +14,36 @@ import { generateRecipe, explainFailure } from '../lib/generators';
 const K_PLAN = 'gymforge_meal_plan';
 const K_TARGET = 'gymforge_meal_target';
 const K_CUSTOM = 'gymforge_custom_meals';
+const K_PORTIONS = 'gymforge_meal_portions';
+const P_MIN = 0.5;
+const P_MAX = 2.5;
+const clampPortion = (n: number) => Math.min(P_MAX, Math.max(P_MIN, Math.round(n * 4) / 4));
+
+/*
+ * Scale a recipe line: every quantity that starts the line or follows a comma
+ * ("250g chicken", "3 tbsp soy, 1 tbsp honey"). Word amounts ("Half an
+ * avocado", "Pinch of salt") and anything in brackets are left alone.
+ */
+const fmtCount = (v: number) => {
+  const q = Math.max(0.25, Math.round(v * 4) / 4);
+  const whole = Math.floor(q);
+  const frac = q - whole;
+  const f = frac === 0.25 ? '¼' : frac === 0.5 ? '½' : frac === 0.75 ? '¾' : '';
+  return `${whole || (f ? '' : '0')}${f}`;
+};
+function scaleNum(n: number, unit: string, k: number) {
+  const v = n * k;
+  const u = unit.toLowerCase();
+  if (u === 'g' || u === 'ml') return String(v < 20 ? Math.round(v) : Math.round(v / 5) * 5);
+  if (u === 'kg' || u === 'litre') return String(Math.round(v * 100) / 100);
+  return fmtCount(v);
+}
+export function scaleLine(line: string, k: number) {
+  if (k === 1) return line;
+  return line.replace(/(^|,\s*)(\d+(?:\.\d+)?)(?:-(\d+(?:\.\d+)?))?(\s?)(kg|g|ml|litre|tbsp|tsp)?(?=[\s,]|$)/gi,
+    (_m, pre: string, a: string, b: string | undefined, sp: string, unit: string | undefined) =>
+      `${pre}${scaleNum(+a, unit ?? '', k)}${b ? '-' + scaleNum(+b, unit ?? '', k) : ''}${sp}${unit ?? ''}`);
+}
 
 const PLAN_SLOTS: { key: string; slot: Slot }[] = [
   { key: 'breakfast', slot: 'breakfast' },
@@ -39,7 +70,7 @@ function Tag({ t }: { t: string }) {
   return <span className={`text-[9px] font-hud font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border ${TAG_STYLE[t] ?? 'text-gray-400 border-white/15'}`}>{t}</span>;
 }
 
-function RecipeView({ meal, onClose, onUse, onDelete }: { meal: Meal; onClose: () => void; onUse?: () => void; onDelete?: () => void }) {
+function RecipeView({ meal, scale = 1, onClose, onUse, onDelete }: { meal: Meal; scale?: number; onClose: () => void; onUse?: () => void; onDelete?: () => void }) {
   // Portal to <body>: the page's animated (transformed) wrappers would
   // otherwise trap position:fixed and push the sheet off-screen.
   return createPortal(
@@ -54,15 +85,16 @@ function RecipeView({ meal, onClose, onUse, onDelete }: { meal: Meal; onClose: (
           <button onClick={onClose} className="p-1.5 text-gray-500 hover:text-white" aria-label="Close"><X size={18} /></button>
         </div>
         <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-gray-400">
-          <span><Flame size={12} className="inline text-orange-400 -mt-0.5" /> ~{meal.kcal} kcal</span>
-          <span><Beef size={12} className="inline text-red-300 -mt-0.5" /> {meal.protein}g protein</span>
+          <span><Flame size={12} className="inline text-orange-400 -mt-0.5" /> ~{Math.round(meal.kcal * scale)} kcal</span>
+          <span><Beef size={12} className="inline text-red-300 -mt-0.5" /> {Math.round(meal.protein * scale)}g protein</span>
           <span><Clock size={12} className="inline -mt-0.5" /> {meal.mins} min</span>
           <span className="flex gap-1">{meal.tags.map(t => <Tag key={t} t={t} />)}</span>
         </div>
         {meal.looks && <p className="mt-3 text-xs text-emerald-200/90 bg-emerald-400/[0.06] border border-emerald-400/20 rounded-lg px-3 py-2"><Sparkles size={11} className="inline mr-1 -mt-0.5" />{meal.looks}</p>}
 
-        <p className="font-hud text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 mt-4 mb-1.5">Ingredients</p>
-        <ul className="space-y-1">{meal.ingredients.map((x, i) => <li key={i} className="text-sm text-gray-300 flex gap-2"><span className="text-emerald-400">•</span>{x}</li>)}</ul>
+        <p className="font-hud text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 mt-4 mb-1.5">Ingredients{scale !== 1 && <span className="text-emerald-300"> · scaled ×{scale}</span>}</p>
+        <ul className="space-y-1">{meal.ingredients.map((x, i) => <li key={i} className="text-sm text-gray-300 flex gap-2"><span className="text-emerald-400">•</span>{scaleLine(x, scale)}</li>)}</ul>
+        {scale !== 1 && <p className="text-[11px] text-gray-500 mt-1.5">Amounts are scaled to your portion. Season to taste and scale the "handful" items by eye; cooking times stay the same.</p>}
 
         <p className="font-hud text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 mt-4 mb-1.5">Method</p>
         <ol className="space-y-2">{meal.steps.map((x, i) => (
@@ -98,6 +130,13 @@ export default function MealPlanner() {
 
   const [plan, setPlan] = useState<Record<string, string>>(() => ({ ...DEFAULT_PLAN, ...load<Record<string, string>>(K_PLAN, {}) }));
   const [target, setTarget] = useState<{ kcal: number; protein: number }>(() => load(K_TARGET, { kcal: 3000, protein: 170 }));
+  const [portions, setPortions] = useState<Record<string, number>>(() => load(K_PORTIONS, {}));
+  const portionOf = (key: string) => portions[key] ?? 1;
+  const setPortion = (key: string, v: number) => {
+    const next = { ...portions, [key]: clampPortion(v) };
+    setPortions(next);
+    save(K_PORTIONS, next);
+  };
   const [view, setView] = useState<Meal | null>(null);
   const [viewSlotKey, setViewSlotKey] = useState<string | null>(null);
   const [swapKey, setSwapKey] = useState<string | null>(null);
@@ -127,8 +166,27 @@ export default function MealPlanner() {
   };
 
   const planned = PLAN_SLOTS.map(p => ({ ...p, meal: byId(plan[p.key]) }));
-  const kcal = planned.reduce((a, p) => a + (p.meal?.kcal ?? 0), 0);
-  const protein = planned.reduce((a, p) => a + (p.meal?.protein ?? 0), 0);
+  const kcal = Math.round(planned.reduce((a, p) => a + (p.meal?.kcal ?? 0) * portionOf(p.key), 0));
+  const protein = Math.round(planned.reduce((a, p) => a + (p.meal?.protein ?? 0) * portionOf(p.key), 0));
+  // Same factor for every meal (rounded down to a quarter), then nudge the
+  // smallest meals up a quarter at a time while that gets closer to target.
+  const fitToTarget = () => {
+    const base = planned.reduce((a, p) => a + (p.meal?.kcal ?? 0), 0);
+    if (!base || !target.kcal) return;
+    const f = Math.min(P_MAX, Math.max(P_MIN, Math.floor((target.kcal / base) * 4) / 4));
+    const next: Record<string, number> = Object.fromEntries(PLAN_SLOTS.map(p => [p.key, f]));
+    let total = base * f;
+    for (const p of [...planned].sort((x, y) => (x.meal?.kcal ?? 0) - (y.meal?.kcal ?? 0))) {
+      const k = p.meal?.kcal ?? 0;
+      if (next[p.key] < P_MAX && Math.abs(total + k / 4 - target.kcal) < Math.abs(total - target.kcal)) {
+        next[p.key] += 0.25;
+        total += k / 4;
+      }
+    }
+    setPortions(next);
+    save(K_PORTIONS, next);
+  };
+  const openRecipe = (id: string) => { const m = byId(id); if (m) { setView(m); setViewSlotKey(null); } };
   const pct = (v: number, t: number) => (t ? Math.min(100, Math.round((v / t) * 100)) : 0);
 
   const browse = all.filter(m =>
@@ -175,16 +233,24 @@ export default function MealPlanner() {
           {planned.map(({ key, slot, meal }) => (
             <div key={key} className="rounded-xl bg-black/30 border border-white/8 p-3">
               <div className="flex items-start justify-between gap-2">
-                <button className="text-left min-w-0" onClick={() => { if (meal) { setView(meal); setViewSlotKey(null); } }}>
+                <button className="text-left min-w-0" onClick={() => { if (meal) { setView(meal); setViewSlotKey(key); } }}>
                   <p className="font-hud text-[10px] uppercase tracking-[0.22em] text-gray-500">{SLOT_LABEL[slot]}</p>
                   <p className="text-sm font-semibold text-gray-100 leading-snug">{meal?.name ?? 'Pick a meal'}</p>
-                  {meal && <p className="text-[11px] text-gray-500 mt-0.5">~{meal.kcal} kcal · {meal.protein}g protein · {meal.mins} min · <span className="text-emerald-300">tap for the recipe</span></p>}
+                  {meal && <p className="text-[11px] text-gray-500 mt-0.5">~{Math.round(meal.kcal * portionOf(key))} kcal · {Math.round(meal.protein * portionOf(key))}g protein · {meal.mins} min · <span className="text-emerald-300">tap for the recipe</span></p>}
                 </button>
                 <div className="flex gap-1 flex-shrink-0">
                   <button onClick={() => shuffle(key, slot)} className="p-2 rounded-lg border border-white/10 text-gray-400 hover:text-emerald-300" title="Random swap"><Shuffle size={14} /></button>
                   <button onClick={() => setSwapKey(swapKey === key ? null : key)} className={`p-2 rounded-lg border ${swapKey === key ? 'border-emerald-300/60 text-emerald-200' : 'border-white/10 text-gray-400 hover:text-emerald-300'}`} title="Choose a swap"><Repeat size={14} /></button>
                 </div>
               </div>
+              {meal && (
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="font-hud text-[10px] uppercase tracking-[0.2em] text-gray-500">Portion</span>
+                  <button onClick={() => setPortion(key, portionOf(key) - 0.25)} disabled={portionOf(key) <= P_MIN} className="p-1 rounded-md border border-white/10 text-gray-400 disabled:opacity-30" aria-label={`Smaller ${SLOT_LABEL[slot]}`}><Minus size={12} /></button>
+                  <span className={`font-orbitron text-xs w-11 text-center ${portionOf(key) === 1 ? 'text-gray-300' : 'text-emerald-300'}`} data-testid={`portion-${key}`}>×{portionOf(key)}</span>
+                  <button onClick={() => setPortion(key, portionOf(key) + 0.25)} disabled={portionOf(key) >= P_MAX} className="p-1 rounded-md border border-white/10 text-gray-400 disabled:opacity-30" aria-label={`Bigger ${SLOT_LABEL[slot]}`}><Plus size={12} /></button>
+                </div>
+              )}
               {swapKey === key && (
                 <div className="mt-2.5 pt-2.5 border-t border-white/5 space-y-1.5">
                   {all.filter(m => m.slot === slot).map(m => (
@@ -211,10 +277,17 @@ export default function MealPlanner() {
             </div>
           ))}
         </div>
-        {kcal < target.kcal - 150 && (
-          <p className="text-[11px] text-amber-300/90 mt-2">{target.kcal - kcal} kcal short — swap the snack for the 1000 kcal shake, or add a second snack.</p>
+        {Math.abs(kcal - target.kcal) > 150 && (
+          <p className="text-[11px] text-amber-300/90 mt-2">
+            {kcal < target.kcal ? `${target.kcal - kcal} kcal short` : `${kcal - target.kcal} kcal over`} — resize the portions, or swap a meal.
+          </p>
         )}
+        <button onClick={fitToTarget} className="mt-2.5 w-full rounded-xl py-2 text-xs font-hud font-bold uppercase tracking-wider border border-emerald-300/30 text-emerald-200 inline-flex items-center justify-center gap-2">
+          <Target size={13} /> Fit portions to my target
+        </button>
       </div>
+
+      <FoodDay target={target} onOpenRecipe={openRecipe} />
 
       {/* ---------- AI chef ---------- */}
       <div className="bg-[#111] border border-yellow-400/20 rounded-2xl p-4">
@@ -297,6 +370,7 @@ export default function MealPlanner() {
       {view && (
         <RecipeView
           meal={view}
+          scale={viewSlotKey && plan[viewSlotKey] === view.id ? portionOf(viewSlotKey) : 1}
           onClose={() => setView(null)}
           onUse={() => {
             const key = viewSlotKey ?? PLAN_SLOTS.find(p => p.slot === view.slot)?.key;

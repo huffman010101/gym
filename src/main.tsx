@@ -7,6 +7,9 @@ import '@fontsource/rajdhani/latin-700.css';
 import '@fontsource/orbitron/latin-700.css';
 import '@fontsource/orbitron/latin-900.css';
 import './index.css';
+import { startSync } from './lib/sync';
+
+startSync();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

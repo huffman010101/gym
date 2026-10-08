@@ -5,11 +5,11 @@ import BottomNav from '../components/BottomNav';
 import { SectionHeader, TabBar, OneThing } from '../components/Hud';
 import KnowYourself from '../components/KnowYourself';
 
-type Tab = 'playbook' | 'know' | 'social' | 'confidence' | 'discipline' | 'routine' | 'secret';
-const TAB_IDS = ['playbook', 'know', 'social', 'confidence', 'discipline', 'routine', 'secret'] as const;
+type Tab = 'him' | 'playbook' | 'know' | 'social' | 'confidence' | 'discipline' | 'routine' | 'secret';
+const TAB_IDS = ['him', 'playbook', 'know', 'social', 'confidence', 'discipline', 'routine', 'secret'] as const;
 // Old tab ids from before the merge, so saved links and search still land.
 const LEGACY: Record<string, Tab> = {
-  code: 'playbook', charisma: 'social', aura: 'social', icons: 'social', focus: 'discipline', morning: 'routine', night: 'routine',
+  code: 'playbook', blueprint: 'him', dream: 'him', charisma: 'social', aura: 'social', icons: 'social', focus: 'discipline', morning: 'routine', night: 'routine',
 };
 function resolveTab(t: string | null): Tab | null {
   if (!t) return null;
@@ -18,7 +18,8 @@ function resolveTab(t: string | null): Tab | null {
 }
 
 const TABS: { id: Tab; label: string }[] = [
-  { id: 'playbook', label: '★ The Playbook' },
+  { id: 'him', label: '★ Becoming Him' },
+  { id: 'playbook', label: 'The Playbook' },
   { id: 'know', label: 'Know Yourself' },
   { id: 'social', label: 'Charisma & Presence' },
   { id: 'confidence', label: 'Confidence' },
@@ -163,7 +164,7 @@ function Collapsible({ title, tag, children }: { title: string; tag?: string; ch
 
 export default function Mind() {
   const [params] = useSearchParams();
-  const [tab, setTab] = useState<Tab>(() => resolveTab(params.get('tab')) ?? 'playbook');
+  const [tab, setTab] = useState<Tab>(() => resolveTab(params.get('tab')) ?? 'him');
   const [routineView, setRoutineView] = useState<'morning' | 'night'>(() => {
     const t = params.get('tab');
     if (t === 'night') return 'night';
@@ -202,9 +203,104 @@ export default function Mind() {
   return (
     <main className="min-h-screen bg-transparent bg-gradient-to-b from-pink-950/40 via-transparent to-transparent text-white pb-24">
       <div className="max-w-2xl mx-auto px-5 pt-6">
-        <SectionHeader icon={Brain} title="Mind" subtitle="Start with The Playbook. Everything else is the detail behind it." />
+        <SectionHeader icon={Brain} title="Mind" subtitle="Start with Becoming Him. Everything else is the detail behind it." />
 
         <TabBar tabs={TABS} active={tab} onChange={setTab} />
+
+        {/* ============ BECOMING HIM — the whole person, every pillar ============ */}
+        {tab === 'him' && (
+          <div className="fade-up stagger space-y-4">
+            <Tldr points={[
+              'The guy people are in awe of is not chasing anything. He has a full life — training, mates, uni, a plan — and people want in on it.',
+              'Go out to have a good night, not to get a girl. Bring the energy instead of looking for approval, and the girls come with it.',
+              'Your mate is not magic. He has done hundreds more reps. Reps are the one gap you can close fastest.',
+            ]} />
+
+            <div className="bg-[#111] border border-pink-500/25 rounded-2xl p-5">
+              <h3 className="font-bold text-pink-200 mb-1">Who he is — six pillars</h3>
+              <p className="text-gray-500 text-xs leading-relaxed mb-4">Each one has a standard, a 90-day target and the place in this app where it gets done. Weak in one, and the others carry less weight.</p>
+              <div className="space-y-3">
+                {([
+                  ['Body', 'Trains four times a week, eats enough to grow, sleeps eight hours.', '+4-5kg lean, every lift up, a visibly different frame.', '/programs', 'Gym'],
+                  ['Looks', 'A fresh cut every 3-4 weeks, skin routine twice a day, clothes that fit at 6ft 4.', 'Clear skin, a haircut picked for your face, a wardrobe of ten pieces that all work.', '/looksmax', 'Looks'],
+                  ['Social life', 'Talks to everyone, hosts things, knows people in several circles.', '50 new people met, two societies or teams, one thing hosted a month.', '/mind?tab=social', 'Charisma'],
+                  ['Women', 'Goes out to have fun, starts conversations easily, shows interest without needing it back.', '100 conversations started, a handful of dates. Count attempts, not results.', '/mind?tab=secret', 'Game Plan'],
+                  ['Uni', 'Turns up, does the work in focused blocks, is known by the lecturers.', 'A first or a high 2:1 pace, no all-nighters, nothing handed in late.', '/uni', 'Uni & Brain'],
+                  ['Career and money', 'Has a direction, builds a skill people pay for, applies early.', 'CV done, 20 applications or one internship, one skill visibly better.', '/money', 'Money'],
+                ] as [string, string, string, string, string][]).map(([name, standard, target, to, label], i) => (
+                  <div key={name} className="flex gap-3">
+                    <span className="font-orbitron text-pink-300/80 text-sm w-5 flex-shrink-0 mt-0.5">{i + 1}</span>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="font-semibold text-sm text-gray-100">{name}</p>
+                        <Link to={to} className="text-[10px] font-hud font-bold uppercase tracking-wider text-pink-300 hover:underline flex-shrink-0">{label} →</Link>
+                      </div>
+                      <p className="text-gray-400 text-xs leading-relaxed mt-0.5">{standard}</p>
+                      <p className="text-xs text-pink-200/90 mt-1"><span className="font-hud font-bold uppercase tracking-wider text-[10px] text-pink-400 mr-1.5">90 days</span>{target}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <GFold title="Go out to have fun — not to get something" tag="The single biggest shift" defaultOpen>
+              <GPairs items={[
+                ['The goal of the night is a great night', 'Dance badly, take the mick out of your mates, talk to the bouncer, start the chant. If you go home having had the best night in the room, it was a win whoever you met.'],
+                ['Give energy, do not look for it', 'Approval-seeking is going out to take something: attention, validation, a number. The guy everyone notices is the one adding to the night. People are drawn to that, girls included.'],
+                ['Girls are part of the night, not the point of it', 'Talk to them the way you talk to everyone else: warmly, curious, a bit cheeky. When she is not the whole mission, there is no pressure in your voice, and that is what she picks up on.'],
+                ['Your mates come first', 'Hype them, open groups for them, be the one who keeps the group moving. Being the centre of a fun group does more for you than any line.'],
+              ]} />
+              <GLists leftTitle="APPROVAL-SEEKING" rightTitle="UNBOTHERED"
+                left={[
+                  'Laughing at jokes that are not funny',
+                  'Checking whether people are looking at you',
+                  'Over-explaining, apologising, filling every silence',
+                  'Changing your opinion to agree with the room',
+                  'The whole night riding on one girl',
+                  'Checking whether she has texted back',
+                ]}
+                right={[
+                  'Laughing when you find it funny',
+                  'Watching the room because you are interested',
+                  'Saying it once, then letting the silence sit',
+                  'Disagreeing with a smile',
+                  'A good night whatever happens',
+                  'Getting on with your day; she fits around it',
+                ]} />
+            </GFold>
+
+            <GFold title="Why your mate cracks it and you do not (yet)" tag="Find where it breaks, fix that one thing">
+              <GPairs items={[
+                ['He has done more reps', 'Good chat is not a gift. It is hundreds of conversations where he stopped caring how each one went. You can close that gap in a term.'],
+                ['Find where yours breaks', 'Not starting conversations → reps and the warm-up. Starting but it goes flat → statements, teasing, going deeper. Good chat but nothing comes of it → show intent and ask for the number at the peak. Numbers that go nowhere → a plan in the first text. Each one has a fix in Game Plan.'],
+                ['Go out with him and watch', 'Do not copy his lines. Watch his pace, how he stands, how quickly he moves on after a no. Then ask him what he is thinking when he walks over. It is usually "nothing".'],
+                ['Stop comparing, start counting', 'Comparing makes you hesitate. Count your own attempts each week and watch that number, not his results.'],
+              ]} />
+              <Link to="/mind?tab=secret" className="block text-xs text-pink-300 hover:underline">Open the Game Plan — the warm-up, momentum rules, what to say and texting →</Link>
+            </GFold>
+
+            <GFold title="Being known around uni" tag="Status is earned in public, slowly, then all at once">
+              <GPairs items={[
+                ['Be in more than one circle', 'Course mates, a sports team (football or padel), a society, the gym. Someone known in four circles is "everyone knows him".'],
+                ['Host things', 'Pres, a five-a-side, a Sunday roast, a group revision session. The person who organises things becomes the centre of them.'],
+                ['Connect people', 'Introduce people who should know each other. You become the link everyone owes a good night to.'],
+                ['Names and follow-ups', 'Remember names and one thing about each person, and ask about it next time. Most people do neither; it makes you stand out instantly.'],
+                ['Be visibly good at something', 'Top scorer, the strongest in the gym, the one who gets firsts, the one building a business. Respect sticks to competence.'],
+                ['Never gossip, never punch down', 'Status built on putting people down disappears fast. Be the guy who is good to everyone, including the people who cannot do anything for you.'],
+              ]} />
+            </GFold>
+
+            <GFold title="The 90 days" tag="Foundations, then volume, then leverage">
+              <GPairs items={[
+                ['Month 1 — foundations', 'Train four times a week, eat to your target, skin routine, a proper haircut, sort the wardrobe, sleep on a schedule. One social rep a day. A study timetable you actually keep.'],
+                ['Month 2 — volume', 'Out one or two nights a week to have fun, ten hellos a night. Join two societies or a team. Host one thing. CV finished.'],
+                ['Month 3 — leverage', 'Ask girls out from the conversations you are having. Take on a role: captain, committee, organiser. Applications out. By now people know who you are.'],
+                ['Every Sunday, five numbers', 'Gym sessions, conversations started, new people met, hours of focused work, nights you genuinely enjoyed. Write them as week goals on Home and beat last week.'],
+              ]} />
+              <GCallout title="The honest bit" text="Nobody is admired by everyone, and chasing that is just approval-seeking with extra steps. Aim to be respected by the people you respect. Keep the standards, do the reps, and the reputation comes after — usually later than you want, then faster than you expect." />
+            </GFold>
+          </div>
+        )}
 
         {/* ============ THE PLAYBOOK — the whole section on one screen ============ */}
         {tab === 'playbook' && (

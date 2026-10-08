@@ -461,3 +461,114 @@ export const LOOKS_FOODS: LooksFood[] = [
   { name: 'Dark chocolate (70%+)', group: 'Treat', helps: 'Mood, not skin', why: 'Cocoa flavanols; evidence for skin benefits is weak. Not a cause of acne either.', evidence: 'Weak' },
   { name: 'Kefir, live yoghurt', group: 'Gut', helps: 'Possibly skin', why: 'Gut-skin link is plausible but not proven; fine to include.', evidence: 'Weak' },
 ];
+
+/* ================= FOOD SWAPS — per 100g, approximate UK supermarket values ================= */
+
+export interface Food { name: string; kcal: number; p: number; c: number; f: number; note?: string; unit?: { label: string; grams: number } }
+
+export const PROTEINS: Food[] = [
+  { name: 'Chicken thigh (skinless, raw)', kcal: 120, p: 20, c: 0, f: 4.5 },
+  { name: 'Chicken breast (raw)', kcal: 106, p: 23, c: 0, f: 1.5 },
+  { name: 'Beef mince 5% (raw)', kcal: 125, p: 21, c: 0, f: 5 },
+  { name: 'Beef mince 10-12% (raw)', kcal: 175, p: 20, c: 0, f: 10 },
+  { name: 'Steak, sirloin (raw)', kcal: 160, p: 23, c: 0, f: 7.5 },
+  { name: 'Turkey mince 2% (raw)', kcal: 110, p: 23, c: 0, f: 2 },
+  { name: 'Salmon fillet (raw)', kcal: 200, p: 20, c: 0, f: 13, note: 'Best skin food on the list' },
+  { name: 'Cod or haddock (raw)', kcal: 80, p: 18, c: 0, f: 0.7 },
+  { name: 'Tuna, tinned in water', kcal: 110, p: 25, c: 0, f: 1, unit: { label: 'tin (drained)', grams: 112 } },
+  { name: 'Eggs', kcal: 145, p: 12.5, c: 0.5, f: 10, unit: { label: 'large egg', grams: 60 } },
+  { name: 'Greek yoghurt 0%', kcal: 57, p: 10, c: 4, f: 0.2 },
+  { name: 'Cottage cheese', kcal: 98, p: 11, c: 3.5, f: 4.3 },
+  { name: 'Whey protein', kcal: 400, p: 78, c: 7, f: 6, unit: { label: 'scoop', grams: 30 } },
+  { name: 'Prawns (cooked)', kcal: 70, p: 16, c: 0, f: 0.7 },
+  { name: 'Tofu (firm)', kcal: 120, p: 13, c: 2, f: 7 },
+];
+
+export const CARBS: Food[] = [
+  { name: 'Rice (dry weight)', kcal: 350, p: 7, c: 78, f: 0.6 },
+  { name: 'Pasta (dry weight)', kcal: 355, p: 12, c: 72, f: 1.5 },
+  { name: 'Oats', kcal: 375, p: 13, c: 60, f: 8 },
+  { name: 'Potatoes (raw)', kcal: 77, p: 2, c: 17, f: 0.1 },
+  { name: 'Sweet potato (raw)', kcal: 86, p: 1.6, c: 20, f: 0.1, note: 'Beta-carotene — the glow food' },
+  { name: 'Sourdough bread', kcal: 250, p: 9, c: 48, f: 1.5, unit: { label: 'slice', grams: 45 } },
+  { name: 'Egg noodles (dry)', kcal: 360, p: 13, c: 70, f: 2.5 },
+  { name: 'Couscous (dry)', kcal: 360, p: 13, c: 72, f: 1.5 },
+  { name: 'Quinoa (dry)', kcal: 370, p: 14, c: 64, f: 6 },
+  { name: 'Wraps', kcal: 300, p: 8, c: 50, f: 7, unit: { label: 'large wrap', grams: 64 } },
+  { name: 'Banana', kcal: 90, p: 1.1, c: 23, f: 0.3, unit: { label: 'banana', grams: 120 } },
+];
+
+export const FATS: Food[] = [
+  { name: 'Olive oil', kcal: 820, p: 0, c: 0, f: 91, unit: { label: 'tbsp', grams: 13.5 } },
+  { name: 'Peanut butter', kcal: 600, p: 25, c: 12, f: 50, unit: { label: 'tbsp', grams: 16 } },
+  { name: 'Almonds / walnuts', kcal: 600, p: 20, c: 10, f: 52 },
+  { name: 'Avocado', kcal: 160, p: 2, c: 2, f: 15, unit: { label: 'half avocado', grams: 75 } },
+  { name: 'Cheddar', kcal: 410, p: 25, c: 0.1, f: 34 },
+  { name: 'Butter', kcal: 740, p: 0.5, c: 0.5, f: 82, unit: { label: 'knob', grams: 10 } },
+];
+
+export const VEG_ROTATION = [
+  'Broccoli', 'Spinach', 'Peppers', 'Green beans', 'Carrots', 'Courgette', 'Tomatoes', 'Pak choi', 'Asparagus', 'Kale', 'Cauliflower', 'Peas',
+];
+
+/* ================= MEAL PREP PLANS ================= */
+
+export interface PrepPlan {
+  id: string;
+  name: string;
+  tagline: string;
+  makes: string;
+  time: string;
+  recipeIds: string[];
+  shopping: string[];
+  steps: [string, string][];   // [time marker, what to do]
+  storage: string[];
+}
+
+export const PREP_PLANS: PrepPlan[] = [
+  {
+    id: 'bulk-box', name: 'The bulk box', tagline: 'Five lunches and five breakfasts, one session', makes: '5 lunches + 5 breakfasts', time: '75 min',
+    recipeIds: ['chicken-rice-bowl', 'oats-loaded'],
+    shopping: ['1.25kg chicken thighs (boneless)', '500g rice', '3 peppers, 2 onions, 2 courgettes', 'Soy sauce, honey, garlic, ginger', '500g oats', '1.5L whole milk (or oat milk)', 'Whey, 5 bananas, peanut butter, berries', '5 lunch tubs + 5 jars'],
+    steps: [
+      ['0:00', 'Oven to 220°C. Chop all the veg into chunks, toss with oil and salt on two trays, roast 30 minutes.'],
+      ['0:05', 'Rinse the rice and cook it all in one pot (500g rice, 750ml water, lid on, low heat 12 minutes, rest 5).'],
+      ['0:10', 'Cut the chicken into chunks. Brown in two batches in a hot pan, 5 minutes each.'],
+      ['0:25', 'All the chicken back in, add grated garlic and ginger, 5 tbsp soy and 3 tbsp honey. Bubble until sticky.'],
+      ['0:35', 'Spread the rice on a tray to cool fast — this matters for food safety (see storage).'],
+      ['0:45', 'Overnight oats: 5 jars, each 100g oats, 300ml milk, 1 scoop whey, pinch of salt. Lids on, fridge.'],
+      ['0:55', 'Portion into 5 tubs: rice, chicken, veg. Once cool, 3 to the fridge, 2 to the freezer.'],
+      ['1:05', 'Wash up as you go and it is done by 1:15.'],
+    ],
+    storage: ['Cooked chicken: fridge up to 3 days, so freeze Thursday and Friday tubs and move them to the fridge the night before.', 'Cooked rice: cool within an hour, fridge, eat within 24 hours, or freeze straight away. Reheat until steaming hot, and only once.', 'Overnight oats: fridge up to 5 days. Add the banana and toppings on the day.'],
+  },
+  {
+    id: 'two-sauce', name: 'Two-sauce week', tagline: 'Big pots, different every night', makes: '4 bolognese + 4 curry portions', time: '90 min',
+    recipeIds: ['bolognese', 'chicken-curry'],
+    shopping: ['800g beef mince (10-12%)', '1kg chicken thighs', '4 tins chopped tomatoes, 1 tin coconut milk', '1 tin chickpeas, 1 bag spinach', '2 onions, 2 carrots, 2 celery sticks, 1 garlic bulb, ginger', 'Curry paste, tomato purée, oregano', 'Pasta and rice (cook fresh each night)', '8 freezer-safe tubs'],
+    steps: [
+      ['0:00', 'Dice the onions, carrot and celery. Start the bolognese base in a big pot with olive oil, low heat, 10 minutes.'],
+      ['0:10', 'In a second pan, soften the curry onion, then add garlic, ginger and curry paste until fragrant.'],
+      ['0:20', 'Brown the mince hard in the bolognese pot. Add the chicken to the curry pan and coat it in the paste.'],
+      ['0:30', 'Tomatoes into both. Chickpeas into the curry. Both simmer, lids half on.'],
+      ['1:00', 'Coconut milk and spinach into the curry. Taste both and season.'],
+      ['1:10', 'Cool the pots in cold water in the sink for speed, then portion into 8 tubs.'],
+      ['1:20', 'Two of each into the fridge, two of each into the freezer. Label them.'],
+    ],
+    storage: ['Sauces: fridge up to 3 days, freezer up to 3 months. Defrost in the fridge overnight.', 'Cook pasta and rice fresh on the night — 12 minutes, and it tastes far better than reheated.', 'Reheat until piping hot all the way through.'],
+  },
+  {
+    id: 'grab-go', name: 'Grab-and-go', tagline: 'For busy uni days and nights out', makes: '12 egg muffins + 8 meatball portions + snacks', time: '70 min',
+    recipeIds: ['egg-muffins', 'turkey-meatballs', 'trail-mix'],
+    shopping: ['12 eggs', 'Spinach, 2 peppers, spring onions, 100g feta', '800g turkey mince', '2 tins tomatoes, basil, parmesan, breadcrumbs', '1kg potatoes', 'Almonds, walnuts, Brazil nuts, dark chocolate, raisins', 'Muffin tin, tubs, snack bags'],
+    steps: [
+      ['0:00', 'Oven to 200°C. Cut the potatoes into wedges, oil and salt, roast 35 minutes.'],
+      ['0:05', 'Egg muffins: veg and feta into a greased muffin tin, whisk 10-12 eggs, pour over. In the oven with the wedges (they take 20 minutes).'],
+      ['0:15', 'Mix the turkey mince with egg, crumbs, parmesan and garlic. Roll 24 meatballs.'],
+      ['0:25', 'Brown the meatballs, add tomatoes and basil, simmer 15 minutes.'],
+      ['0:45', 'Trail mix: toast the nuts 8 minutes, cool, mix with chocolate and raisins, bag into 70g portions.'],
+      ['0:55', 'Cool everything and pack: meatballs with wedges, egg muffins in a tub.'],
+    ],
+    storage: ['Egg muffins: fridge 4 days, or freeze and microwave from frozen for 60-90 seconds.', 'Meatballs: fridge 3 days, freezer 3 months.', 'Trail mix: a sealed jar keeps for weeks.'],
+  },
+];

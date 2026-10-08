@@ -38,6 +38,7 @@ const GOALS: Goal[] = [
     { to: '/looksmax?tab=techniques', label: 'Looks → Body & Habits', why: 'Body fat, debloat, sleep' },
   ] },
   { id: 'girls', label: 'Girls & confidence', dests: [
+    { to: '/mind?tab=him', label: 'Mind → Becoming Him', why: 'The six pillars, going out for fun, being known at uni, the 90 days' },
     { to: '/mind?tab=playbook', label: 'Mind → The Playbook', why: 'The confident, charismatic guy on one screen' },
     { to: '/mind?tab=secret', label: 'Mind → Game Plan', why: 'Clubs, approaching, texting, dates' },
     { to: '/mind?tab=confidence', label: 'Mind → Confidence', why: 'Unbothered, no matter what' },
@@ -45,7 +46,7 @@ const GOALS: Goal[] = [
   ] },
   { id: 'discipline', label: 'Discipline & no distractions', dests: [
     { to: '/mind?tab=know', label: 'Mind → Know Yourself', why: 'Your values, leaks and personal plan' },
-    { to: '/mind?tab=morning', label: 'Mind → Morning & Night', why: 'No phone, meditate, say it out loud' },
+    { to: '/mind?tab=routine', label: 'Mind → Morning & Night', why: 'No phone, meditate, say it out loud' },
     { to: '/mind?tab=discipline', label: 'Mind → Discipline', why: 'Dopamine detox and deep work' },
   ] },
   { id: 'money', label: 'Make money', dests: [
