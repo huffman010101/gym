@@ -214,6 +214,7 @@ export default function Mind() {
               'The guy people are in awe of is not chasing anything. He has a full life — training, mates, uni, a plan — and people want in on it.',
               'Go out to have a good night, not to get a girl. Bring the energy instead of looking for approval, and the girls come with it.',
               'Your mate is not magic. He has done hundreds more reps. Reps are the one gap you can close fastest.',
+              'Knowing is not changing. Pick one thing, decide exactly when and where you will do it, make the old way harder, and never miss twice.',
             ]} />
 
             <div className="bg-[#111] border border-pink-500/25 rounded-2xl p-5">
@@ -243,7 +244,26 @@ export default function Mind() {
               </div>
             </div>
 
-            <GFold title="Go out to have fun — not to get something" tag="The single biggest shift" defaultOpen>
+            <GFold title="Actually changing — not just knowing" tag="Why you keep going back, and how to stop" defaultOpen>
+              <GCallout title="Why it keeps happening" text="Realising something feels like progress, so your brain gives you the reward without the change. But behaviour runs on cues and habits, not on what you understood last night. The old way is automatic; the new way is effort. Under stress or tiredness, automatic wins — unless you set it up so it cannot." />
+              <GPairs items={[
+                ['1. One change at a time', 'Ten new rules collapse in a week. Pick the one change that would fix the most, run it until it is automatic, then add the next. Slower on paper, far faster in real life.'],
+                ['2. Decide the when and where', 'Not "I will be more confident" but "When I walk into a seminar, I say hello to the person next to me." "When I get into bed, the phone goes on the desk." A fixed when-then plan roughly doubles follow-through compared with a goal on its own.'],
+                ['3. Make the old way harder', 'Change your surroundings, not your willpower. Delete the app, phone out of the bedroom, no snacks in your room, gym bag packed by the door. Add 20 seconds of hassle to the old habit and take 20 seconds away from the new one.'],
+                ['4. Replace it, do not just remove it', 'Every old habit does a job: boredom, stress, loneliness, avoiding something. Work out the job, then give it a new route. Bored at night → a walk or a call with a mate. Stressed → a 10-minute lock-in. A gap left empty gets refilled by the old habit.'],
+                ['5. Act as him before you feel like him', 'Ask "what would the guy I am becoming do right now?" and do that, even when you do not feel like it. Every time you do, it is a vote for the new identity. Feelings catch up with actions, never the other way round.'],
+                ['6. Ride out the urge', 'Urges peak and fade, usually within 15-20 minutes. When one hits, wait ten minutes and do something physical. You do not have to beat it forever, only for the next ten minutes.'],
+                ['7. Never miss twice', 'A slip is not a relapse. The danger is the thought "I have blown it now", which turns one bad day into a bad month. Miss once, and the very next chance you get, do the new thing — even a smaller version.'],
+                ['8. Keep the evidence', 'Write one line every night of what you did, not what you meant to do (the evidence log in Know Yourself). Seeing a run of proof is what makes the new you feel real, and it shows you exactly when you slip.'],
+                ['9. Tell someone', 'Tell a mate the one thing you are changing and ask them to check in on Sunday. Being accountable to someone else is one of the strongest levers there is.'],
+                ['10. Give it the time it actually takes', 'New habits take around two months on average to feel automatic, and some take much longer. Weeks 2-4 are where most people quit, because the novelty has gone and it is not automatic yet. Expect that dip and push through it.'],
+              ]} />
+              <GCallout tone="emerald" title="Tonight" text="Write the one change on your Home week goals as a when-then sentence. Remove one thing that makes the old way easy. Tell one mate. That is the whole start." />
+              <GCallout tone="red" title="When it is more than a habit" text="If the thing you keep going back to feels out of your control (porn, gambling, drinking, weed), or comes with low mood that will not lift, that is not a willpower problem. Your GP or uni wellbeing service can refer you to CBT, which works well for exactly this, and it is free." />
+              <Link to="/mind?tab=know" className="block text-xs text-pink-300 hover:underline">Open Know Yourself — values, leaks and your evidence log →</Link>
+            </GFold>
+
+            <GFold title="Go out to have fun — not to get something" tag="The single biggest shift">
               <GPairs items={[
                 ['The goal of the night is a great night', 'Dance badly, take the mick out of your mates, talk to the bouncer, start the chant. If you go home having had the best night in the room, it was a win whoever you met.'],
                 ['Give energy, do not look for it', 'Approval-seeking is going out to take something: attention, validation, a number. The guy everyone notices is the one adding to the night. People are drawn to that, girls included.'],
