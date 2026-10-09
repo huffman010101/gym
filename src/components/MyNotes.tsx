@@ -1,144 +1,15 @@
 import { useState, type ReactNode } from 'react';
-import { ChevronDown, Shuffle, Plus, X, Lock, Flame } from 'lucide-react';
+import { ChevronDown, Shuffle, Plus, X, Lock, Flame, Sun } from 'lucide-react';
+import { NOTE_GROUPS as GROUPS, AFFIRMATIONS, BEFORE_OUT, DAILY } from '../data/myNotes';
 
 /*
  * Mind → My Notes: the owner's own rules, organised and kept short, with a
  * daily view that surfaces three of them each day. Notes they add here join
- * the daily rotation. Girls, kissing and texting stay behind the Game Plan lock.
+ * the daily rotation. Anything about girls stays behind the Game Plan lock.
+ * The notes themselves live in src/data/myNotes.ts.
  */
 
 const K_NOTES = 'gymforge_my_notes';
-
-type Group = { title: string; tag: string; locked?: boolean; items: [string, string][] };
-
-const GROUPS: Group[] = [
-  {
-    title: 'Who I am', tag: 'The mindset everything else comes from', items: [
-      ['Act like the man I want to be', 'Walk, talk and decide like your dream self today, not when you feel ready. Confidence is built from doing the things you said you would do.'],
-      ['My validation is the only one I need', 'Stop seeking approval and stop complaining. Take responsibility for your own success and never blame other people.'],
-      ['Love your life', 'Drop the energy drainers and put everything into what you want. Train hard. Think about what you have earned and how hard you work — you are not easy to impress.'],
-      ['Accept who I am', 'Everything is in God\'s hands. Let go, have fun, and believe in yourself.'],
-      ['Numb to failure', 'Step outside a little delusional. Rejection is not deep, you have high standards, and everyone will have forgotten the moment in a year. The win is in the approach, not the outcome.'],
-      ['Abundance', 'If one person does not like you, plenty do. Seek new experiences and discover other people\'s lives.'],
-      ['Control the reaction', 'Assume good intent. Do not defend yourself or explain. Keep your frame: chill, not the class clown making jokes all lesson.'],
-      ['Be yourself, maturely', 'Genuinely do not try too hard. Playful is good; goofy all the time is not. Mature with a bit of mischief is the mix.'],
-    ],
-  },
-  {
-    title: 'How I carry myself', tag: 'Voice, body, eyes', items: [
-      ['Voice', 'Loud, clear and slow. Lower the tone, pronounce every word with energy and authority. Breathe from the stomach, not the chest.'],
-      ['Body', 'Walk slower, head straight, good posture. Relaxed and fluid: if you want to stretch, lean back, order a drink or move, do it. Freezing up looks more nervous than moving.'],
-      ['Expression', 'Look friendly, smile when you walk past people, react expressively and exaggerate words a little. Energy is attractive.'],
-      ['Eye contact', 'About 70%: eye to eye to mouth and back, then look to the side for the rest. Hold a deep gaze, then look away as if nothing happened. If it feels too intense, look at the middle of the forehead.'],
-      ['Stop scanning the room', 'Looking around for approval reads as desperate. Enjoy your own company and your own people, focus on yourself — that is what makes others gravitate to you. Do not hand out attention cheaply.'],
-    ],
-  },
-  {
-    title: 'How I talk to people', tag: 'Interested, positive, playful', items: [
-      ['Be interested, be positive', 'Make them talk about themselves — around 75% of the time. "Tell me about yourself", what they do for fun, then go into specifics. No one-word questions, no interrupting, open mind.'],
-      ['Remember the details', 'Use their name. Pick up small details and bring them up later: "you said you liked this — have you tried that?" People melt when you remember.'],
-      ['Treat everyone like you already know them', 'Assume they like you and everyone is your friend. Ask name, where they are from, what they do, and build off it.'],
-      ['Statements over questions', 'Make assumptions and playful guesses instead of interviewing. Be direct and say what you want.'],
-      ['Tease, lightly', 'Take the piss in good fun about light stuff, never sensitive topics like their body. Once you are close, treat them like an annoying little sister: a head shake, a sigh, a side-eye smile.'],
-      ['Funny and high-energy', 'Give weird, ridiculous answers to open a conversation. Make them laugh, goof around, cheer people up — bring happiness, no negativity.'],
-      ['When they test you', 'A jab like "why do you think you are so hot?" — do not defend or explain. Smile, laugh, agree and exaggerate, or change the subject. Shrug it off.'],
-      ['Mirror and connect', 'Smile when they smile, share the same experience, make natural touches, make them feel good. Be knowledgeable and try new things so you have something to share.'],
-      ['Little tricks', 'Nod slightly as you ask something — people tend to mirror it.'],
-    ],
-  },
-  {
-    title: 'Psychology', tag: 'Small levers that make people like you', items: [
-      ['Say their name', 'People light up at the sound of their own name. Use it early and once or twice more, not every sentence.'],
-      ['Mirror them', 'Subtly match their posture, pace and energy. Smile when they smile. It makes them feel you are on the same wavelength.'],
-      ['Silence when you do not like something', 'If someone says something you do not like, say nothing and hold a calm look. Silence lands harder than an argument.'],
-      ['Do not overshare with new people', 'Let them earn your story. A bit of mystery keeps people curious; giving your life story in ten minutes does the opposite.'],
-      ['Show a flaw or two', 'Someone competent who admits a small flaw or laughs at a slip is more likeable than someone flawless. One or two, not a confession.'],
-      ['Ask small favours', 'People grow to like those they have helped — it is called the Ben Franklin effect. Borrow a charger, ask for a recommendation.'],
-      ['Plant the seed', 'Drop pieces of an idea over time and let them reach the conclusion themselves. People commit to ideas they think are theirs.'],
-      ['Repair with credit', 'If you have annoyed someone, give them genuine credit for something they are good at. It resets the mood fast.'],
-      ['Two options', 'Offer a clear choice instead of a yes/no: "Thursday or Saturday?" Put the one you want next to a less appealing one and it looks like the obvious pick.'],
-      ['Light touch', 'A brief touch on the arm while laughing or making a point builds warmth. Keep it light and natural, and watch how they react.'],
-      ['Nod and use "no"', 'Nod slightly as you ask something — people tend to mirror it. And questions that make it easy to say no ("Would it be crazy if…?") feel safer to answer.'],
-      ['The honest bit', 'These work as amplifiers for genuine interest, not replacements for it. Used as tricks on people you do not actually care about, they get spotted quickly.'],
-    ],
-  },
-  {
-    title: 'Girls', tag: 'No pedestal, no thirst', locked: true, items: [
-      ['Her 10 is another man\'s 5', 'Acknowledge you want her, then remember she is just a girl. The pedestal is what makes you freeze; treat her like anyone else.'],
-      ['Assume she likes you', 'Have the attitude that she wants you. You are choosing too — seeing if she fits your life, not auditioning.'],
-      ['You are the prize', 'Say what is on your mind. You have standards and a life she would be lucky to be part of — act like it, without being arrogant about it.'],
-      ['Do not be thirsty', 'At parties you do not need to talk to everyone; just vibe. Do not fall in love first.'],
-      ['Compliments', 'Say what you genuinely like, from confidence, not as a fan. Turn it up only when she is clearly into you, and do not overdo it.'],
-      ['Read her', 'If she matches your energy, leans in, keeps the conversation going — go. If she goes cold or pulls away, let it go with a smile.'],
-    ],
-  },
-  {
-    title: 'The kiss', tag: 'Only when the vibe is already there', locked: true, items: [
-      ['Be close first', 'You cannot kiss someone from across the table. Sit or stand next to her.'],
-      ['The triangle', 'One eye, the other eye, her lips, then a slight smile. Repeat slowly while she is talking, then hold eye contact and go quiet.'],
-      ['Watch her reaction', 'Stays where she is or moves closer: good. Pulls back: stop and carry on talking — no hard feelings.'],
-      ['Lead', '"Come here", hand to her cheek or waist, lean in 90% and let her close the last 10%. That last bit is her yes.'],
-      ['Slow, then build', 'Start slow and soft, then let the tempo rise. Use your hands on her waist, back or face to build tension — like eating ice cream, not rushing it.'],
-      ['Anything further', 'Only what you have both clearly said yes to. Never the neck or the mouth — that is a line, not a vibe.'],
-    ],
-  },
-  {
-    title: 'Texting', tag: 'Texting is not dating', locked: true, items: [
-      ['Getting the number is the win', 'Then turn it into a plan. She owes you nothing over text; do not stress if she is slow.'],
-      ['Match her energy', 'Similar length and pace. Ask about her. Be busy on your grind so you are not replying instantly.'],
-      ['Compliments sparingly', 'One genuine one, not back to back.'],
-      ['Leave some space', 'After a good connection, do not be over-available. Space builds desire.'],
-    ],
-  },
-];
-
-const BEFORE_OUT: string[] = [
-  'Beat your chest and say "I love myself" out loud. Feel stupid, do it anyway.',
-  'Picture yourself as the guy who already has everything he wants — satisfied, not hungry.',
-  'Walk out the door as your dream self: slow walk, head up, a smile for people you pass.',
-  'Remember: in a year nobody remembers tonight. The win is the approach.',
-  'Goal for the night: have the best time in the room. Everything else is a bonus.',
-];
-
-// Short versions for the daily rotation.
-const DAILY: string[] = [
-  'Act like the man you want to be — today, not when you feel ready.',
-  'The only validation you need is your own.',
-  'No complaining, no blaming. Take responsibility.',
-  'Speak loud, clear and slow. Lower the tone.',
-  'Breathe from your stomach.',
-  'Walk slower, head straight, good posture.',
-  'Stop looking around the room. Enjoy your own company.',
-  'Smile when you walk past people.',
-  'Be interested, not interesting. Let them talk.',
-  'Use people\'s names.',
-  'Remember one detail about someone and bring it up later.',
-  'Statements over questions.',
-  'Tease lightly — never about sensitive stuff.',
-  'Do not defend yourself. Smile and shrug it off.',
-  'Assume they already like you.',
-  'Treat everyone like you already know them.',
-  'Rejection is not deep. The win is in the approach.',
-  'Everyone forgets the moment in a year.',
-  'No pedestal. She is just a girl.',
-  'Do not chase attention. Do not hand it out cheaply either.',
-  'Drop the energy drainers. Put everything into what you want.',
-  'Keep your frame — chill, not the class clown.',
-  'Assume good intent. Control your reaction.',
-  'React expressively. Energy is attractive.',
-  'Eye contact: eye, eye, mouth, then look away like nothing happened.',
-  'Train hard today.',
-  'Make someone laugh today.',
-  'Make someone feel good today.',
-  'Be direct. Say what you want.',
-  'Let go and have fun. It is in God\'s hands.',
-  'Mirror their body language. Smile when they smile.',
-  'Do not overshare with someone new.',
-  'If someone says something you do not like, go silent.',
-  'Ask someone a small favour today.',
-  'Mature, not goofy. Do not try too hard.',
-  'You are the prize. Say what is on your mind.',
-];
 
 function dayNumber() {
   const d = new Date();
@@ -201,6 +72,15 @@ export default function MyNotes({ unlocked }: { unlocked: boolean }) {
           ))}
         </ol>
         <p className="text-[11px] text-gray-600 mt-3">New three every day, drawn from your notes below and anything you add.</p>
+      </div>
+
+      {/* ---------- every morning ---------- */}
+      <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
+        <h3 className="font-bold text-gray-100 flex items-center gap-2 mb-1"><Sun size={15} className="text-pink-400" /> Every morning, out loud</h3>
+        <p className="text-xs text-gray-500 mb-2.5">Say them like you mean them. Then act like they are true.</p>
+        <ul className="space-y-1">
+          {AFFIRMATIONS.map(t => <li key={t} className="text-[15px] text-gray-200 font-semibold">{t}</li>)}
+        </ul>
       </div>
 
       {/* ---------- before going out ---------- */}
