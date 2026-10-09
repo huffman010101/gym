@@ -39,6 +39,7 @@ const GOALS: Goal[] = [
   ] },
   { id: 'girls', label: 'Girls & confidence', dests: [
     { to: '/mind?tab=him', label: 'Mind → Becoming Him', why: 'The six pillars, going out for fun, being known at uni, the 90 days' },
+    { to: '/mind?tab=notes', label: 'Mind → My Notes', why: 'Your own rules, organised, three a day' },
     { to: '/mind?tab=playbook', label: 'Mind → The Playbook', why: 'The confident, charismatic guy on one screen' },
     { to: '/mind?tab=secret', label: 'Mind → Game Plan', why: 'Clubs, approaching, texting, dates' },
     { to: '/mind?tab=confidence', label: 'Mind → Confidence', why: 'Unbothered, no matter what' },

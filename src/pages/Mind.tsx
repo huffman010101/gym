@@ -4,9 +4,10 @@ import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, E
 import BottomNav from '../components/BottomNav';
 import { SectionHeader, TabBar, OneThing } from '../components/Hud';
 import KnowYourself from '../components/KnowYourself';
+import MyNotes from '../components/MyNotes';
 
-type Tab = 'him' | 'playbook' | 'know' | 'social' | 'confidence' | 'discipline' | 'routine' | 'secret';
-const TAB_IDS = ['him', 'playbook', 'know', 'social', 'confidence', 'discipline', 'routine', 'secret'] as const;
+type Tab = 'him' | 'notes' | 'playbook' | 'know' | 'social' | 'confidence' | 'discipline' | 'routine' | 'secret';
+const TAB_IDS = ['him', 'notes', 'playbook', 'know', 'social', 'confidence', 'discipline', 'routine', 'secret'] as const;
 // Old tab ids from before the merge, so saved links and search still land.
 const LEGACY: Record<string, Tab> = {
   code: 'playbook', blueprint: 'him', dream: 'him', charisma: 'social', aura: 'social', icons: 'social', focus: 'discipline', morning: 'routine', night: 'routine',
@@ -19,6 +20,7 @@ function resolveTab(t: string | null): Tab | null {
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'him', label: '★ Becoming Him' },
+  { id: 'notes', label: 'My Notes' },
   { id: 'playbook', label: 'The Playbook' },
   { id: 'know', label: 'Know Yourself' },
   { id: 'social', label: 'Charisma & Presence' },
@@ -380,6 +382,7 @@ export default function Mind() {
                   ['confidence', 'Confidence', 'Where it comes from, nerves, self-talk, security'],
                   ['discipline', 'Discipline', 'Dopamine, deep work, controlling emotions, the stoics'],
                   ['routine', 'Morning & Night', 'The routines that make the rest easy'],
+                  ['notes', 'My Notes', 'Your own rules, three a day'],
                   ['secret', 'Game Plan', 'Girls, clubs, texting, dates'],
                 ] as [Tab, string, string][]).map(([id, label, desc]) => (
                   <button key={id} onClick={() => { setTab(id); window.scrollTo(0, 0); }}
@@ -393,6 +396,17 @@ export default function Mind() {
                 ))}
               </div>
             </div>
+          </div>
+        )}
+
+        {tab === 'notes' && (
+          <div className="fade-up space-y-4">
+            <Tldr points={[
+              'Act like the man you want to be, and need no one\'s approval but your own.',
+              'Be interested in people: let them talk, use their name, remember the details, tease lightly.',
+              'Speak loud, clear and slow, walk slow, stop scanning the room. No pedestal, no thirst — the win is in the approach.',
+            ]} />
+            <MyNotes unlocked={unlocked} />
           </div>
         )}
 
