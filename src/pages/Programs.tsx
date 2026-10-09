@@ -736,7 +736,37 @@ export default function Programs() {
         {/* ===== POSTURE ===== */}
         {tab === 'posture' && (
           <div className="fade-up stagger space-y-4">
-            <OneThing points={["Eight minutes a day: chin tucks, doorway stretch, wall slides, face pulls.", "Posture is strength you can hold without thinking — train it, do not force it."]} />
+            <OneThing points={["Ten minutes a day, the short version below: it fixes forward head, rounded shoulders and hands that will not meet behind your back.", "Posture is strength you can hold without thinking — train it, do not force it."]} />
+            <div className="card-premium p-5" data-testid="posture-short">
+              <h3 className="font-bold mb-1">The short version — 10 minutes, daily</h3>
+              <p className="text-gray-500 text-xs leading-relaxed mb-3">For forward head posture, rounded shoulders and tight shoulders. Do it in this order, at home or after a session. Slow and controlled; nothing should hurt.</p>
+              <ol className="space-y-2.5">
+                {([
+                  ['Chin tucks', '2 × 10, 5s holds', 'Head straight back into a double chin, eyes level. Fixes the forward head.'],
+                  ['Doorway pec stretch', '2 × 30s', 'Forearms on the door frame, elbows at shoulder height, step through until you feel the chest open. Fixes the rounding.'],
+                  ['Upper-back extension', '10 reps', 'Over a foam roller or the top of a chair back: hands behind head, lean back over it, breathe out. Shoulders cannot sit back on a stiff upper back.'],
+                  ['Wall slides', '2 × 10', 'Back, elbows and wrists touching the wall, slide up and down. Trains the muscles that hold your shoulders back.'],
+                  ['Band pull-aparts', '2 × 15', 'Palms up, arms straight, pull the band to your chest and squeeze the shoulder blades. Face pulls do the same job at the gym.'],
+                  ['Towel stretch behind the back', '2 × 30s each way', 'Towel over one shoulder: the top hand holds it behind your head, the bottom hand behind your lower back. Pull up with the top hand for 30s, then down with the bottom hand for 30s. Swap sides.'],
+                  ['Sleeper stretch', '2 × 30s each side', 'Lie on your side, lower arm out in front at 90° with the elbow bent. Use the other hand to gently press the forearm down towards the floor. Light pressure only; stop if the front of the shoulder pinches.'],
+                ] as [string, string, string][]).map(([name, dose, cue], i) => (
+                  <li key={name} className="flex gap-3">
+                    <span className="font-orbitron text-orange-300 text-sm w-4 flex-shrink-0 mt-0.5">{i + 1}</span>
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-gray-100">{name} <span className="text-orange-300 font-normal text-xs">· {dose}</span></p>
+                      <p className="text-xs text-gray-500 leading-relaxed">{cue}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <Block title="Why your hands do not meet behind your back" items={[
+              ['What it is', 'The "back-scratch test". The bottom hand needs the shoulder to rotate inwards; the top hand needs it to rotate outwards, plus loose lats and triceps. Rounded shoulders and a stiff upper back block both.'],
+              ['What fixes it', 'The towel and sleeper stretches open the rotation, the doorway stretch and upper-back extension let the shoulders sit back, and the strengthening keeps them there. Expect the gap to close over 4-8 weeks of daily work.'],
+              ['Track it', 'Once a week, try it both ways and measure the gap between your fingertips with a ruler. One side is almost always worse — give that side an extra set of the towel and sleeper stretches.'],
+              ['All day', 'Screen at eye level, phone up instead of head down, and a chin tuck every time you sit down. The routine undoes a day of hunching only if the day is not all hunching.'],
+              ['See a physio if', 'It hurts, clicks with pain, you get pins and needles down the arm, or one side has not improved at all after six weeks.'],
+            ]} />
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2">Posture — what the evidence actually supports</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -753,8 +783,8 @@ export default function Programs() {
               ['The single most effective intervention', 'Strengthening the weak, lengthened muscles. Stretching the tight side alone reliably fails, because nothing is holding the new position. Strength is what holds posture; mobility just makes the position available.'],
             ]} />
             <Session
-              title="The daily 8 minutes"
-              tag="Do this most days — it is the whole protocol"
+              title="The full version"
+              tag="When you have more time — adds Y-T-W raises, dead hangs and the hip work"
               block="Every one of these is included because it strengthens something weak rather than just stretching something tight. Attach it to the end of a session or do it at home."
               exercises={[
                 { name: 'Chin tucks', sets: '3 × 10 (5s holds)', targets: 'Deep neck flexors', how: "Sit or stand tall. Draw the head straight back over the shoulders making a double chin — do not tip the chin down or up. Hold 5 seconds and release. Small, subtle movement; it should feel like a gentle effort at the front of the throat.", why: 'Strengthens the deep neck flexors, which are the muscles that actually hold your head back over your shoulders. The best-supported intervention for forward head posture.' },
