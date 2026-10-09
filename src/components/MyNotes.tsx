@@ -21,6 +21,7 @@ const GROUPS: Group[] = [
       ['Numb to failure', 'Step outside a little delusional. Rejection is not deep, you have high standards, and everyone will have forgotten the moment in a year. The win is in the approach, not the outcome.'],
       ['Abundance', 'If one person does not like you, plenty do. Seek new experiences and discover other people\'s lives.'],
       ['Control the reaction', 'Assume good intent. Do not defend yourself or explain. Keep your frame: chill, not the class clown making jokes all lesson.'],
+      ['Be yourself, maturely', 'Genuinely do not try too hard. Playful is good; goofy all the time is not. Mature with a bit of mischief is the mix.'],
     ],
   },
   {
@@ -46,9 +47,26 @@ const GROUPS: Group[] = [
     ],
   },
   {
+    title: 'Psychology', tag: 'Small levers that make people like you', items: [
+      ['Say their name', 'People light up at the sound of their own name. Use it early and once or twice more, not every sentence.'],
+      ['Mirror them', 'Subtly match their posture, pace and energy. Smile when they smile. It makes them feel you are on the same wavelength.'],
+      ['Silence when you do not like something', 'If someone says something you do not like, say nothing and hold a calm look. Silence lands harder than an argument.'],
+      ['Do not overshare with new people', 'Let them earn your story. A bit of mystery keeps people curious; giving your life story in ten minutes does the opposite.'],
+      ['Show a flaw or two', 'Someone competent who admits a small flaw or laughs at a slip is more likeable than someone flawless. One or two, not a confession.'],
+      ['Ask small favours', 'People grow to like those they have helped — it is called the Ben Franklin effect. Borrow a charger, ask for a recommendation.'],
+      ['Plant the seed', 'Drop pieces of an idea over time and let them reach the conclusion themselves. People commit to ideas they think are theirs.'],
+      ['Repair with credit', 'If you have annoyed someone, give them genuine credit for something they are good at. It resets the mood fast.'],
+      ['Two options', 'Offer a clear choice instead of a yes/no: "Thursday or Saturday?" Put the one you want next to a less appealing one and it looks like the obvious pick.'],
+      ['Light touch', 'A brief touch on the arm while laughing or making a point builds warmth. Keep it light and natural, and watch how they react.'],
+      ['Nod and use "no"', 'Nod slightly as you ask something — people tend to mirror it. And questions that make it easy to say no ("Would it be crazy if…?") feel safer to answer.'],
+      ['The honest bit', 'These work as amplifiers for genuine interest, not replacements for it. Used as tricks on people you do not actually care about, they get spotted quickly.'],
+    ],
+  },
+  {
     title: 'Girls', tag: 'No pedestal, no thirst', locked: true, items: [
       ['Her 10 is another man\'s 5', 'Acknowledge you want her, then remember she is just a girl. The pedestal is what makes you freeze; treat her like anyone else.'],
       ['Assume she likes you', 'Have the attitude that she wants you. You are choosing too — seeing if she fits your life, not auditioning.'],
+      ['You are the prize', 'Say what is on your mind. You have standards and a life she would be lucky to be part of — act like it, without being arrogant about it.'],
       ['Do not be thirsty', 'At parties you do not need to talk to everyone; just vibe. Do not fall in love first.'],
       ['Compliments', 'Say what you genuinely like, from confidence, not as a fan. Turn it up only when she is clearly into you, and do not overdo it.'],
       ['Read her', 'If she matches your energy, leans in, keeps the conversation going — go. If she goes cold or pulls away, let it go with a smile.'],
@@ -57,9 +75,10 @@ const GROUPS: Group[] = [
   {
     title: 'The kiss', tag: 'Only when the vibe is already there', locked: true, items: [
       ['Be close first', 'You cannot kiss someone from across the table. Sit or stand next to her.'],
-      ['The signal', 'While she is talking, glance at her lips for a second, then back to her eyes. Hold eye contact and go quiet.'],
+      ['The triangle', 'One eye, the other eye, her lips, then a slight smile. Repeat slowly while she is talking, then hold eye contact and go quiet.'],
       ['Watch her reaction', 'Stays where she is or moves closer: good. Pulls back: stop and carry on talking — no hard feelings.'],
       ['Lead', '"Come here", hand to her cheek or waist, lean in 90% and let her close the last 10%. That last bit is her yes.'],
+      ['Slow, then build', 'Start slow and soft, then let the tempo rise. Use your hands on her waist, back or face to build tension — like eating ice cream, not rushing it.'],
       ['Anything further', 'Only what you have both clearly said yes to. Never the neck or the mouth — that is a line, not a vibe.'],
     ],
   },
@@ -113,6 +132,12 @@ const DAILY: string[] = [
   'Make someone feel good today.',
   'Be direct. Say what you want.',
   'Let go and have fun. It is in God\'s hands.',
+  'Mirror their body language. Smile when they smile.',
+  'Do not overshare with someone new.',
+  'If someone says something you do not like, go silent.',
+  'Ask someone a small favour today.',
+  'Mature, not goofy. Do not try too hard.',
+  'You are the prize. Say what is on your mind.',
 ];
 
 function dayNumber() {
