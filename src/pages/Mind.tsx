@@ -6,11 +6,11 @@ import { SectionHeader, TabBar, OneThing } from '../components/Hud';
 import KnowYourself from '../components/KnowYourself';
 import MyNotes from '../components/MyNotes';
 
-type Tab = 'him' | 'notes' | 'playbook' | 'know' | 'social' | 'confidence' | 'discipline' | 'routine' | 'secret';
-const TAB_IDS = ['him', 'notes', 'playbook', 'know', 'social', 'confidence', 'discipline', 'routine', 'secret'] as const;
+type Tab = 'him' | 'notes' | 'know' | 'social' | 'confidence' | 'discipline' | 'routine' | 'secret';
+const TAB_IDS = ['him', 'notes', 'know', 'social', 'confidence', 'discipline', 'routine', 'secret'] as const;
 // Old tab ids from before the merge, so saved links and search still land.
 const LEGACY: Record<string, Tab> = {
-  code: 'playbook', blueprint: 'him', dream: 'him', charisma: 'social', aura: 'social', icons: 'social', focus: 'discipline', morning: 'routine', night: 'routine',
+  playbook: 'him', code: 'him', blueprint: 'him', dream: 'him', listening: 'social', people: 'social', charisma: 'social', aura: 'social', icons: 'social', focus: 'discipline', morning: 'routine', night: 'routine',
 };
 function resolveTab(t: string | null): Tab | null {
   if (!t) return null;
@@ -19,11 +19,10 @@ function resolveTab(t: string | null): Tab | null {
 }
 
 const TABS: { id: Tab; label: string }[] = [
-  { id: 'him', label: '★ Becoming Him' },
+  { id: 'him', label: '★ Start Here' },
   { id: 'notes', label: 'My Notes' },
-  { id: 'playbook', label: 'The Playbook' },
   { id: 'know', label: 'Know Yourself' },
-  { id: 'social', label: 'Charisma & Presence' },
+  { id: 'social', label: 'People & Charisma' },
   { id: 'confidence', label: 'Confidence' },
   { id: 'discipline', label: 'Discipline' },
   { id: 'routine', label: 'Morning & Night' },
@@ -205,17 +204,17 @@ export default function Mind() {
   return (
     <main className="min-h-screen bg-transparent bg-gradient-to-b from-pink-950/40 via-transparent to-transparent text-white pb-24">
       <div className="max-w-2xl mx-auto px-5 pt-6">
-        <SectionHeader icon={Brain} title="Mind" subtitle="Start with Becoming Him. Everything else is the detail behind it." />
+        <SectionHeader icon={Brain} title="Mind" subtitle="Start Here is the whole section on one screen. The other tabs are the detail." />
 
         <TabBar tabs={TABS} active={tab} onChange={setTab} />
 
-        {/* ============ BECOMING HIM — the whole person, every pillar ============ */}
+        {/* ============ START HERE — the whole section on one screen ============ */}
         {tab === 'him' && (
           <div className="fade-up stagger space-y-4">
             <Tldr points={[
               'The guy people are in awe of is not chasing anything. He has a full life — training, mates, uni, a plan — and people want in on it.',
-              'Go out to have a good night, not to get a girl. Bring the energy instead of looking for approval, and the girls come with it.',
-              'Your mate is not magic. He has done hundreds more reps. Reps are the one gap you can close fastest.',
+              'Confident is keeping promises to yourself. Charismatic is making people feel heard. Both are habits, not personality.',
+              'Slow down, be warm first, listen properly, and do one scared thing a day. That is ninety per cent of it.',
               'Knowing is not changing. Pick one thing, decide exactly when and where you will do it, make the old way harder, and never miss twice.',
             ]} />
 
@@ -226,7 +225,7 @@ export default function Mind() {
                 {([
                   ['Body', 'Trains four times a week, eats enough to grow, sleeps eight hours.', '+4-5kg lean, every lift up, a visibly different frame.', '/programs', 'Gym'],
                   ['Looks', 'A fresh cut every 3-4 weeks, skin routine twice a day, clothes that fit at 6ft 4.', 'Clear skin, a haircut picked for your face, a wardrobe of ten pieces that all work.', '/looksmax', 'Looks'],
-                  ['Social life', 'Talks to everyone, hosts things, knows people in several circles.', '50 new people met, two societies or teams, one thing hosted a month.', '/mind?tab=social', 'Charisma'],
+                  ['Social life', 'Talks to everyone, listens properly, hosts things, knows people in several circles.', '50 new people met, two societies or teams, one thing hosted a month.', '/mind?tab=social', 'People'],
                   ['Women', 'Goes out to have fun, starts conversations easily, shows interest without needing it back.', '100 conversations started, a handful of dates. Count attempts, not results.', '/mind?tab=secret', 'Game Plan'],
                   ['Uni', 'Turns up, does the work in focused blocks, is known by the lecturers.', 'A first or a high 2:1 pace, no all-nighters, nothing handed in late.', '/uni', 'Uni & Brain'],
                   ['Career and money', 'Has a direction, builds a skill people pay for, applies early.', 'CV done, 20 applications or one internship, one skill visibly better.', '/money', 'Money'],
@@ -245,93 +244,6 @@ export default function Mind() {
                 ))}
               </div>
             </div>
-
-            <GFold title="Actually changing — not just knowing" tag="Why you keep going back, and how to stop" defaultOpen>
-              <GCallout title="Why it keeps happening" text="Realising something feels like progress, so your brain gives you the reward without the change. But behaviour runs on cues and habits, not on what you understood last night. The old way is automatic; the new way is effort. Under stress or tiredness, automatic wins — unless you set it up so it cannot." />
-              <GPairs items={[
-                ['1. One change at a time', 'Ten new rules collapse in a week. Pick the one change that would fix the most, run it until it is automatic, then add the next. Slower on paper, far faster in real life.'],
-                ['2. Decide the when and where', 'Not "I will be more confident" but "When I walk into a seminar, I say hello to the person next to me." "When I get into bed, the phone goes on the desk." A fixed when-then plan roughly doubles follow-through compared with a goal on its own.'],
-                ['3. Make the old way harder', 'Change your surroundings, not your willpower. Delete the app, phone out of the bedroom, no snacks in your room, gym bag packed by the door. Add 20 seconds of hassle to the old habit and take 20 seconds away from the new one.'],
-                ['4. Replace it, do not just remove it', 'Every old habit does a job: boredom, stress, loneliness, avoiding something. Work out the job, then give it a new route. Bored at night → a walk or a call with a mate. Stressed → a 10-minute lock-in. A gap left empty gets refilled by the old habit.'],
-                ['5. Act as him before you feel like him', 'Ask "what would the guy I am becoming do right now?" and do that, even when you do not feel like it. Every time you do, it is a vote for the new identity. Feelings catch up with actions, never the other way round.'],
-                ['6. Ride out the urge', 'Urges peak and fade, usually within 15-20 minutes. When one hits, wait ten minutes and do something physical. You do not have to beat it forever, only for the next ten minutes.'],
-                ['7. Never miss twice', 'A slip is not a relapse. The danger is the thought "I have blown it now", which turns one bad day into a bad month. Miss once, and the very next chance you get, do the new thing — even a smaller version.'],
-                ['8. Keep the evidence', 'Write one line every night of what you did, not what you meant to do (the evidence log in Know Yourself). Seeing a run of proof is what makes the new you feel real, and it shows you exactly when you slip.'],
-                ['9. Tell someone', 'Tell a mate the one thing you are changing and ask them to check in on Sunday. Being accountable to someone else is one of the strongest levers there is.'],
-                ['10. Give it the time it actually takes', 'New habits take around two months on average to feel automatic, and some take much longer. Weeks 2-4 are where most people quit, because the novelty has gone and it is not automatic yet. Expect that dip and push through it.'],
-              ]} />
-              <GCallout tone="emerald" title="Tonight" text="Write the one change on your Home week goals as a when-then sentence. Remove one thing that makes the old way easy. Tell one mate. That is the whole start." />
-              <GCallout tone="red" title="When it is more than a habit" text="If the thing you keep going back to feels out of your control (porn, gambling, drinking, weed), or comes with low mood that will not lift, that is not a willpower problem. Your GP or uni wellbeing service can refer you to CBT, which works well for exactly this, and it is free." />
-              <Link to="/mind?tab=know" className="block text-xs text-pink-300 hover:underline">Open Know Yourself — values, leaks and your evidence log →</Link>
-            </GFold>
-
-            <GFold title="Go out to have fun — not to get something" tag="The single biggest shift">
-              <GPairs items={[
-                ['The goal of the night is a great night', 'Dance badly, take the mick out of your mates, talk to the bouncer, start the chant. If you go home having had the best night in the room, it was a win whoever you met.'],
-                ['Give energy, do not look for it', 'Approval-seeking is going out to take something: attention, validation, a number. The guy everyone notices is the one adding to the night. People are drawn to that, girls included.'],
-                ['Girls are part of the night, not the point of it', 'Talk to them the way you talk to everyone else: warmly, curious, a bit cheeky. When she is not the whole mission, there is no pressure in your voice, and that is what she picks up on.'],
-                ['Your mates come first', 'Hype them, open groups for them, be the one who keeps the group moving. Being the centre of a fun group does more for you than any line.'],
-              ]} />
-              <GLists leftTitle="APPROVAL-SEEKING" rightTitle="UNBOTHERED"
-                left={[
-                  'Laughing at jokes that are not funny',
-                  'Checking whether people are looking at you',
-                  'Over-explaining, apologising, filling every silence',
-                  'Changing your opinion to agree with the room',
-                  'The whole night riding on one girl',
-                  'Checking whether she has texted back',
-                ]}
-                right={[
-                  'Laughing when you find it funny',
-                  'Watching the room because you are interested',
-                  'Saying it once, then letting the silence sit',
-                  'Disagreeing with a smile',
-                  'A good night whatever happens',
-                  'Getting on with your day; she fits around it',
-                ]} />
-            </GFold>
-
-            <GFold title="Why your mate cracks it and you do not (yet)" tag="Find where it breaks, fix that one thing">
-              <GPairs items={[
-                ['He has done more reps', 'Good chat is not a gift. It is hundreds of conversations where he stopped caring how each one went. You can close that gap in a term.'],
-                ['Find where yours breaks', 'Not starting conversations → reps and the warm-up. Starting but it goes flat → statements, teasing, going deeper. Good chat but nothing comes of it → show intent and ask for the number at the peak. Numbers that go nowhere → a plan in the first text. Each one has a fix in Game Plan.'],
-                ['Go out with him and watch', 'Do not copy his lines. Watch his pace, how he stands, how quickly he moves on after a no. Then ask him what he is thinking when he walks over. It is usually "nothing".'],
-                ['Stop comparing, start counting', 'Comparing makes you hesitate. Count your own attempts each week and watch that number, not his results.'],
-              ]} />
-              <Link to="/mind?tab=secret" className="block text-xs text-pink-300 hover:underline">Open the Game Plan — the warm-up, momentum rules, what to say and texting →</Link>
-            </GFold>
-
-            <GFold title="Being known around uni" tag="Status is earned in public, slowly, then all at once">
-              <GPairs items={[
-                ['Be in more than one circle', 'Course mates, a sports team (football or padel), a society, the gym. Someone known in four circles is "everyone knows him".'],
-                ['Host things', 'Pres, a five-a-side, a Sunday roast, a group revision session. The person who organises things becomes the centre of them.'],
-                ['Connect people', 'Introduce people who should know each other. You become the link everyone owes a good night to.'],
-                ['Names and follow-ups', 'Remember names and one thing about each person, and ask about it next time. Most people do neither; it makes you stand out instantly.'],
-                ['Be visibly good at something', 'Top scorer, the strongest in the gym, the one who gets firsts, the one building a business. Respect sticks to competence.'],
-                ['Never gossip, never punch down', 'Status built on putting people down disappears fast. Be the guy who is good to everyone, including the people who cannot do anything for you.'],
-              ]} />
-            </GFold>
-
-            <GFold title="The 90 days" tag="Foundations, then volume, then leverage">
-              <GPairs items={[
-                ['Month 1 — foundations', 'Train four times a week, eat to your target, skin routine, a proper haircut, sort the wardrobe, sleep on a schedule. One social rep a day. A study timetable you actually keep.'],
-                ['Month 2 — volume', 'Out one or two nights a week to have fun, ten hellos a night. Join two societies or a team. Host one thing. CV finished.'],
-                ['Month 3 — leverage', 'Ask girls out from the conversations you are having. Take on a role: captain, committee, organiser. Applications out. By now people know who you are.'],
-                ['Every Sunday, five numbers', 'Gym sessions, conversations started, new people met, hours of focused work, nights you genuinely enjoyed. Write them as week goals on Home and beat last week.'],
-              ]} />
-              <GCallout title="The honest bit" text="Nobody is admired by everyone, and chasing that is just approval-seeking with extra steps. Aim to be respected by the people you respect. Keep the standards, do the reps, and the reputation comes after — usually later than you want, then faster than you expect." />
-            </GFold>
-          </div>
-        )}
-
-        {/* ============ THE PLAYBOOK — the whole section on one screen ============ */}
-        {tab === 'playbook' && (
-          <div className="fade-up stagger space-y-4">
-            <Tldr points={[
-              'Confident is keeping promises to yourself. Charismatic is making other people feel good around you. Both are habits, not personality.',
-              'Slow down, be warm first, listen properly, and do one scared thing a day. That is ninety per cent of it.',
-              'Want things without needing them. Count what you did, not how it went.',
-            ]} />
 
             <div className="bg-[#111] border border-pink-500/25 rounded-2xl p-5">
               <h3 className="font-bold text-pink-200 mb-1">The eight rules</h3>
@@ -373,16 +285,45 @@ export default function Mind() {
               ['You feel small next to someone', 'Slow your speech, drop your shoulders, ask them a real question. Curiosity is the fastest way out of comparison.'],
             ]} />
 
+            <GFold title="Actually changing — not just knowing" tag="Why you keep going back, and how to stop">
+              <GCallout title="Why it keeps happening" text="Realising something feels like progress, so your brain gives you the reward without the change. But behaviour runs on cues and habits, not on what you understood last night. The old way is automatic; the new way is effort. Under stress or tiredness, automatic wins — unless you set it up so it cannot." />
+              <GPairs items={[
+                ['1. One change at a time', 'Ten new rules collapse in a week. Pick the one change that would fix the most, run it until it is automatic, then add the next. Slower on paper, far faster in real life.'],
+                ['2. Decide the when and where', 'Not "I will be more confident" but "When I walk into a seminar, I say hello to the person next to me." "When I get into bed, the phone goes on the desk." A fixed when-then plan roughly doubles follow-through compared with a goal on its own.'],
+                ['3. Make the old way harder', 'Change your surroundings, not your willpower. Delete the app, phone out of the bedroom, no snacks in your room, gym bag packed by the door. Add 20 seconds of hassle to the old habit and take 20 seconds away from the new one.'],
+                ['4. Replace it, do not just remove it', 'Every old habit does a job: boredom, stress, loneliness, avoiding something. Work out the job, then give it a new route. Bored at night → a walk or a call with a mate. Stressed → a 10-minute lock-in. A gap left empty gets refilled by the old habit.'],
+                ['5. Act as him before you feel like him', 'Ask "what would the guy I am becoming do right now?" and do that, even when you do not feel like it. Every time you do, it is a vote for the new identity. Feelings catch up with actions, never the other way round.'],
+                ['6. Ride out the urge', 'Urges peak and fade, usually within 15-20 minutes. When one hits, wait ten minutes and do something physical. You do not have to beat it forever, only for the next ten minutes.'],
+                ['7. Never miss twice', 'A slip is not a relapse. The danger is the thought "I have blown it now", which turns one bad day into a bad month. Miss once, and the very next chance you get, do the new thing — even a smaller version.'],
+                ['8. Keep the evidence', 'Write one line every night of what you did, not what you meant to do (the evidence log in Know Yourself). Seeing a run of proof is what makes the new you feel real, and it shows you exactly when you slip.'],
+                ['9. Tell someone', 'Tell a mate the one thing you are changing and ask them to check in on Sunday. Being accountable to someone else is one of the strongest levers there is.'],
+                ['10. Give it the time it actually takes', 'New habits take around two months on average to feel automatic, and some take much longer. Weeks 2-4 are where most people quit, because the novelty has gone and it is not automatic yet. Expect that dip and push through it.'],
+              ]} />
+              <GCallout tone="emerald" title="Tonight" text="Write the one change on your Home week goals as a when-then sentence. Remove one thing that makes the old way easy. Tell one mate. That is the whole start." />
+              <GCallout tone="red" title="When it is more than a habit" text="If the thing you keep going back to feels out of your control (porn, gambling, drinking, weed), or comes with low mood that will not lift, that is not a willpower problem. Your GP or uni wellbeing service can refer you to CBT, which works well for exactly this, and it is free." />
+              <Link to="/mind?tab=know" className="block text-xs text-pink-300 hover:underline">Open Know Yourself — values, leaks and your evidence log →</Link>
+            </GFold>
+
+            <GFold title="The 90 days" tag="Foundations, then volume, then leverage">
+              <GPairs items={[
+                ['Month 1 — foundations', 'Train four times a week, eat to your target, skin routine, a proper haircut, sort the wardrobe, sleep on a schedule. One social rep a day. A study timetable you actually keep.'],
+                ['Month 2 — volume', 'Out one or two nights a week to have fun, ten hellos a night. Join two societies or a team. Host one thing. CV finished.'],
+                ['Month 3 — leverage', 'Ask girls out from the conversations you are having. Take on a role: captain, committee, organiser. Applications out. By now people know who you are.'],
+                ['Every Sunday, five numbers', 'Gym sessions, conversations started, new people met, hours of focused work, nights you genuinely enjoyed. Write them as week goals on Home and beat last week.'],
+              ]} />
+              <GCallout title="The honest bit" text="Nobody is admired by everyone, and chasing that is just approval-seeking with extra steps. Aim to be respected by the people you respect. Keep the standards, do the reps, and the reputation comes after — usually later than you want, then faster than you expect." />
+            </GFold>
+
             <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
-              <h3 className="font-bold mb-3">Go deeper — only when you need it</h3>
+              <h3 className="font-bold mb-3">Where everything lives</h3>
               <div className="space-y-2">
                 {([
-                  ['know', 'Know Yourself', 'Your values, standards, evidence log and a personal plan built from them'],
-                  ['social', 'Charisma & Presence', 'Voice, body language, humour, listening, frame'],
-                  ['confidence', 'Confidence', 'Where it comes from, nerves, self-talk, security'],
+                  ['notes', 'My Notes', 'Your own rules, three a day, and the affirmations'],
+                  ['know', 'Know Yourself', 'Values, standards, evidence log and your personal plan'],
+                  ['social', 'People & Charisma', 'Active listening, conversation, voice, humour, frame, going out'],
+                  ['confidence', 'Confidence', 'Rejection therapy, nerves, self-talk, approval detox'],
                   ['discipline', 'Discipline', 'Dopamine, deep work, controlling emotions, the stoics'],
                   ['routine', 'Morning & Night', 'The routines that make the rest easy'],
-                  ['notes', 'My Notes', 'Your own rules, three a day'],
                   ['secret', 'Game Plan', 'Girls, clubs, texting, dates'],
                 ] as [Tab, string, string][]).map(([id, label, desc]) => (
                   <button key={id} onClick={() => { setTab(id); window.scrollTo(0, 0); }}
@@ -422,22 +363,51 @@ export default function Mind() {
           </div>
         )}
 
-        {/* ============ CHARISMA & PRESENCE ============ */}
+        {/* ============ PEOPLE & CHARISMA — listening first, then everything social ============ */}
         {tab === 'social' && (
           <div className="fade-up stagger space-y-3">
             <Tldr points={[
-              'Slow down everything — speech, walk, reactions. Calm reads as confident before you say a word.',
-              'Warm first: smile, eye contact, say hello before they do. Warmth plus composure is the whole formula.',
-              'Listen properly: stop queueing your reply, ask the follow-up, remember a detail and bring it up next time.',
+              'Listen to understand, not to reply. Make people feel heard and they will want to be around you.',
+              'Slow down everything — speech, walk, reactions. Warm first: smile, eye contact, say hello before they do.',
               'Hold your frame: do not over-explain, stay amused rather than wounded when you are teased.',
+              'Go out to have fun, treat girls like everyone else, and match their energy.',
             ]} />
-            <Card icon={Mic2} title="Voice and body language" items={[
-              ['Speak from the chest, slower', 'Lower and 20% slower than feels natural. Rushed, high speech is the most common tell of nerves.'],
-              ['End statements down', 'Rising at the end turns a statement into a request for approval.'],
-              ['Pause instead of filling', 'A one-second pause beats "um" and "like". Silence reads as composure.'],
-              ['Take up space calmly', 'Feet shoulder-width, shoulders down, hands still. Not puffed up — just not shrinking.'],
-              ['Eye contact', 'Hold it while you listen, break it sideways while you think. Looking down reads as submission.'],
-            ]} />
+            <GFold title="Active listening — the skill under all the others" tag="Make people feel heard and they will want you around" defaultOpen>
+              <GCallout title="Why it matters most" text="People rarely remember what you said; they remember how you made them feel, and nothing feels better than being properly heard. It also takes the pressure off you: you do not need to be interesting if you are interested." />
+              <GPairs items={[
+                ['Full attention', 'Phone away, not face-down on the table. Turn your body to them, eye contact around 60-70%, nod and react. They can tell within seconds whether you are really there.'],
+                ['Listen to understand, not to reply', 'If you are rehearsing your next line, you are not listening. Let it go — the right reply comes from what they actually said.'],
+                ['Let them talk 70-80%', 'Your job is to keep them going, not to fill the air. Short prompts — "no way", "then what?", "why?" — do more than speeches.'],
+                ['Follow the thread', 'Ask about what they just said, not a new topic. Go three questions deep: what happened → why → how did that feel. That is where conversations get good.'],
+                ['Reflect it back', 'Sum up in a few words: "So you basically got thrown in at the deep end." It proves you got it, and they will correct or add to it.'],
+                ['Name the feeling', '"Sounds like that properly stressed you out." Responding to the emotion, not just the facts, is what makes people feel understood.'],
+                ['Mirror the last words', 'Repeat their last two or three words as a question — "Thrown in at the deep end?" — and they will keep talking without you asking anything.'],
+                ['Let the pause breathe', 'Wait a second or two after they finish. People often add the real thing in that gap.'],
+                ['Do not hijack', '"That happened to me too" turns their story into yours. Ask a follow-up first; if you share your story, keep it shorter than theirs.'],
+                ['Do not fix unless asked', 'Most people want to be heard, not solved. "Do you want advice or just to vent?"'],
+                ['Remember and call back', 'Use their name, keep one detail, bring it up next time: "How did the interview go?" Nothing makes people feel more valued.'],
+              ]} />
+              <GLists leftTitle="KILLS IT" rightTitle="BUILDS IT"
+                left={[
+                  'Interrupting or finishing their sentences',
+                  'Checking your phone, even once',
+                  'Waiting for your turn to talk',
+                  'Steering every topic back to you',
+                  'Fixing when they wanted to vent',
+                  'Interview mode: question, question, question',
+                ]}
+                right={[
+                  'Leaning in, nodding, reacting for real',
+                  'Phone away for the whole conversation',
+                  'Asking about what they just said',
+                  'Their name and one remembered detail',
+                  'Naming how they felt about it',
+                  'Mixing questions with your own take',
+                ]} />
+              <GCallout tone="emerald" title="Daily drill" text="In one conversation a day: no phone, three follow-up questions before you mention yourself, and sum up what they said in one sentence before you reply. Two weeks of that and people will start saying you are easy to talk to." />
+              <GCallout title="With girls" text="Listening is not interviewing. Mix follow-ups with statements, teasing and your own opinion — curious and playful, not a questionnaire." />
+            </GFold>
+
             <Card icon={MessageCircle} title="Conversation" items={[
               ['Go deeper, not wider', 'Pick something they said and follow it: "Wait, why did you quit?" beats a new topic every time.'],
               ['Statements over questions', '"You seem like the one who plans every trip" invites play. "What do you do?" invites autopilot.'],
@@ -445,12 +415,12 @@ export default function Mind() {
               ['Stories: setup, tension, payoff', 'Cut everything that is none of those three. Thirty seconds, not three minutes.'],
               ['Leave on a high', 'End while it is still good. People remember the peak and the end.'],
             ]} />
-            <Card icon={Heart} title="Listening — the charisma nobody sees" items={[
-              ['Stop queueing your reply', 'If you are rehearsing what to say next, you are not listening. This one habit is most of it.'],
-              ['Follow up, do not switch', 'Ask about what they just said before you move on.'],
-              ['Do not hijack', '"That happened to me too" turns their story into yours. Save it.'],
-              ['Do not fix unless asked', 'Most people want to be heard, not solved. Ask: "Do you want advice or just to vent?"'],
-              ['Remember and call back', 'Bring up a detail days later. Nothing makes people feel more valued.'],
+            <Card icon={Mic2} title="Voice and body language" items={[
+              ['Speak from the chest, slower', 'Lower and 20% slower than feels natural. Rushed, high speech is the most common tell of nerves.'],
+              ['End statements down', 'Rising at the end turns a statement into a request for approval.'],
+              ['Pause instead of filling', 'A one-second pause beats "um" and "like". Silence reads as composure.'],
+              ['Take up space calmly', 'Feet shoulder-width, shoulders down, hands still. Not puffed up — just not shrinking.'],
+              ['Eye contact', 'Hold it while you listen, break it sideways while you think. Looking down reads as submission.'],
             ]} />
             <Card icon={Sparkles} title="Humour and banter" items={[
               ['Funny = truth, exaggerated', 'Say the true thing everyone noticed, then push it slightly too far.'],
@@ -471,6 +441,66 @@ export default function Mind() {
               ['Give status to get status', 'Bring quieter people in, credit others\' jokes. The one who elevates others is the one people follow.'],
               ['Restraint', 'Speak less than you want to, compliment rarely and precisely, keep confidences, do not narrate your life.'],
             ]} />
+            <GFold title="Being known around uni" tag="Status is earned in public, slowly, then all at once">
+              <GPairs items={[
+                ['Be in more than one circle', 'Course mates, a sports team (football or padel), a society, the gym. Someone known in four circles is "everyone knows him".'],
+                ['Host things', 'Pres, a five-a-side, a Sunday roast, a group revision session. The person who organises things becomes the centre of them.'],
+                ['Connect people', 'Introduce people who should know each other. You become the link everyone owes a good night to.'],
+                ['Names and follow-ups', 'Remember names and one thing about each person, and ask about it next time. Most people do neither; it makes you stand out instantly.'],
+                ['Be visibly good at something', 'Top scorer, the strongest in the gym, the one who gets firsts, the one building a business. Respect sticks to competence.'],
+                ['Never gossip, never punch down', 'Status built on putting people down disappears fast. Be the guy who is good to everyone, including the people who cannot do anything for you.'],
+              ]} />
+            </GFold>
+
+            <h2 className="font-hud text-[12px] font-bold uppercase tracking-[0.25em] text-pink-300/80 pt-3">Going out and girls</h2>
+            <GFold title="Go out to have fun — not to get something" tag="The single biggest shift">
+              <GPairs items={[
+                ['The goal of the night is a great night', 'Dance badly, take the mick out of your mates, talk to the bouncer, start the chant. If you go home having had the best night in the room, it was a win whoever you met.'],
+                ['Give energy, do not look for it', 'Approval-seeking is going out to take something: attention, validation, a number. The guy everyone notices is the one adding to the night. People are drawn to that, girls included.'],
+                ['Girls are part of the night, not the point of it', 'Talk to them the way you talk to everyone else: warmly, curious, a bit cheeky. When she is not the whole mission, there is no pressure in your voice, and that is what she picks up on.'],
+                ['Your mates come first', 'Hype them, open groups for them, be the one who keeps the group moving. Being the centre of a fun group does more for you than any line.'],
+              ]} />
+              <GLists leftTitle="APPROVAL-SEEKING" rightTitle="UNBOTHERED"
+                left={[
+                  'Laughing at jokes that are not funny',
+                  'Checking whether people are looking at you',
+                  'Over-explaining, apologising, filling every silence',
+                  'Changing your opinion to agree with the room',
+                  'The whole night riding on one girl',
+                  'Checking whether she has texted back',
+                ]}
+                right={[
+                  'Laughing when you find it funny',
+                  'Watching the room because you are interested',
+                  'Saying it once, then letting the silence sit',
+                  'Disagreeing with a smile',
+                  'A good night whatever happens',
+                  'Getting on with your day; she fits around it',
+                ]} />
+            </GFold>
+
+            <GFold title="Girls are just people — match the energy" tag="The pedestal is the problem, not your chat">
+              <GPairs items={[
+                ['Why you tense up', 'The pedestal comes from scarcity: when you rarely talk to girls, each one feels like a big deal. The cure is volume — talk to lots of girls in normal places (course, gym, shops) with no agenda at all, until they are just people again.'],
+                ['Same guy, every time', 'Same voice, same jokes, same energy you use with your mates. If your voice goes up, you get extra polite or you start performing when she shows up, that is the pedestal showing.'],
+                ['Match her energy', 'Chatty and playful? Go with it. Short answers and looking away? Do not chase or double up — ease off. Mirror her pace, her volume, how much she is giving. Lead one step warmer than her, never five steps.'],
+                ['If she drops off, you drop back', 'Interest is a two-way thing. If she stops investing, stop investing too, and leave it with a smile. That is not playing games; it is self-respect.'],
+                ['Texting too', 'Similar length, similar speed, similar effort. Three messages to her one is chasing.'],
+                ['You can disagree with her', 'Tease her, say no, have your own opinion. She is a person, not a prize to be careful around.'],
+                ['Normal does not mean less respect', 'Treat her exactly like anyone you respect — no more, no less. Want her, do not need her.'],
+              ]} />
+              <Link to="/mind?tab=secret" className="block text-xs text-pink-300 hover:underline">The Game Plan has the club, approach and texting detail →</Link>
+            </GFold>
+            <GFold title="Why your mate cracks it and you do not (yet)" tag="Find where it breaks, fix that one thing">
+              <GPairs items={[
+                ['He has done more reps', 'Good chat is not a gift. It is hundreds of conversations where he stopped caring how each one went. You can close that gap in a term.'],
+                ['Find where yours breaks', 'Not starting conversations → reps and the warm-up. Starting but it goes flat → statements, teasing, going deeper. Good chat but nothing comes of it → show intent and ask for the number at the peak. Numbers that go nowhere → a plan in the first text. Each one has a fix in Game Plan.'],
+                ['Go out with him and watch', 'Do not copy his lines. Watch his pace, how he stands, how quickly he moves on after a no. Then ask him what he is thinking when he walks over. It is usually "nothing".'],
+                ['Stop comparing, start counting', 'Comparing makes you hesitate. Count your own attempts each week and watch that number, not his results.'],
+              ]} />
+              <Link to="/mind?tab=secret" className="block text-xs text-pink-300 hover:underline">Open the Game Plan — the warm-up, momentum rules, what to say and texting →</Link>
+            </GFold>
+
             <Collapsible title="Icons — steal one trait" tag="Pick one, study it for a month">
               <div className="space-y-3 text-sm">
                 {[
@@ -516,18 +546,6 @@ export default function Mind() {
               ]} />
             </GFold>
 
-            <GFold title="Girls are just people — match the energy" tag="The pedestal is the problem, not your chat">
-              <GPairs items={[
-                ['Why you tense up', 'The pedestal comes from scarcity: when you rarely talk to girls, each one feels like a big deal. The cure is volume — talk to lots of girls in normal places (course, gym, shops) with no agenda at all, until they are just people again.'],
-                ['Same guy, every time', 'Same voice, same jokes, same energy you use with your mates. If your voice goes up, you get extra polite or you start performing when she shows up, that is the pedestal showing.'],
-                ['Match her energy', 'Chatty and playful? Go with it. Short answers and looking away? Do not chase or double up — ease off. Mirror her pace, her volume, how much she is giving. Lead one step warmer than her, never five steps.'],
-                ['If she drops off, you drop back', 'Interest is a two-way thing. If she stops investing, stop investing too, and leave it with a smile. That is not playing games; it is self-respect.'],
-                ['Texting too', 'Similar length, similar speed, similar effort. Three messages to her one is chasing.'],
-                ['You can disagree with her', 'Tease her, say no, have your own opinion. She is a person, not a prize to be careful around.'],
-                ['Normal does not mean less respect', 'Treat her exactly like anyone you respect — no more, no less. Want her, do not need her.'],
-              ]} />
-              <Link to="/mind?tab=secret" className="block text-xs text-pink-300 hover:underline">The Game Plan has the club, approach and texting detail →</Link>
-            </GFold>
             <Card icon={Flame} title="Where it actually comes from" items={[
               ['Evidence', 'Every kept promise to yourself is proof you can rely on you. Affirmations without evidence do not hold.'],
               ['Competence', 'Get good at something hard — lifting, football, a skill that pays. Competence spills into everything.'],

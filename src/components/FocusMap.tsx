@@ -38,12 +38,11 @@ const GOALS: Goal[] = [
     { to: '/looksmax?tab=techniques', label: 'Looks → Body & Habits', why: 'Body fat, debloat, sleep' },
   ] },
   { id: 'girls', label: 'Girls & confidence', dests: [
-    { to: '/mind?tab=him', label: 'Mind → Becoming Him', why: 'The six pillars, going out for fun, being known at uni, the 90 days' },
+    { to: '/mind?tab=him', label: 'Mind → Start Here', why: 'Six pillars, the eight rules, actually changing, the 90 days' },
     { to: '/mind?tab=notes', label: 'Mind → My Notes', why: 'Your own rules, organised, three a day' },
-    { to: '/mind?tab=playbook', label: 'Mind → The Playbook', why: 'The confident, charismatic guy on one screen' },
     { to: '/mind?tab=secret', label: 'Mind → Game Plan', why: 'Clubs, approaching, texting, dates' },
-    { to: '/mind?tab=confidence', label: 'Mind → Confidence', why: 'Unbothered, no matter what' },
-    { to: '/mind?tab=social', label: 'Mind → Charisma & Presence', why: 'Voice, humour, listening, frame' },
+    { to: '/mind?tab=confidence', label: 'Mind → Confidence', why: 'Rejection therapy, nerves, unbothered' },
+    { to: '/mind?tab=social', label: 'Mind → People & Charisma', why: 'Active listening, voice, humour, frame, going out, girls as normal' },
   ] },
   { id: 'discipline', label: 'Discipline & no distractions', dests: [
     { to: '/mind?tab=know', label: 'Mind → Know Yourself', why: 'Your values, leaks and personal plan' },
