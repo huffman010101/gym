@@ -232,4 +232,7 @@ export const DAILY: string[] = [
   'You vs you. No comparing.',
   'Visualise it going well before you do it.',
   'Let go and have fun. It is in God\'s hands.',
+  'Go and get one no today. Every attempt is a win.',
+  'Match her energy. Lead one step warmer, never five.',
+  'Same voice, same jokes with girls as with your mates.',
 ];

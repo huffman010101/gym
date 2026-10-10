@@ -495,7 +495,39 @@ export default function Mind() {
               'Do one scared thing a day. Nerves shrink with reps, never with more thinking.',
               'Stop outsourcing your worth: decide your standards before the moment, then act on them.',
               'Talk to yourself like a coach: second person, specific, never "I am an idiot".',
+              'Rejection therapy: go and collect one "no" a day. The fear only dies through reps.',
             ]} />
+
+            <GFold title="Rejection therapy — kill the fear" tag="Go looking for a no, every day, for 30 days" defaultOpen>
+              <GCallout title="Why it works" text="Fear of rejection is learned, and it is un-learned the same way every fear is: repeated, gradual exposure until your body stops treating a no as a threat. Thinking about it never shrinks it. Doing it does — usually within two or three weeks." />
+              <GPairs items={[
+                ['The goal is the no', 'You are not trying to get a yes. You are collecting nos. Every attempt counts as a win, whatever the answer. That takes the outcome out of your hands and the fear with it.'],
+                ['Week 1 — easy', 'Ask a stranger for directions or the time. Say hello to five people. Give one genuine compliment to a stranger.'],
+                ['Week 2 — a bit awkward', 'Ask for a discount on your coffee. Ask someone for a recommendation and keep the chat going. Ask a stranger to take your photo.'],
+                ['Week 3 — properly uncomfortable', 'Start a conversation with someone in a lecture, at the gym or in a queue. Make an odd request (ask for a free refill on something that does not have one). Sit with a group you do not know.'],
+                ['Week 4 — the real ones', 'Stop a girl in the day just to say hi and tell her she looks good. Ask for a number. Ask someone out.'],
+                ['The rules', 'Do it within three seconds of thinking of it. Be polite. Take every no with a smile — "no worries, have a good one" — and never push past it. Move up a level when the current one stops scaring you.'],
+                ['Log it', 'One line in your evidence log each night: what you asked, what happened. Seeing the count go up is proof you are not that guy any more.'],
+              ]} />
+              <GPairs items={[
+                ['What you will find out', 'Most people are nicer than you expect. A no stings for about a minute. After ten of them you will barely feel it.'],
+                ['What a no actually means', '"Not this, not now" — not "not you". She does not know you. A rejection from a stranger is a verdict on two seconds, not on your life.'],
+                ['After a no', 'Smile, walk away slowly, and start another conversation within sixty seconds. Rejection only sticks if you stop moving.'],
+              ]} />
+            </GFold>
+
+            <GFold title="Girls are just people — match the energy" tag="The pedestal is the problem, not your chat">
+              <GPairs items={[
+                ['Why you tense up', 'The pedestal comes from scarcity: when you rarely talk to girls, each one feels like a big deal. The cure is volume — talk to lots of girls in normal places (course, gym, shops) with no agenda at all, until they are just people again.'],
+                ['Same guy, every time', 'Same voice, same jokes, same energy you use with your mates. If your voice goes up, you get extra polite or you start performing when she shows up, that is the pedestal showing.'],
+                ['Match her energy', 'Chatty and playful? Go with it. Short answers and looking away? Do not chase or double up — ease off. Mirror her pace, her volume, how much she is giving. Lead one step warmer than her, never five steps.'],
+                ['If she drops off, you drop back', 'Interest is a two-way thing. If she stops investing, stop investing too, and leave it with a smile. That is not playing games; it is self-respect.'],
+                ['Texting too', 'Similar length, similar speed, similar effort. Three messages to her one is chasing.'],
+                ['You can disagree with her', 'Tease her, say no, have your own opinion. She is a person, not a prize to be careful around.'],
+                ['Normal does not mean less respect', 'Treat her exactly like anyone you respect — no more, no less. Want her, do not need her.'],
+              ]} />
+              <Link to="/mind?tab=secret" className="block text-xs text-pink-300 hover:underline">The Game Plan has the club, approach and texting detail →</Link>
+            </GFold>
             <Card icon={Flame} title="Where it actually comes from" items={[
               ['Evidence', 'Every kept promise to yourself is proof you can rely on you. Affirmations without evidence do not hold.'],
               ['Competence', 'Get good at something hard — lifting, football, a skill that pays. Competence spills into everything.'],
