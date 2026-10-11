@@ -10,10 +10,11 @@ import JarvisHud, { BatMark } from '../components/Jarvis';
 import BottomNav from '../components/BottomNav';
 import FocusMap from '../components/FocusMap';
 import DailyPlan from '../components/DailyPlan';
+import MindFocus from '../components/MindFocus';
 import SyncPanel from '../components/SyncPanel';
 
 /*
- * Home is J.A.R.V.I.S., your daily plan, and the way into every section.
+ * Home is J.A.R.V.I.S., the Mind protocol, your daily plan, and the way into every section.
  * Routines live in Mind; there are no reminders or notifications.
  */
 
@@ -52,6 +53,11 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-transparent text-white pb-24">
       <JarvisHud />
+
+      {/* The Mind protocol — one focus, lived daily */}
+      <section className="px-5 pb-5 max-w-4xl mx-auto">
+        <MindFocus />
+      </section>
 
       {/* Today's plan and tomorrow's */}
       <section className="px-5 pb-5 max-w-4xl mx-auto">

@@ -4,6 +4,7 @@ import { lockinLog } from './LockIn';
 import { localDate, loadWeekGoals } from './DailyPlan';
 import { loadWhoop, latest, zoneOf, todaysSession, todayKey as whoopToday } from '../lib/whoop';
 import { dailyCheckIn } from '../lib/generators';
+import { focusSummary } from './MindFocus';
 
 const todayStr = () => new Date().toISOString().split('T')[0];
 const cacheKey = () => `gymforge_checkin_${todayStr()}`;
@@ -30,6 +31,7 @@ function buildSummary(): string {
       lines.push(`today's plan: ${plan.priorities.filter((_, i) => doneMap[i]).length}/${plan.priorities.length} priorities done`);
     }
   } catch { /* ignore */ }
+  lines.push(focusSummary());
   const goals = loadWeekGoals();
   if (goals.length) lines.push(`this week's goals: ${goals.join('; ')}`);
   return lines.join('\n');

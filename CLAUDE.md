@@ -94,6 +94,8 @@ Vite + React 18 + TypeScript SPA, **HashRouter** (required for GitHub Pages), Ta
   today's priorities, week goals (`gymforge_week_<Monday>`; on Sunday they target the coming week) and a
   7-day strip. Every day uses `gymforge_plan_<YYYY-MM-DD>` in LOCAL dates, so a planned day becomes
   that day's plan automatically. Housekeeping deletes only past days — never future ones.
+  `MindFocus` sits above it: one Mind focus at a time (`gymforge_mindfocus`), a daily rep and trigger, and a
+  one-tap evening answer (`gymforge_mindfocus_log`) that also feeds the J.A.R.V.I.S. check-in prompt.
 
 ### Theme and the command screen
 
@@ -139,7 +141,7 @@ silently destroys any content containing a stray `<`, e.g. "PED < 1".
 
 ### Offline / service worker
 
-`public/sw.js` (cache `gymforge-v53`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
+`public/sw.js` (cache `gymforge-v54`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
 asset list can only be known post-build — `scripts/inject-sw-precache.mjs` injects it into
 `dist/sw.js`. Any change to the build output pipeline needs that script to still run last.
 
