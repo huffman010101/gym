@@ -3,14 +3,16 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Banknote, TrendingUp, Laptop, Rocket, AlertTriangle, ChevronDown, Brain } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import { SectionHeader, TabBar, OneThing } from '../components/Hud';
+import { BRAND_GUIDE, BRAND_STEPS } from '../data/clothingBrand';
 
-type Tab = 'skills' | 'online' | 'launch' | 'invest' | 'trading' | 'tax' | 'econ' | 'mindset';
+type Tab = 'skills' | 'online' | 'launch' | 'brand' | 'invest' | 'trading' | 'tax' | 'econ' | 'mindset';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'mindset', label: 'Start Here' },
   { id: 'skills', label: 'Skills' },
   { id: 'online', label: 'Online Income' },
   { id: 'launch', label: 'Launch a Business' },
+  { id: 'brand', label: 'Clothing Brand' },
   { id: 'invest', label: 'Investing' },
   { id: 'tax', label: 'Tax' },
   { id: 'trading', label: 'Trading' },
@@ -69,13 +71,13 @@ export default function Money() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['skills', 'online', 'launch', 'invest', 'trading', 'tax', 'econ', 'mindset'] as const).includes(t as Tab) ? (t as Tab) : 'mindset';
+    return (['skills', 'online', 'launch', 'brand', 'invest', 'trading', 'tax', 'econ', 'mindset'] as const).includes(t as Tab) ? (t as Tab) : 'mindset';
   });
   // Follow ?tab= changes while already on this page (links between its own
   // tabs), not just on first mount.
   useEffect(() => {
     const t = params.get('tab');
-    if (t && (['skills', 'online', 'launch', 'invest', 'trading', 'tax', 'econ', 'mindset'] as const).includes(t as Tab)) setTab(t as Tab);
+    if (t && (['skills', 'online', 'launch', 'brand', 'invest', 'trading', 'tax', 'econ', 'mindset'] as const).includes(t as Tab)) setTab(t as Tab);
   }, [params]);
 
   return (
@@ -215,38 +217,10 @@ export default function Money() {
               ['Ask for the referral', '"Who else do you know who needs this?" at the moment they\'re happiest (delivery day). Referred customers close 4× easier.'],
               ['Systemise then scale', 'Write down your delivery process → templatise → raise prices → productise into packages → (much later) hire delivery help. Each step only after the previous is boring-reliable.'],
             ]} />
-            <Fold title="Starting an Activewear Brand" tag="Short sets · tracksuits · hats — the real path" items={[
-              ['The honest reality first', 'Clothing is a brutal, crowded market with real upfront cost and real inventory risk. What actually sells is not "nice designs" — it is a BRAND people want to belong to. Gymshark started as a teenager screen-printing in a garage with an audience built first. The audience is the moat; the clothes are the product.'],
-              ['Build the audience BEFORE the stock', 'This is the single biggest lever and where most people get it backwards. Document your training, your physique journey, your football — build 5-10k engaged followers who care what you wear. Then your first drop sells out to people who already trust you, instead of you begging strangers on ads.'],
-              ['Start with ONE product, not a range', 'A short set OR a hat. Not both, not five colourways. One product proves the whole chain — supplier, quality, sizing, shipping, returns — with the least money at risk. Range expansion comes after something sells out.'],
-              ['Hats are the smartest first product', 'Low unit cost (roughly £4-9), one-size-fits-all so no sizing nightmare, cheap to ship, high margin, and people wear them in photos which markets you for free. Embroidered 6-panel or trucker caps are the classic low-risk entry.'],
-              ['Then short sets and tracksuits', 'Higher ticket and higher margin, but far harder: sizing across S-XXL, fabric weight and stretch matter enormously, and colour matching between top and bottom is where cheap manufacturers fail. Only attempt once a simpler product has proven your supply chain.'],
-            ]} />
-            <Fold title="Activewear — how to actually make the product" tag="From idea to physical stock" items={[
-              ['Level 1 — Print on demand (zero risk, low margin)', 'Printful, Printify. They print and ship per order; you never hold stock. Margins are thin and quality is average, but it costs almost nothing to test whether ANYONE wants your brand. Perfect for validating designs before spending money.'],
-              ['Level 2 — Blanks + custom decoration (the real starting point)', 'Buy quality blank garments (AS Colour, Stanley/Stella, Gildan for cheap) and get them screen-printed or embroidered locally. Roughly £8-15 all-in per unit, sell at £30-45. Order 25-50 units. This is where most credible small brands actually begin.'],
-              ['Level 3 — Custom manufacturing (real brand territory)', 'Your own patterns, fabric, cut and labels via Alibaba, or manufacturers in Portugal, Turkey, China or Bangladesh. Minimum order quantities are typically 100-300 per style per colour. This is where quality becomes genuinely yours — and where you can lose thousands if you skip samples.'],
-              ['ALWAYS order samples first', 'Non-negotiable. Get samples from 3-5 suppliers before any bulk order. Wash them, train in them, stretch them. Photos lie constantly, and the £100 you spend on samples is what stops a £3,000 mistake in unsellable stock.'],
-              ['Fabric is what people feel', 'For activewear: fabric weight (GSM), stretch and recovery, and whether it goes see-through when stretched — the classic killer for squat-proof bottoms. Cheap poly that pills after three washes destroys a brand faster than bad design ever will.'],
-              ['Get the labels right', 'Woven neck labels, hem tags, custom polybags. This is what separates "a printed blank" from a brand people will pay £45 for. Cheap to add at manufacture, near impossible to retrofit.'],
-            ]} />
-            <Fold title="Activewear — money, pricing & launch" tag="The numbers and the drop" items={[
-              ['Realistic startup budget', '£500-1,500 gets you a genuine first run: samples (~£150), 50-100 units of one product (~£600-900), labels and packaging (~£100), plus a Shopify subscription. Under £500 is possible with print-on-demand but the margins barely justify it.'],
-              ['Price at 3-5× your unit cost', 'Costs £10 to make, sell at £35-45. That margin is NOT greed — it has to absorb returns, damaged stock, free shipping, ad spend, and the units that never sell. Pricing at 2× is how clothing brands go broke while appearing busy.'],
-              ['The drop model beats always-in-stock', 'Limited quantities, announced date, sells out. It creates urgency, means you never sit on dead stock, and gives you a repeatable event to market. It is also far kinder on cash flow than trying to keep every size live year-round.'],
-              ['Pre-orders de-risk everything', 'Take orders BEFORE you manufacture. Customers fund the production run, and you learn exactly which sizes and colours to make. Be honest about the delivery window — late pre-orders with no communication kill new brands.'],
-              ['Store setup', 'Shopify (~£25/month) is the default and worth it. A clean product page with real photos on real people, honest sizing guide with actual measurements, and a plain returns policy. Sizing confusion is the number one cause of returns.'],
-              ['Photos are the entire product online', 'Nobody can feel your fabric — they judge on photos alone. Real people, natural light, in motion, in a gym or on a pitch. Your training content is already this. Bad photos will sink genuinely good product.'],
-              ['UK admin', 'Register as a sole trader with HMRC once past the £1,000 trading allowance (see the Tax tab). VAT registration is only required above the threshold, so ignore it early. Check the customs and import duty on overseas manufacturing — it catches people out badly on the first shipment.'],
-            ]} />
-            <Fold title="Activewear — why most brands die" tag="Learn these for free" items={[
-              ['They ordered 500 units of 5 products first', 'All the cash gone before knowing whether anyone wanted it. One product, small run, prove demand, reinvest. Boring, and it is the only version that survives.'],
-              ['They built a brand with no audience', 'A logo and a Shopify store is not a business. Without attention, you are paying ads to strangers with zero trust — the most expensive way possible to sell clothing.'],
-              ['They competed on price', 'You cannot out-cheap Shein or Amazon. Compete on identity, community and quality. People buy activewear to signal who they are, not because it was the cheapest.'],
-              ['Sizing chaos', 'Inconsistent sizing between runs causes mass returns and destroys trust permanently. Measure every sample, publish exact measurements, keep it identical across drops.'],
-              ['They quit after drop one', 'The first drop rarely sells out. Brands are built over years of consistent posting, iterating on product, and slowly growing a following. Treat drop one as tuition, not a verdict.'],
-              ['Your unfair advantage', 'You genuinely train — gym, football, Muay Thai, padel. You can test product in real conditions and speak credibly to people who do the same. That authenticity is exactly what the huge faceless brands cannot manufacture.'],
-            ]} />
+            <Link to="/money?tab=brand" onClick={() => setTab('brand')} className="block bg-[#111] border border-yellow-500/25 rounded-2xl px-5 py-4 hover:border-yellow-400/50">
+              <p className="font-bold text-yellow-200">Starting a clothing or activewear brand?</p>
+              <p className="text-xs text-gray-500 mt-0.5">It has its own tab now — brand, logo, garment design, tech pack, manufacturers and the 12-week launch. →</p>
+            </Link>
             <Fold title="Becoming a Model" tag="The real industry playbook" items={[
               ['The honest requirements', 'Fashion/runway has hard filters (typically 6\'0"-6\'3" for men, specific measurements). BUT commercial, fitness, and social-media modelling care about look, physique, grid and reliability — far more open, and where most working models actually earn.'],
               ['Your build path is this app', 'Fitness modelling = the physique (Gym), the skin/grooming (Looks), the style (Style tab). 10-14% body fat, good posture, great skin photographs like a career.'],
@@ -260,6 +234,69 @@ export default function Money() {
         )}
 
         {/* ===== INVESTING ===== */}
+        {/* ============ CLOTHING BRAND — idea to first drop ============ */}
+        {tab === 'brand' && (
+          <div className="fade-up stagger space-y-3">
+            <OneThing points={[
+              'Audience first, one hero product, samples always. The logo is the badge; the brand is who it is for and what it stands for.',
+              'A clothing logo must work in one colour, tiny, and embroidered on a cap. Sketch 50, vectorise 3, test 1.',
+              'No tech pack, no product: exact measurements, fabric GSM, Pantone colours and logo placement in centimetres.',
+            ]} />
+            <div className="bg-[#111] border border-yellow-500/25 rounded-2xl p-4">
+              <p className="font-hud text-[11px] font-bold uppercase tracking-[0.2em] text-yellow-300 mb-2.5">The six steps</p>
+              <div className="grid grid-cols-2 gap-2">
+                {BRAND_STEPS.map(([t, d]) => (
+                  <div key={t} className="rounded-xl bg-black/30 px-3 py-2">
+                    <p className="text-xs font-bold text-yellow-100">{t}</p>
+                    <p className="text-[11px] text-gray-500 leading-snug">{d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <Fold title="The honest start" tag="Audience first, one product, hats are the smart first move" items={[
+              ['The honest reality first', 'Clothing is a brutal, crowded market with real upfront cost and real inventory risk. What actually sells is not "nice designs" — it is a BRAND people want to belong to. Gymshark started as a teenager screen-printing in a garage with an audience built first. The audience is the moat; the clothes are the product.'],
+              ['Build the audience BEFORE the stock', 'This is the single biggest lever and where most people get it backwards. Document your training, your physique journey, your football — build 5-10k engaged followers who care what you wear. Then your first drop sells out to people who already trust you, instead of you begging strangers on ads.'],
+              ['Start with ONE product, not a range', 'A short set OR a hat. Not both, not five colourways. One product proves the whole chain — supplier, quality, sizing, shipping, returns — with the least money at risk. Range expansion comes after something sells out.'],
+              ['Hats are the smartest first product', 'Low unit cost (roughly £4-9), one-size-fits-all so no sizing nightmare, cheap to ship, high margin, and people wear them in photos which markets you for free. Embroidered 6-panel or trucker caps are the classic low-risk entry.'],
+              ['Then short sets and tracksuits', 'Higher ticket and higher margin, but far harder: sizing across S-XXL, fabric weight and stretch matter enormously, and colour matching between top and bottom is where cheap manufacturers fail. Only attempt once a simpler product has proven your supply chain.'],
+            ]} />
+            <Fold title={BRAND_GUIDE[0].title} tag={BRAND_GUIDE[0].tag} items={BRAND_GUIDE[0].items} />
+            <Fold title={BRAND_GUIDE[1].title} tag={BRAND_GUIDE[1].tag} items={BRAND_GUIDE[1].items} />
+            <Fold title={BRAND_GUIDE[2].title} tag={BRAND_GUIDE[2].tag} items={BRAND_GUIDE[2].items} />
+            <Fold title={BRAND_GUIDE[3].title} tag={BRAND_GUIDE[3].tag} items={BRAND_GUIDE[3].items} />
+            <Fold title={BRAND_GUIDE[4].title} tag={BRAND_GUIDE[4].tag} items={BRAND_GUIDE[4].items} />
+            <Fold title="Three ways to make it" tag="Print-on-demand → blanks + decoration → custom manufacturing" items={[
+              ['Level 1 — Print on demand (zero risk, low margin)', 'Printful, Printify. They print and ship per order; you never hold stock. Margins are thin and quality is average, but it costs almost nothing to test whether ANYONE wants your brand. Perfect for validating designs before spending money.'],
+              ['Level 2 — Blanks + custom decoration (the real starting point)', 'Buy quality blank garments (AS Colour, Stanley/Stella, Gildan for cheap) and get them screen-printed or embroidered locally. Roughly £8-15 all-in per unit, sell at £30-45. Order 25-50 units. This is where most credible small brands actually begin.'],
+              ['Level 3 — Custom manufacturing (real brand territory)', 'Your own patterns, fabric, cut and labels via Alibaba, or manufacturers in Portugal, Turkey, China or Bangladesh. Minimum order quantities are typically 100-300 per style per colour. This is where quality becomes genuinely yours — and where you can lose thousands if you skip samples.'],
+              ['ALWAYS order samples first', 'Non-negotiable. Get samples from 3-5 suppliers before any bulk order. Wash them, train in them, stretch them. Photos lie constantly, and the £100 you spend on samples is what stops a £3,000 mistake in unsellable stock.'],
+              ['Fabric is what people feel', 'For activewear: fabric weight (GSM), stretch and recovery, and whether it goes see-through when stretched — the classic killer for squat-proof bottoms. Cheap poly that pills after three washes destroys a brand faster than bad design ever will.'],
+              ['Get the labels right', 'Woven neck labels, hem tags, custom polybags. This is what separates "a printed blank" from a brand people will pay £45 for. Cheap to add at manufacture, near impossible to retrofit.'],
+            ]} />
+            <Fold title={BRAND_GUIDE[5].title} tag={BRAND_GUIDE[5].tag} items={BRAND_GUIDE[5].items} />
+            <Fold title={BRAND_GUIDE[6].title} tag={BRAND_GUIDE[6].tag} items={BRAND_GUIDE[6].items} />
+            <Fold title={BRAND_GUIDE[7].title} tag={BRAND_GUIDE[7].tag} items={BRAND_GUIDE[7].items} />
+            <Fold title="Money, pricing and the drop" tag="Budget, 3-5× pricing, pre-orders, photos, admin" items={[
+              ['Realistic startup budget', '£500-1,500 gets you a genuine first run: samples (~£150), 50-100 units of one product (~£600-900), labels and packaging (~£100), plus a Shopify subscription. Under £500 is possible with print-on-demand but the margins barely justify it.'],
+              ['Price at 3-5× your unit cost', 'Costs £10 to make, sell at £35-45. That margin is NOT greed — it has to absorb returns, damaged stock, free shipping, ad spend, and the units that never sell. Pricing at 2× is how clothing brands go broke while appearing busy.'],
+              ['The drop model beats always-in-stock', 'Limited quantities, announced date, sells out. It creates urgency, means you never sit on dead stock, and gives you a repeatable event to market. It is also far kinder on cash flow than trying to keep every size live year-round.'],
+              ['Pre-orders de-risk everything', 'Take orders BEFORE you manufacture. Customers fund the production run, and you learn exactly which sizes and colours to make. Be honest about the delivery window — late pre-orders with no communication kill new brands.'],
+              ['Store setup', 'Shopify (~£25/month) is the default and worth it. A clean product page with real photos on real people, honest sizing guide with actual measurements, and a plain returns policy. Sizing confusion is the number one cause of returns.'],
+              ['Photos are the entire product online', 'Nobody can feel your fabric — they judge on photos alone. Real people, natural light, in motion, in a gym or on a pitch. Your training content is already this. Bad photos will sink genuinely good product.'],
+              ['UK admin', 'Register as a sole trader with HMRC once past the £1,000 trading allowance (see the Tax tab). VAT registration is only required above the threshold, so ignore it early. Check the customs and import duty on overseas manufacturing — it catches people out badly on the first shipment.'],
+            ]} />
+            <Fold title={BRAND_GUIDE[8].title} tag={BRAND_GUIDE[8].tag} items={BRAND_GUIDE[8].items} />
+            <Fold title="Why most brands die" tag="Learn these for free" items={[
+              ['They ordered 500 units of 5 products first', 'All the cash gone before knowing whether anyone wanted it. One product, small run, prove demand, reinvest. Boring, and it is the only version that survives.'],
+              ['They built a brand with no audience', 'A logo and a Shopify store is not a business. Without attention, you are paying ads to strangers with zero trust — the most expensive way possible to sell clothing.'],
+              ['They competed on price', 'You cannot out-cheap Shein or Amazon. Compete on identity, community and quality. People buy activewear to signal who they are, not because it was the cheapest.'],
+              ['Sizing chaos', 'Inconsistent sizing between runs causes mass returns and destroys trust permanently. Measure every sample, publish exact measurements, keep it identical across drops.'],
+              ['They quit after drop one', 'The first drop rarely sells out. Brands are built over years of consistent posting, iterating on product, and slowly growing a following. Treat drop one as tuition, not a verdict.'],
+              ['Your unfair advantage', 'You genuinely train — gym, football, Muay Thai, padel. You can test product in real conditions and speak credibly to people who do the same. That authenticity is exactly what the huge faceless brands cannot manufacture.'],
+            ]} />
+          </div>
+        )}
+
         {tab === 'invest' && (
           <div className="fade-up stagger space-y-4">
             <OneThing points={["Emergency fund first, then a Stocks & Shares ISA with a global index fund, automated monthly.", "Low fees and time in the market beat picking stocks. Do not touch it when it drops."]} />

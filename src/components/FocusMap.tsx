@@ -54,6 +54,7 @@ const GOALS: Goal[] = [
     { to: '/money?tab=skills', label: 'Money → Skills', why: 'Pick the one skill that pays' },
     { to: '/money?tab=online', label: 'Money → Online Income', why: 'First £1 online' },
     { to: '/money?tab=launch', label: 'Money → Launch a Business', why: 'Validate, plan, go legal' },
+    { to: '/money?tab=brand', label: 'Money → Clothing Brand', why: 'Logo, garment design, tech pack, manufacturers, first drop' },
     { to: '/money?tab=invest', label: 'Money → Investing', why: 'ISA and what to buy' },
   ] },
   { id: 'uni', label: 'Uni & grades', dests: [

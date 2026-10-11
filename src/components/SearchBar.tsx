@@ -135,6 +135,7 @@ const INDEX: Entry[] = [
   // Money
   { label: 'Money Skills', section: 'Money', path: '/money?tab=skills', keywords: 'money skills editing copywriting coding sales content trades income earn' },
   { label: 'Online Income & Social Media', section: 'Money', path: '/money?tab=online', keywords: 'freelancing fiverr upwork flipping dropshipping agency social media presence audience followers' },
+  { label: 'Clothing Brand — logo, design, tech pack, launch', section: 'Money', path: '/money?tab=brand', keywords: 'clothing brand activewear streetwear gymwear clothes brand start a brand logo design how to make a logo wordmark vector figma tech pack garment design fabric gsm pantone screen print embroidery dtg manufacturer alibaba portugal pakistan samples moq trademark ipo hats tee hoodie short set drop pre order shopify' },
   { label: 'Launch a Business', section: 'Money', path: '/money?tab=launch', keywords: 'business plan startup launch validate legal millionaire roadmap model modelling agency wealthy rich' },
   { label: 'Trading — charts, orders & risk', section: 'Money', path: '/money?tab=trading', keywords: 'trading trader day trading crypto forex charts candlesticks order types stop loss leverage risk management spread broker technical analysis' },
   { label: 'Money Rules & Psychology', section: 'Money', path: '/money?tab=mindset', keywords: 'money rules wealth psychology saving debt pay yourself' },
