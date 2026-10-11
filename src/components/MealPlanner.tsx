@@ -107,6 +107,12 @@ function RecipeView({ meal, scale = 1, onClose, onUse, onDelete }: { meal: Meal;
             <p className="text-sm text-gray-300 border-l-2 border-yellow-400/50 pl-3">{meal.season}</p>
           </>
         )}
+        {meal.prep && (
+          <>
+            <p className="font-hud text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 mt-4 mb-1.5">Meal prep · Sainsbury's</p>
+            <p className="text-sm text-gray-300 border-l-2 border-emerald-400/50 pl-3">{meal.prep}</p>
+          </>
+        )}
         {meal.chef.length > 0 && (
           <>
             <p className="font-hud text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 mt-4 mb-1.5 flex items-center gap-1.5"><ChefHat size={12} /> Chef's upgrades</p>

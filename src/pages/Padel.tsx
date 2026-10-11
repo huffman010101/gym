@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ChevronDown, CircleDot } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import { SectionHeader, TabBar, OneThing } from '../components/Hud';
+import { PADEL_TECH, PADEL_STRATEGY } from '../data/docNotes';
 
 type Tab = 'plan' | 'technique' | 'strategy' | 'walls';
 
@@ -210,6 +211,7 @@ export default function Padel() {
               ['Remate — the finishing smash', 'Full power overhead when you\'re close enough to the net that the ball can\'t be chased down. Aim at gaps and feet, not at bodies — placement wins points, not raw speed.'],
               ['Vibora — the spin smash', 'A sliced, angled smash hit across your body that skids sideways off the wall or ground, much harder to read and return than a flat remate. Learn remate first, then add vibora as your point-ending variety.'],
             ]} />
+            {PADEL_TECH.map(g => <Fold key={g.title} title={g.title} tag={g.tag} items={g.items} />)}
           </div>
         )}
 
@@ -227,6 +229,7 @@ export default function Padel() {
               ['Poach when your partner\'s pulled wide', 'If your partner is stretched to a sideline, shift toward the middle to cover the gap they\'ve left — communication ("mine"/"yours") prevents both confusion and collisions.'],
               ['Serve to set up your net game', 'Serve, then advance immediately behind it. The serve-and-advance pattern is how you get to the net position that wins padel points.'],
             ]} />
+            {PADEL_STRATEGY.map(g => <Fold key={g.title} title={g.title} tag={g.tag} items={g.items} />)}
           </div>
         )}
 

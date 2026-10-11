@@ -4,6 +4,8 @@
  * is written to be cooked by someone who does not cook yet.
  */
 
+import { PREP_RECIPES, EXTRA_PREP_PLANS } from './prepRecipes';
+
 export type Slot = 'breakfast' | 'lunch' | 'dinner' | 'snack';
 
 export interface Meal {
@@ -20,6 +22,7 @@ export interface Meal {
   season: string;          // exactly how to season it
   chef: string[];          // the upgrades that make it restaurant-good
   custom?: boolean;        // written by the AI chef
+  prep?: string;           // meal-prep note: portions, Sainsbury's packs, storage
 }
 
 export const SLOT_LABEL: Record<Slot, string> = {
@@ -29,7 +32,7 @@ export const SLOT_LABEL: Record<Slot, string> = {
   snack: 'Snack / shake',
 };
 
-export const MEALS: Meal[] = [
+const BASE_MEALS: Meal[] = [
   /* ---------------- BREAKFAST ---------------- */
   {
     id: 'oats-loaded', slot: 'breakfast', name: 'Loaded overnight oats', kcal: 900, protein: 55, mins: 5,
@@ -438,6 +441,9 @@ export const MEALS: Meal[] = [
   },
 ];
 
+// The original book plus the Sainsbury's meal-prep recipes.
+export const MEALS: Meal[] = [...BASE_MEALS, ...PREP_RECIPES];
+
 /* Foods that make a visible difference — rated honestly. */
 export interface LooksFood { name: string; group: string; helps: string; why: string; evidence: 'Strong' | 'Good' | 'Some' | 'Weak' }
 
@@ -525,7 +531,7 @@ export interface PrepPlan {
   storage: string[];
 }
 
-export const PREP_PLANS: PrepPlan[] = [
+const BASE_PREP_PLANS: PrepPlan[] = [
   {
     id: 'bulk-box', name: 'The bulk box', tagline: 'Five lunches and five breakfasts, one session', makes: '5 lunches + 5 breakfasts', time: '75 min',
     recipeIds: ['chicken-rice-bowl', 'oats-loaded'],
@@ -572,3 +578,5 @@ export const PREP_PLANS: PrepPlan[] = [
     storage: ['Egg muffins: fridge 4 days, or freeze and microwave from frozen for 60-90 seconds.', 'Meatballs: fridge 3 days, freezer 3 months.', 'Trail mix: a sealed jar keeps for weeks.'],
   },
 ];
+
+export const PREP_PLANS: PrepPlan[] = [...BASE_PREP_PLANS, ...EXTRA_PREP_PLANS];

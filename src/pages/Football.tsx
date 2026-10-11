@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Zap, Target, Users, Activity, ChevronDown, Trophy } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import { SectionHeader, TabBar, OneThing } from '../components/Hud';
+import { FOOTBALL_DEFENDING, FOOTBALL_SPEED_NOTES } from '../data/docNotes';
 
 type Tab = 'plan' | 'home' | 'speed' | 'shooting' | 'skills' | 'position' | 'setpieces' | 'physical' | 'warmup';
 
@@ -303,6 +304,7 @@ export default function Football() {
               ['Change of direction', '5-10-5 shuttle, cone weaves at full intent. Decelerate by dropping the hips and chopping steps — braking ability IS agility.'],
               ['Sprint off the ball', 'Speed shows up in runs in behind, recovery runs, pressing. Anticipation (see Skills tab: scanning) makes you "play faster" than your 40m time.'],
             ]} />
+            <Block title="Running form" items={FOOTBALL_SPEED_NOTES} />
           </div>
         )}
 
@@ -433,6 +435,7 @@ export default function Football() {
               ['Angles over acrobatics', 'Bisect the angle between ball and posts; a keeper in the right spot makes saves look easy. Top corners are conceded, everything else is positioning.'],
               ['Command your box', 'Claim crosses with a loud early call, punch when crowded. Distribution: throw fast to feet, find the free fullback — you\'re the first playmaker.'],
             ]} />
+            {FOOTBALL_DEFENDING.map(g => <Fold key={g.title} title={g.title} tag={g.tag} items={g.items} />)}
           </div>
         )}
 

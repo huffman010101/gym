@@ -62,6 +62,7 @@ const GOALS: Goal[] = [
   ] },
   { id: 'fight', label: 'Fighting', dests: [
     { to: '/combat?tab=fundamentals', label: 'Combat → Fundamentals', why: 'Stance, base, clinch' },
+    { to: '/combat?tab=striking', label: 'Combat → Striking', why: 'Punch power, kicks, defence, footwork, home sessions' },
     { to: '/combat?tab=drills', label: 'Combat → Drills', why: 'What to practise alone' },
     { to: '/combat?tab=strategy', label: 'Combat → Strategy', why: 'Opponent types and the street' },
     { to: '/combat?tab=tough', label: 'Combat → Toughness', why: 'Shins, body, pain tolerance' },

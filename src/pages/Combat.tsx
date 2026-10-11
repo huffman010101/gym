@@ -3,11 +3,13 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Shield, Swords, Hand, AlertTriangle, Target, Users, Zap, ChevronDown } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import { SectionHeader, TabBar, OneThing } from '../components/Hud';
+import { STRIKING, COMBAT_POWER, STREET_ESCAPES } from '../data/docNotes';
 
-type Tab = 'fundamentals' | 'hips' | 'takedowns' | 'ground' | 'chokes' | 'drills' | 'arts' | 'strategy' | 'gym' | 'tough';
+type Tab = 'fundamentals' | 'striking' | 'hips' | 'takedowns' | 'ground' | 'chokes' | 'drills' | 'arts' | 'strategy' | 'gym' | 'tough';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'fundamentals', label: 'Fundamentals' },
+  { id: 'striking', label: 'Striking' },
   { id: 'hips', label: 'Hips' },
   { id: 'takedowns', label: 'Takedowns' },
   { id: 'ground', label: 'Ground Game' },
@@ -124,13 +126,13 @@ export default function Combat() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['fundamentals', 'hips', 'takedowns', 'ground', 'chokes', 'drills', 'arts', 'strategy', 'gym', 'tough'] as const).includes(t as Tab) ? (t as Tab) : 'fundamentals';
+    return (['fundamentals', 'striking', 'hips', 'takedowns', 'ground', 'chokes', 'drills', 'arts', 'strategy', 'gym', 'tough'] as const).includes(t as Tab) ? (t as Tab) : 'fundamentals';
   });
   // Follow ?tab= changes while already on this page (links between its own
   // tabs), not just on first mount.
   useEffect(() => {
     const t = params.get('tab');
-    if (t && (['fundamentals', 'hips', 'takedowns', 'ground', 'chokes', 'drills', 'arts', 'strategy', 'gym', 'tough'] as const).includes(t as Tab)) setTab(t as Tab);
+    if (t && (['fundamentals', 'striking', 'hips', 'takedowns', 'ground', 'chokes', 'drills', 'arts', 'strategy', 'gym', 'tough'] as const).includes(t as Tab)) setTab(t as Tab);
   }, [params]);
 
   return (
@@ -373,6 +375,18 @@ export default function Combat() {
         )}
 
         {/* ============ STRATEGY ============ */}
+        {/* ============ STRIKING — mechanics, defence, footwork, home sessions ============ */}
+        {tab === 'striking' && (
+          <div className="fade-up stagger space-y-3">
+            <OneThing points={[
+              'Power is relaxed rotation from the floor up: feet grip, hips start, shoulder follows, arm stays loose until the snap.',
+              'Hands back to the cheek and chin tucked after every shot. Look at their chest, not their hands.',
+              'Footwork rule: push off the foot opposite to the direction you are going. One foot at a time, never cross.',
+            ]} />
+            {STRIKING.map(g => <Fold key={g.title} title={g.title} tag={g.tag} items={g.items} />)}
+          </div>
+        )}
+
         {tab === 'hips' && (
           <div className="fade-up stagger space-y-3">
             <OneThing points={["Punches start at the rear hip. Turn it and the power arrives; arm-only shots are weak.", "On the ground, your hips are the lever: escape with them, pressure with them."]} />
@@ -816,6 +830,8 @@ export default function Combat() {
               ['Afterwards', 'Leave the area, call the police yourself first if it was serious — the first person to report is treated very differently from the one who fled — get medical attention for any head impact, and write down what happened while it is fresh. Do not post about it.'],
             ]} />
 
+            <Fold title="Escapes and getting back up" tag="Grabs, takedowns and the ground — only to get out" items={STREET_ESCAPES} />
+
             <SectionTitle icon={Zap} title="Fight IQ Essentials" />
             <div className="bg-[#111] border border-white/8 rounded-2xl p-5 space-y-3">
               {[
@@ -941,6 +957,7 @@ export default function Combat() {
               ['The honest one — round three', 'Can you still produce technically clean, hard work in the third round of hard sparring? Everything above is a proxy for that. That is the actual test.'],
             ]} />
 
+            {COMBAT_POWER.map(g => <Fold key={g.title} title={g.title} tag={g.tag} items={g.items} />)}
           </div>
         )}
 

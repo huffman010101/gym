@@ -5,6 +5,8 @@ import BottomNav from '../components/BottomNav';
 import { SectionHeader, TabBar, OneThing } from '../components/Hud';
 import KnowYourself from '../components/KnowYourself';
 import MyNotes from '../components/MyNotes';
+import NinetyHard from '../components/NinetyHard';
+import { PEOPLE_NOTES, CONFIDENCE_NOTES, LIFE_MAXING, DISCIPLINE_NOTES, MEDITATION_NOTES, GAME_NOTES, type NoteGroup } from '../data/docNotes';
 
 type Tab = 'him' | 'notes' | 'know' | 'social' | 'confidence' | 'discipline' | 'routine' | 'secret';
 const TAB_IDS = ['him', 'notes', 'know', 'social', 'confidence', 'discipline', 'routine', 'secret'] as const;
@@ -95,6 +97,11 @@ function GCallout({ title, text, tone = 'amber' }: { title: string; text: string
       <p className="text-xs leading-relaxed"><span className="font-bold">{title}:</span> {text}</p>
     </div>
   );
+}
+
+// Groups of notes from the owner's doc, each as a collapsed fold.
+function NoteFolds({ groups }: { groups: NoteGroup[] }) {
+  return <>{groups.map(g => <GFold key={g.title} title={g.title} tag={g.tag}><GPairs items={g.items} /></GFold>)}</>;
 }
 
 function GLists({ left, right, leftTitle, rightTitle }: { left: string[]; right: string[]; leftTitle: string; rightTitle: string }) {
@@ -218,6 +225,8 @@ export default function Mind() {
               'Knowing is not changing. Pick one thing, decide exactly when and where you will do it, make the old way harder, and never miss twice.',
             ]} />
 
+            <NinetyHard />
+
             <div className="bg-[#111] border border-pink-500/25 rounded-2xl p-5">
               <h3 className="font-bold text-pink-200 mb-1">Who he is — six pillars</h3>
               <p className="text-gray-500 text-xs leading-relaxed mb-4">Each one has a standard, a 90-day target and the place in this app where it gets done. Weak in one, and the others carry less weight.</p>
@@ -303,6 +312,8 @@ export default function Mind() {
               <GCallout tone="red" title="When it is more than a habit" text="If the thing you keep going back to feels out of your control (porn, gambling, drinking, weed), or comes with low mood that will not lift, that is not a willpower problem. Your GP or uni wellbeing service can refer you to CBT, which works well for exactly this, and it is free." />
               <Link to="/mind?tab=know" className="block text-xs text-pink-300 hover:underline">Open Know Yourself — values, leaks and your evidence log →</Link>
             </GFold>
+
+            <NoteFolds groups={LIFE_MAXING} />
 
             <GFold title="The 90 days" tag="Foundations, then volume, then leverage">
               <GPairs items={[
@@ -415,6 +426,9 @@ export default function Mind() {
               ['Stories: setup, tension, payoff', 'Cut everything that is none of those three. Thirty seconds, not three minutes.'],
               ['Leave on a high', 'End while it is still good. People remember the peak and the end.'],
             ]} />
+            <NoteFolds groups={[PEOPLE_NOTES[1]]} />
+            <NoteFolds groups={[PEOPLE_NOTES[2]]} />
+            <NoteFolds groups={[PEOPLE_NOTES[3]]} />
             <Card icon={Mic2} title="Voice and body language" items={[
               ['Speak from the chest, slower', 'Lower and 20% slower than feels natural. Rushed, high speech is the most common tell of nerves.'],
               ['End statements down', 'Rising at the end turns a statement into a request for approval.'],
@@ -422,6 +436,8 @@ export default function Mind() {
               ['Take up space calmly', 'Feet shoulder-width, shoulders down, hands still. Not puffed up — just not shrinking.'],
               ['Eye contact', 'Hold it while you listen, break it sideways while you think. Looking down reads as submission.'],
             ]} />
+            <NoteFolds groups={[PEOPLE_NOTES[0]]} />
+            <NoteFolds groups={[PEOPLE_NOTES[4]]} />
             <Card icon={Sparkles} title="Humour and banter" items={[
               ['Funny = truth, exaggerated', 'Say the true thing everyone noticed, then push it slightly too far.'],
               ['Pause before the punchline', 'Slow down right before it, then hold a straight face after.'],
@@ -435,6 +451,7 @@ export default function Mind() {
               ['Do not accept a framing you disagree with', 'You can be relaxed and still say "nah, I do not see it like that".'],
               ['Apologise when you are wrong', 'Owning a mistake quickly is a frame move. Only insecure people cannot.'],
             ]} />
+            <NoteFolds groups={[PEOPLE_NOTES[5]]} />
             <Card icon={Eye} title="Status in a group" items={[
               ['Why groups test you', 'Teasing is how groups find out who stays level. It is usually not hostility.'],
               ['Amused, never wounded', 'Laugh, return it lightly, move on. Sulking or over-reacting is what makes you the target.'],
@@ -453,6 +470,7 @@ export default function Mind() {
             </GFold>
 
             <h2 className="font-hud text-[12px] font-bold uppercase tracking-[0.25em] text-pink-300/80 pt-3">Going out and girls</h2>
+            <NoteFolds groups={[PEOPLE_NOTES[6]]} />
             <GFold title="Go out to have fun — not to get something" tag="The single biggest shift">
               <GPairs items={[
                 ['The goal of the night is a great night', 'Dance badly, take the mick out of your mates, talk to the bouncer, start the chant. If you go home having had the best night in the room, it was a win whoever you met.'],
@@ -546,6 +564,8 @@ export default function Mind() {
               ]} />
             </GFold>
 
+            <NoteFolds groups={CONFIDENCE_NOTES} />
+
             <Card icon={Flame} title="Where it actually comes from" items={[
               ['Evidence', 'Every kept promise to yourself is proof you can rely on you. Affirmations without evidence do not hold.'],
               ['Competence', 'Get good at something hard — lifting, football, a skill that pays. Competence spills into everything.'],
@@ -628,6 +648,7 @@ export default function Mind() {
               ['Strength protects', 'Strength exists to protect, never to intimidate.'],
               ['Build more than you consume', 'Every day, make something: a rep, a page, a skill, a pound earned.'],
             ]} />
+            <NoteFolds groups={DISCIPLINE_NOTES} />
           </div>
         )}
 
@@ -663,6 +684,7 @@ export default function Mind() {
                   ['Build slowly', 'Five minutes for two weeks, then ten. An app like Waking Up or Headspace helps if you want guidance.'],
                   ['What you get', 'A longer gap between feeling something and reacting to it. That gap is composure.'],
                 ]} />
+                <NoteFolds groups={MEDITATION_NOTES} />
                 <Card icon={Mic2} title="Saying positive things — the version that works" items={[
                   ['Three lines, present tense', 'For example: "I keep my word to myself." "I am warm first." "I finish what I start."'],
                   ['True or being made true', 'Only say what you are acting on. A line with no evidence behind it gets rejected by your own brain.'],
@@ -791,6 +813,8 @@ export default function Mind() {
               ['Tease lightly, then be sincere', 'Playful teasing followed by one specific, genuine compliment. The contrast is what creates tension.'],
               ['Show your intent', 'Hold eye contact a beat longer, with a slight smile. You are not trying to be her mate.'],
             ]} />
+            <NoteFolds groups={[GAME_NOTES[1]]} />
+            <NoteFolds groups={[GAME_NOTES[4]]} />
             <Card icon={Heart} title="Frame and mindset" items={[
               ['No pedestal', 'The moment someone is "above" you, it shows in every word. You are both finding out if you get on.'],
               ['Qualify, do not perform', 'Instead of proving yourself, find out if she is someone worth your time — her humour, her ambition.'],
@@ -798,6 +822,9 @@ export default function Mind() {
               ['Rejection is information', 'A "no" is poor fit found early. Smile, "no worries, have a good night", walk away slowly. The room notices grace.'],
               ['A full life is the real scarcity', 'Training, building, football, friends. You are naturally less available because you are busy — and it shows.'],
             ]} />
+            <NoteFolds groups={[GAME_NOTES[0]]} />
+            <NoteFolds groups={[GAME_NOTES[6]]} />
+            <NoteFolds groups={[GAME_NOTES[8]]} />
             <Card icon={MessageCircle} title="Texting and getting the date" items={[
               ['Number at the peak', '"I need to find my mates — but I want to continue this. What\'s your number?"'],
               ['Callback within a day', 'Reference something from the night, then a concrete plan: day, time, place.'],
@@ -805,12 +832,15 @@ export default function Mind() {
               ['Match her pace', 'Similar length, natural reply speed. No timers, no double texts that only chase a reply.'],
               ['Not needing the reply', 'Send it and go live your life. Your mood should not depend on how fast she answers.'],
             ]} />
+            <NoteFolds groups={[GAME_NOTES[2]]} />
             <Card icon={Sparkles} title="Dates and connection" items={[
               ['Dates that move', 'Walk, street food, a view, a game, something competitive. Movement and novelty do the bonding.'],
               ['Range of feeling', 'Funny, competitive, sincere, back to funny. One flat pleasant note is forgettable.'],
               ['Make her feel heard', 'Specific callbacks ("how did that presentation go?") beat any compliment about looks.'],
               ['Escalate at her pace', 'Match the energy she gives back. Believe the pattern of signals, not one ambiguous moment.'],
             ]} />
+            <NoteFolds groups={[GAME_NOTES[3]]} />
+            <NoteFolds groups={[GAME_NOTES[5]]} />
             <Card icon={ListChecks} title="Reading interest — and respecting it" items={[
               ['Interested looks like', 'She asks questions back, stays close, remembers your details, extends the conversation.'],
               ['Polite looks like', 'Short answers, no questions, eyes elsewhere. Wish her a good night and move on.'],
@@ -830,6 +860,7 @@ export default function Mind() {
               ['The talk', 'After 6-10 good dates: "I\'m not interested in seeing anyone else — I want this to be us. What do you think?"'],
               ['Red flags beat chemistry', 'Contempt, chronic flaking, silent treatment. Walking away early saves years.'],
             ]} />
+            <NoteFolds groups={[GAME_NOTES[7]]} />
             <GCallout tone="emerald" title="The honest part" text="Kisses per night is a bad scoreboard, and clubs are the hardest venue there is. This is a skill, not a verdict on you — and being genuinely liked beats being briefly wanted." />
           </div>
         )}

@@ -155,6 +155,60 @@ export const BOOKS: Book[] = [
     ],
   },
 
+  {
+    id: 'courage-disliked',
+    title: 'The Courage to Be Disliked',
+    author: 'Ichiro Kishimi & Fumitake Koga',
+    tag: '2013 · Adlerian psychology as a conversation',
+    category: 'people',
+    takeaways: [
+      ['Your past does not decide you', 'You are not controlled by what happened, but by the meaning you give it now. Choose a new interpretation and you can change direction.'],
+      ['Every problem is an interpersonal problem', 'Anxiety, jealousy and insecurity mostly come from comparison and the fear of being judged.'],
+      ['Separate the tasks', 'The big idea. Your effort and actions are your task. What other people think of them is their task. Stop doing their task for them.'],
+      ['Stop living for approval', 'Pleasing everyone costs you your identity. Freedom is accepting that some people will dislike you.'],
+      ['Happiness from contribution', 'Not from being better than others — from feeling useful to people or to something meaningful.'],
+      ['Live now', 'Life is not a rehearsal for later. Meaning is made in how you live today.'],
+    ],
+    thesis: 'Written as a dialogue between a philosopher and a sceptical young man, it argues — following Alfred Adler — that people are not prisoners of their past or their feelings but of their goals and interpretations. Most suffering comes from relationships: comparing, competing and seeking recognition. The way out is to separate what is your responsibility from what is other people\'s, accept that you will be disliked by some, and find worth in contributing rather than in winning.',
+    deep: [
+      { h: 'Teleology over aetiology', body: 'Instead of asking what caused your behaviour, Adler asks what it is for. The person who "can\'t" go out because of anxiety may be using the anxiety to avoid the risk of rejection. Uncomfortable, but it hands the power back to you: if your behaviour serves a goal, you can choose a different goal.' },
+      { h: 'Separation of tasks in practice', body: 'Ask "whose task is this?" — whoever ultimately bears the consequences owns it. Your message, your approach, your effort: yours. Whether she replies, whether they rate you: theirs. You can do your task fully and let theirs go, which is exactly the approach-anxiety cure.' },
+      { h: 'Horizontal relationships', body: 'Praise and rebuke both put you above someone. Adler prefers gratitude and encouragement between equals. The same idea as not putting anyone on a pedestal — and not putting yourself on one either.' },
+      { h: 'Courage', body: 'The "courage to be disliked" is not trying to be disliked. It is refusing to let the possibility stop you from living by your own values.' },
+    ],
+    criticism: 'The dialogue format is repetitive and the young man\'s objections can feel like straw men. Some claims (trauma does not exist, all problems are interpersonal) are deliberately absolute and would not survive contact with clinical evidence — take them as useful lenses, not facts.',
+    verdict: 'Read it if approval and comparison run your head. Separating the tasks is worth the whole book.',
+    doThisWeek: [
+      'Before any approach or message, say: "My task is to do it well. Their reaction is their task."',
+      'Notice one comparison you make each day and replace it with: "What would contribute here?"',
+      'Say one honest opinion you would normally soften to be liked.',
+    ],
+  },
+  {
+    id: 'let-them',
+    title: 'The Let Them Theory',
+    author: 'Mel Robbins',
+    tag: '2024 · two words for less anxiety',
+    category: 'people',
+    takeaways: [
+      ['Part one: "Let them"', 'When someone ignores you, judges you, does not invite you, pulls away or disagrees — instead of chasing or overthinking, say "let them". You stop fighting reality.'],
+      ['Part two: "Let me"', 'Then choose your response: let me move on, let me improve, let me set a boundary, let me focus on my life. The power comes back to you.'],
+      ['You cannot control people', 'Managing other people\'s feelings and reactions drains you and feeds insecurity.'],
+      ['Rejection is information', 'Someone pulling away shows compatibility, not your worth.'],
+      ['Acceptance brings clarity', 'Resistance creates stress; acceptance lets you think.'],
+    ],
+    thesis: 'Most of the stress in social life comes from trying to control what other people think, feel and do. Robbins\' answer is a two-step habit: let other people be who they are and do what they do, then let yourself decide what you will do about it. It is the separation of tasks from The Courage to Be Disliked, in a form you can say to yourself in the moment.',
+    deep: [
+      { h: 'Where to use it', body: 'Not invited to something, left on read, a girl going cold, a mate judging your new habits. Each time: "let them" — then "let me" and one concrete action.' },
+      { h: 'Not passivity', body: '"Let me" is the active half. Letting someone be disrespectful does not mean staying; it means deciding calmly whether to set a boundary or walk away, rather than trying to change them.' },
+    ],
+    criticism: 'It is a simple idea stretched to book length, and much of it repackages older ideas (stoicism, Adler, acceptance therapy). Used lazily it can become an excuse to avoid hard conversations.',
+    verdict: 'Skim it, or just use the two phrases. The idea is the value; the book is optional.',
+    doThisWeek: [
+      'Next time someone leaves you on read or pulls away, say "let them", then write one "let me" action.',
+      'Pick one person whose opinion you keep trying to manage and stop explaining yourself to them.',
+    ],
+  },
   /* ======================= HABITS / DISCIPLINE ======================= */
   {
     id: 'atomic',
@@ -322,6 +376,35 @@ export const BOOKS: Book[] = [
     ],
   },
 
+  {
+    id: '12-rules',
+    title: '12 Rules for Life',
+    author: 'Jordan Peterson',
+    tag: '2018 · responsibility as an antidote to chaos',
+    category: 'habits',
+    takeaways: [
+      ['1. Stand up straight with your shoulders back', 'Posture reflects and reinforces how you meet the world. Take responsibility for your life.'],
+      ['2. Treat yourself like someone you are responsible for helping', 'You would make a friend take their medicine and sleep. Do the same for yourself.'],
+      ['3. Make friends with people who want the best for you', 'Your environment shapes you. Choose people who pull you up.'],
+      ['4. Compare yourself to who you were yesterday', 'Not to whoever is best at everything online.'],
+      ['5-6. Order before criticism', 'Set boundaries and structure (originally about children), and sort your own house before criticising the world.'],
+      ['7. Pursue what is meaningful, not what is expedient', 'Short-term pleasure usually costs long-term chaos.'],
+      ['8-10. Truth and precision', 'Do not lie, especially to yourself. Assume the person you are listening to knows something you do not. Be precise in your speech — vague problems cannot be solved.'],
+      ['11-12. Risk and small joys', 'Let people take risks — struggle is how strength is built. And notice small good moments even when life is hard.'],
+    ],
+    thesis: 'Life contains unavoidable suffering, and the way to bear it — and make it better — is to take on responsibility voluntarily: for your posture, your health, your friendships, your words and your own house before anyone else\'s. Meaning, not happiness, is the target, and it comes from carrying a load worth carrying.',
+    deep: [
+      { h: 'The useful core', body: 'Rules 1, 2, 4, 7 and 9 are the practical ones: carry yourself like you matter, look after yourself properly, measure against your past self, choose meaning over quick pleasure, and listen as if you could learn something.' },
+      { h: 'Precise speech', body: 'Naming a problem exactly — "I avoid approaching because I fear looking stupid" rather than "I\'m bad with girls" — turns a fog into something you can act on.' },
+    ],
+    criticism: 'Long, meandering and heavy on myth and Peterson\'s wider views, some of which are contested. The lobster/serotonin argument for rule 1 is shaky science. The rules are better than the essays around them.',
+    verdict: 'Read the rule summaries and the chapters for rules 2, 4 and 7. Skip the rest unless you enjoy the philosophy.',
+    doThisWeek: [
+      'Write down one comparison with yourself from three months ago that shows progress.',
+      'Do one thing for your future self you would make a friend do — book the dentist, sort your sleep.',
+      'Name one problem in a single precise sentence, then act on it.',
+    ],
+  },
   /* ============================= MONEY ============================= */
   {
     id: 'housel',

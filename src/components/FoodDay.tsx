@@ -1,6 +1,7 @@
 import { useMemo, useState, type ReactNode } from 'react';
-import { ChevronDown, Clock, Utensils, Repeat, Package, Shuffle, ChefHat } from 'lucide-react';
+import { ChevronDown, Clock, Utensils, Repeat, Package, Shuffle, ChefHat, ShoppingCart } from 'lucide-react';
 import { CARBS, FATS, MEALS, PREP_PLANS, PROTEINS, VEG_ROTATION } from '../data/meals';
+import { SAINSBURYS_PACKS } from '../data/prepRecipes';
 import type { Food } from '../data/meals';
 import { weekKey } from './DailyPlan';
 
@@ -282,6 +283,30 @@ export default function FoodDay({ target, onOpenRecipe }: { target: { kcal: numb
           <p className="font-hud text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 mt-3 mb-1">Keeping it safe</p>
           <ul className="space-y-1">{prep.storage.map(s => <li key={s} className="text-xs text-amber-100/80 border-l-2 border-amber-400/40 pl-2.5">{s}</li>)}</ul>
         </div>
+      </Panel>
+
+      {/* ---------- Sainsbury's pack sizes ---------- */}
+      <Panel icon={<ShoppingCart size={16} />} title="The Sainsbury's shop" sub="What comes in what size, and how many portions it makes" open={!!open.shop} onToggle={() => toggle('shop')}>
+        <p className="text-[11px] text-gray-500 mb-3">Typical pack sizes on the shelf — they change, so check the label. No prices here because they move every week; own-brand and frozen are almost always the cheaper way to prep.</p>
+        <div className="space-y-4">
+          {SAINSBURYS_PACKS.map(g => (
+            <div key={g.group}>
+              <p className="font-hud text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-1.5">{g.group}</p>
+              <div className="divide-y divide-white/5 rounded-xl bg-black/25 border border-white/5">
+                {g.items.map(([item, pack, makes]) => (
+                  <div key={item} className="px-3 py-2">
+                    <div className="flex items-baseline justify-between gap-2">
+                      <p className="text-xs font-semibold text-gray-200">{item}</p>
+                      <span className="text-[11px] text-emerald-200 flex-shrink-0">{pack}</span>
+                    </div>
+                    <p className="text-[11px] text-gray-500">{makes}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="text-[11px] text-gray-500 mt-3">Every prep recipe in the book lists the exact packs to buy — tap one and look under "Meal prep · Sainsbury's". Filter the book by <span className="text-emerald-300">Batch</span> to see them all.</p>
       </Panel>
     </div>
   );
