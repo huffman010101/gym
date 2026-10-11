@@ -4,16 +4,18 @@ import { ArrowLeft, GraduationCap, Brain, Sun, Briefcase, Moon, Loader2, AlertCi
 import BottomNav from '../components/BottomNav';
 import { SectionHeader, TabBar, OneThing } from '../components/Hud';
 import BookNotes from '../components/BookNotes';
+import BrainGym from '../components/BrainGym';
 import { generateStudyPack, generateSubjectConcepts, isValidStudyPack, type SubjectConcept } from '../lib/generators';
 import { extractFile, combine, MAX_TOTAL_CHARS, type Extracted } from '../lib/extractText';
 import type { StudyPack } from '../lib/generators';
 
-type Tab = 'ai' | 'subject' | 'smarter' | 'books' | 'career';
+type Tab = 'ai' | 'subject' | 'smarter' | 'brain' | 'books' | 'career';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'ai', label: 'AI Study Pack' },
   { id: 'subject', label: 'My Subject' },
   { id: 'smarter', label: 'Get Smarter' },
+  { id: 'brain', label: 'Brain Gym' },
   { id: 'books', label: 'Book Notes' },
   { id: 'career', label: 'Career' },
 ];
@@ -65,13 +67,13 @@ export default function Uni() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['ai', 'subject', 'smarter', 'books', 'career'] as const).includes(t as Tab) ? (t as Tab) : 'ai';
+    return (['ai', 'subject', 'smarter', 'brain', 'books', 'career'] as const).includes(t as Tab) ? (t as Tab) : 'ai';
   });
   // Follow ?tab= changes while already on this page (links between its own
   // tabs), not just on first mount.
   useEffect(() => {
     const t = params.get('tab');
-    if (t && (['ai', 'subject', 'smarter', 'books', 'career'] as const).includes(t as Tab)) setTab(t as Tab);
+    if (t && (['ai', 'subject', 'smarter', 'brain', 'books', 'career'] as const).includes(t as Tab)) setTab(t as Tab);
   }, [params]);
   const [course, setCourse] = useState('');
   const [modules, setModules] = useState('');
@@ -507,6 +509,29 @@ export default function Uni() {
         )}
 
         {/* ===== BOOK NOTES ===== */}
+        {tab === 'brain' && (
+          <div className="fade-up stagger space-y-3">
+            <OneThing points={[
+              'Five minutes here sharpens reaction, working memory and focus — and the scores show you your sleep and phone habits better than any app.',
+              'Honest: practising these makes you better at these. Real gains in how smart you are come from sleep, training, reading hard things and deep work.',
+              'Test at the same time of day. A bad night\'s sleep shows up as 20-40ms on reaction time.',
+            ]} />
+            <BrainGym />
+            <Block title="What actually raises your ceiling" items={[
+              ['Sleep', 'One short night drops reaction time, memory and focus more than any game can raise them. 7.5-9 hours is the biggest lever you have.'],
+              ['Aerobic exercise', 'Zone 2 cardio and sport raise BDNF and blood flow to the brain — the best-evidenced way to improve memory and processing speed.'],
+              ['Hard learning', 'A new skill, a language, an instrument, maths you struggle with. The brain adapts to demands, not to repetition of easy tasks.'],
+              ['Deep work, not scrolling', 'Short-form video trains a short attention span. Ninety minutes of single-task focus trains the opposite.'],
+              ['The honest bit on brain training', 'Big reviews of brain-training games find you improve at the trained game, with little transfer to general intelligence or exams. Use them as a daily check and a focus warm-up, not as an IQ booster.'],
+            ]} />
+            <Block title="Sport reaction training" items={[
+              ['Football', 'Reaction-ball or wall rebounds at different angles, and a partner calling a colour or direction as you sprint. Scanning drills before receiving.'],
+              ['Combat', 'Partner pad work where the holder flashes pads randomly, slip-the-tennis-ball drills, and light reaction sparring. Reaction in fights is mostly reading cues early, which only comes from rounds.'],
+              ['Padel', 'Fast volley exchanges at the net and a split step on every opponent contact.'],
+            ]} />
+          </div>
+        )}
+
         {tab === 'books' && (
           <div className="space-y-4">
             <OneThing points={['Save the few ideas from each book that change what you do — not a summary of the whole thing.', 'One idea applied beats ten books skimmed.']} />

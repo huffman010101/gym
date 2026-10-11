@@ -39,6 +39,7 @@ const GOALS: Goal[] = [
   ] },
   { id: 'girls', label: 'Girls & confidence', dests: [
     { to: '/mind?tab=him', label: 'Mind → Start Here', why: 'Six pillars, the eight rules, actually changing, the 90 days' },
+    { to: '/mind?tab=him', label: 'Mind → 90 Hard', why: 'Daily rules across gym, looks, mind and uni, with a day counter' },
     { to: '/mind?tab=notes', label: 'Mind → My Notes', why: 'Your own rules, organised, three a day' },
     { to: '/mind?tab=secret', label: 'Mind → Game Plan', why: 'Clubs, approaching, texting, dates' },
     { to: '/mind?tab=confidence', label: 'Mind → Confidence', why: 'Rejection therapy, nerves, unbothered' },
@@ -58,6 +59,7 @@ const GOALS: Goal[] = [
   { id: 'uni', label: 'Uni & grades', dests: [
     { to: '/uni?tab=ai', label: 'Uni → AI Study Pack', why: 'Upload notes, get the revision pack' },
     { to: '/uni?tab=smarter', label: 'Uni → Get Smarter', why: 'Memory and learning fast' },
+    { to: '/uni?tab=brain', label: 'Uni → Brain Gym', why: 'Reaction time, memory and focus tests' },
     { to: '/uni?tab=career', label: 'Uni → Career', why: 'CV, tests, interviews' },
   ] },
   { id: 'fight', label: 'Fighting', dests: [
