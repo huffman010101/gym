@@ -28,6 +28,21 @@ export const NOTE_GROUPS: NoteGroup[] = [
     ],
   },
   {
+    title: 'Mindset switches', tag: 'The thoughts to swap in the moment', items: [
+      ['Do I like them?', 'Switch "do they like me?" to "do I actually like them?" You are evaluating too. It kills desperation instantly.'],
+      ['Have fun, be playful', 'You are there to enjoy it and make the room lighter. Spread positivity; playful beats impressive.'],
+      ['Not focused on the outcome', 'One day everyone dies and nobody will remember this moment. So go for it — the result is not the point, the attempt is.'],
+      ['Assume you already have it', 'Act like you already have the attention, the respect, the girl. Scarcity makes you tense; assuming makes you relaxed.'],
+      ['Will this matter in a week?', 'Think best case, and ask it every time something stings. If not, let it go.'],
+      ['Think, then speak', 'Less reactive, nothing taken personally. Pause, then say it clearly and properly pronounced.'],
+      ['Mature and curious', 'Be interested in people\'s lives, not in proving yourself. And never complain.'],
+      ['Dream-girl mentality', 'No matter how many times you get rejected, you will end up with your dream girl. Every no is one step closer.'],
+      ['Abundance and selective attention', 'There are plenty of people. Give your attention selectively — it is valuable — and keep a bit of mystery.'],
+      ['A gift to the world', 'Carry yourself like you are attractive and worth knowing. See yourself as the best and hold your value.'],
+      ['Reset daily', 'A walk with no music or podcast every day. Let your brain be bored — it is where the clear thinking comes back.'],
+    ],
+  },
+  {
     title: 'Belief, self-image, confidence', tag: 'The three layers — change them in this order', items: [
       ['1. Belief', 'How you look at things decides how they show up for you. Write down the limiting beliefs holding you back (about girls, money, success). You cannot fix what you have not named.'],
       ['2. Self-image', 'Who you think you are is a cage: you will not perform beyond it. Find the things that made you insecure in the past, then rewrite the picture. Imagine your best self in detail and step into him.'],
@@ -134,6 +149,8 @@ export const NOTE_GROUPS: NoteGroup[] = [
       ['Her 10 is another man\'s 5', 'Acknowledge you want her, then remember she is just a girl. Treat her as normal — the pedestal is what makes you freeze.'],
       ['You are the chooser', 'Assume she likes you. You have standards and a life she would be lucky to be part of. Say what is on your mind.'],
       ['Do not be thirsty', 'Do not be overly friendly or give her all your attention — at parties, just vibe. Do not fall in love first.'],
+      ['The no-agenda compliment', '"I don\'t want anything — I just had to say you look amazing." Then carry on with your day. It is confident precisely because you are not asking for anything.'],
+      ['Easy openers', 'Ask where she is from or her nationality — people love talking about home, and it gives you a whole thread to follow.'],
       ['Compliments', 'Genuine, from confidence, not as a fan. Turn it up only when she is clearly into you, and do not overdo it.'],
       ['Signs she is into you', 'Feet pointed at you · laughs at your jokes · touches her hair · looks at your lips then away · leans towards you · flushed cheeks · finds excuses to touch you · lingers at goodbye · looks up at you after a hug · licks her lips. Four to seven of these and she is interested.'],
       ['The dangerous gentleman', 'Smell good, look sharp, be respectful with a bit of edge. Tease and touch together, hold her hand a little longer than expected, a bit of innuendo — and do not react to her tests.'],
@@ -181,6 +198,40 @@ export const AFFIRMATIONS: string[] = [
   'I solve problems and I am very smart.',
   'I am extremely likeable.',
   'I can drive confidently.',
+];
+
+// The Home screen shows one of these each day, to say out loud.
+export const DAILY_AFFIRMATIONS: string[] = [
+  'I am the one choosing. I decide if I like them.',
+  'I am here to have fun, and I make every room lighter.',
+  'I do not need any outcome. I go for it anyway.',
+  'I already have everything I need.',
+  'Nothing today will matter in a week. I stay calm.',
+  'I think before I speak, and I speak clearly.',
+  'I do not take things personally.',
+  'Every no brings me closer to my dream girl.',
+  'I live in abundance. There is more than enough for me.',
+  'I carry myself like a gift to the world.',
+  'I am attractive, and I hold my value.',
+  'I am curious about people, and they feel it.',
+  'I never complain. I act or I accept.',
+  'I am mature, calm and grounded.',
+  'My attention is valuable, and I give it selectively.',
+  'I see myself as the best, and I act like it.',
+  'I spread positivity wherever I go.',
+  'I look good.',
+  'I am charismatic and confident.',
+  'I am approachable.',
+  'I solve problems and I am very smart.',
+  'I am extremely likeable.',
+  'I keep the promises I make to myself.',
+  'I am becoming the man I want to be, today.',
+  'I need no one\'s approval but my own.',
+  'I am calm under pressure.',
+  'I train hard, and my body shows it.',
+  'I do the hard thing first.',
+  'I am grateful for today, and I make it count.',
+  'I am in control of how I react.',
 ];
 
 export const BEFORE_OUT: string[] = [
@@ -233,6 +284,10 @@ export const DAILY: string[] = [
   'Visualise it going well before you do it.',
   'Let go and have fun. It is in God\'s hands.',
   'Go and get one no today. Every attempt is a win.',
+  'Do I like them? You are choosing too.',
+  'Will this matter in a week? Then let it go.',
+  'Walk with no music today. Let your brain reset.',
+  'Carry yourself like a gift to the world.',
   'Match her energy. Lead one step warmer, never five.',
   'Same voice, same jokes with girls as with your mates.',
 ];

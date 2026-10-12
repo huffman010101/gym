@@ -27,6 +27,8 @@ const RULES: { pillar: string; to: string; label: string; items: string[] }[] = 
   { pillar: 'Mind', to: '/mind?tab=notes', label: 'My Notes', items: [
     '10 pages of a real book (non-fiction).',
     '10 minutes of breathwork or meditation.',
+    'A 20-minute walk with no music or podcast.',
+    'Say today\'s affirmation out loud (it is on Home).',
     'One social rep: a rejection-therapy rep, a new conversation, or a real compliment.',
     'No porn. Phone out of the bedroom.',
     'One line in the evidence log at night.',
