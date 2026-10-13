@@ -31,6 +31,7 @@ const GOALS: Goal[] = [
     { to: '/football?tab=warmup', label: 'Football → Warm-Up', why: 'Your ankle on match day' },
   ] },
   { id: 'looks', label: 'Look better', dests: [
+    { to: '/looksmax?tab=plan', label: 'Looks → ★ Blueprint', why: 'Everything for face, looks and hair, ranked, with the schedule' },
     { to: '/looksmax?tab=scan', label: 'Looks → J.A.R.V.I.S. Scan', why: 'Every metric of your face, and a daily plan' },
     { to: '/looksmax?tab=skin', label: 'Looks → Skin', why: 'The morning and night routine' },
     { to: '/looksmax?tab=look', label: 'Looks → Face · Hair · Style', why: 'Jaw, neck, hyoid, colouring, fascia, symmetry, haircut, grooming, clothes' },

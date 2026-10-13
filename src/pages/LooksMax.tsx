@@ -5,6 +5,7 @@ import { OneThing, SectionHeader, TabBar } from '../components/Hud';
 import { suggestLayering, isValidLayering } from '../lib/generators';
 import type { LayeringResult } from '../lib/generators';
 import FaceDossier from '../components/FaceDossier';
+import { LOOKS_TIERS, LOOKS_SCHEDULE, LOOKS_MEDICAL, LOOKS_IGNORE, HAIR_DEPTH } from '../data/looksBlueprint';
 import MealPlanner from '../components/MealPlanner';
 import {
   ArrowLeft, ChevronDown, ChevronUp, Check, Sparkles, Scissors, Smile, User,
@@ -12,8 +13,8 @@ import {
   Activity, Eye, ChevronRight, Utensils,
 } from 'lucide-react';
 
-type LooksTab = 'scan' | 'look' | 'skin' | 'diet' | 'techniques' | 'fragrance';
-const LOOKS_TABS = ['scan', 'look', 'skin', 'diet', 'techniques', 'fragrance'] as const;
+type LooksTab = 'plan' | 'scan' | 'look' | 'skin' | 'diet' | 'techniques' | 'fragrance';
+const LOOKS_TABS = ['plan', 'scan', 'look', 'skin', 'diet', 'techniques', 'fragrance'] as const;
 // Face, Hair, Grooming and Style were merged into one tab; old links land on
 // the right section of it.
 const LOOK_SECTIONS = [
@@ -143,7 +144,7 @@ function ExpandableCard({ title, content, badge, accent = 'text-gray-400' }: Exp
 
 export default function LooksMax() {
   const [params] = useSearchParams();
-  const [tab, setTab] = useState<LooksTab>(() => resolveTab(params.get('tab'))?.tab ?? 'scan');
+  const [tab, setTab] = useState<LooksTab>(() => resolveTab(params.get('tab'))?.tab ?? 'plan');
   // Follow ?tab= changes while already on this page, and jump to the right
   // section when an old Face/Hair/Grooming/Style link lands on the merged tab.
   useEffect(() => {
@@ -228,6 +229,7 @@ export default function LooksMax() {
 
 
   const TABS: { id: LooksTab; label: string; icon: typeof Sparkles }[] = [
+    { id: 'plan', label: '★ Blueprint', icon: Sparkles },
     { id: 'scan', label: 'J.A.R.V.I.S. Scan', icon: Camera },
     { id: 'look', label: 'Face · Hair · Style', icon: Smile },
     { id: 'skin', label: 'Skin', icon: Droplets },
@@ -239,11 +241,49 @@ export default function LooksMax() {
   return (
     <div className="min-h-screen bg-transparent bg-gradient-to-b from-purple-950/40 via-transparent to-transparent text-white pb-24">
       <div className="px-5 pt-6">
-        <SectionHeader icon={Sparkles} title="Looks" subtitle="Scan · Face, Hair & Style · Skin · Diet · Body · Scent" />
+        <SectionHeader icon={Sparkles} title="Looks" subtitle="Blueprint · Scan · Face, Hair & Style · Skin · Diet · Body · Scent" />
         <TabBar tabs={TABS} active={tab} onChange={setTab} />
       </div>
 
       <div className="px-5 space-y-4 stagger" key={tab}>
+
+        {/* ===== ★ BLUEPRINT — everything, ranked ===== */}
+        {tab === 'plan' && (
+          <div className="fade-up stagger space-y-3">
+            <Tldr points={[
+              'Get to 10-14% body fat, get a haircut picked for your face, and keep your skin clear. That is 80% of looking your best.',
+              'Then the details: brows, stubble, white teeth, clothes that fit at 6ft 4, posture.',
+              'Act early on hair loss, see a doctor for acne that will not clear, and ignore the gimmicks.',
+            ]} />
+            {LOOKS_TIERS.map((t, ti) => (
+              <div key={t.tier} className={`bg-[#111] border rounded-2xl p-4 ${ti === 0 ? 'border-cyan-400/40' : 'border-white/8'}`}>
+                <p className="font-hud text-[12px] font-bold uppercase tracking-[0.2em] text-cyan-200">{t.tier}</p>
+                <p className="text-xs text-gray-500 mb-3">{t.tag}</p>
+                <div className="space-y-3">
+                  {t.items.map(([what, why, where], i) => (
+                    <div key={what} className="flex gap-3">
+                      <span className="font-orbitron text-cyan-300/80 text-sm w-5 flex-shrink-0 mt-0.5">{i + 1}</span>
+                      <div className="min-w-0">
+                        <p className="font-semibold text-sm text-gray-100">{what}</p>
+                        <p className="text-gray-500 text-xs leading-relaxed mt-0.5">{why}</p>
+                        <p className="text-[10px] font-hud uppercase tracking-wider text-cyan-300/80 mt-1">→ {where}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+            <GFold title="The schedule that keeps it running" tag="Daily, weekly, monthly — about 10 minutes a day" defaultOpen>
+              <GPairs items={LOOKS_SCHEDULE} />
+            </GFold>
+            <GFold title="The medical options worth knowing" tag="Honest, UK-specific, always via a professional">
+              <GPairs items={LOOKS_MEDICAL} />
+            </GFold>
+            <GFold title="Ignore these" tag="Gimmicks that waste time or cause harm">
+              <ul className="space-y-1.5">{LOOKS_IGNORE.map(t => <li key={t} className="text-sm text-gray-400 flex gap-2"><span className="text-red-400">✕</span>{t}</li>)}</ul>
+            </GFold>
+          </div>
+        )}
 
         {/* ===== J.A.R.V.I.S. SCAN ===== */}
         {tab === 'scan' && <FaceDossier />}
@@ -388,13 +428,9 @@ export default function LooksMax() {
                   ['The difference-maker', 'The blow-dryer. Product only holds the shape you create with heat.'],
                 ]} />
               </GFold>
-              <GFold title="Keeping it" tag="Act early — you keep what you have, you rarely regrow what is gone">
-                <GPairs items={[
-                  ['Check', 'Look at your temples and crown in photos every 3 months. Family history matters.'],
-                  ['What actually works', 'Finasteride and minoxidil are the evidence-backed pair. Finasteride is prescription and has possible side effects worth discussing with a GP or online clinic before starting.'],
-                  ['Cheap and sensible', 'Ketoconazole 2% shampoo twice a week; microneedling weekly alongside minoxidil has decent evidence.'],
-                ]} />
-              </GFold>
+              {HAIR_DEPTH.map(g => (
+                <GFold key={g.title} title={g.title} tag={g.tag}><GPairs items={g.items} /></GFold>
+              ))}
               <GFold title="Scalp and washing">
                 <GPairs items={[
                   ['How often', 'Shampoo 2-4 times a week, condition every time, finish with cool water.'],
