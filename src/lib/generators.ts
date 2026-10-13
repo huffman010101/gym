@@ -84,11 +84,16 @@ PROFILE:
 - Experience: ${q.experience}
 - Primary goal: ${q.primaryGoal}
 - Specific goal: ${q.secondaryGoal}
-- Days per week: ${q.daysPerWeek}
+- Days per week: ${q.daysPerWeek} — the plan must have EXACTLY ${q.daysPerWeek} training days
 - Session length: ${q.sessionLength} minutes
+- Equipment: ${q.equipment || 'full commercial gym'}
 - Notes: ${q.extraNotes || 'None'}
 
-Design the most optimal training split for their goal. Select exercises that directly serve it (combat = rotational power, plyometrics; powerlifting = main lifts; aesthetic = hypertrophy). Fit each session into the time limit.
+SPLIT: ${q.split && q.split !== 'auto' ? `Use exactly this split: ${q.split}. Adapt it sensibly to ${q.daysPerWeek} days if needed and say how.` : 'Choose the most effective split for their goal and number of days.'}
+${Array.isArray(q.excludedExercises) && (q.excludedExercises as string[]).length ? `EXCLUDED — never use these exercises or close variations of them; substitute an equivalent that trains the same muscles: ${(q.excludedExercises as string[]).join(', ')}` : ''}
+${Array.isArray(q.focusAreas) && (q.focusAreas as string[]).length ? `Give extra volume to: ${(q.focusAreas as string[]).join(', ')}.` : ''}
+
+Select exercises that directly serve their goal (combat = rotational power, plyometrics; powerlifting = main lifts; aesthetic = hypertrophy). Only use exercises possible with their equipment. Fit each session into the time limit. Protect the lower back: at most one heavy hinge per week.
 
 Return ONLY valid JSON, no markdown fences:
 {
@@ -138,9 +143,18 @@ export async function generateMeals(
 CLIENT:
 - Goal: ${q.primaryGoal}
 - Daily targets: ${macros.calories} kcal | ${macros.protein}g protein | ${macros.carbs}g carbs | ${macros.fat}g fat
+- Meals per day: EXACTLY ${q.mealsPerDay}
 - Dietary restrictions: ${restrictions}${excluded}
+- Foods they do not eat: ${Array.isArray(q.foodAvoid) && (q.foodAvoid as string[]).length ? (q.foodAvoid as string[]).join(', ') : 'none'}
+- Cuisines they enjoy: ${Array.isArray(q.cuisines) && (q.cuisines as string[]).length ? (q.cuisines as string[]).join(', ') : 'anything — mix it up'}
+- Prep style: ${q.prepStyle || 'mix of quick and batch-cooked'}
+- Budget: ${q.budget || 'normal UK supermarket'} (UK supermarket ingredients, metric amounts)
 
-Make meals realistic and easy to prepare. Spread macros sensibly. Each meal needs 2 distinct alternatives.
+VARIETY RULES — this matters:
+- No two meals in the day share the same main protein, and do not lean on chicken-and-rice.
+- Each meal needs 3 alternatives, each with a DIFFERENT protein and a different cuisine from the main meal and from each other (e.g. Korean, Mexican, Middle Eastern, Indian, Italian, Japanese, Caribbean, British), all hitting roughly the same macros.
+- Interesting but easy: real seasoning, sauces and textures, not plain boiled food. Include at least one meal-prep-friendly option and one under-10-minute option across the day.
+- Spread protein evenly across meals.
 
 Return ONLY valid JSON, no markdown fences:
 {
@@ -158,7 +172,8 @@ Return ONLY valid JSON, no markdown fences:
       "instructions": "Soak oats in milk overnight. Scramble eggs in morning and serve.",
       "alternatives": [
         { "id": "alt_1_1", "name": "Protein Smoothie Bowl", "calories": 590, "protein": 46, "carbs": 55, "fat": 16, "prepTime": "5 min", "ingredients": ["200g Greek yoghurt", "1 scoop whey", "berries"], "instructions": "Blend and top with berries." },
-        { "id": "alt_1_2", "name": "Smoked Salmon Scramble", "calories": 610, "protein": 48, "carbs": 30, "fat": 28, "prepTime": "10 min", "ingredients": ["3 eggs", "80g smoked salmon", "sourdough"], "instructions": "Scramble eggs, serve on toast with salmon." }
+        { "id": "alt_1_2", "name": "Smoked Salmon Scramble", "calories": 610, "protein": 48, "carbs": 30, "fat": 28, "prepTime": "10 min", "ingredients": ["3 eggs", "80g smoked salmon", "sourdough"], "instructions": "Scramble eggs, serve on toast with salmon." },
+        { "id": "alt_1_3", "name": "Turkish Eggs with Sourdough", "calories": 600, "protein": 42, "carbs": 40, "fat": 28, "prepTime": "12 min", "ingredients": ["3 eggs", "200g Greek yoghurt", "chilli butter", "sourdough"], "instructions": "Poach eggs, serve on garlic yoghurt with chilli butter." }
       ]
     }
   ]
