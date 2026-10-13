@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   Camera, Loader2, AlertCircle, ScanFace, Crown, Target, Clock, Sun, Moon, Utensils, Ban,
   Stethoscope, Send, ImagePlus, X, ChevronDown, Scissors, Glasses, Trash2, Quote, RefreshCw,
+  Ruler, Palette, ShoppingBag, TrendingUp,
 } from 'lucide-react';
 import {
   analyseFaceDossierWithRetry, askLooksAdvisor, explainFailure, isValidFaceDossier, normaliseDossier,
@@ -60,18 +61,27 @@ function readFile(file: File): Promise<string> {
 const SLOTS = [
   { id: 'front', label: 'Front', hint: 'Straight on, daylight, no filter', required: true },
   { id: 'side', label: 'Side profile', hint: 'Jaw, chin, nose, posture', required: false },
+  { id: 'smile', label: 'Smiling', hint: 'Teeth, smile symmetry', required: false },
+  { id: 'hair', label: 'Hairline', hint: 'Hair pushed back; crown if you can', required: false },
   { id: 'close', label: 'Skin close-up', hint: 'Texture, spots, under-eyes', required: false },
 ] as const;
 
 const SCAN_LINES = [
-  'Mapping facial thirds',
+  'Mapping facial thirds and fifths',
+  'Measuring canthal tilt and eye spacing',
+  'Estimating jaw-to-cheekbone ratio',
+  'Reading the side profile',
   'Reading skin texture and tone',
   'Assessing jawline and midface',
   'Examining brows, eyes and lashes',
   'Evaluating hairline and density',
   'Checking grooming details',
   'Cross-referencing your routine',
+  'Profiling skin type and undertone',
+  'Matching your colour season',
+  'Building your product list',
   'Composing your daily protocol',
+  'Projecting your 12-month roadmap',
 ];
 
 const STATUS_STYLE: Record<MetricStatus, string> = {
@@ -305,7 +315,7 @@ export default function FaceDossier() {
             <ScanFace size={17} /> {dossier ? 'Run a new scan' : 'Run full analysis'}
           </button>
         )}
-        {!photos.front && !busy && <p className="text-[11px] text-gray-600 mt-2 text-center">Add a front photo to begin. Side and close-up make the read far more accurate.</p>}
+        {!photos.front && !busy && <p className="text-[11px] text-gray-600 mt-2 text-center">Add a front photo to begin. Every extra angle — side, smile, hairline, close-up — unlocks more measurements.</p>}
         {error && (
           <div className="mt-3 bg-red-500/10 border border-red-500/30 rounded-xl px-3 py-2 flex items-start gap-2">
             <AlertCircle size={14} className="text-red-400 mt-0.5 flex-shrink-0" />
@@ -400,6 +410,58 @@ export default function FaceDossier() {
             <p className="text-[10px] text-gray-600 mt-2">Tap any metric for what better looks like and exactly how.</p>
           </div>
 
+          {/* Measurements */}
+          {dossier.measurements.length > 0 && (
+            <div className="hud-panel p-4">
+              <Label icon={Ruler}>Measurements</Label>
+              <div className="space-y-2">
+                {dossier.measurements.map((m, i) => (
+                  <div key={m.name + i} className="rounded-xl border border-white/8 bg-black/25 px-3 py-2.5">
+                    <div className="flex items-baseline justify-between gap-2">
+                      <p className="font-semibold text-sm text-gray-100">{m.name}</p>
+                      <span className="font-orbitron text-xs text-cyan-200 flex-shrink-0">{m.value}</span>
+                    </div>
+                    {m.typical && <p className="text-[11px] text-gray-500 mt-0.5">Typical: {m.typical}</p>}
+                    {m.read && <p className="text-xs text-gray-300 mt-1">{m.read}</p>}
+                    {m.changeable && <p className="text-[10px] font-hud uppercase tracking-wider text-yellow-300/80 mt-1">Changeable: {m.changeable}</p>}
+                  </div>
+                ))}
+              </div>
+              {dossier.harmony && <p className="text-sm text-gray-300 mt-3 border-l-2 border-cyan-400/40 pl-3">{dossier.harmony}</p>}
+              <p className="text-[10px] text-gray-600 mt-2">Estimates from 2D photos — lens, angle and expression shift them. Use them to see what can change, not as a score.</p>
+            </div>
+          )}
+
+          {/* Skin, hair and colour profile */}
+          {(dossier.skinProfile.type || dossier.hairProfile.type || dossier.colours.season) && (
+            <div className="hud-panel p-4 space-y-3">
+              <Label icon={Palette}>Your profile</Label>
+              {dossier.skinProfile.type && (
+                <div className="rounded-lg bg-white/[0.03] px-3 py-2">
+                  <p className="font-hud text-[10px] uppercase tracking-[0.2em] text-gray-500">Skin</p>
+                  <p className="text-sm text-gray-200">{[dossier.skinProfile.type, dossier.skinProfile.fitzpatrick && `Fitzpatrick ${dossier.skinProfile.fitzpatrick}`, dossier.skinProfile.undertone && `${dossier.skinProfile.undertone} undertone`].filter(Boolean).join(' · ')}</p>
+                  {dossier.skinProfile.concerns.length > 0 && <p className="text-xs text-gray-400 mt-0.5">{dossier.skinProfile.concerns.join(' · ')}</p>}
+                </div>
+              )}
+              {dossier.hairProfile.type && (
+                <div className="rounded-lg bg-white/[0.03] px-3 py-2">
+                  <p className="font-hud text-[10px] uppercase tracking-[0.2em] text-gray-500">Hair</p>
+                  <p className="text-sm text-gray-200">{[`Type ${dossier.hairProfile.type}`, dossier.hairProfile.density, dossier.hairProfile.norwood && `Norwood: ${dossier.hairProfile.norwood}`].filter(Boolean).join(' · ')}</p>
+                  {dossier.hairProfile.hairline && <p className="text-xs text-gray-400 mt-0.5">{dossier.hairProfile.hairline}</p>}
+                  {dossier.hairProfile.notes && <p className="text-xs text-gray-400 mt-0.5">{dossier.hairProfile.notes}</p>}
+                </div>
+              )}
+              {dossier.colours.season && (
+                <div className="rounded-lg bg-white/[0.03] px-3 py-2">
+                  <p className="font-hud text-[10px] uppercase tracking-[0.2em] text-gray-500">Colours · {dossier.colours.season}</p>
+                  {dossier.colours.wear.length > 0 && <p className="text-xs text-emerald-200 mt-0.5">Wear: {dossier.colours.wear.join(', ')}</p>}
+                  {dossier.colours.avoid.length > 0 && <p className="text-xs text-rose-200/80 mt-0.5">Avoid near the face: {dossier.colours.avoid.join(', ')}</p>}
+                  {dossier.colours.metals && <p className="text-xs text-gray-400 mt-0.5">{dossier.colours.metals}</p>}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Shape, hair, beard, glasses */}
           <div className="hud-panel p-4 space-y-3">
             <Label icon={Scissors}>Framing — hair, beard, frames</Label>
@@ -474,6 +536,45 @@ export default function FaceDossier() {
             </div>
           )}
 
+          {/* Shopping list */}
+          {dossier.products.length > 0 && (
+            <div className="hud-panel p-4">
+              <Label icon={ShoppingBag}>Your shopping list</Label>
+              <div className="space-y-1.5">
+                {dossier.products.map((p, i) => (
+                  <div key={i} className="rounded-lg bg-white/[0.03] px-3 py-2">
+                    <p className="text-sm text-gray-100"><span className="font-hud text-[10px] uppercase tracking-wider text-cyan-300 mr-2">{p.step}</span>{p.product}</p>
+                    {p.why && <p className="text-xs text-gray-500 mt-0.5">{p.why}</p>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Roadmap */}
+          {dossier.roadmap.length > 0 && (
+            <div className="hud-panel p-4">
+              <Label icon={TrendingUp}>What to expect</Label>
+              <ol className="relative border-l border-yellow-400/25 ml-2 space-y-3">
+                {dossier.roadmap.map((r, i) => (
+                  <li key={i} className="pl-4 relative">
+                    <span className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-yellow-300" />
+                    <p className="font-orbitron text-[12px] text-yellow-200">{r.when}</p>
+                    <p className="text-sm text-gray-300 mt-0.5">{r.expect}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
+
+          {/* Photo tips */}
+          {dossier.photoTips.length > 0 && (
+            <div className="hud-panel p-4">
+              <Label icon={Camera}>Photographing this face</Label>
+              <ul className="space-y-1.5">{dossier.photoTips.map((t, i) => <li key={i} className="text-sm text-gray-300 flex gap-2"><span className="text-cyan-400">▸</span>{t}</li>)}</ul>
+            </div>
+          )}
+
           {/* Monologue */}
           {dossier.monologue && (
             <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-[#10151d] to-black p-5">
@@ -484,6 +585,8 @@ export default function FaceDossier() {
               <p className="font-hud text-[10px] uppercase tracking-[0.3em] text-gray-600 mt-3 text-right">— the morning routine, your version</p>
             </div>
           )}
+
+          {dossier.accuracy && <p className="text-[11px] text-gray-500 px-1">{dossier.accuracy}</p>}
 
           {dossier.seeProfessional && (
             <div className="rounded-xl border border-amber-400/30 bg-amber-400/[0.06] p-3 flex gap-2.5">

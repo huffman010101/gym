@@ -885,8 +885,10 @@ export interface FaceMetric {
   timeline: string;
 }
 
+export interface FaceMeasurement { name: string; value: string; typical: string; read: string; changeable: string }
+
 export interface FaceDossier {
-  version: 2;
+  version: 2 | 3;
   greeting: string;
   headline: string;
   strongest: string[];
@@ -905,6 +907,16 @@ export interface FaceDossier {
   monologue: string;
   seeProfessional: string;
   followUps: string[];
+  // v3 deep-analysis fields — optional so older saved scans still render.
+  measurements: FaceMeasurement[];
+  harmony: string;
+  skinProfile: { type: string; fitzpatrick: string; undertone: string; concerns: string[] };
+  hairProfile: { type: string; density: string; hairline: string; norwood: string; notes: string };
+  colours: { season: string; wear: string[]; avoid: string[]; metals: string };
+  products: { step: string; product: string; why: string }[];
+  roadmap: { when: string; expect: string }[];
+  photoTips: string[];
+  accuracy: string;
   builtAt?: string;
 }
 
@@ -925,7 +937,7 @@ export function normaliseDossier(v: FaceDossier): FaceDossier {
   const sk = (o.skincare ?? {}) as Record<string, unknown>;
   const arr = (x: unknown) => (Array.isArray(x) ? x : []) as Record<string, unknown>[];
   return {
-    version: 2,
+    version: 3,
     greeting: str(o.greeting),
     headline: str(o.headline),
     strongest: strs(o.strongest),
@@ -953,6 +965,17 @@ export function normaliseDossier(v: FaceDossier): FaceDossier {
     monologue: str(o.monologue),
     seeProfessional: str(o.seeProfessional),
     followUps: strs(o.followUps).slice(0, 4),
+    measurements: arr(o.measurements).filter(m => m && typeof m.name === 'string').map(m => ({
+      name: str(m.name), value: str(m.value), typical: str(m.typical), read: str(m.read), changeable: str(m.changeable),
+    })),
+    harmony: str(o.harmony),
+    skinProfile: (() => { const x = (o.skinProfile ?? {}) as Record<string, unknown>; return { type: str(x.type), fitzpatrick: str(x.fitzpatrick), undertone: str(x.undertone), concerns: strs(x.concerns) }; })(),
+    hairProfile: (() => { const x = (o.hairProfile ?? {}) as Record<string, unknown>; return { type: str(x.type), density: str(x.density), hairline: str(x.hairline), norwood: str(x.norwood), notes: str(x.notes) }; })(),
+    colours: (() => { const x = (o.colours ?? {}) as Record<string, unknown>; return { season: str(x.season), wear: strs(x.wear), avoid: strs(x.avoid), metals: str(x.metals) }; })(),
+    products: arr(o.products).filter(p => p && typeof p.product === 'string').map(p => ({ step: str(p.step), product: str(p.product), why: str(p.why) })),
+    roadmap: arr(o.roadmap).filter(r => r && typeof r.when === 'string').map(r => ({ when: str(r.when), expect: str(r.expect) })),
+    photoTips: strs(o.photoTips),
+    accuracy: str(o.accuracy),
     builtAt: v.builtAt,
   };
 }
@@ -992,7 +1015,18 @@ WHAT THEY TOLD YOU:
 ${intakeText(intake)}
 """
 
-Analyse EVERY metric you can see in the photos. Cover at least these areas where visible: face shape and proportions (facial thirds), skin texture, skin tone and pigmentation, acne or congestion, under-eyes, eyebrows, eyes and lashes, nose (framing only), cheekbones and midface, jawline and chin, lips, teeth and smile, hairline and density, current hairstyle, facial hair, neck and posture, facial leanness, symmetry, and grooming details. If an area is not visible in the photos, skip it rather than inventing it.
+This is a DEEP analysis — the most thorough read they have ever had. Analyse EVERY metric you can see. Produce at least 25 metrics across these categories where visible:
+- Proportions: facial thirds, facial width-to-height, face length-to-width, rule of fifths, midface length, lower-third balance (upper lip vs chin), symmetry, overall harmony, facial dimorphism.
+- Structure: jawline definition, jaw width vs cheekbones, gonial angle, chin size and projection, cheekbones, midface fullness, nose framing and size relative to face, profile line (forehead-nose-lips-chin), under-chin and neck angle.
+- Eyes: canthal tilt, eye spacing, upper-eyelid exposure / hooding, under-eye area (hollows, dark circles, puffiness), brow position, shape, density and grooming, lashes.
+- Skin: texture and pores, oiliness by zone, acne / congestion / marks, redness, pigmentation and evenness, tone and undertone, hydration, early lines.
+- Smile: lips (fullness, ratio, condition), teeth (colour, alignment, gum show), smile symmetry.
+- Hair: hairline shape and any recession, density at temples and crown, hair type and texture, current cut vs face shape, colour.
+- Grooming: facial hair density and pattern, neckline and cheek line, brows, nose and ear hair, overall polish.
+- Body: neck thickness, posture and head position, leanness of the face, shoulders and frame if visible.
+If something is not visible, skip it rather than inventing it.
+
+MEASUREMENTS: estimate around 16 proportions from the photos (front and side), each with an approximate value, the commonly cited typical/attractive range, what it means for THIS face, and whether it can change (bone = no; fat, posture, grooming, hair = yes). Include: facial thirds ratio, FWHR, face length:width, intercanthal distance vs eye width (rule of fifths), canthal tilt (positive/neutral/negative and rough degrees), interpupillary width vs face width, midface ratio, bigonial:bizygomatic width (jaw vs cheekbones), upper:lower lip ratio, philtrum:chin height, nose width vs intercanthal distance, brow-to-eye distance; from the side if given: gonial angle, chin projection vs the lips (E-line), nasolabial angle, cervicomental (chin-neck) angle, head-forward posture. These are ESTIMATES from 2D photos — never claim precision.
 
 Rules:
 - Be specific to THIS face. Name what you actually see ("mild congestion across the forehead and nose", "brows slightly uneven, left tail shorter"). Generic advice is failure.
@@ -1006,6 +1040,14 @@ Rules:
 - greeting: one line from J.A.R.V.I.S. that makes them feel seen, e.g. "Analysis complete, ${title}. You have more to work with than you think."
 - diet: 4-6 points specific to their skin and body goal (skin-clearing foods, what to cut, and if gaining weight, how).
 - followUps: 3-4 questions they would likely want to ask next.
+- skinProfile: skin type, estimated Fitzpatrick type, undertone (cool/warm/neutral), and the main concerns.
+- hairProfile: hair type (1A-4C), density, hairline description, an estimated Norwood stage only if the hairline is visible (or "not assessable"), and notes.
+- colours: their colour season, 5-6 colours to wear, 3-4 to avoid near the face, and gold vs silver.
+- products: a concrete UK shopping list — 6-10 items with real, widely available product examples (e.g. "The Ordinary Niacinamide 10% + Zinc 1%", "CeraVe Hydrating Cleanser", "La Roche-Posay Anthelios SPF 50"), each tied to a metric. Mark prescription items as "via GP / online dermatology".
+- roadmap: what they will see at 2 weeks, 30 days, 90 days, 6 months and 12 months if they follow the plan — realistic, not hype.
+- photoTips: 4-5 tips for photographing THIS face (angle, lens, lighting, expression, head position).
+- harmony: 2-3 sentences on how the features work together and which single change would improve overall harmony most.
+- accuracy: one honest sentence on what photos cannot tell you (lens distortion, lighting, expression) and how to get a better read next time.
 
 Return ONLY valid JSON, no markdown fences:
 {
@@ -1015,7 +1057,16 @@ Return ONLY valid JSON, no markdown fences:
   "priorities": [{ "title": "…", "why": "…", "impact": "High|Medium" }],
   "faceShape": "oval|round|square|heart|diamond|oblong|triangle",
   "faceShapeReasoning": "…",
-  "metrics": [{ "area": "Skin texture", "category": "Skin|Structure|Eyes|Hair|Grooming|Smile|Body", "status": "Strong|Solid|Improve|Priority", "observed": "what you see", "improve": "what better looks like", "how": ["step", "step"], "timeline": "when results show" }],
+  "metrics": [{ "area": "Skin texture", "category": "Proportions|Structure|Eyes|Skin|Smile|Hair|Grooming|Body", "status": "Strong|Solid|Improve|Priority", "observed": "what you see", "improve": "what better looks like", "how": ["step", "step"], "timeline": "when results show" }],
+  "measurements": [{ "name": "Facial thirds", "value": "≈ 1 : 1.05 : 1.1", "typical": "roughly equal thirds", "read": "what it means for this face", "changeable": "No — bone | Partly — fat/hair | Yes — grooming/posture" }],
+  "harmony": "…",
+  "skinProfile": { "type": "…", "fitzpatrick": "II|III|…", "undertone": "cool|warm|neutral", "concerns": ["…"] },
+  "hairProfile": { "type": "2A", "density": "…", "hairline": "…", "norwood": "…", "notes": "…" },
+  "colours": { "season": "…", "wear": ["…"], "avoid": ["…"], "metals": "…" },
+  "products": [{ "step": "AM cleanse", "product": "…", "why": "…" }],
+  "roadmap": [{ "when": "2 weeks", "expect": "…" }],
+  "photoTips": ["…"],
+  "accuracy": "…",
   "haircuts": [{ "name": "…", "why": "…" }],
   "facialHair": [{ "style": "…", "why": "…" }],
   "glasses": "frame shapes that suit them and why",
@@ -1032,7 +1083,7 @@ Return ONLY valid JSON, no markdown fences:
 
   const msg = await client.messages.create({
     model: 'claude-sonnet-5',
-    max_tokens: 16000,
+    max_tokens: 20000,
     ...NO_THINKING,
     messages: [{ role: 'user', content: content as never }],
   });
