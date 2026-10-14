@@ -421,6 +421,48 @@ Answer as a sharp, honest, motivating coach. Be specific and actionable — conc
   return (textOf(msg) || 'No answer available.');
 }
 
+export interface MealUpgradeAI {
+  additions: { item: string; amount: string; how: string; why: string }[];
+  fruit: { item: string; why: string };
+  swap: string;
+  portions: number;
+  note: string;
+}
+
+/* Diet → Meal upgrader: a fuller veg/fruit upgrade for a meal the owner typed. */
+export async function aiMealUpgrade(meal: string, goal: string): Promise<MealUpgradeAI> {
+  const client = makeClient();
+  const msg = await client.messages.create({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 1500,
+    messages: [{
+      role: 'user',
+      content: `You are a sports nutritionist. Someone eats this meal: "${meal}". Their goal: ${goal || 'build muscle and look healthier'}.
+
+Suggest how to add vegetables and fruit to THIS meal so it still tastes like the same dish — things that fit its cuisine and can go in the same pan, tray or plate with almost no extra effort. UK supermarket items, metric amounts.
+
+Return ONLY valid JSON, no markdown fences:
+{
+  "additions": [{ "item": "veg to add", "amount": "e.g. 80g / a big handful", "how": "exactly how to add it to this dish", "why": "what it does for health, training or skin" }],
+  "fruit": { "item": "a fruit to have with or after", "why": "why it pairs with this meal" },
+  "swap": "one optional swap that makes the meal healthier without losing the point of it, or empty string",
+  "portions": 3,
+  "note": "one honest line, e.g. if they are bulking and veg volume might blunt appetite"
+}
+Give 2-4 additions with different colours.`,
+    }],
+  });
+  const out = parse(textOf(msg)) as Partial<MealUpgradeAI> | null;
+  if (!out || !Array.isArray(out.additions) || !out.additions.length) throw new Error(INCOMPLETE);
+  return {
+    additions: out.additions.filter(a => a && typeof a.item === 'string').map(a => ({ item: a.item, amount: a.amount ?? '', how: a.how ?? '', why: a.why ?? '' })),
+    fruit: { item: out.fruit?.item ?? '', why: out.fruit?.why ?? '' },
+    swap: out.swap ?? '',
+    portions: typeof out.portions === 'number' ? out.portions : 0,
+    note: out.note ?? '',
+  };
+}
+
 export async function dailyCheckIn(summary: string): Promise<string> {
   const client = makeClient();
   const msg = await client.messages.create({

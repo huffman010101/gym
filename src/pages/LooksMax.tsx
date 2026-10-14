@@ -7,6 +7,7 @@ import type { LayeringResult } from '../lib/generators';
 import FaceDossier from '../components/FaceDossier';
 import { LOOKS_TIERS, LOOKS_SCHEDULE, LOOKS_MEDICAL, LOOKS_IGNORE, HAIR_DEPTH } from '../data/looksBlueprint';
 import MealPlanner from '../components/MealPlanner';
+import MealUpgrader from '../components/MealUpgrader';
 import {
   ArrowLeft, ChevronDown, ChevronUp, Check, Sparkles, Scissors, Smile, User,
   BarChart2, Camera, Loader2, AlertCircle, Droplets, Wind, Sun, Moon,
@@ -603,6 +604,8 @@ export default function LooksMax() {
               ]} />
               <GCallout tone="amber" title="The whey and dairy caveat" text="Whey and milk are the easiest weight-gain tools and also the most common acne triggers in people who are sensitive to them. If your skin gets worse after starting a gaining diet, swap whey for egg or pea protein and milk for oat milk for three weeks before blaming anything else." />
             </GFold>
+
+            <MealUpgrader />
 
             <MealPlanner />
 
