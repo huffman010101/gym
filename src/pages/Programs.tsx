@@ -231,7 +231,7 @@ export default function Programs() {
         {/* ===== THE WEEK ===== */}
         {tab === 'plan' && (
           <div className="fade-up stagger space-y-4">
-            <OneThing points={["Three sessions a week: Push Monday, Legs + Speed Tuesday, Pull Thursday. Football Saturday is the fourth.", "Every session: one explosive movement first, four or five lifts, five minutes of ankle work at the end.", "Beat the logbook by a rep or the smallest weight each week. That is progress."]} />
+            <OneThing points={["Three sessions a week: Push Monday, Legs + Speed Tuesday, Pull Thursday. Football Saturday is the fourth.", "Every session: one explosive movement first, four or five lifts, then the posture and ankle finishers.", "Posture is built into every day — the lifting days get a posture finisher, and the 10-minute routine runs daily. It is what shows your jawline.", "Beat the logbook by a rep or the smallest weight each week. That is progress."]} />
             <div className="bg-gradient-to-br from-orange-500/15 to-[#111] border border-orange-500/30 rounded-2xl p-5">
               <h3 className="font-black text-orange-300 mb-2">Three days. Six exercises each. That is the whole thing.</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -250,11 +250,11 @@ export default function Programs() {
                 {[
                   ['Mon', 'Push', 'Chest · shoulders · triceps'],
                   ['Tue', 'Legs + Speed', 'Sprints, jumps, then heavy'],
-                  ['Wed', 'Rest', 'Ankle work only'],
+                  ['Wed', 'Rest', 'Posture 10 min + ankle work'],
                   ['Thu', 'Pull', 'Back · biceps'],
-                  ['Fri', 'Rest', 'Ankle work only'],
+                  ['Fri', 'Rest', 'Posture 10 min + ankle work'],
                   ['Sat', 'Football', 'Your match'],
-                  ['Sun', 'Rest', 'Off'],
+                  ['Sun', 'Rest', 'Posture 10 min, a walk'],
                 ].map(([d, n, f]) => (
                   <div key={d} className={`flex items-center gap-3 px-4 py-2 ${n === 'Rest' ? 'bg-emerald-500/5' : ''}`}>
                     <span className={`text-[11px] font-black w-8 flex-shrink-0 ${n === 'Rest' ? 'text-emerald-400' : 'text-orange-400'}`}>{d}</span>
@@ -273,9 +273,10 @@ export default function Programs() {
                 ['Weighted dips', '3 × 8-10'],
                 ['Lateral raise', '3 × 12-15'],
                 ['Triceps pushdown', '3 × 12'],
+                ['+ Posture: band pull-aparts + doorway stretch', '2 × 15 · 2 × 30s'],
                 ['+ Ankle finisher', '5 min'],
               ]}
-              note="The med ball throw is the explosive one — hardest possible effort, full rest, and it goes first."
+              note="The med ball throw is the explosive one — hardest possible effort, full rest, and it goes first. Pressing pulls the shoulders forward, so the pull-aparts and doorway stretch balance it out the same day."
             />
 
             <DayCard day="TUE" name="Legs + Speed" focus="The day that makes you faster" detailTab="legs" setTab={setTab}
@@ -287,6 +288,7 @@ export default function Programs() {
                 ['Bulgarian split squat', '3 × 8/leg'],
                 ['Nordic hamstring curl', '2 × 5'],
                 ['Calf raises (straight + bent knee)', '2 × 15 each'],
+                ['+ Posture: couch stretch + glute bridge', '2 × 45s/side · 2 × 12'],
                 ['+ Ankle finisher', '5 min'],
               ]}
               note="Jumps and sprints BEFORE the lifting, never after. Warm up properly first — cold hamstrings and sprinting is how people tear something."
@@ -300,6 +302,7 @@ export default function Programs() {
                 ['Face pull', '3 × 15'],
                 ['Incline DB curl', '3 × 10-12'],
                 ['Hammer curl', '2 × 12'],
+                ['+ Posture: prone Y-T-W + chin tucks', '2 × 10 · 2 × 10'],
                 ['+ Ankle finisher', '5 min'],
               ]}
             />
@@ -777,6 +780,35 @@ export default function Programs() {
                 treat "it will fix your pain" as a maybe rather than a promise.
               </p>
             </div>
+            <Fold title="The wall test — what yours is telling you" tag="Heels, bum, upper back and head against a wall" items={[
+              ['How to do it', 'Heels about 5cm from the wall, bum and upper back touching, then try to rest the back of your head on the wall with your chin level — not tipped up. Take a side-on photo.'],
+              ['Head will not reach without the chin lifting', 'Forward head posture. The head has drifted in front of the shoulders.'],
+              ['Shoulders and upper back will not touch', 'Rounded shoulders and a stiff upper back. This is why your chin tuck feels impossible: your head sits on top of your upper back, so while that is rounded the head physically cannot go back. Fix the upper back and the chin tuck follows.'],
+              ['Big gap at the lower back', 'More than a flat hand of space means an arched lower back (anterior pelvic tilt) — tight hip flexors, weak glutes. Often the reason you tip forward when walking.'],
+              ['Redo it monthly', 'Same wall, same photo. Expect visible change in 4-8 weeks of daily work.'],
+            ]} />
+            <Fold title="When chin tucks feel impossible — the progression" tag="Do not force it against the wall" items={[
+              ['Why forcing it fails', 'If the upper back is rounded, pushing your head to the wall makes you lean back from the hips or tip your chin up. That trains the wrong thing. Start where gravity helps.'],
+              ['Stage 1 (weeks 1-2): on the floor', 'Lie on your back, knees bent, head on the floor or a thin folded towel. Nod slightly and slide the back of your head along the floor into a double chin. 3 × 10 with 5-second holds. You will feel the front of the neck working.'],
+              ['Open the upper back at the same time', 'Thoracic extensions over a foam roller or rolled towel, 10 reps. Then lie lengthwise on a rolled towel along your spine with arms out wide for 3 minutes — a passive chest opener.'],
+              ['Stage 2 (weeks 2-4): seated with a pillow', 'Sit with your back against a wall and a pillow behind your upper back, so your head has somewhere to reach. Tuck back to the pillow. Make the pillow thinner each week.'],
+              ['Stage 3 (week 4+): standing at the wall', 'Shoulders as close to the wall as they comfortably go — not forced — then tuck. When the back of your head touches with the chin level, you have fixed it.'],
+              ['All day', 'One chin tuck every time you sit down, stop at a red light or pick up your phone. Twenty small reps a day beat one big session.'],
+              ['Strength keeps it there', 'Face pulls, Y-T-W raises, rows and pull-aparts build the muscles that hold your shoulders back. Stretching alone always slides back — that is why the posture finishers are in your lifting days now.'],
+            ]} />
+            <Fold title="Leaning forward when you walk" tag="Hips, head and habits" items={[
+              ['Why it happens', 'Forward head, tight hip flexors from sitting, weak glutes and looking at your phone tip your whole torso forward. Tall people also stoop without realising.'],
+              ['Cues while you walk', 'Tall through the crown, as if a string lifts the back of your head. Ribs down, not chest puffed out. Eyes on the horizon, not the pavement or your phone. Push off with the back foot and feel the glute work. Walk 20% slower.'],
+              ['Fix the hips', 'Couch stretch 2 × 45 seconds a side daily, glute bridges 2 × 12, and dead bugs to keep the ribs down. They are on your Legs day now and fine to do at home.'],
+              ['At 6ft 4', 'When you talk to shorter people, do not stoop from the neck — bend the knees slightly or lean in from the hips.'],
+              ['Check it', 'Film yourself walking side-on once a week for a month. You will see it, and seeing it is what makes it change.'],
+            ]} />
+            <Fold title="Why it changes your face" tag="Posture is the fastest jawline fix there is" items={[
+              ['What forward head does', 'It pushes the soft tissue under your chin forward and opens the angle between your chin and neck, so the jaw blurs into the neck. You look softer and less defined even when you are lean.'],
+              ['What fixing it does', 'Head back over the shoulders tightens the under-chin and shows the jawline — visible in photos within weeks, before any fat loss.'],
+              ['Tongue up', 'Whole tongue resting on the roof of your mouth firms the under-chin further. Do it with every chin tuck.'],
+              ['The honest bit', 'Posture does not create bone; it reveals what is there. Getting to 10-14% body fat does the rest — see Looks → Blueprint and the hyoid section.'],
+            ]} />
             <Block title="The two patterns worth addressing" items={[
               ['Upper cross — forward head, rounded shoulders', 'Tight and overactive: chest, upper traps, deep chest muscles. Weak and lengthened: deep neck flexors, mid and lower traps, rhomboids, rear delts. This is the one that visibly changes your silhouette.'],
               ['Anterior pelvic tilt — arched lower back, stomach pushed forward', 'Tight hip flexors and lower back, weak glutes and abs. A small degree of tilt is completely normal — only worth addressing if it is pronounced.'],
