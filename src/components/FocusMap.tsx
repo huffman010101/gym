@@ -37,6 +37,7 @@ const GOALS: Goal[] = [
     { to: '/looksmax?tab=look', label: 'Looks → Face · Hair · Style', why: 'Jaw, neck, hyoid, colouring, fascia, symmetry, haircut, grooming, clothes' },
     { to: '/looksmax?tab=diet', label: 'Looks → Diet', why: 'Meal plan, recipes, foods for skin' },
     { to: '/looksmax?tab=techniques', label: 'Looks → Body & Habits', why: 'Body fat, debloat, sleep' },
+    { to: '/looksmax?tab=hormones', label: 'Looks → Hormones & Bone', why: 'Testosterone, morning wood, bone density, height' },
   ] },
   { id: 'girls', label: 'Girls & confidence', dests: [
     { to: '/mind?tab=him', label: 'Mind → Start Here', why: 'Six pillars, the eight rules, actually changing, the 90 days' },

@@ -8,14 +8,15 @@ import FaceDossier from '../components/FaceDossier';
 import { LOOKS_TIERS, LOOKS_SCHEDULE, LOOKS_MEDICAL, LOOKS_IGNORE, HAIR_DEPTH } from '../data/looksBlueprint';
 import MealPlanner from '../components/MealPlanner';
 import MealUpgrader from '../components/MealUpgrader';
+import { HORMONE_TLDR, MORNING_WHAT, MORNING_FIX, HORMONE_LEVERS, HORMONE_MYTHS, HORMONE_DANGER, BONE, BLOOD_TEST, HORMONE_DAILY } from '../data/hormones';
 import {
   ArrowLeft, ChevronDown, ChevronUp, Check, Sparkles, Scissors, Smile, User,
   BarChart2, Camera, Loader2, AlertCircle, Droplets, Wind, Sun, Moon,
   Activity, Eye, ChevronRight, Utensils,
 } from 'lucide-react';
 
-type LooksTab = 'plan' | 'scan' | 'look' | 'skin' | 'diet' | 'techniques' | 'fragrance';
-const LOOKS_TABS = ['plan', 'scan', 'look', 'skin', 'diet', 'techniques', 'fragrance'] as const;
+type LooksTab = 'plan' | 'scan' | 'look' | 'skin' | 'diet' | 'techniques' | 'hormones' | 'fragrance';
+const LOOKS_TABS = ['plan', 'scan', 'look', 'skin', 'diet', 'techniques', 'hormones', 'fragrance'] as const;
 // Face, Hair, Grooming and Style were merged into one tab; old links land on
 // the right section of it.
 const LOOK_SECTIONS = [
@@ -236,13 +237,14 @@ export default function LooksMax() {
     { id: 'skin', label: 'Skin', icon: Droplets },
     { id: 'diet', label: 'Diet', icon: Utensils },
     { id: 'techniques', label: 'Body & Habits', icon: Sparkles },
+    { id: 'hormones', label: 'Hormones & Bone', icon: Activity },
     { id: 'fragrance', label: 'Scent', icon: Wind },
   ];
 
   return (
     <div className="min-h-screen bg-transparent bg-gradient-to-b from-purple-950/40 via-transparent to-transparent text-white pb-24">
       <div className="px-5 pt-6">
-        <SectionHeader icon={Sparkles} title="Looks" subtitle="Blueprint · Scan · Face, Hair & Style · Skin · Diet · Body · Scent" />
+        <SectionHeader icon={Sparkles} title="Looks" subtitle="Blueprint · Scan · Face, Hair & Style · Skin · Diet · Body · Hormones · Scent" />
         <TabBar tabs={TABS} active={tab} onChange={setTab} />
       </div>
 
@@ -753,6 +755,36 @@ export default function LooksMax() {
         )}
 
 
+        {/* ===== HORMONES & BONE ===== */}
+        {tab === 'hormones' && (
+          <div className="fade-up stagger space-y-3">
+            <Tldr points={HORMONE_TLDR} />
+            <div className="bg-[#111] border border-cyan-400/30 rounded-2xl p-4">
+              <p className="font-hud text-[11px] font-bold uppercase tracking-[0.2em] text-cyan-300 mb-2">The daily hormone stack</p>
+              {HORMONE_DAILY.map(d => <p key={d} className="text-sm text-gray-300 leading-relaxed flex gap-2"><Check size={14} className="text-cyan-300 flex-shrink-0 mt-1" />{d}</p>)}
+            </div>
+            <GFold title="Morning wood — what it tells you" tag="A free daily health check" defaultOpen>
+              <GPairs items={MORNING_WHAT} />
+            </GFold>
+            <GFold title="Morning wood — the protocol" tag="Ranked, biggest lever first">
+              <GPairs items={MORNING_FIX} />
+            </GFold>
+            <GFold title="Maximising hormones naturally" tag="What actually moves testosterone at 19">
+              <GPairs items={HORMONE_LEVERS} />
+            </GFold>
+            <GFold title="What doesn't work" tag="Save your money">
+              <GPairs items={HORMONE_MYTHS} />
+            </GFold>
+            <GCallout tone="red" title="Hard no" text={HORMONE_DANGER} />
+            <GFold title="Bone at 19 — what you can still change" tag="Height, density, your face">
+              <GPairs items={BONE} />
+              <Link to="/programs?tab=posture" className="inline-flex items-center gap-1 text-xs text-cyan-300">Gym → Posture <ChevronRight size={12} /></Link>
+            </GFold>
+            <GFold title="When to get checked" tag="Free on the NHS">
+              <GPairs items={BLOOD_TEST} />
+            </GFold>
+          </div>
+        )}
 
         {/* ===== FRAGRANCE TAB ===== */}
         {tab === 'fragrance' && (
