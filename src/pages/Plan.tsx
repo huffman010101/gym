@@ -202,8 +202,14 @@ function Customise({ q, set, rebuildWorkout, rebuildMeals, busy }: {
   );
 }
 
-export default function Plan() {
+// The AI plan lives as a tab of Gym (/programs?tab=ai); /plan redirects there.
+// The generated workout and meals are cached so opening the tab does not
+// spend two AI calls and reshuffle the plan every time.
+const WK = 'gymforge_ai_workout', MK = 'gymforge_ai_meals';
+
+export default function Plan({ embedded = false }: { embedded?: boolean }) {
   const nav = useNavigate();
+  const [noQuiz, setNoQuiz] = useState(false);
   const [quiz, setQuiz] = useState<Record<string, unknown> | null>(null);
   const [macros, setMacros] = useState<Macros | null>(null);
   const [workout, setWorkout] = useState<WorkoutPlan | null>(null);
@@ -224,18 +230,28 @@ export default function Plan() {
 
   useEffect(() => {
     const raw = localStorage.getItem('gymforge_quiz');
-    if (!raw) { nav('/quiz'); return; }
+    if (!raw) { if (embedded) setNoQuiz(true); else nav('/quiz'); return; }
     const q = JSON.parse(raw) as Record<string, unknown>;
+    try { const w = localStorage.getItem(WK); if (w) setWorkout(JSON.parse(w)); } catch { /* regenerate */ }
+    try { const m = localStorage.getItem(MK); if (m) setMeals(JSON.parse(m)); } catch { /* regenerate */ }
     setQuiz(q);
     setMacros(calcMacros(q));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Generate only what is missing. Changing a setting does not regenerate —
+  // the Rebuild buttons do, so one tweak never costs two AI calls.
+  const started = useRef(false);
   useEffect(() => {
-    if (!quiz || !macros) return;
-    fetchWorkout(quiz);
-    fetchMeals(quiz, macros);
+    if (!quiz || !macros || started.current) return;
+    started.current = true;
+    if (!workout) fetchWorkout(quiz);
+    if (!meals.length) fetchMeals(quiz, macros);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quiz]);
+
+  useEffect(() => { if (workout) try { localStorage.setItem(WK, JSON.stringify(workout)); } catch { /* quota */ } }, [workout]);
+  useEffect(() => { if (meals.length) try { localStorage.setItem(MK, JSON.stringify(meals)); } catch { /* quota */ } }, [meals]);
 
   const fetchWorkout = async (q: Record<string, unknown>) => {
     setLoadW(true); setErrW('');
@@ -316,9 +332,23 @@ export default function Plan() {
     { name: 'Fat',      val: macros.fat,      unit: 'g',    tc: 'text-yellow-400', bg: 'bg-yellow-500/10'},
   ] : [];
 
+  if (noQuiz) return (
+    <button onClick={() => nav('/quiz')} className="w-full text-left bg-orange-500/10 border border-orange-500/25 rounded-2xl px-4 py-4">
+      <p className="text-orange-300 font-bold text-sm">No personal plan yet</p>
+      <p className="text-gray-400 text-xs mt-1">Take the 2-minute quiz and J.A.R.V.I.S. builds your workout, calories and meals — then you can change days, split, meals per day and exercises here.</p>
+    </button>
+  );
+
   return (
-    <div className="min-h-screen bg-transparent text-white pb-32">
-      <div className="sticky top-0 z-40 flex items-center justify-between px-6 py-4 border-b border-white/5 bg-[#04060a]/90 backdrop-blur-sm">
+    <div className={embedded ? 'text-white pb-20' : 'min-h-screen bg-transparent text-white pb-32'}>
+      {embedded ? (
+        <div className="flex items-center justify-between gap-3 mb-4">
+          {primaryGoal ? <span className="text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full">{GOAL_LABEL[primaryGoal] ?? primaryGoal}</span> : <span />}
+          <button onClick={() => nav('/quiz')} className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-white transition-all">
+            <RotateCcw size={12} /> Retake quiz
+          </button>
+        </div>
+      ) : <div className="sticky top-0 z-40 flex items-center justify-between px-6 py-4 border-b border-white/5 bg-[#04060a]/90 backdrop-blur-sm">
         <div className="flex items-center gap-2">
           <ArcReactor size={24} />
           <span className="font-orbitron text-[12px] tracking-[0.25em] hud-text-cyan">J.A.R.V.I.S.</span>
@@ -335,7 +365,8 @@ export default function Plan() {
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-5 py-8 space-y-10">
+      }
+      <div className={embedded ? 'space-y-10' : 'max-w-3xl mx-auto px-5 py-8 space-y-10'}>
 
         <Customise q={quiz} set={updateQuiz} busy={loadW || loadM}
           rebuildWorkout={() => fetchWorkout(quiz)} rebuildMeals={() => macros && fetchMeals(quiz, macros)} />
@@ -491,7 +522,7 @@ export default function Plan() {
         </section>
       </div>
 
-      <div className="fixed bottom-6 right-5 flex flex-col items-end gap-3 z-50">
+      <div className="fixed bottom-24 right-5 flex flex-col items-end gap-3 z-50">
         {(transcript || voiceResp || procVoice) && (
           <div className="bg-[#1c1c1c] border border-white/10 rounded-2xl p-4 w-72 shadow-2xl text-sm">
             {transcript && (
@@ -517,7 +548,7 @@ export default function Plan() {
           <p className="text-xs text-gray-600">{listening ? 'Tap to stop' : 'Voice'}</p>
         </div>
       </div>
-      <BottomNav />
+      {!embedded && <BottomNav />}
     </div>
   );
 }

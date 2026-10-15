@@ -1,13 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, ChevronDown, Dumbbell, Utensils, Flame, Activity } from 'lucide-react';
+import { ArrowLeft, ChevronDown, ChevronRight, Dumbbell } from 'lucide-react';
+import LiftTracker from '../components/LiftTracker';
+import BulkCheck from '../components/BulkCheck';
+import Plan from './Plan';
+import FoodLog from './FoodLog';
+import Physique from './Physique';
 import BottomNav from '../components/BottomNav';
 import { SectionHeader, TabBar, OneThing } from '../components/Hud';
 
-type Tab = 'plan' | 'push' | 'pull' | 'legs' | 'core' | 'mobility' | 'recovery' | 'posture' | 'rules';
+type Tab = 'plan' | 'bulk' | 'push' | 'pull' | 'legs' | 'core' | 'mobility' | 'recovery' | 'posture' | 'rules' | 'ai' | 'food' | 'physique';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'plan', label: '★ The Plan' },
+  { id: 'bulk', label: 'Lean Bulk' },
   { id: 'push', label: 'Push' },
   { id: 'pull', label: 'Pull' },
   { id: 'legs', label: 'Legs + Athletic' },
@@ -16,6 +22,9 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'recovery', label: 'Recovery' },
   { id: 'posture', label: 'Posture' },
   { id: 'rules', label: 'How to Run It' },
+  { id: 'ai', label: 'AI Plan' },
+  { id: 'food', label: 'Food Log' },
+  { id: 'physique', label: 'Physique' },
 ];
 
 interface Ex { name: string; sets: string; targets?: string; how?: string; why: string }
@@ -189,20 +198,20 @@ export default function Programs() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get('tab');
-    return (['plan', 'push', 'pull', 'legs', 'core', 'mobility', 'recovery', 'posture', 'rules'] as const)
+    return (['plan', 'bulk', 'push', 'pull', 'legs', 'core', 'mobility', 'recovery', 'posture', 'rules', 'ai', 'food', 'physique'] as const)
       .includes(t as Tab) ? (t as Tab) : 'plan';
   });
   // Follow ?tab= changes while already on this page (links between its own
   // tabs), not just on first mount.
   useEffect(() => {
     const t = params.get('tab');
-    if (t && (['plan', 'push', 'pull', 'legs', 'core', 'mobility', 'recovery', 'posture', 'rules'] as const).includes(t as Tab)) setTab(t as Tab);
+    if (t && (['plan', 'bulk', 'push', 'pull', 'legs', 'core', 'mobility', 'recovery', 'posture', 'rules', 'ai', 'food', 'physique'] as const).includes(t as Tab)) setTab(t as Tab);
   }, [params]);
 
   return (
     <main className="min-h-screen bg-transparent bg-gradient-to-b from-orange-950/30 via-transparent to-transparent text-white pb-24">
       <div className="max-w-2xl mx-auto px-5 pt-6">
-        <SectionHeader icon={Dumbbell} title="The Program" subtitle="3 days · bigger upper · explosive legs · ankle rehab" />
+        <SectionHeader icon={Dumbbell} title="Gym" subtitle="The plan · lean bulk · AI plan · food · physique" />
 
         <div className="bg-orange-500/5 border border-orange-500/20 rounded-xl px-4 py-3 mb-5">
           <p className="text-xs text-orange-200/80 leading-relaxed">
@@ -210,20 +219,6 @@ export default function Programs() {
             <span className="text-orange-300 font-bold"> Pull</span>. Each starts explosive, builds the footballer-with-bigger-arms-and-back
             physique, and ends with five minutes on your ankle. Football is the fourth session.
           </p>
-        </div>
-
-        <div className="grid grid-cols-3 gap-2 mb-6">
-          {[
-            { to: '/plan', icon: Utensils, label: 'AI Plan', color: 'text-blue-400' },
-            { to: '/food', icon: Flame, label: 'Food Log', color: 'text-green-400' },
-            { to: '/physique', icon: Activity, label: 'Physique', color: 'text-purple-400' },
-          ].map(({ to, icon: Icon, label, color }) => (
-            <Link key={to} to={to}
-              className="bg-[#111] border border-white/8 hover:border-white/20 rounded-xl px-2 py-3 flex flex-col items-center gap-1.5 transition-colors">
-              <Icon size={17} className={color} />
-              <span className="text-[11px] font-semibold text-gray-300">{label}</span>
-            </Link>
-          ))}
         </div>
 
         <TabBar tabs={TABS} active={tab} onChange={setTab} />
@@ -264,6 +259,14 @@ export default function Programs() {
                 ))}
               </div>
             </div>
+
+            <button onClick={() => setTab('bulk')} className="w-full text-left bg-[#111] border border-orange-500/30 rounded-2xl px-4 py-3 flex items-center justify-between gap-3">
+              <span>
+                <span className="block text-sm font-bold text-orange-300">On a lean bulk? Lifts stuck?</span>
+                <span className="block text-[11px] text-gray-500 mt-0.5">Wednesday becomes the Upper Size day. Log your lifts and weigh-ins there and it tells you what to change.</span>
+              </span>
+              <ChevronRight size={16} className="text-orange-300 flex-shrink-0" />
+            </button>
 
             <DayCard day="MON" name="Push" focus="Chest, shoulders, triceps" detailTab="push" setTab={setTab}
               exercises={[
@@ -346,13 +349,81 @@ export default function Programs() {
 
             <Fold title="Why it is only three days" tag="And what to add if you want more" items={[
               ['Three gym days plus football is four hard sessions', 'That is a full week for someone playing matches with an ankle still settling. More sessions is not more progress — more sessions you actually recover from is.'],
-              ['Every muscle still gets hit twice', 'Push and Pull cover the upper body directly, and legs get Tuesday plus 90 minutes of running on Saturday. That is enough to keep building.'],
+              ['What it trades away', 'Legs get hit twice (Tuesday plus 90 minutes of running on Saturday), but chest, shoulders, back and arms get one hard session each. That is enough to keep building slowly. For faster size, the Lean Bulk tab adds a fourth day.'],
               ['Six exercises is deliberate', 'Long sessions are the ones you skip. Six movements takes about 50 minutes and you will actually do it every week, which beats a perfect 12-exercise plan you abandon in a fortnight.'],
-              ['If you want a fourth day', 'Add a second Pull-style day rather than more legs — your back and arms are what you said you wanted bigger, and they recover faster than legs do.'],
+              ['If you want a fourth day', 'Use the Upper Size day in the Lean Bulk tab: chest, shoulders and arms on Wednesday, with no legs and no back, so Thursday and Saturday are unaffected.'],
               ['If a session feels too easy', 'Add weight, not exercises. The programme stays the same for months; the numbers on it go up.'],
             ]} />
           </div>
         )}
+
+        {/* ===== LEAN BULK ===== */}
+        {tab === 'bulk' && (
+          <div className="fade-up stagger space-y-4">
+            <OneThing points={[
+              'Stuck lifts are almost always food, not the programme. Football, padel and combat burn far more than the calorie number assumes — weigh in, and let the trend below tell you to eat more.',
+              'Gain 0.1-0.35kg a week. Faster than that is mostly fat, and it shows on your face first.',
+              'Log your best set on every main lift and beat it next time. Hit the top of the rep range, then add weight.',
+              'Add Wednesday\'s Upper Size day for this block. Chest, shoulders and arms then get trained twice a week instead of once.',
+            ]} />
+
+            <BulkCheck />
+            <LiftTracker />
+
+            <Block title="Why your lifts have stalled — most likely first" items={[
+              ['1. You are not actually in a surplus', 'A 90-minute match burns 800-1,000 kcal, and padel and combat add more. The AI Plan calorie number counts gym days only, so it is probably below your real maintenance. If the bulk check says you are not gaining, this is the reason — no programme fixes it.'],
+              ['2. Nothing is written down', 'Without a logbook most people lift the same weights for months without noticing. The tracker above sets the number to beat every session.'],
+              ['3. Sets stop too far from failure', 'If you could have done 4-5 more reps, the set barely counts. Finish most working sets with 1-2 reps left, and take the last set of each isolation exercise to failure.'],
+              ['4. Each upper muscle is trained once a week', 'The 3-day plan gives chest, shoulders and arms one hard session each. That is enough to hold and slowly build. For a bulk, twice a week is better — that is the Wednesday day below.'],
+              ['5. Sleep under 8 hours', 'Strength recovery and testosterone both run on sleep. Six-hour nights stall lifts on their own, and they make the surplus go to fat.'],
+              ['6. The exercise keeps changing', 'A different machine, grip, depth or tempo every week makes progress impossible to see. Keep the setup identical and the same exercise for at least 8 weeks.'],
+              ['7. Too much sport fatigue on lifting days', 'A hard padel or combat session the night before a heavy day costs you reps. Keep the big sport sessions away from Tuesday\'s legs and the day before Monday\'s press.'],
+            ]} />
+
+            <DayCard day="WED" name="Upper Size (bulk only)" focus="Chest, shoulders and arms — the second hit of the week" detailTab="push" setTab={setTab}
+              exercises={[
+                ['Bench press (barbell or machine)', '3 × 6-10'],
+                ['Cable fly or pec deck', '2 × 12-15'],
+                ['Lateral raise', '4 × 12-20'],
+                ['Rear delt fly / reverse pec deck', '3 × 15'],
+                ['Overhead cable triceps extension', '3 × 10-12'],
+                ['Preacher or Bayesian cable curl', '3 × 10-12'],
+                ['+ Posture: chin tucks + wall slides', '2 × 10 · 2 × 10'],
+              ]}
+              note="About 45 minutes. No back work on Wednesday — Thursday's weighted pull-ups need you fresh. No legs either, so Saturday's game is unaffected. If you play padel or fight on Wednesday, move this day to Friday and keep it upper-only."
+            />
+
+            <Block title="The lean bulk, set up properly" items={[
+              ['Calories', 'Start at the AI Plan number, plus 300-500 kcal on match days. After two weeks, let the bulk check adjust it in 150-200 kcal steps. The scale trend beats any calculator.'],
+              ['Protein', '1.6-2.2g per kg every day, split across 4 meals. Looks → Diet has the meal plan and the Sainsbury\'s prep recipes.'],
+              ['Carbs around training', 'Rice, oats, potatoes and fruit before and after sessions and matches. Carbs are what let you add reps, and they are the easiest surplus calories to eat.'],
+              ['Rate', '0.1-0.35kg a week, about 0.5-1.5kg a month. At 19 that is mostly muscle when you train hard. Faster than that is mostly fat.'],
+              ['Length', 'Run it 4-6 months, then reassess. If your jawline has softened, do a 4-6 week mini-cut at 400-500 kcal under maintenance, keeping the same lifting. Then bulk again.'],
+              ['What to expect', 'Past the first year, good progress is a rep or a small jump every 1-3 weeks on each lift — about 2.5-5kg a month on trap bar and bench, and 2kg per hand every month or two on dumbbells. Slow and steady is still progress.'],
+            ]} />
+
+            <Block title="Keeping your jawline while you grow" items={[
+              ['Start lean', 'Begin the bulk with a visible jawline (roughly 12-14% body fat). Bulking from a softer starting point puts you in the "puffy" zone within weeks.'],
+              ['Watch your waist, not just the scale', 'Measure at the navel every two weeks in Physique. More than about 1cm a month means the surplus is too big — the bulk check flags it.'],
+              ['Same photo every week', 'Same mirror, same light, first thing in the morning, in the Physique tab. A face slowly softening is invisible day to day, but obvious side by side.'],
+              ['Puffy is not the same as fat', 'A salty takeaway, big carb days and alcohol hold water in your face for 1-3 days. Judge the weekly trend, not one morning. Looks → Body & Habits has the debloat routine.'],
+              ['Keep steps at 8-10k', 'Bulking is not a licence to stop moving. Daily steps keep the surplus going to muscle and stop your appetite running the show.'],
+              ['Posture', 'Holding your head forward hides your jaw at any body fat. Keep doing the posture finishers.'],
+            ]} />
+
+            <Fold title="When to add weight — double progression" tag="The rule the tracker uses" items={[
+              ['The rule', 'Each lift has a rep range, e.g. 8-10. Keep the same weight and add a rep each session. When your best set reaches the top of the range, add the smallest jump and drop back to the bottom.'],
+              ['Smallest jumps', 'Dumbbells 2kg per hand, barbell lifts 2.5kg, trap bar 5kg, dips and pull-ups 2.5kg added. If the gym jumps more than that, add a rep at a time instead.'],
+              ['Log the best set', 'Log the heaviest set you did with clean form, not your warm-ups. Same depth, same pause, same range every time, or the number means nothing.'],
+              ['A bad day is not a stall', 'Bad sleep or a match the day before can cost you a rep. The tracker only flags a stall after three sessions over two weeks without a new best.'],
+            ]} />
+          </div>
+        )}
+
+        {/* ===== AI PLAN, FOOD LOG, PHYSIQUE — merged into Gym ===== */}
+        {tab === 'ai' && <div className="fade-up"><Plan embedded /></div>}
+        {tab === 'food' && <div className="fade-up"><FoodLog embedded /></div>}
+        {tab === 'physique' && <div className="fade-up"><Physique embedded /></div>}
 
         {/* ===== PUSH ===== */}
         {tab === 'push' && (

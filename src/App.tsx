@@ -1,12 +1,9 @@
-import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useState, useEffect, Fragment } from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
 import Home from './pages/Home';
 import Quiz from './pages/Quiz';
-import Plan from './pages/Plan';
 import Programs from './pages/Programs';
-import FoodLog from './pages/FoodLog';
-import Physique from './pages/Physique';
 import LooksMax from './pages/LooksMax';
 import Combat from './pages/Combat';
 import Mind from './pages/Mind';
@@ -87,10 +84,11 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/quiz" element={<Quiz />} />
-        <Route path="/plan" element={<Plan />} />
+        {/* AI Plan, Food Log and Physique are tabs of Gym now; old links still land. */}
+        <Route path="/plan" element={<Navigate to="/programs?tab=ai" replace />} />
         <Route path="/programs" element={<Programs />} />
-        <Route path="/food" element={<FoodLog />} />
-        <Route path="/physique" element={<Physique />} />
+        <Route path="/food" element={<Navigate to="/programs?tab=food" replace />} />
+        <Route path="/physique" element={<Navigate to="/programs?tab=physique" replace />} />
         <Route path="/looksmax" element={<LooksMax />} />
         <Route path="/combat" element={<Combat />} />
         <Route path="/mind" element={<Mind />} />

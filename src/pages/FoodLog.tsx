@@ -16,7 +16,7 @@ function loadQuiz(): Record<string, unknown> {
   catch { return {}; }
 }
 
-export default function FoodLog() {
+export default function FoodLog({ embedded = false }: { embedded?: boolean }) {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [analysis, setAnalysis] = useState<FoodAnalysis | null>(null);
@@ -57,12 +57,12 @@ export default function FoodLog() {
   const pct = (val: number, target: number) => Math.min(100, Math.round((val / target) * 100));
 
   return (
-    <div className="min-h-screen bg-transparent text-white pb-24">
-      <div className="px-5 pt-6">
+    <div className={embedded ? 'text-white' : 'min-h-screen bg-transparent text-white pb-24'}>
+      {!embedded && <div className="px-5 pt-6">
         <SectionHeader icon={Flame} title="Fuel Log" subtitle="Tell me what you ate — I will break it down" back={{ to: '/programs', label: 'Gym' }} />
-      </div>
+      </div>}
 
-      <div className="px-4 space-y-4">
+      <div className={embedded ? 'space-y-4' : 'px-4 space-y-4'}>
         {!targets && (
           <Link to="/quiz" className="flex items-center justify-between bg-orange-500/10 border border-orange-500/20 rounded-xl px-4 py-3 hover:bg-orange-500/15 transition-colors">
             <div>
@@ -232,7 +232,7 @@ export default function FoodLog() {
         )}
       </div>
 
-      <BottomNav />
+      {!embedded && <BottomNav />}
     </div>
   );
 }

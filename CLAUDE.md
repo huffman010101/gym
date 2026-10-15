@@ -99,6 +99,17 @@ Vite + React 18 + TypeScript SPA, **HashRouter** (required for GitHub Pages), Ta
   `DailyAffirmation` sits above that: one line a day from `DAILY_AFFIRMATIONS` (myNotes.ts), logged in
   `gymforge_affirm_log`.
 
+### Gym is one section
+
+`/programs` (titled **Gym**) holds everything gym: the fixed plan, `Lean Bulk` (`LiftTracker` —
+double progression and stall detection in `gymforge_lifts`; `BulkCheck` — weigh-ins in
+`gymforge_weighins` merged with Physique weights, 28-day slope → eat more / hold / eat less), and the
+`AI Plan`, `Food Log` and `Physique` tabs. Those three pages render inside Gym with `embedded`; their old
+routes (`/plan`, `/food`, `/physique`) are `<Navigate>` redirects, so link to `/programs?tab=ai|food|physique`.
+The AI workout and meals are cached in `gymforge_ai_workout` / `gymforge_ai_meals` and only regenerate on
+the Rebuild buttons or a retaken quiz (which clears them) — do not reintroduce generate-on-mount.
+`TabBar` scrolls the active tab into view, which matters with Gym's 13 tabs.
+
 ### Theme and the command screen
 
 - The HUD theme is global CSS in `src/index.css`: the fixed backdrop is `body::before` (body stays
@@ -143,7 +154,7 @@ silently destroys any content containing a stray `<`, e.g. "PED < 1".
 
 ### Offline / service worker
 
-`public/sw.js` (cache `gymforge-v61`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
+`public/sw.js` (cache `gymforge-v62`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
 asset list can only be known post-build — `scripts/inject-sw-precache.mjs` injects it into
 `dist/sw.js`. Any change to the build output pipeline needs that script to still run last.
 

@@ -78,7 +78,10 @@ export default function Quiz() {
   const next = () => {
     if (step < TOTAL) { setStep(s => s + 1); return; }
     localStorage.setItem('gymforge_quiz', JSON.stringify(data));
-    nav('/plan');
+    // New answers mean a new plan — drop the cached one so it regenerates.
+    localStorage.removeItem('gymforge_ai_workout');
+    localStorage.removeItem('gymforge_ai_meals');
+    nav('/programs?tab=ai');
   };
 
   const inp = 'w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-orange-500 transition-all';

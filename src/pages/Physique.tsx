@@ -57,7 +57,7 @@ async function compressImage(file: File): Promise<string> {
 
 type MetricKey = 'weight' | 'waist' | 'shoulders' | 'arms';
 
-export default function Physique() {
+export default function Physique({ embedded = false }: { embedded?: boolean }) {
   const [tab, setTab] = useState<Tab>('metrics');
 
   // Metrics
@@ -182,10 +182,10 @@ export default function Physique() {
   ];
 
   return (
-    <div className="min-h-screen bg-transparent text-white pb-24">
-      <div className="px-5 pt-6">
+    <div className={embedded ? 'text-white -mx-4' : 'min-h-screen bg-transparent text-white pb-24'}>
+      {!embedded && <div className="px-5 pt-6">
         <SectionHeader icon={Activity} title="Physique" subtitle="Measurements and progress photos" back={{ to: '/programs', label: 'Gym' }} />
-      </div>
+      </div>}
 
       {/* Tabs */}
       <div className="px-4 mb-4">
@@ -502,7 +502,7 @@ export default function Physique() {
 
       </div>
 
-      <BottomNav />
+      {!embedded && <BottomNav />}
     </div>
   );
 }

@@ -590,7 +590,7 @@ export default function LooksMax() {
                 'Build every meal the same way: a big protein, a carb, a colour, a fat. The planner below does it for you — swap any meal, tap it for the full recipe.',
               ]} />
               <p className="text-gray-500 text-xs mt-2">
-                Your exact calories: <Link to="/plan" className="text-emerald-300 hover:underline">AI Plan</Link> · track it in the <Link to="/food" className="text-emerald-300 hover:underline">Food Log</Link>.
+                Your exact calories: <Link to="/programs?tab=ai" className="text-emerald-300 hover:underline">AI Plan</Link> · track it in the <Link to="/programs?tab=food" className="text-emerald-300 hover:underline">Food Log</Link>.
                 Numbers below are honest estimates, not lab values.
               </p>
             </div>

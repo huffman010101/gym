@@ -16,9 +16,10 @@ const GOALS: Goal[] = [
   { id: 'size', label: 'Bigger & stronger', dests: [
     { to: '/programs?tab=plan', label: 'Gym → The Plan', why: 'The three sessions. Start here, every week.' },
     { to: '/looksmax?tab=diet', label: 'Looks → Diet', why: 'Swappable meal plan with full recipes' },
-    { to: '/plan', label: 'AI Plan', why: 'Your calorie number' },
-    { to: '/food', label: 'Food Log', why: 'Hit the protein number' },
-    { to: '/physique', label: 'Physique', why: 'Measurements and progress photos' },
+    { to: '/programs?tab=bulk', label: 'Gym → Lean Bulk', why: 'Lift tracker, weigh-ins, the fourth day, keeping your jawline' },
+    { to: '/programs?tab=ai', label: 'Gym → AI Plan', why: 'Your calorie number' },
+    { to: '/programs?tab=food', label: 'Gym → Food Log', why: 'Hit the protein number' },
+    { to: '/programs?tab=physique', label: 'Gym → Physique', why: 'Measurements and progress photos' },
   ] },
   { id: 'speed', label: 'Faster & explosive', dests: [
     { to: '/programs?tab=legs', label: 'Gym → Legs + Athletic', why: 'Jumps, sprints, trap bar' },

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
@@ -30,10 +30,19 @@ export function SectionHeader({ icon: Icon, title, subtitle, back }: { icon: Luc
 }
 
 export function TabBar<T extends string>({ tabs, active, onChange }: { tabs: { id: T; label: string }[]; active: T; onChange: (id: T) => void }) {
+  // Keep the active tab visible when a link lands on one that is scrolled
+  // off to the right. Horizontal only, so the page itself never jumps.
+  const bar = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = bar.current?.querySelector<HTMLElement>('[data-active="true"]');
+    if (!bar.current || !el) return;
+    const b = bar.current.getBoundingClientRect(), e = el.getBoundingClientRect();
+    if (e.left < b.left || e.right > b.right) bar.current.scrollLeft += (e.left + e.width / 2) - (b.left + b.width / 2);
+  }, [active]);
   return (
-    <div className="flex gap-1.5 overflow-x-auto scrollbar-hide mb-5 -mx-5 px-5 pb-1">
+    <div ref={bar} className="flex gap-1.5 overflow-x-auto scrollbar-hide mb-5 -mx-5 px-5 pb-1">
       {tabs.map(t => (
-        <button key={t.id} onClick={() => onChange(t.id)}
+        <button key={t.id} data-active={active === t.id} onClick={() => onChange(t.id)}
           className={`flex-shrink-0 px-3.5 py-2 rounded-lg font-hud text-[13px] font-bold uppercase tracking-wide border transition-all ${
             active === t.id
               ? 'bg-cyan-400/15 border-cyan-300/60 text-cyan-50 shadow-[0_0_14px_rgba(34,211,238,0.2)]'
