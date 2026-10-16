@@ -21,7 +21,7 @@ const RULES: { pillar: string; to: string; label: string; items: string[] }[] = 
   ] },
   { pillar: 'Looks', to: '/looksmax', label: 'Skin & posture', items: [
     'Skincare morning and night, SPF every morning.',
-    'The 10-minute posture routine.',
+    'The daily posture + mobility routine (15 min).',
     'A progress photo, same light, same pose.',
   ] },
   { pillar: 'Mind', to: '/mind?tab=notes', label: 'My Notes', items: [

@@ -14,7 +14,7 @@ interface Goal { id: string; label: string; dests: Dest[] }
 
 const GOALS: Goal[] = [
   { id: 'size', label: 'Bigger & stronger', dests: [
-    { to: '/programs?tab=plan', label: 'Gym → The Plan', why: 'The three sessions. Start here, every week.' },
+    { to: '/programs?tab=plan', label: 'Gym → The Plan', why: 'Push, Pull, Legs, Shoulders around kickboxing. Start here, every week.' },
     { to: '/looksmax?tab=diet', label: 'Aura → Diet', why: 'Swappable meal plan with full recipes' },
     { to: '/programs?tab=bulk', label: 'Gym → Lean Bulk', why: 'The Hemsworth build: lift standards, weigh-ins, keeping your jawline' },
     { to: '/programs?tab=ai', label: 'Gym → AI Plan', why: 'Your calorie number' },
@@ -29,6 +29,7 @@ const GOALS: Goal[] = [
   { id: 'ankle', label: 'Fix my ankle', dests: [
     { to: '/programs?tab=plan', label: 'Gym → The Plan', why: 'The ankle finisher after every session' },
     { to: '/programs?tab=legs', label: 'Gym → Legs + Athletic', why: 'Starting legs with a weak ankle' },
+    { to: '/programs?tab=posture', label: 'Gym → Daily routine', why: 'Ankle and hip range, every day' },
     { to: '/football?tab=warmup', label: 'Football → Warm-Up', why: 'Your ankle on match day' },
   ] },
   { id: 'looks', label: 'Look better', dests: [

@@ -11,7 +11,7 @@ import { SectionHeader, TabBar, OneThing } from '../components/Hud';
 import { BatHero, SkinBackdrop, skinsOn } from '../components/Skins';
 import { skin } from '../lib/themes';
 
-type Tab = 'plan' | 'bulk' | 'push' | 'pull' | 'legs' | 'core' | 'mobility' | 'recovery' | 'posture' | 'rules' | 'ai' | 'food' | 'physique';
+type Tab = 'plan' | 'bulk' | 'push' | 'pull' | 'legs' | 'core' | 'recovery' | 'posture' | 'rules' | 'ai' | 'food' | 'physique';
 
 // Thirteen pages grouped into seven tabs. The detailed id (`tab`) is still
 // what ?tab= links, DayCards and FocusMap use; a group with several pages
@@ -21,11 +21,18 @@ const GROUPS: { id: Group; label: string; subs: { id: Tab; label: string }[] }[]
   { id: 'plan', label: '★ The Plan', subs: [{ id: 'plan', label: 'This week' }, { id: 'rules', label: 'How to run it' }] },
   { id: 'bulk', label: 'Lean Bulk', subs: [{ id: 'bulk', label: 'Lean Bulk' }] },
   { id: 'sessions', label: 'Sessions', subs: [{ id: 'push', label: 'Push' }, { id: 'pull', label: 'Pull' }, { id: 'legs', label: 'Legs + Athletic' }, { id: 'core', label: 'Core & Abs' }] },
-  { id: 'care', label: 'Posture & Recovery', subs: [{ id: 'posture', label: 'Posture' }, { id: 'mobility', label: 'Mobility' }, { id: 'recovery', label: 'Recovery' }] },
+  { id: 'care', label: 'Mobility & Recovery', subs: [{ id: 'posture', label: 'Daily routine' }, { id: 'recovery', label: 'Recovery' }] },
   { id: 'ai', label: 'AI Plan', subs: [{ id: 'ai', label: 'AI Plan' }] },
   { id: 'food', label: 'Fuel Log', subs: [{ id: 'food', label: 'Fuel Log' }] },
   { id: 'physique', label: 'Physique', subs: [{ id: 'physique', label: 'Physique' }] },
 ];
+const TAB_IDS = ['plan', 'bulk', 'push', 'pull', 'legs', 'core', 'recovery', 'posture', 'rules', 'ai', 'food', 'physique'] as const;
+// Mobility was merged into Posture as one daily routine; old links land there.
+function resolveTab(t: string | null): Tab | null {
+  if (!t) return null;
+  if (t === 'mobility') return 'posture';
+  return (TAB_IDS as readonly string[]).includes(t) ? (t as Tab) : null;
+}
 const groupOf = (t: Tab) => GROUPS.find(g => g.subs.some(x => x.id === t))!;
 
 interface Ex { name: string; sets: string; targets?: string; how?: string; why: string }
@@ -186,27 +193,23 @@ function Fold({ title, tag, items }: { title: string; tag: string; items: [strin
 }
 
 const DAYS: [string, string, string][] = [
-  ['Mon', 'Push', 'Chest, shoulders, triceps'],
-  ['Tue', 'Legs + Speed', 'Sprints and jumps first, then heavy'],
-  ['Wed', 'Upper Size', 'Chest, shoulders, arms'],
+  ['Mon', 'Push', 'Chest, triceps, front delts'],
+  ['Tue', 'Kickboxing', 'No lifting'],
+  ['Wed', 'Legs + Speed', 'Sprints and jumps first, then heavy'],
   ['Thu', 'Pull', 'Back and biceps'],
-  ['Fri', 'Rest', 'Ankle finisher only'],
+  ['Fri', 'Shoulders & Arms', 'Width and arms'],
   ['Sat', 'Football', 'Your match'],
   ['Sun', 'Rest', 'Full rest — this is where it all happens'],
 ];
 
 export default function Programs() {
   const [params] = useSearchParams();
-  const [tab, setTab] = useState<Tab>(() => {
-    const t = params.get('tab');
-    return (['plan', 'bulk', 'push', 'pull', 'legs', 'core', 'mobility', 'recovery', 'posture', 'rules', 'ai', 'food', 'physique'] as const)
-      .includes(t as Tab) ? (t as Tab) : 'plan';
-  });
+  const [tab, setTab] = useState<Tab>(() => resolveTab(params.get('tab')) ?? 'plan');
   // Follow ?tab= changes while already on this page (links between its own
   // tabs), not just on first mount.
   useEffect(() => {
-    const t = params.get('tab');
-    if (t && (['plan', 'bulk', 'push', 'pull', 'legs', 'core', 'mobility', 'recovery', 'posture', 'rules', 'ai', 'food', 'physique'] as const).includes(t as Tab)) setTab(t as Tab);
+    const t = resolveTab(params.get('tab'));
+    if (t) setTab(t);
   }, [params]);
 
   const bat = skinsOn();
@@ -220,7 +223,7 @@ export default function Programs() {
       {bat && <SkinBackdrop kind="bat" />}
       <div className={`max-w-2xl mx-auto px-5 ${bat ? '' : 'pt-6'}`}>
         {bat
-          ? <BatHero title="GYM" subtitle="Three sessions, the lean bulk, your AI plan, fuel and physique — one place." />
+          ? <BatHero title="GYM" subtitle="Push, Pull, Legs, Shoulders around kickboxing — plus the bulk, fuel and physique." />
           : <SectionHeader icon={Dumbbell} title="Gym" subtitle="The plan · lean bulk · AI plan · food · physique" />}
 
         <TabBar tabs={GROUPS} active={group.id} onChange={g => setTab(lastSub[g] ?? GROUPS.find(x => x.id === g)!.subs[0].id)} />
@@ -240,14 +243,20 @@ export default function Programs() {
         {/* ===== THE WEEK ===== */}
         {tab === 'plan' && (
           <div className="fade-up stagger space-y-4">
-            <OneThing points={["Four sessions a week for the Hemsworth build: Push Monday, Legs + Speed Tuesday, Upper Size Wednesday, Pull Thursday. Football Saturday.", "Every session: one explosive movement first, four or five lifts, then the posture and ankle finishers.", "Posture is built into every day — the lifting days get a posture finisher, and the 10-minute routine runs daily. It is what shows your jawline.", "Beat the logbook by a rep or the smallest weight each week. That is progress."]} />
+            <OneThing points={[
+              'Your split, set up properly: Push Monday, kickboxing Tuesday, Legs Wednesday, Pull Thursday, Shoulders & Arms Friday, football Saturday, Sunday off.',
+              'Legs once a week is fine for this look — kickboxing and football train them too. Make that one session count: heavy, hard and never skipped.',
+              'Shoulders and arms get hit twice a week (Push or Pull, then Friday). That is where the Hemsworth look comes from.',
+              'Eat for the sport: kickboxing, matches and big nights out all need more food — the Lean Bulk tab has the numbers.',
+            ]} />
             <div className="bg-gradient-to-br from-orange-500/15 to-[#111] border border-orange-500/30 rounded-2xl p-5">
-              <h3 className="font-black text-orange-300 mb-2">Four days. Six exercises each. That is the whole thing.</h3>
+              <h3 className="font-black text-orange-300 mb-2">Push, Pull, Legs, Shoulders — around your kickboxing</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Every session runs the same shape: one explosive movement while you are fresh, four or five lifts,
-                then five minutes on your ankle. Explosive work is what makes you faster, and it only works at the
-                start — do it last and it is just tiredness. The ankle bit is at the end of every session because a
-                sprain that has not fully settled needs frequency more than it needs intensity.
+                Your split was already the right idea: four lifting days, legs once, and a whole day for shoulders. The
+                order is what makes it work. Legs goes the day after kickboxing, not the day before, so your kicks are
+                not on dead legs, and it stays three days clear of Saturday's game. Shoulders goes on Friday, four days
+                after Push, so the presses are fresh both times. Every session still starts with one explosive movement
+                and ends with five minutes on your ankle.
               </p>
             </div>
 
@@ -257,13 +266,13 @@ export default function Programs() {
               </div>
               <div className="divide-y divide-white/5">
                 {[
-                  ['Mon', 'Push', 'Chest · shoulders · triceps'],
-                  ['Tue', 'Legs + Speed', 'Sprints, jumps, then heavy'],
-                  ['Wed', 'Upper Size', 'Chest · shoulders · arms'],
-                  ['Thu', 'Pull', 'Back · biceps'],
-                  ['Fri', 'Rest', 'Posture 10 min + ankle work'],
+                  ['Mon', 'Push', 'Chest · triceps · front delts'],
+                  ['Tue', 'Kickboxing', 'No lifting — eat for it'],
+                  ['Wed', 'Legs + Speed', 'The one leg day'],
+                  ['Thu', 'Pull', 'Back · biceps · rear delts'],
+                  ['Fri', 'Shoulders & Arms', 'The Hemsworth day'],
                   ['Sat', 'Football', 'Your match'],
-                  ['Sun', 'Rest', 'Posture 10 min, a walk'],
+                  ['Sun', 'Rest', 'Daily routine, a walk'],
                 ].map(([d, n, f]) => (
                   <div key={d} className={`flex items-center gap-3 px-4 py-2 ${n === 'Rest' ? 'bg-emerald-500/5' : ''}`}>
                     <span className={`text-[11px] font-black w-8 flex-shrink-0 ${n === 'Rest' ? 'text-emerald-400' : 'text-orange-400'}`}>{d}</span>
@@ -277,54 +286,52 @@ export default function Programs() {
             <button onClick={() => setTab('bulk')} className="w-full text-left bg-[#111] border border-orange-500/30 rounded-2xl px-4 py-3 flex items-center justify-between gap-3">
               <span>
                 <span className="block text-sm font-bold text-orange-300">Building the Hemsworth look? Lifts stuck?</span>
-                <span className="block text-[11px] text-gray-500 mt-0.5">The build, the fourth day, the lift standards and the lean bulk. Log lifts and weigh-ins there and it tells you what to change.</span>
+                <span className="block text-[11px] text-gray-500 mt-0.5">The build, the lift standards, eating for kickboxing and nights out, and the lean bulk. Log lifts and weigh-ins there.</span>
               </span>
               <ChevronRight size={16} className="text-orange-300 flex-shrink-0" />
             </button>
 
-            <DayCard day="MON" name="Push" focus="Chest, shoulders, triceps" detailTab="push" setTab={setTab}
+            <DayCard day="MON" name="Push" focus="Chest, triceps and front delts" detailTab="push" setTab={setTab}
               exercises={[
                 ['Med ball chest pass', '3 × 5'],
                 ['Incline DB press', '4 × 8-10'],
-                ['Seated DB shoulder press', '3 × 8-10'],
+                ['Bench press (barbell or machine)', '3 × 6-10'],
                 ['Weighted dips', '3 × 8-10'],
+                ['Cable fly or pec deck', '2 × 12-15'],
                 ['Lateral raise', '3 × 12-15'],
                 ['Triceps pushdown', '3 × 12'],
                 ['+ Posture: band pull-aparts + doorway stretch', '2 × 15 · 2 × 30s'],
                 ['+ Ankle finisher', '5 min'],
               ]}
-              note="The med ball throw is the explosive one — hardest possible effort, full rest, and it goes first. Pressing pulls the shoulders forward, so the pull-aparts and doorway stretch balance it out the same day."
+              note="Chest gets its whole week here, so the two presses are both heavy. Shoulder pressing waits until Friday — doing it today as well would leave your front delts and triceps tired for both days. Pressing pulls the shoulders forward, so the pull-aparts and doorway stretch balance it out."
             />
 
-            <DayCard day="TUE" name="Legs + Speed" focus="The day that makes you faster" detailTab="legs" setTab={setTab}
+            <DayCard day="TUE" name="Kickboxing" focus="Your class — this is your conditioning" detailTab="recovery" setTab={setTab}
+              exercises={[
+                ['Kickboxing class', 'as normal'],
+                ['Extra food', '+500-800 kcal'],
+                ['Protein meal within 2 hours after', '40g+'],
+              ]}
+              note="No lifting today. A hard class is a real training session, and it is your cardio for the week. Eat a proper carb meal 2-3 hours before and protein after. If your legs are smashed afterwards, that is fine — Wednesday's legs start with jumps, which wake them up."
+            />
+
+            <DayCard day="WED" name="Legs + Speed" focus="The one leg day — make it count" detailTab="legs" setTab={setTab}
               exercises={[
                 ['Warm-up + build-up runs', '10 min'],
                 ['Box jump or broad jump', '3 × 3'],
                 ['Acceleration sprints', '4 × 20m'],
                 ['Trap bar deadlift', '4 × 5'],
                 ['Bulgarian split squat', '3 × 8/leg'],
+                ['Leg extension', '2 × 12-15'],
                 ['Nordic hamstring curl', '2 × 5'],
                 ['Calf raises (straight + bent knee)', '2 × 15 each'],
                 ['+ Posture: couch stretch + glute bridge', '2 × 45s/side · 2 × 12'],
                 ['+ Ankle finisher', '5 min'],
               ]}
-              note="Jumps and sprints BEFORE the lifting, never after. Warm up properly first — cold hamstrings and sprinting is how people tear something."
+              note="Once a week means this session has to be hard: last sets 1-2 reps from failure, beat the logbook every week. Jumps and sprints BEFORE the lifting, never after. The leg extension is new — quads get less from football than glutes and hamstrings do."
             />
 
-            <DayCard day="WED" name="Upper Size" focus="Chest, shoulders and arms — the Hemsworth day" detailTab="bulk" setTab={setTab}
-              exercises={[
-                ['Bench press (barbell or machine)', '3 × 6-10'],
-                ['Cable fly or pec deck', '2 × 12-15'],
-                ['Lateral raise', '4 × 12-20'],
-                ['Rear delt fly / reverse pec deck', '3 × 15'],
-                ['Overhead cable triceps extension', '3 × 10-12'],
-                ['Preacher or Bayesian cable curl', '3 × 10-12'],
-                ['+ Posture: chin tucks + wall slides', '2 × 10 · 2 × 10'],
-              ]}
-              note="About 45 minutes. No back work on Wednesday — Thursday's weighted pull-ups need you fresh. No legs either, so Saturday's game is unaffected. If you play padel or fight on Wednesday, move this day to Friday and keep it upper-only."
-            />
-
-            <DayCard day="THU" name="Pull" focus="Back and biceps — the day that builds your back" detailTab="pull" setTab={setTab}
+            <DayCard day="THU" name="Pull" focus="Back, biceps and rear delts" detailTab="pull" setTab={setTab}
               exercises={[
                 ['Explosive pull-up', '3 × 3'],
                 ['Weighted pull-up', '4 × 6-8'],
@@ -332,10 +339,22 @@ export default function Programs() {
                 ['Face pull', '3 × 15'],
                 ['Incline DB curl', '3 × 10-12'],
                 ['Hammer curl', '2 × 12'],
-                ['Lateral raise (Hemsworth build)', '3 × 15-20'],
                 ['+ Posture: prone Y-T-W + chin tucks', '2 × 10 · 2 × 10'],
                 ['+ Ankle finisher', '5 min'],
               ]}
+            />
+
+            <DayCard day="FRI" name="Shoulders & Arms" focus="The Hemsworth day — width and arms" detailTab="push" setTab={setTab}
+              exercises={[
+                ['Seated DB shoulder press', '3 × 8-10'],
+                ['Lateral raise', '4 × 12-20'],
+                ['Cable lateral raise (lean-away)', '2 × 15/side'],
+                ['Rear delt fly / reverse pec deck', '3 × 15'],
+                ['Overhead cable triceps extension', '3 × 10-12'],
+                ['Preacher or Bayesian cable curl', '3 × 10-12'],
+                ['+ Posture: chin tucks + wall slides', '2 × 10 · 2 × 10'],
+              ]}
+              note="About 50 minutes. Side delts get three hits a week (Monday, Friday twice over) because width is the biggest part of the look and they recover fast. Upper body only, so Saturday's game is unaffected. Friday is also the most likely night out — train first, and see Lean Bulk for the clubbing rules."
             />
 
             <div className="bg-gradient-to-br from-amber-500/12 to-[#111] border border-amber-500/30 rounded-2xl overflow-hidden">
@@ -366,20 +385,22 @@ export default function Programs() {
               </p>
             </div>
 
-            <Fold title="Fitting it around games" tag="Short version: keep legs 48 hours clear" items={[
-              ['The one rule', 'No heavy legs and no sprinting within 48 hours before a game. That is why leg day is Tuesday and the rest of the week is upper body.'],
-              ['Saturday game', 'Mon Push · Tue Legs+Speed · Wed Upper Size · Thu Pull · Sat game. Already sorted — this is the default above.'],
-              ['Sunday game', 'Shift it: Mon Legs+Speed · Tue Push · Wed Upper Size · Thu Pull · Sun game. Keep a day between Push and Upper Size if you can.'],
-              ['Midweek game', 'Do legs the day after the game, never the day before. Push and Pull can go anywhere.'],
-              ['Two games that week', 'Skip leg day entirely. Two matches is already more sprinting and cutting than any session would give you, and your ankle will thank you.'],
-              ['If you only get one session', 'Make it Tuesday. It has the speed work, the heaviest lifting and the ankle rehab in one.'],
+            <Fold title="Fitting it around kickboxing and games" tag="Short version: legs never the day before a kick or a kick-off" items={[
+              ['The two rules', 'No heavy legs the day before kickboxing (you kick on dead legs and your technique goes), and none within 48 hours of a game. Wednesday is the only day that clears both.'],
+              ['Saturday game', 'Mon Push · Tue Kickboxing · Wed Legs · Thu Pull · Fri Shoulders & Arms · Sat game. The default above.'],
+              ['Sunday game', 'Same week works — legs are four days clear. Rest Saturday instead.'],
+              ['No game that week', 'Keep the same days. Saturday becomes a rest day or a long walk.'],
+              ['Kickboxing moves day', 'Keep legs the day AFTER it, and keep two days between Push and Shoulders & Arms. Pull can go anywhere.'],
+              ['Two games that week', 'Skip leg day. Two matches plus kickboxing is already more leg work than a session would give you.'],
+              ['If you only get one session', 'Make it Wednesday. One-a-week legs is the session you can least afford to miss.'],
             ]} />
 
-            <Fold title="Why four days, and not more" tag="And the cut-back version for heavy weeks" items={[
-              ['Four gym days plus football is five hard sessions', 'That is the ceiling for someone playing matches with an ankle still settling. More sessions is not more progress — more sessions you actually recover from is.'],
-              ['Why the fourth day is upper body', 'Legs already get hit twice (Tuesday plus 90 minutes of running on Saturday). Chest, shoulders and arms are what the Hemsworth look is built on, so Wednesday gives them their second session — with no legs and no back, so Thursday and Saturday are unaffected.'],
-              ['Six exercises is deliberate', 'Long sessions are the ones you skip. Six movements takes about 50 minutes and you will actually do it every week, which beats a perfect 12-exercise plan you abandon in a fortnight.'],
-              ['Heavy week? Drop Wednesday', 'Exams, two matches or poor sleep: go back to three days for that week. Wednesday is the first session to go, and the plan still works on three.'],
+            <Fold title="Is it optimal? The honest version" tag="What your split does well, and what it trades" items={[
+              ['What it does well', 'Shoulders and arms twice a week, chest and back hit hard once, and every session short enough to actually finish. For the Hemsworth look — width up top, athletic legs — that is the right priority.'],
+              ['What legs-once trades', 'Legs will grow slower than on twice a week. With kickboxing and football also training them, that is a fair trade for this goal. If you ever want bigger legs, add a second, lighter leg session on Monday after Push — not before kickboxing.'],
+              ['Chest and back once a week', 'Fine while every session is hard and progressing. If chest lags, add 3 sets of incline press to Friday; if back lags, add 3 sets of pulldowns.'],
+              ['Six hard sessions is the ceiling', 'Four lifting days, kickboxing and a match is a lot — add nights out and recovery is the limit, not the plan. Sunday stays completely off.'],
+              ['Heavy week? Drop Friday first', 'Exams, two matches or poor sleep: drop Shoulders & Arms that week and keep the rest. Never drop legs — it only comes round once.'],
               ['If a session feels too easy', 'Add weight, not exercises. The programme stays the same for months; the numbers on it go up.'],
             ]} />
           </div>
@@ -392,7 +413,7 @@ export default function Programs() {
               'Stuck lifts are almost always food, not the programme. Football, padel and combat burn far more than the calorie number assumes — weigh in, and let the trend below tell you to eat more.',
               'Gain 0.1-0.35kg a week. Faster than that is mostly fat, and it shows on your face first.',
               'Log your best set on every main lift and beat it next time. Hit the top of the rep range, then add weight.',
-              'For the Hemsworth build, Wednesday\'s Upper Size day is permanent. Chest, shoulders and arms get trained twice a week instead of once.',
+              'For the Hemsworth build, Friday is Shoulders & Arms. Shoulders and arms get trained twice a week, chest and back once, legs once.',
             ]} />
             <div className="bg-gradient-to-br from-orange-500/15 to-[#111] border border-orange-400/40 rounded-2xl p-5" data-testid="hemsworth">
               <p className="font-hud text-[10px] font-bold uppercase tracking-[0.3em] text-orange-300/80">Target</p>
@@ -414,11 +435,11 @@ export default function Programs() {
             </div>
 
             <Block title="How you get there — what changes" items={[
-              ['Four days, permanently', 'The Wednesday Upper Size day below is no longer a bulk extra — it is part of the build. Chest, shoulders and arms twice a week is the difference between "trains" and "built".'],
-              ['Side delts three times a week', 'Lateral raises on Monday and Wednesday, plus 3 × 15-20 at the end of Thursday. Width is the single biggest part of this look, and side delts recover fast enough to train often. It adds about six minutes to Thursday.'],
+              ['Push, Pull, Legs, Shoulders & Arms', 'Your own split, ordered around kickboxing (see The Plan). Shoulders and arms twice a week is the difference between "trains" and "built".'],
+              ['Side delts three times a week', 'Lateral raises on Monday, then two kinds on Friday. Width is the single biggest part of this look, and side delts recover fast enough to train often.'],
               ['Every lift has a standard', 'Each lift in the tracker below shows its Hemsworth standard and how close you are. They are rough natural targets for this look on your frame — beat your last session, and the percentage takes care of itself.'],
               ['Lean bulk to about 92-95kg', 'Use the bulk check. If your waist climbs past 88cm before you get there, run a 4-6 week mini-cut, then carry on.'],
-              ['Sport stays', 'Football and padel keep the athletic look and your conditioning. You just eat for them — see the bulk check.'],
+              ['Sport stays', 'Kickboxing and football keep the athletic look and your conditioning. You just eat for them — see the calorie table below.'],
             ]} />
 
             <Block title="The honest timeline" items={[
@@ -429,7 +450,7 @@ export default function Programs() {
             ]} />
 
             <Block title="Lock in — the weekly non-negotiables" items={[
-              ['Train Mon, Tue, Wed, Thu, play Saturday', 'Missed a day? Do it the next day. Never miss two in a row.'],
+              ['Lift Mon, Wed, Thu, Fri — kickboxing Tuesday, football Saturday', 'Missed a day? Do it the next day. Never miss two in a row, and never miss legs.'],
               ['Log every main lift, weigh in 3-4 mornings', 'Two minutes a day. It is the only way to know whether you are progressing or just turning up.'],
               ['Protein at every meal, 8 hours in bed, 8-10k steps', 'The three things that decide whether the work turns into muscle.'],
               ['Sunday review, 5 minutes', 'Check the bulk-check verdict and any stalled lifts, take your progress photo in Physique, and make ONE change for the week. Then plan the week on Command.'],
@@ -440,18 +461,55 @@ export default function Programs() {
             <LiftTracker />
 
             <Block title="Why your lifts have stalled — most likely first" items={[
-              ['1. You are not actually in a surplus', 'A 90-minute match burns 800-1,000 kcal, and padel and combat add more. The AI Plan calorie number counts gym days only, so it is probably below your real maintenance. If the bulk check says you are not gaining, this is the reason — no programme fixes it.'],
+              ['1. You are not actually in a surplus', 'A 90-minute match burns 800-1,000 kcal, kickboxing 500-800 and a big night of dancing several hundred more. The AI Plan calorie number counts gym days only, so it is probably below your real maintenance. If the bulk check says you are not gaining, this is the reason — no programme fixes it.'],
               ['2. Nothing is written down', 'Without a logbook most people lift the same weights for months without noticing. The tracker above sets the number to beat every session.'],
               ['3. Sets stop too far from failure', 'If you could have done 4-5 more reps, the set barely counts. Finish most working sets with 1-2 reps left, and take the last set of each isolation exercise to failure.'],
-              ['4. Each upper muscle is trained once a week', 'The 3-day plan gives chest, shoulders and arms one hard session each. That is enough to hold and slowly build. For a bulk, twice a week is better — that is the Wednesday day below.'],
+              ['4. Sessions that are not hard enough to need four days', 'With legs, chest and back trained once a week, every one of those sessions has to be heavy and progressing. A once-a-week session done at 70% effort barely counts.'],
               ['5. Sleep under 8 hours', 'Strength recovery and testosterone both run on sleep. Six-hour nights stall lifts on their own, and they make the surplus go to fat.'],
               ['6. The exercise keeps changing', 'A different machine, grip, depth or tempo every week makes progress impossible to see. Keep the setup identical and the same exercise for at least 8 weeks.'],
-              ['7. Too much sport fatigue on lifting days', 'A hard padel or combat session the night before a heavy day costs you reps. Keep the big sport sessions away from Tuesday\'s legs and the day before Monday\'s press.'],
+              ['7. Nights out and fatigue on lifting days', 'Drinking the night before a session costs you reps, and a hangover costs you the session. Keep nights out away from the night before legs (Tuesday) and the night before a game (Friday after training is the one that fits).'],
             ]} />
 
 
+            <div className="bg-[#111] border border-white/8 rounded-2xl overflow-hidden" data-testid="day-calories">
+              <div className="px-4 py-3 border-b border-white/8">
+                <p className="font-black text-orange-300 text-sm">Eat for the day you are having</p>
+                <p className="text-[11px] text-gray-500 mt-0.5">On top of your base number (the AI Plan figure, corrected by the bulk check). Rough burns for a ~90kg lad — they vary a lot with effort.</p>
+              </div>
+              <div className="divide-y divide-white/5">
+                {[
+                  ['Lifting day (Mon, Wed, Thu, Fri)', 'base', 'The AI Plan number already counts these.'],
+                  ['Kickboxing (Tue)', '+500-800', 'A hard 60-90 min class. Carbs before, protein after.'],
+                  ['Match day (Sat)', '+600-900', 'More if you play the full 90. Carbs the night before and the morning.'],
+                  ['Big night out, dancing', '+300-500 food', 'Dancing for hours burns several hundred, but the drinks usually cover it — 4 pints is about 800 kcal. Eat a proper protein meal before you go, not just after.'],
+                  ['Sunday rest', 'base', 'Do not cut it — rest days are when the growing happens.'],
+                ].map(([d, k, n]) => (
+                  <div key={d} className="px-4 py-2.5">
+                    <div className="flex items-baseline justify-between gap-3">
+                      <span className="text-[13px] font-semibold text-gray-200">{d}</span>
+                      <span className="text-[12px] font-bold text-orange-300 flex-shrink-0">{k}</span>
+                    </div>
+                    <p className="text-gray-500 text-[11px] leading-relaxed mt-0.5">{n}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="text-[11px] text-orange-200/70 leading-relaxed px-4 py-2.5 bg-orange-500/5">
+                You do not need to count this exactly. Eat a bit more on the hard days, weigh in, and let the bulk check
+                correct the base number every two weeks.
+              </p>
+            </div>
+
+            <Block title="Clubbing and the build — the honest version" items={[
+              ['The burn is real, the drinks cancel it', 'A few hours of dancing burns a lot, but alcohol is the bigger effect: heavy drinking after training measurably cuts muscle building for that day, wrecks deep sleep, and holds water in your face for 2-3 days.'],
+              ['Pick the night', 'Saturday after the game, or Friday after Shoulders & Arms when there is no game the next day. Never the night before legs (Tuesday) or a match.'],
+              ['Before you go', 'A proper meal with 40g+ protein and carbs. You drink less, you feel better, and the night still counts toward your protein.'],
+              ['While you are out', 'Spirits with a diet mixer instead of pints, and a water between drinks. Same night, roughly half the calories and half the hangover.'],
+              ['After', 'Water and something with protein before bed. A takeaway is fine now and then on a bulk — just expect a puffier face for a day or two from the salt.'],
+              ['The next day', 'Train if you can — hungover training beats no training — but drop the weight 10% and do not chase records.'],
+            ]} />
+
             <Block title="The lean bulk, set up properly" items={[
-              ['Calories', 'Start at the AI Plan number, plus 300-500 kcal on match days. After two weeks, let the bulk check adjust it in 150-200 kcal steps. The scale trend beats any calculator.'],
+              ['Calories', 'Start at the AI Plan number and add for the day you are having (table above). After two weeks, let the bulk check adjust the base in 150-200 kcal steps. The scale trend beats any calculator.'],
               ['Protein', '1.6-2.2g per kg every day, split across 4 meals. Aura → Diet has the meal plan and the Sainsbury\'s prep recipes.'],
               ['Carbs around training', 'Rice, oats, potatoes and fruit before and after sessions and matches. Carbs are what let you add reps, and they are the easiest surplus calories to eat.'],
               ['Rate', '0.1-0.35kg a week, about 0.5-1.5kg a month. At 19 that is mostly muscle when you train hard. Faster than that is mostly fat.'],
@@ -516,7 +574,7 @@ export default function Programs() {
               tag="Back and biceps · explosive first"
               block="Width first, then thickness, then arms. Back responds well to high volume — do not be afraid of the set count here. Neck and grip at the end are the combat-specific pieces almost nobody trains."
               exercises={[
-                { name: 'Explosive pull-up', sets: '3 × 3', targets: 'Lats · biceps · upper back — pulling power', how: "From a dead hang with shoulders set, pull as fast as you can, aiming to get your chest to the bar. Lower under control, reset fully, then go again. Speed is the point — stop the set the moment a rep slows down.", why: 'Pulling power for duels and grappling without any hinge, so your lower back gets the day off after Tuesday\'s deadlifts.' },
+                { name: 'Explosive pull-up', sets: '3 × 3', targets: 'Lats · biceps · upper back — pulling power', how: "From a dead hang with shoulders set, pull as fast as you can, aiming to get your chest to the bar. Lower under control, reset fully, then go again. Speed is the point — stop the set the moment a rep slows down.", why: 'Pulling power for duels and grappling without any hinge, so your lower back gets the day off the day after Wednesday\'s deadlifts.' },
                 { name: 'Weighted pull-ups', sets: '4 × 6-8', targets: 'Lats · teres major · biceps · mid back', how: "Slightly wider than shoulder-width, full hang at the bottom with shoulders active rather than dead. Think about pulling your elbows down into your back pockets rather than pulling your chin up. Chest to the bar, controlled descent to a full stretch every rep.", why: 'The best lat width builder there is. Add weight once you can do 10 clean bodyweight reps. Lats are also your clinch and grappling strength.' },
                 { name: 'Chest-supported row', sets: '4 × 8-10', targets: 'Mid back · lats · rear delts', how: "Lie face-down on a bench set to about 30-45 degrees with a dumbbell in each hand (or use a chest-pad T-bar or machine row). Let the shoulder blades stretch forward at the bottom, then drive the elbows back toward your hips and squeeze for a beat. Chest stays on the pad the whole time — no heaving.", why: 'All of the back thickness of a barbell row with none of the lower-back load. A bent-over row two days after heavy deadlifts is the classic way to overload the lower back; this removes it.' },
                 { name: 'Face pulls', sets: '3 × 15-20', targets: 'Rear delts · external rotators · mid and lower traps', how: "Rope set at roughly face height. Pull the rope apart and toward your forehead, finishing with hands beside your ears and elbows high. Externally rotate at the end so your knuckles face the ceiling. Light weight and a two-second squeeze beats heavy.", why: 'Rear delts and external rotators. This is both a posture exercise and the thing that keeps your shoulders healthy under all the pressing.' },
@@ -562,13 +620,13 @@ export default function Programs() {
             <div className="card-premium p-5">
               <h3 className="font-bold mb-2">One leg day: fast first, then heavy</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Tuesday opens with jumps and sprints while you are fresh, which is what makes you quicker, then the trap bar
+                Wednesday opens with jumps and sprints while you are fresh, which is what makes you quicker, then the trap bar
                 and single-leg work for strength, then Nordics and calves. The ankle finisher closes it. Everything a footballer
                 needs from legs, in one session, four days clear of Saturday.
               </p>
             </div>
             <Session
-              title="Tuesday — Legs + Athletic"
+              title="Wednesday — Legs + Athletic"
               tag="Explosive first · then heavy · one session"
               block="ORDER MATTERS: jumps, throws and sprints first while the nervous system is fresh, then the trap bar heavy with full recovery (3 min), then the short accessory block. Deliberately lean — about 11 lifting sets on top of the jumps and sprints. You are training legs once a week alongside football, so this is about quality and recovery, not volume. It is the longest session of the week by design, because it is the only leg day."
               exercises={[
@@ -583,7 +641,7 @@ export default function Programs() {
               ]}
             />
             <Block title="Your back — how the week protects it" items={[
-              ['One heavy hinge a week, and this is it', 'The trap bar deadlift on Tuesday is the only exercise in the plan that loads your lower back heavily. Pull day uses chest-supported rows and pull-ups, so your lower back recovers between Tuesday and Saturday\'s football.'],
+              ['One heavy hinge a week, and this is it', 'The trap bar deadlift on Wednesday is the only exercise in the plan that loads your lower back heavily. Pull day uses chest-supported rows and pull-ups, so your lower back recovers between Wednesday and Saturday\'s football.'],
               ['Why the trap bar, not a straight bar', 'You stand inside the weight, so your torso stays more upright and the load sits closer to your spine. It is the most back-friendly way to lift heavy from the floor.'],
               ['Brace before every rep', 'Big breath into your belly, tighten as if someone is about to punch you in the stomach, then lift. Reset the brace on the floor between reps — no bouncing.'],
               ['Leave two reps in the tank', 'Every set of 5 should feel like you could have done 7. Grinding out the last rep is where backs round and get hurt.'],
@@ -626,7 +684,7 @@ export default function Programs() {
             ]} />
             <Fold title="Hip thrusts and everything else you could add" tag="What is actually worth a slot, and what is filler" items={[
               ['Hip thrusts — not bullshit, just not needed here', 'They are a legitimate exercise: they load hip extension at the top range where a squat is easiest, they produce very high glute activation, and they cost almost nothing in spinal load. The overselling is the sprint claim — the research comparing hip thrusts to squats for sprint speed is genuinely mixed, with neither clearly better. So they are real, just not magic.'],
-              ['Why they are out of your programme', 'Hip extension is already covered three times on Tuesday: the trap bar, Bulgarian split squats and the sprints themselves. Adding a fourth is volume without new stimulus, and volume is the thing you asked to cut. Add them back only if your glutes become a visible weak point, or if a back issue ever stops you loading the trap bar.'],
+              ['Why they are out of your programme', 'Hip extension is already covered three times on Wednesday: the trap bar, Bulgarian split squats and the sprints themselves. Adding a fourth is volume without new stimulus, and volume is the thing you asked to cut. Add them back only if your glutes become a visible weak point, or if a back issue ever stops you loading the trap bar.'],
               ['Genuinely worth their slot', 'Trap bar deadlift, Bulgarian split squats, Nordics, Copenhagens, calf raises both straight and bent-knee, sprints and jumps. Every one is either the main driver of a quality you need or the cheapest insurance against an injury that would cost you months. Nothing on that list is there for looks.'],
               ['Worth adding only for a specific reason', 'Leg press if leg SIZE becomes the goal again. Single-leg extensions if the quad on your sprained side is visibly weaker. Romanian deadlifts if hamstrings keep tightening after sprints. Hip thrusts if glutes lag. Hack squat if your lower back is the thing limiting your squatting. Each of these solves one named problem — if you cannot name the problem, you do not need the exercise.'],
               ['Actual filler, for you', 'Banded glute kickbacks, abductor and adductor machines, BOSU and wobble-board work, "activation" circuits before lifting, and most of what appears in gym content designed to look novel. None of it is harmful; it just takes the slot of something that does more. The exception is the balance work in your ankle rehab, which has a real evidence base and a specific job.'],
@@ -733,69 +791,6 @@ export default function Programs() {
         )}
 
         {/* ===== RECOVERY ===== */}
-        {tab === 'mobility' && (
-          <div className="fade-up stagger space-y-4">
-            <OneThing points={["Ten minutes a day beats an hour on Sunday.", "Tightness is usually a strength or control problem, not short muscles — train the range, do not just stretch it."]} />
-            <div className="card-premium p-5">
-              <h3 className="font-bold mb-2">Flexibility, mobility, and the difference that matters</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                <span className="text-gray-200 font-semibold">Flexibility</span> is how far a joint can be moved
-                passively — someone pushing your leg up. <span className="text-gray-200 font-semibold">Mobility</span> is
-                how far you can move it yourself, under control, with strength available at the end of the range. Only
-                the second one shows up in a kick, a squat, a guard retention or a sprint. Passive range you cannot
-                control is not useful and is arguably a liability, which is why almost everything below is
-                strength-through-range rather than sitting in a stretch.
-              </p>
-            </div>
-
-            <Fold title="Why you feel tight — and why it is usually not short muscles" tag="This changes what you should do about it" items={[
-              ['Tightness is mostly a nervous-system setting', 'Short-term flexibility gains come from increased STRETCH TOLERANCE — your nervous system deciding the position is safe — not from muscle physically lengthening. This is why you can gain 20 degrees in one session and lose it by tomorrow, and why warm muscles stretch further.'],
-              ['"Tight" often means weak', 'A muscle with no strength at long lengths gets protectively guarded by your nervous system. Hamstrings that feel permanently tight are frequently hamstrings that are weak at end range. Stretching them feels good and changes little; loading them at length changes it properly.'],
-              ['Tight can also mean overworked or protective', 'A joint guarding an unstable neighbour will feel tight. Chronically tight hip flexors in someone who sits all day, or a stiff lower back doing the rotating that stiff hips refuse to do, are both examples. Chase the cause, not the sensation.'],
-              ['Real tissue change is possible but slow', 'Long-term, consistent loaded stretching does produce structural adaptation — added sarcomeres and altered tissue stiffness. That is a months-to-years process, not a session.'],
-              ['So the rule is', 'Use stretching to open a range, then immediately use strength to own it. Range you do not load, you do not keep.'],
-            ]} />
-
-            <Block title="The methods, and when each one is right" items={[
-              ['Dynamic mobility — BEFORE training', 'Controlled movement through a full range: leg swings, arm circles, 90/90 switches, walking lunges with a twist, cat-cow. 5-10 minutes. This raises tissue temperature and prepares the range you are about to use. This is the correct pre-session choice.'],
-              ['Static stretching — AFTER training, or its own session', '30-60 second holds, breathing out into the position, 5+ days a week for a range you actually want to change. Two or three times a week maintains; once a week does very little.'],
-              ['The pre-lifting caveat, stated accurately', 'Long static holds (60s+) immediately before maximal strength or sprint work cause a small, short-lived drop in force output. It is a modest effect and it clears within about ten minutes of warming up — so it is not a disaster, it is simply not the best use of those minutes. Dynamic before, static after.'],
-              ['Contract-relax (PNF) — the fastest way to add range', 'Get into a stretch, contract the stretched muscle against resistance for 5-10 seconds at moderate effort, relax and move deeper. Repeat 3-4 times. Reliably produces more range in one session than passive holding, and it is the technique most worth learning.'],
-              ['Loaded stretching — the version that lasts', 'Strength work through the fullest range you can control: deep front squats, Romanian deadlifts to a real stretch, deficit split squats, Cossack squats, full-range dumbbell pullovers, deep dips. This is how you convert borrowed range into range you own, and it doubles as your training.'],
-              ['End-range control drills', 'CARs (slow, maximal-effort circles at one joint), 90/90 hip lift-offs, and active straight-leg raises. Unimpressive-looking and they are what makes new range usable under speed and load.'],
-              ['Yoga — useful, not magic', 'A good class is consistent structured mobility plus breathing, and consistency is most of the battle. It is not a substitute for loading the range, and it will not fix a strength problem that presents as tightness.'],
-            ]} />
-
-            <Block title="The daily 10 minutes — what to actually do" items={[
-              ['1. 90/90 hip switches — 10 each side', 'Sit with both knees at 90 degrees, one leg in front, one out to the side. Rotate the knees down to the other side without using your hands. Trains internal AND external hip rotation, which is the single most valuable range for kicking, guard, squat depth and punching power.'],
-              ['2. Deep squat hold — 60-90s', 'Heels down, elbows inside knees gently pushing them out, chest up. Add a slow rock side to side. If your heels lift, hold a doorframe or put a small plate under them and work toward flat over weeks.'],
-              ['3. Couch stretch — 60s each side', 'Rear foot elevated against a wall or sofa, front foot planted, hips tucked under and squeezed. The most effective hip-flexor and quad stretch there is, and the direct antidote to sitting all day.'],
-              ['4. Thoracic rotation — 10 each side', 'Open-books lying on your side, or quadruped rotations with a hand behind the head. Rotation you do not have in the upper back gets stolen from the lower back — which is both weaker at it and where people get hurt.'],
-              ['5. Shoulder pass-throughs and hangs — 10 + 30s', 'Broomstick pass-throughs with a wide grip, narrowing over weeks, then a dead hang. Restores overhead range and is genuinely protective for the shoulder under pressing and armbars.'],
-              ['6. Adductor rock-backs — 10 each side', 'Quadruped with one leg out to the side, rock the hips back. Groin range that most people only discover they lack when they try to kick head-height or defend a leglock.'],
-              ['When to do it', 'Any time — it is low-fatigue and does not need to sit near training. Evening in front of the TV is the version people actually keep doing. Consistency beats the perfect slot.'],
-            ]} />
-
-            <Fold title="Priorities for what you actually train" tag="If you only fix three things, fix these" items={[
-              ['Ankles — first, given yours', 'Restricted dorsiflexion limits squat depth, changes how you land, and pushes load into the knee. It is also the joint you have already flagged as weak. Do the full progression in the Legs tab before adding range work on top — strength first, then range.'],
-              ['Hips — the highest return for you', 'Internal and external rotation drive kicking height, guard retention, squat depth and the hip turn behind a cross. 90/90 work and the couch stretch daily. The technical side of using that range is in Combat → Hips.'],
-              ['Thoracic spine — for punching and pressing', 'Rotation and extension. A stiff upper back caps your rotational power and forces the lower back to compensate. Two minutes of open-books daily is a genuinely disproportionate return.'],
-              ['Hamstrings and adductors — load them long', 'RDLs and Cossack squats do more for kicking range and groin durability than passive stretching, and they build the Copenhagen-style resilience that prevents the most annoying grappling injuries.'],
-              ['Shoulders — range under control', 'Overhead range matters for pressing and for surviving armbars and kimuras. Hangs, pass-throughs and controlled end-range work; avoid aggressive passive cranking, which is how shoulders get irritated.'],
-              ['Neck — mobility as well as strength', 'Slow controlled rotations through a full range, gently. Strength work is in Combat; range matters too, and stiff necks take strikes worse.'],
-            ]} />
-
-            <Block title="Honest expectations and the myths" items={[
-              ['Timeline', 'Noticeable change in 2-4 weeks of near-daily work. Meaningful, durable change in 3-6 months. Splits or head-height kicks, if you want them, are a year-plus project from a stiff starting point — and entirely achievable.'],
-              ['Use it or lose it', 'Range is maintained by being used. Stop for a month and most of what you gained goes. Two or three short sessions a week maintains what daily work built.'],
-              ['Stretching does not meaningfully prevent injury', 'The evidence for static stretching as injury prevention is weak. What DOES reduce injury is strength at long muscle lengths — Nordics, Copenhagens, RDLs, full-range training. Stretch for the range you need; strengthen for the durability.'],
-              ['It does not reduce soreness much either', 'Stretching after training feels pleasant and has a small effect on DOMS at best. Sleep, food and easy movement do far more — that is in the Recovery tab.'],
-              ['Do not stretch a fresh injury or a hypermobile joint', 'Pulling on a strain makes it worse. And if you are already very flexible, more passive range is the last thing you need — your problem is control and strength, not length.'],
-              ['Pain is not the target', 'A strong stretch sensation, breathing normally, is right. Sharp, pinching or nerve-like sensation is not, and forcing it is how people damage hamstring tendons and hip labrums.'],
-            ]} />
-          </div>
-        )}
-
         {tab === 'recovery' && (
           <div className="fade-up stagger space-y-4">
             <OneThing points={["Sleep 8 hours, eat enough protein (1.6-2.2g per kg), and deload every 6-8 weeks.", "Your WHOOP recovery on the command screen tells you whether today is a push day or a back-off day."]} />
@@ -867,29 +862,37 @@ export default function Programs() {
         {/* ===== POSTURE ===== */}
         {tab === 'posture' && (
           <div className="fade-up stagger space-y-4">
-            <OneThing points={["Ten minutes a day, the short version below: it fixes forward head, rounded shoulders and hands that will not meet behind your back.", "Posture is strength you can hold without thinking — train it, do not force it."]} />
-            <div className="card-premium p-5" data-testid="posture-short">
-              <h3 className="font-bold mb-1">The short version — 10 minutes, daily</h3>
-              <p className="text-gray-500 text-xs leading-relaxed mb-3">For forward head posture, rounded shoulders and tight shoulders. Do it in this order, at home or after a session. Slow and controlled; nothing should hurt.</p>
+            <OneThing points={["One routine, every day, about 15 minutes: it fixes forward head and rounded shoulders AND keeps your hips, ankles and upper back moving for kickboxing and football.", "Busy day? Do the five starred moves — five minutes. Never zero.", "Posture and mobility are strength you can hold without thinking — train them, do not force them."]} />
+            <div className="card-premium p-5" data-testid="daily-routine">
+              <h3 className="font-bold mb-1">The daily routine — posture + mobility, ~15 minutes</h3>
+              <p className="text-gray-500 text-xs leading-relaxed mb-3">Floor first, then standing, so you never get up and down twice. Any time of day — evening in front of the TV is the version people keep doing. Slow and controlled; a strong stretch is fine, sharp or pinching pain is not.</p>
               <ol className="space-y-2.5">
                 {([
-                  ['Chin tucks', '2 × 10, 5s holds', 'Head straight back into a double chin, eyes level. Fixes the forward head.'],
-                  ['Doorway pec stretch', '2 × 30s', 'Forearms on the door frame, elbows at shoulder height, step through until you feel the chest open. Fixes the rounding.'],
-                  ['Upper-back extension', '10 reps', 'Over a foam roller or the top of a chair back: hands behind head, lean back over it, breathe out. Shoulders cannot sit back on a stiff upper back.'],
-                  ['Wall slides', '2 × 10', 'Back, elbows and wrists touching the wall, slide up and down. Trains the muscles that hold your shoulders back.'],
-                  ['Band pull-aparts', '2 × 15', 'Palms up, arms straight, pull the band to your chest and squeeze the shoulder blades. Face pulls do the same job at the gym.'],
-                  ['Towel stretch behind the back', '2 × 30s each way', 'Towel over one shoulder: the top hand holds it behind your head, the bottom hand behind your lower back. Pull up with the top hand for 30s, then down with the bottom hand for 30s. Swap sides.'],
-                  ['Sleeper stretch', '2 × 30s each side', 'Lie on your side, lower arm out in front at 90° with the elbow bent. Use the other hand to gently press the forearm down towards the floor. Light pressure only; stop if the front of the shoulder pinches.'],
-                ] as [string, string, string][]).map(([name, dose, cue], i) => (
+                  ['Chin tucks', '2 × 10, 5s holds', 'posture', true, 'Lying on your back, slide the back of your head along the floor into a double chin. Move to seated, then the wall, as it gets easier (progression below). Fixes the forward head.'],
+                  ['Upper-back extension + open books', '10 reps + 10/side', 'both', true, 'Over a foam roller or rolled towel across the mid back, lean back and breathe out. Then on your side, knees bent, open the top arm across like a book. A stiff upper back is why the shoulders round AND why punches and rotation lose power.'],
+                  ['90/90 hip switches', '10/side', 'mobility', false, 'Both knees at 90°, rotate them to the other side without hands. Hip rotation drives kick height, squat depth and the hip turn behind a punch.'],
+                  ['Adductor rock-backs', '10/side', 'mobility', false, 'On all fours, one leg out to the side, rock the hips back. Groin range for kicking — and the best protection against the strains kickboxing and football both cause.'],
+                  ['Couch stretch', '45-60s/side', 'both', true, 'Back knee down against a sofa, squeeze that glute and tuck the hips under. Undoes sitting, fixes the forward tilt that makes you lean when you walk, and opens the hip for kicks.'],
+                  ['Glute bridge', '2 × 12', 'posture', false, 'Drive the hips up, ribs down, squeeze hard at the top. Strong glutes are what hold the pelvis level once the couch stretch has opened it.'],
+                  ['Deep squat hold', '60s', 'mobility', false, 'Heels down, elbows pushing the knees out, chest up, rock gently side to side. Ankles and hips — hold a door frame if your heels lift. Your ankle needs this range.'],
+                  ['Doorway chest stretch', '2 × 30s', 'posture', true, 'Forearms on the frame at shoulder height, step through. Opens the chest that pressing and phones tighten.'],
+                  ['Wall slides', '2 × 10', 'posture', true, 'Back, elbows and wrists on the wall, slide up and down without the lower back arching. Trains the muscles that hold your shoulders back, plus overhead range.'],
+                  ['Towel + sleeper stretch', '30s each way, each side', 'mobility', false, 'Towel behind your back, pull up then down; then on your side, gently press the forearm down. Shoulder rotation — closes the gap when your hands will not meet behind your back.'],
+                  ['Dead hang', '30-60s', 'both', false, 'Any bar or door-frame pull-up bar. Decompresses the spine, opens the shoulders and lats, builds grip. If you have no bar, do band pull-aparts 2 × 15 instead.'],
+                ] as [string, string, string, boolean, string][]).map(([name, dose, kind, star, cue], i) => (
                   <li key={name} className="flex gap-3">
-                    <span className="font-orbitron text-orange-300 text-sm w-4 flex-shrink-0 mt-0.5">{i + 1}</span>
+                    <span className="font-orbitron text-orange-300 text-sm w-5 flex-shrink-0 mt-0.5">{i + 1}</span>
                     <div className="min-w-0">
-                      <p className="text-sm font-semibold text-gray-100">{name} <span className="text-orange-300 font-normal text-xs">· {dose}</span></p>
+                      <p className="text-sm font-semibold text-gray-100">
+                        {star && <span className="text-orange-300 mr-1" aria-label="In the 5-minute version">★</span>}{name} <span className="text-orange-300 font-normal text-xs">· {dose}</span>
+                        <span className={`ml-1.5 text-[9px] font-hud uppercase tracking-wider px-1.5 py-0.5 rounded ${kind === 'posture' ? 'bg-cyan-400/10 text-cyan-300' : kind === 'mobility' ? 'bg-orange-400/10 text-orange-300' : 'bg-white/5 text-gray-400'}`}>{kind === 'both' ? 'posture + mobility' : kind}</span>
+                      </p>
                       <p className="text-xs text-gray-500 leading-relaxed">{cue}</p>
                     </div>
                   </li>
                 ))}
               </ol>
+              <p className="text-[11px] text-gray-500 mt-3 border-t border-white/5 pt-2.5">★ = the 5-minute version: chin tucks, upper-back extension, couch stretch, doorway stretch, wall slides. The lifting days still end with their own two-move posture finisher — that is on top, not instead.</p>
             </div>
             <Block title="Why your hands do not meet behind your back" items={[
               ['What it is', 'The "back-scratch test". The bottom hand needs the shoulder to rotate inwards; the top hand needs it to rotate outwards, plus loose lats and triceps. Rounded shoulders and a stiff upper back block both.'],
@@ -963,6 +966,44 @@ export default function Programs() {
               ['Suitcase carries (core rotation)', 'Trains you to stand tall and rigid under asymmetric load, which is posture under real-world demand.'],
               ['Nordics and hip thrusts', 'Posterior chain strength directly opposes the tilted-forward pelvis pattern.'],
             ]} />
+            <p className="font-hud text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 pt-2">Mobility — the detail</p>
+            <Fold title="Flexibility vs mobility — the difference that matters" tag="Why the routine is mostly strength through range" items={[
+              ['Flexibility', 'How far a joint can be moved passively — someone pushing your leg up.'],
+              ['Mobility', 'How far you can move it yourself, under control, with strength at the end of the range. Only this one shows up in a kick, a squat or a sprint.'],
+              ['So', 'Passive range you cannot control is not useful, which is why the routine is mostly strength through range rather than sitting in stretches.'],
+            ]} />
+            <Fold title="Why you feel tight — and why it is usually not short muscles" tag="This changes what you should do about it" items={[
+              ['Tightness is mostly a nervous-system setting', 'Short-term flexibility gains come from increased STRETCH TOLERANCE — your nervous system deciding the position is safe — not from muscle physically lengthening. This is why you can gain 20 degrees in one session and lose it by tomorrow, and why warm muscles stretch further.'],
+              ['"Tight" often means weak', 'A muscle with no strength at long lengths gets protectively guarded by your nervous system. Hamstrings that feel permanently tight are frequently hamstrings that are weak at end range. Stretching them feels good and changes little; loading them at length changes it properly.'],
+              ['Tight can also mean overworked or protective', 'A joint guarding an unstable neighbour will feel tight. Chronically tight hip flexors in someone who sits all day, or a stiff lower back doing the rotating that stiff hips refuse to do, are both examples. Chase the cause, not the sensation.'],
+              ['Real tissue change is possible but slow', 'Long-term, consistent loaded stretching does produce structural adaptation — added sarcomeres and altered tissue stiffness. That is a months-to-years process, not a session.'],
+              ['So the rule is', 'Use stretching to open a range, then immediately use strength to own it. Range you do not load, you do not keep.'],
+            ]} />
+            <Fold title="Mobility methods, and when each one is right" tag="Dynamic before training, static after, loaded for keeps" items={[
+              ['Dynamic mobility — BEFORE training', 'Controlled movement through a full range: leg swings, arm circles, 90/90 switches, walking lunges with a twist, cat-cow. 5-10 minutes. This raises tissue temperature and prepares the range you are about to use. This is the correct pre-session choice.'],
+              ['Static stretching — AFTER training, or its own session', '30-60 second holds, breathing out into the position, 5+ days a week for a range you actually want to change. Two or three times a week maintains; once a week does very little.'],
+              ['The pre-lifting caveat, stated accurately', 'Long static holds (60s+) immediately before maximal strength or sprint work cause a small, short-lived drop in force output. It is a modest effect and it clears within about ten minutes of warming up — so it is not a disaster, it is simply not the best use of those minutes. Dynamic before, static after.'],
+              ['Contract-relax (PNF) — the fastest way to add range', 'Get into a stretch, contract the stretched muscle against resistance for 5-10 seconds at moderate effort, relax and move deeper. Repeat 3-4 times. Reliably produces more range in one session than passive holding, and it is the technique most worth learning.'],
+              ['Loaded stretching — the version that lasts', 'Strength work through the fullest range you can control: deep front squats, Romanian deadlifts to a real stretch, deficit split squats, Cossack squats, full-range dumbbell pullovers, deep dips. This is how you convert borrowed range into range you own, and it doubles as your training.'],
+              ['End-range control drills', 'CARs (slow, maximal-effort circles at one joint), 90/90 hip lift-offs, and active straight-leg raises. Unimpressive-looking and they are what makes new range usable under speed and load.'],
+              ['Yoga — useful, not magic', 'A good class is consistent structured mobility plus breathing, and consistency is most of the battle. It is not a substitute for loading the range, and it will not fix a strength problem that presents as tightness.'],
+            ]} />
+            <Fold title="Priorities for what you actually train" tag="If you only fix three things, fix these" items={[
+              ['Ankles — first, given yours', 'Restricted dorsiflexion limits squat depth, changes how you land, and pushes load into the knee. It is also the joint you have already flagged as weak. Do the full progression in the Legs tab before adding range work on top — strength first, then range.'],
+              ['Hips — the highest return for you', 'Internal and external rotation drive kicking height, guard retention, squat depth and the hip turn behind a cross. 90/90 work and the couch stretch daily. The technical side of using that range is in Combat → Hips.'],
+              ['Thoracic spine — for punching and pressing', 'Rotation and extension. A stiff upper back caps your rotational power and forces the lower back to compensate. Two minutes of open-books daily is a genuinely disproportionate return.'],
+              ['Hamstrings and adductors — load them long', 'RDLs and Cossack squats do more for kicking range and groin durability than passive stretching, and they build the Copenhagen-style resilience that prevents the most annoying grappling injuries.'],
+              ['Shoulders — range under control', 'Overhead range matters for pressing and for surviving armbars and kimuras. Hangs, pass-throughs and controlled end-range work; avoid aggressive passive cranking, which is how shoulders get irritated.'],
+              ['Neck — mobility as well as strength', 'Slow controlled rotations through a full range, gently. Strength work is in Combat; range matters too, and stiff necks take strikes worse.'],
+            ]} />
+            <Fold title="Mobility — honest expectations and the myths" tag="Timelines, injury prevention, what stretching does not do" items={[
+              ['Timeline', 'Noticeable change in 2-4 weeks of near-daily work. Meaningful, durable change in 3-6 months. Splits or head-height kicks, if you want them, are a year-plus project from a stiff starting point — and entirely achievable.'],
+              ['Use it or lose it', 'Range is maintained by being used. Stop for a month and most of what you gained goes. Two or three short sessions a week maintains what daily work built.'],
+              ['Stretching does not meaningfully prevent injury', 'The evidence for static stretching as injury prevention is weak. What DOES reduce injury is strength at long muscle lengths — Nordics, Copenhagens, RDLs, full-range training. Stretch for the range you need; strengthen for the durability.'],
+              ['It does not reduce soreness much either', 'Stretching after training feels pleasant and has a small effect on DOMS at best. Sleep, food and easy movement do far more — that is in the Recovery tab.'],
+              ['Do not stretch a fresh injury or a hypermobile joint', 'Pulling on a strain makes it worse. And if you are already very flexible, more passive range is the last thing you need — your problem is control and strength, not length.'],
+              ['Pain is not the target', 'A strong stretch sensation, breathing normally, is right. Sharp, pinching or nerve-like sensation is not, and forcing it is how people damage hamstring tendons and hip labrums.'],
+            ]} />
             <Fold title="What does not work (and what to ignore)" tag="Saves you time and money" items={[
               ['Posture-correcting braces', 'They hold you in position passively, which means the muscles that should be doing the job do not have to. Evidence for lasting change is poor. Use strength instead.'],
               ['Stretching alone', 'Feels productive, changes little on its own. Without strengthening the opposing muscles there is nothing to hold the new position once you stand up.'],
@@ -981,7 +1022,7 @@ export default function Programs() {
               ['Hypertrophy: 1-2 reps in reserve', 'Stop most sets when you could have done 1-2 more clean reps. Take the last set of isolation exercises to genuine failure. Training everything to failure wrecks recovery for marginal extra growth.'],
               ['Progressive overload, written down', 'Every session, try to beat the logbook by a rep or the smallest weight increment. If nothing has moved in a month, the problem is recovery, food or effort — not the programme.'],
               ['Rest properly', '2-3 min on heavy compounds and all power work, 60-90s on isolation. Cutting rest to feel worked costs you load, and load is what drives growth.'],
-              ['Keep legs away from match day', 'Legs + Speed on Tuesday leaves four days before Saturday football. If the fixture moves, move legs so there are at least 48 hours before kick-off.'],
+              ['Keep legs away from match day and kickboxing', 'Legs + Speed on Wednesday is the day after kickboxing and three days before Saturday football. If either moves, keep legs the day after kickboxing and at least 48 hours before kick-off.'],
               ['Deload every 6-8 weeks', 'One week at roughly 60% of normal volume, keeping intensity. Not optional. This is when your body catches up and the next block goes better.'],
             ]} />
             <Block title="How to adjust it" items={[

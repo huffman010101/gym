@@ -138,9 +138,10 @@ export function todaysSession(zone: Zone | null, date = new Date()): TodaySessio
   const dow = date.getDay(); // 0 Sun
   const plan: Record<number, { title: string; to: string }> = {
     1: { title: 'Push', to: '/programs?tab=push' },
-    2: { title: 'Legs + Speed', to: '/programs?tab=legs' },
-    3: { title: 'Upper Size', to: '/programs?tab=bulk' },
+    2: { title: 'Kickboxing', to: '/combat' },
+    3: { title: 'Legs + Speed', to: '/programs?tab=legs' },
     4: { title: 'Pull', to: '/programs?tab=pull' },
+    5: { title: 'Shoulders & Arms', to: '/programs?tab=plan' },
     6: { title: 'Football', to: '/football?tab=warmup' },
   };
   const p = plan[dow];

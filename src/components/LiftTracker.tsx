@@ -16,14 +16,14 @@ interface Lift { id: string; name: string; day: string; lo: number; hi: number; 
 
 export const LIFTS: Lift[] = [
   { id: 'incline', name: 'Incline DB press', day: 'Mon', lo: 8, hi: 10, step: 2, unit: 'kg per hand', goal: [40, 8] },
-  { id: 'ohp', name: 'Seated DB shoulder press', day: 'Mon', lo: 8, hi: 10, step: 2, unit: 'kg per hand', goal: [34, 8] },
+  { id: 'bench', name: 'Bench press', day: 'Mon', lo: 6, hi: 10, step: 2.5, unit: 'kg', goal: [110, 6] },
   { id: 'dips', name: 'Weighted dips', day: 'Mon', lo: 8, hi: 10, step: 2.5, unit: 'kg added', bw: true, goal: [40, 8] },
-  { id: 'trap', name: 'Trap bar deadlift', day: 'Tue', lo: 4, hi: 6, step: 5, unit: 'kg', goal: [200, 5] },
-  { id: 'bss', name: 'Bulgarian split squat', day: 'Tue', lo: 8, hi: 10, step: 2, unit: 'kg per hand', goal: [32, 8] },
-  { id: 'bench', name: 'Bench press', day: 'Wed', lo: 6, hi: 10, step: 2.5, unit: 'kg', goal: [110, 6] },
+  { id: 'trap', name: 'Trap bar deadlift', day: 'Wed', lo: 4, hi: 6, step: 5, unit: 'kg', goal: [200, 5] },
+  { id: 'bss', name: 'Bulgarian split squat', day: 'Wed', lo: 8, hi: 10, step: 2, unit: 'kg per hand', goal: [32, 8] },
   { id: 'pullup', name: 'Weighted pull-up', day: 'Thu', lo: 6, hi: 8, step: 2.5, unit: 'kg added', bw: true, goal: [30, 6] },
   { id: 'row', name: 'Chest-supported row', day: 'Thu', lo: 8, hi: 10, step: 2, unit: 'kg per hand', goal: [40, 8] },
   { id: 'curl', name: 'Incline DB curl', day: 'Thu', lo: 10, hi: 12, step: 1, unit: 'kg per hand', goal: [18, 10] },
+  { id: 'ohp', name: 'Seated DB shoulder press', day: 'Fri', lo: 8, hi: 10, step: 2, unit: 'kg per hand', goal: [34, 8] },
 ];
 
 const today = () => {
