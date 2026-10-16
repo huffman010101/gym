@@ -1,5 +1,5 @@
 /*
- * Looks → Hormones & Bone. Written for a 19-year-old, 6ft 4 lifter: honest
+ * Aura → Hormones & Bone. Written for a 19-year-old, 6ft 4 lifter: honest
  * about what is still changeable (bone density, hormones you can stop
  * wrecking) and what is not (height).
  */

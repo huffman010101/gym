@@ -112,7 +112,19 @@ double progression and stall detection in `gymforge_lifts`; `BulkCheck` — weig
 routes (`/plan`, `/food`, `/physique`) are `<Navigate>` redirects, so link to `/programs?tab=ai|food|physique`.
 The AI workout and meals are cached in `gymforge_ai_workout` / `gymforge_ai_meals` and only regenerate on
 the Rebuild buttons or a retaken quiz (which clears them) — do not reintroduce generate-on-mount.
-`TabBar` scrolls the active tab into view, which matters with Gym's 13 tabs.
+`TabBar` scrolls the active tab into view. Gym's 13 pages are grouped into 7 tabs (`GROUPS` in
+Programs.tsx; groups with several pages show a second pill switch) — `?tab=` still takes the page id.
+The plan is four days (Wed = Upper Size, the "Hemsworth build" day); `todaysSession()` in whoop.ts
+mirrors the weekday plan, so change both together.
+
+### Section skins
+
+Gym wears the Bat, Mind the Cave (with Alfred, and the tabs drawn as cave "stations"), and Looks is
+renamed **Aura** with an animated aura skin (route stays `/looksmax`). Art and heroes live in
+`src/components/Skins.tsx`; a page opts in with `data-skin="bat|cave|aura"` on its root (an attribute,
+not a class — Tailwind drops class rules it cannot see written out), which re-points the theme
+variables for everything inside. `gymforge_skins` = 'off' (toggle in ThemePicker) restores the plain
+SectionHeader/TabBar. All art is original SVG — no studio logos.
 
 ### Theme and the command screen
 
@@ -158,7 +170,7 @@ silently destroys any content containing a stray `<`, e.g. "PED < 1".
 
 ### Offline / service worker
 
-`public/sw.js` (cache `gymforge-v63`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
+`public/sw.js` (cache `gymforge-v64`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
 asset list can only be known post-build — `scripts/inject-sw-precache.mjs` injects it into
 `dist/sw.js`. Any change to the build output pipeline needs that script to still run last.
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, Palette, Check } from 'lucide-react';
-import { THEMES, currentTheme, setTheme, type Theme } from '../lib/themes';
+import { THEMES, currentTheme, setTheme, skinsOn, setSkins, type Theme } from '../lib/themes';
 
 /*
  * One slim row on Home that opens the colour schemes. Tapping a card
@@ -26,6 +26,7 @@ function Preview({ t }: { t: Theme }) {
 export default function ThemePicker() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(currentTheme);
+  const [skins, setSkinsState] = useState(skinsOn);
   const now = THEMES.find(t => t.id === active) ?? THEMES[0];
 
   return (
@@ -55,6 +56,16 @@ export default function ThemePicker() {
               </button>
             ))}
           </div>
+          <button onClick={() => { setSkins(!skins); setSkinsState(!skins); }}
+            className="mt-2 w-full flex items-center justify-between gap-3 rounded-xl border border-white/8 bg-black/30 px-3 py-2.5 text-left">
+            <span>
+              <span className="block text-[13px] font-semibold text-gray-200">Section skins</span>
+              <span className="block text-[10px] text-gray-500">Gym is the Bat, Mind is the Cave with Alfred, Aura glows. Off = every section uses the theme above.</span>
+            </span>
+            <span className={`w-10 h-6 rounded-full p-0.5 flex-shrink-0 transition-colors ${skins ? 'bg-cyan-400/60' : 'bg-white/10'}`}>
+              <span className={`block w-5 h-5 rounded-full bg-white transition-transform ${skins ? 'translate-x-4' : ''}`} />
+            </span>
+          </button>
         </div>
       )}
     </div>

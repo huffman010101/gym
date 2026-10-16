@@ -36,6 +36,22 @@ export function setTheme(id: string) {
   applyTheme(id);
 }
 
+/*
+ * Section skins — Gym (bat), Mind (cave), Looks (aura). On by default; the
+ * theme picker can turn them off so every section follows the chosen theme.
+ */
+const SKINS_KEY = 'gymforge_skins';
+export function skinsOn(): boolean {
+  try { return localStorage.getItem(SKINS_KEY) !== 'off'; } catch { return true; }
+}
+export function setSkins(on: boolean) {
+  try { localStorage.setItem(SKINS_KEY, on ? 'on' : 'off'); } catch { /* quota */ }
+}
+/** The data-skin value a page root sets to wear its skin, or undefined when skins are off. */
+export function skin(id: 'bat' | 'cave' | 'aura'): string | undefined {
+  return skinsOn() ? id : undefined;
+}
+
 /** Apply the saved theme now, and again whenever sync pulls another device's choice. */
 export function startTheme() {
   applyTheme(currentTheme());

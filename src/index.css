@@ -271,3 +271,83 @@ h2, h3 { letter-spacing: 0.02em; }
   background: linear-gradient(90deg, rgb(var(--a-400)), rgb(var(--g-400)));
   border-radius: 1px;
 }
+
+/* ================= SECTION SKINS (src/components/Skins.tsx) =================
+ * Gym = the Bat, Mind = the Cave, Looks = Aura. The backdrop is a fixed layer
+ * painted after body::before, so it fully replaces the global HUD grid on
+ * that page. Palettes come from [data-skin] in tailwind.config.js. */
+.skin-backdrop { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+.skin-backdrop-bat {
+  background:
+    radial-gradient(ellipse 80% 40% at 75% -5%, rgba(250, 204, 21, 0.10), transparent 70%),
+    repeating-linear-gradient(115deg, rgba(255,255,255,0.012) 0 2px, transparent 2px 9px),
+    radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.8) 100%),
+    #050608;
+}
+.skin-backdrop-cave {
+  background:
+    radial-gradient(ellipse 90% 40% at 50% 0%, rgba(56, 189, 248, 0.10), transparent 70%),
+    radial-gradient(ellipse 60% 30% at 15% 100%, rgba(148, 163, 184, 0.06), transparent 70%),
+    radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.85) 100%),
+    #02040a;
+}
+.skin-backdrop-aura {
+  background:
+    radial-gradient(ellipse 70% 40% at 20% 0%, rgba(167, 139, 250, 0.16), transparent 70%),
+    radial-gradient(ellipse 60% 35% at 90% 30%, rgba(244, 114, 182, 0.10), transparent 70%),
+    radial-gradient(ellipse 80% 40% at 50% 105%, rgba(232, 121, 249, 0.10), transparent 70%),
+    #07040d;
+}
+/* Cards inside a skin pick up a touch of its colour instead of the HUD's. */
+[data-skin="bat"] .bg-\[\#111\] { border-color: rgba(250, 204, 21, 0.10); }
+[data-skin="aura"] .bg-\[\#111\] { background-color: rgba(18, 10, 28, 0.82) !important; }
+[data-skin="cave"] .bg-\[\#111\] { background-color: rgba(6, 12, 22, 0.86) !important; }
+
+@keyframes batSway { 0%, 100% { transform: rotate(-2.5deg); } 50% { transform: rotate(2.5deg); } }
+.bat-sway { transform-origin: 309px 170px; animation: batSway 7s ease-in-out infinite; }
+@keyframes batRain { to { background-position: -60px 220px; } }
+.bat-rain {
+  background-image: repeating-linear-gradient(105deg, transparent 0 14px, rgba(200, 210, 230, 0.07) 14px 15px, transparent 15px 31px);
+  background-size: 120px 220px;
+  animation: batRain 0.9s linear infinite;
+  mask-image: linear-gradient(to bottom, black, transparent 90%);
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent 90%);
+}
+
+@keyframes caveFlicker { 0%, 100% { opacity: 0.06; } 45% { opacity: 0.16; } 50% { opacity: 0.04; } 55% { opacity: 0.14; } }
+.cave-flicker { animation: caveFlicker 3.2s ease-in-out infinite; }
+@keyframes caveRadar { to { transform: rotate(360deg); } }
+.cave-radar { animation: caveRadar 2.6s linear infinite; }
+@keyframes caveFall { 0%, 100% { opacity: 0.05; } 50% { opacity: 0.14; } }
+.cave-fall { animation: caveFall 4s ease-in-out infinite; }
+@keyframes caveBat {
+  0% { transform: translate(-30px, 70px) scale(1); }
+  50% { transform: translate(200px, 40px) scale(0.9); }
+  100% { transform: translate(430px, 60px) scale(1); }
+}
+.cave-bat { animation: caveBat 11s linear infinite; }
+.cave-bat-2 { animation-duration: 15s; animation-delay: -6s; }
+
+.aura-orb { position: absolute; border-radius: 9999px; filter: blur(38px); opacity: 0.55; mix-blend-mode: screen; }
+.aura-orb-1 { width: 220px; height: 220px; background: #8b5cf6; left: -60px; top: -40px; animation: auraFloat 12s ease-in-out infinite; }
+.aura-orb-2 { width: 180px; height: 180px; background: #ec4899; right: -30px; top: 30px; animation: auraFloat 15s ease-in-out infinite reverse; }
+.aura-orb-3 { width: 160px; height: 160px; background: #f59e0b; left: 40%; bottom: -90px; opacity: 0.3; animation: auraFloat 18s ease-in-out infinite; }
+@keyframes auraFloat { 0%, 100% { transform: translate(0, 0); } 33% { transform: translate(30px, 20px); } 66% { transform: translate(-20px, 25px); } }
+@keyframes auraRing { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.06); opacity: 0.45; } }
+.aura-ring { transform-origin: 300px 118px; animation: auraRing 4s ease-in-out infinite; }
+.aura-ring-2 { animation-delay: -1.3s; }
+.aura-ring-3 { animation-delay: -2.6s; }
+@keyframes auraSpark { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.9; } }
+.aura-spark { animation: auraSpark 3.5s ease-in-out infinite; }
+.aura-text {
+  background: linear-gradient(90deg, #ddd6fe, #f9a8d4, #fde68a, #ddd6fe);
+  background-size: 300% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 8s ease infinite;
+  filter: drop-shadow(0 0 14px rgba(232, 121, 249, 0.35));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bat-sway, .bat-rain, .cave-flicker, .cave-radar, .cave-fall, .cave-bat, .aura-orb, .aura-ring, .aura-spark, .aura-text { animation: none !important; }
+}

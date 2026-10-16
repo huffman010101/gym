@@ -1,5 +1,5 @@
 /*
- * Looks → ★ Blueprint: everything that moves your face, looks and hair,
+ * Aura → ★ Blueprint: everything that moves your face, looks and hair,
  * ranked by impact, with the schedule that keeps it running and the honest
  * medical options. Each item says where in the app the detail lives.
  */

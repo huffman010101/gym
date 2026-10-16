@@ -8,6 +8,8 @@ import FaceDossier from '../components/FaceDossier';
 import { LOOKS_TIERS, LOOKS_SCHEDULE, LOOKS_MEDICAL, LOOKS_IGNORE, HAIR_DEPTH } from '../data/looksBlueprint';
 import MealPlanner from '../components/MealPlanner';
 import MealUpgrader from '../components/MealUpgrader';
+import { AuraHero, SkinBackdrop, skinsOn } from '../components/Skins';
+import { skin } from '../lib/themes';
 import { HORMONE_TLDR, MORNING_WHAT, MORNING_FIX, HORMONE_LEVERS, HORMONE_MYTHS, HORMONE_DANGER, BONE, BLOOD_TEST, HORMONE_DAILY } from '../data/hormones';
 import {
   ArrowLeft, ChevronDown, ChevronUp, Check, Sparkles, Scissors, Smile, User,
@@ -230,6 +232,7 @@ export default function LooksMax() {
   };
 
 
+  const aura = skinsOn();
   const TABS: { id: LooksTab; label: string; icon: typeof Sparkles }[] = [
     { id: 'plan', label: '★ Blueprint', icon: Sparkles },
     { id: 'scan', label: 'J.A.R.V.I.S. Scan', icon: Camera },
@@ -242,9 +245,12 @@ export default function LooksMax() {
   ];
 
   return (
-    <div className="min-h-screen bg-transparent bg-gradient-to-b from-purple-950/40 via-transparent to-transparent text-white pb-24">
-      <div className="px-5 pt-6">
-        <SectionHeader icon={Sparkles} title="Looks" subtitle="Blueprint · Scan · Face, Hair & Style · Skin · Diet · Body · Hormones · Scent" />
+    <div data-skin={skin('aura')} className={`min-h-screen bg-transparent text-white pb-24 ${aura ? '' : 'bg-gradient-to-b from-purple-950/40 via-transparent to-transparent'}`}>
+      {aura && <SkinBackdrop kind="aura" />}
+      <div className={`px-5 ${aura ? '' : 'pt-6'}`}>
+        {aura
+          ? <AuraHero title="AURA" subtitle="Face, hair, skin, body, style and scent — how you look and how you land." />
+          : <SectionHeader icon={Sparkles} title="Aura" subtitle="Blueprint · Scan · Face, Hair & Style · Skin · Diet · Body · Hormones · Scent" />}
         <TabBar tabs={TABS} active={tab} onChange={setTab} />
       </div>
 

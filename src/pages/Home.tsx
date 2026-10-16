@@ -32,7 +32,7 @@ function HudLabel({ children }: { children: ReactNode }) {
 const SECTIONS = [
   { to: '/programs', icon: Dumbbell, label: 'Gym', desc: 'The plan · training · physique', color: 'text-orange-400', border: 'hover:border-orange-500/40', bg: 'bg-orange-500/10' },
   { to: '/mind', icon: Brain, label: 'Mind', desc: 'Playbook · confidence · discipline', color: 'text-pink-400', border: 'hover:border-pink-500/40', bg: 'bg-pink-500/10' },
-  { to: '/looksmax', icon: Sparkles, label: 'Looks', desc: 'Face scan · skin · diet · style', color: 'text-purple-400', border: 'hover:border-purple-500/40', bg: 'bg-purple-500/10' },
+  { to: '/looksmax', icon: Sparkles, label: 'Aura', desc: 'Face scan · skin · diet · style', color: 'text-purple-400', border: 'hover:border-purple-500/40', bg: 'bg-purple-500/10' },
   { to: '/money', icon: Target, label: 'Money', desc: 'Skills · business · investing', color: 'text-yellow-400', border: 'hover:border-yellow-500/40', bg: 'bg-yellow-500/10' },
   { to: '/combat', icon: Swords, label: 'Combat', desc: 'Grappling · striking · fight IQ', color: 'text-red-400', border: 'hover:border-red-500/40', bg: 'bg-red-500/10' },
   { to: '/football', icon: Trophy, label: 'Football', desc: 'Speed · shooting · warm-up', color: 'text-emerald-400', border: 'hover:border-emerald-500/40', bg: 'bg-emerald-500/10' },

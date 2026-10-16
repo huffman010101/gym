@@ -4,7 +4,7 @@ import { upgradeMeal, VEG_FACTS, type Upgrade } from '../data/vegUpgrade';
 import { aiMealUpgrade, explainFailure, type MealUpgradeAI } from '../lib/generators';
 
 /*
- * Looks → Diet: type a meal you actually eat and get the veg and fruit to
+ * Aura → Diet: type a meal you actually eat and get the veg and fruit to
  * add, how to add them, and why. Instant rule-based upgrade, optional AI
  * upgrade, and a saved list of your own meals (gymforge_my_meals, synced).
  */

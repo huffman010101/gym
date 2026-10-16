@@ -8,24 +8,25 @@ import FoodLog from './FoodLog';
 import Physique from './Physique';
 import BottomNav from '../components/BottomNav';
 import { SectionHeader, TabBar, OneThing } from '../components/Hud';
+import { BatHero, SkinBackdrop, skinsOn } from '../components/Skins';
+import { skin } from '../lib/themes';
 
 type Tab = 'plan' | 'bulk' | 'push' | 'pull' | 'legs' | 'core' | 'mobility' | 'recovery' | 'posture' | 'rules' | 'ai' | 'food' | 'physique';
 
-const TABS: { id: Tab; label: string }[] = [
-  { id: 'plan', label: '★ The Plan' },
-  { id: 'bulk', label: 'Lean Bulk' },
-  { id: 'push', label: 'Push' },
-  { id: 'pull', label: 'Pull' },
-  { id: 'legs', label: 'Legs + Athletic' },
-  { id: 'core', label: 'Core & Abs' },
-  { id: 'mobility', label: 'Mobility' },
-  { id: 'recovery', label: 'Recovery' },
-  { id: 'posture', label: 'Posture' },
-  { id: 'rules', label: 'How to Run It' },
-  { id: 'ai', label: 'AI Plan' },
-  { id: 'food', label: 'Food Log' },
-  { id: 'physique', label: 'Physique' },
+// Thirteen pages grouped into seven tabs. The detailed id (`tab`) is still
+// what ?tab= links, DayCards and FocusMap use; a group with several pages
+// shows a second, smaller switch under the tab bar.
+type Group = 'plan' | 'bulk' | 'sessions' | 'care' | 'ai' | 'food' | 'physique';
+const GROUPS: { id: Group; label: string; subs: { id: Tab; label: string }[] }[] = [
+  { id: 'plan', label: '★ The Plan', subs: [{ id: 'plan', label: 'This week' }, { id: 'rules', label: 'How to run it' }] },
+  { id: 'bulk', label: 'Lean Bulk', subs: [{ id: 'bulk', label: 'Lean Bulk' }] },
+  { id: 'sessions', label: 'Sessions', subs: [{ id: 'push', label: 'Push' }, { id: 'pull', label: 'Pull' }, { id: 'legs', label: 'Legs + Athletic' }, { id: 'core', label: 'Core & Abs' }] },
+  { id: 'care', label: 'Posture & Recovery', subs: [{ id: 'posture', label: 'Posture' }, { id: 'mobility', label: 'Mobility' }, { id: 'recovery', label: 'Recovery' }] },
+  { id: 'ai', label: 'AI Plan', subs: [{ id: 'ai', label: 'AI Plan' }] },
+  { id: 'food', label: 'Fuel Log', subs: [{ id: 'food', label: 'Fuel Log' }] },
+  { id: 'physique', label: 'Physique', subs: [{ id: 'physique', label: 'Physique' }] },
 ];
+const groupOf = (t: Tab) => GROUPS.find(g => g.subs.some(x => x.id === t))!;
 
 interface Ex { name: string; sets: string; targets?: string; how?: string; why: string }
 
@@ -187,7 +188,7 @@ function Fold({ title, tag, items }: { title: string; tag: string; items: [strin
 const DAYS: [string, string, string][] = [
   ['Mon', 'Push', 'Chest, shoulders, triceps'],
   ['Tue', 'Legs + Speed', 'Sprints and jumps first, then heavy'],
-  ['Wed', 'Rest', 'Ankle finisher only'],
+  ['Wed', 'Upper Size', 'Chest, shoulders, arms'],
   ['Thu', 'Pull', 'Back and biceps'],
   ['Fri', 'Rest', 'Ankle finisher only'],
   ['Sat', 'Football', 'Your match'],
@@ -208,27 +209,40 @@ export default function Programs() {
     if (t && (['plan', 'bulk', 'push', 'pull', 'legs', 'core', 'mobility', 'recovery', 'posture', 'rules', 'ai', 'food', 'physique'] as const).includes(t as Tab)) setTab(t as Tab);
   }, [params]);
 
+  const bat = skinsOn();
+  const group = groupOf(tab);
+  // Reopening a group returns to the page you last had open in it.
+  const [lastSub, setLastSub] = useState<Partial<Record<Group, Tab>>>({});
+  useEffect(() => { setLastSub(m => ({ ...m, [groupOf(tab).id]: tab })); }, [tab]);
+
   return (
-    <main className="min-h-screen bg-transparent bg-gradient-to-b from-orange-950/30 via-transparent to-transparent text-white pb-24">
-      <div className="max-w-2xl mx-auto px-5 pt-6">
-        <SectionHeader icon={Dumbbell} title="Gym" subtitle="The plan · lean bulk · AI plan · food · physique" />
+    <main data-skin={skin('bat')} className={`min-h-screen bg-transparent text-white pb-24 ${bat ? '' : 'bg-gradient-to-b from-orange-950/30 via-transparent to-transparent'}`}>
+      {bat && <SkinBackdrop kind="bat" />}
+      <div className={`max-w-2xl mx-auto px-5 ${bat ? '' : 'pt-6'}`}>
+        {bat
+          ? <BatHero title="GYM" subtitle="Three sessions, the lean bulk, your AI plan, fuel and physique — one place." />
+          : <SectionHeader icon={Dumbbell} title="Gym" subtitle="The plan · lean bulk · AI plan · food · physique" />}
 
-        <div className="bg-orange-500/5 border border-orange-500/20 rounded-xl px-4 py-3 mb-5">
-          <p className="text-xs text-orange-200/80 leading-relaxed">
-            Three sessions: <span className="text-orange-300 font-bold">Push</span>, <span className="text-orange-300 font-bold">Legs + Speed</span>,
-            <span className="text-orange-300 font-bold"> Pull</span>. Each starts explosive, builds the footballer-with-bigger-arms-and-back
-            physique, and ends with five minutes on your ankle. Football is the fourth session.
-          </p>
-        </div>
-
-        <TabBar tabs={TABS} active={tab} onChange={setTab} />
+        <TabBar tabs={GROUPS} active={group.id} onChange={g => setTab(lastSub[g] ?? GROUPS.find(x => x.id === g)!.subs[0].id)} />
+        {group.subs.length > 1 && (
+          <div className="flex gap-1.5 -mt-2 mb-5 overflow-x-auto scrollbar-hide" role="tablist">
+            {group.subs.map(x => (
+              <button key={x.id} role="tab" aria-selected={tab === x.id} onClick={() => setTab(x.id)}
+                className={`flex-shrink-0 px-3 py-1.5 rounded-full text-[12px] font-semibold border transition-all ${tab === x.id
+                  ? 'bg-orange-400/15 border-orange-300/50 text-orange-100'
+                  : 'bg-transparent border-white/10 text-gray-500 hover:text-gray-300'}`}>
+                {x.label}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* ===== THE WEEK ===== */}
         {tab === 'plan' && (
           <div className="fade-up stagger space-y-4">
-            <OneThing points={["Three sessions a week: Push Monday, Legs + Speed Tuesday, Pull Thursday. Football Saturday is the fourth.", "Every session: one explosive movement first, four or five lifts, then the posture and ankle finishers.", "Posture is built into every day — the lifting days get a posture finisher, and the 10-minute routine runs daily. It is what shows your jawline.", "Beat the logbook by a rep or the smallest weight each week. That is progress."]} />
+            <OneThing points={["Four sessions a week for the Hemsworth build: Push Monday, Legs + Speed Tuesday, Upper Size Wednesday, Pull Thursday. Football Saturday.", "Every session: one explosive movement first, four or five lifts, then the posture and ankle finishers.", "Posture is built into every day — the lifting days get a posture finisher, and the 10-minute routine runs daily. It is what shows your jawline.", "Beat the logbook by a rep or the smallest weight each week. That is progress."]} />
             <div className="bg-gradient-to-br from-orange-500/15 to-[#111] border border-orange-500/30 rounded-2xl p-5">
-              <h3 className="font-black text-orange-300 mb-2">Three days. Six exercises each. That is the whole thing.</h3>
+              <h3 className="font-black text-orange-300 mb-2">Four days. Six exercises each. That is the whole thing.</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
                 Every session runs the same shape: one explosive movement while you are fresh, four or five lifts,
                 then five minutes on your ankle. Explosive work is what makes you faster, and it only works at the
@@ -245,7 +259,7 @@ export default function Programs() {
                 {[
                   ['Mon', 'Push', 'Chest · shoulders · triceps'],
                   ['Tue', 'Legs + Speed', 'Sprints, jumps, then heavy'],
-                  ['Wed', 'Rest', 'Posture 10 min + ankle work'],
+                  ['Wed', 'Upper Size', 'Chest · shoulders · arms'],
                   ['Thu', 'Pull', 'Back · biceps'],
                   ['Fri', 'Rest', 'Posture 10 min + ankle work'],
                   ['Sat', 'Football', 'Your match'],
@@ -262,8 +276,8 @@ export default function Programs() {
 
             <button onClick={() => setTab('bulk')} className="w-full text-left bg-[#111] border border-orange-500/30 rounded-2xl px-4 py-3 flex items-center justify-between gap-3">
               <span>
-                <span className="block text-sm font-bold text-orange-300">On a lean bulk? Lifts stuck?</span>
-                <span className="block text-[11px] text-gray-500 mt-0.5">Wednesday becomes the Upper Size day. Log your lifts and weigh-ins there and it tells you what to change.</span>
+                <span className="block text-sm font-bold text-orange-300">Building the Hemsworth look? Lifts stuck?</span>
+                <span className="block text-[11px] text-gray-500 mt-0.5">The build, the fourth day, the lift standards and the lean bulk. Log lifts and weigh-ins there and it tells you what to change.</span>
               </span>
               <ChevronRight size={16} className="text-orange-300 flex-shrink-0" />
             </button>
@@ -297,6 +311,19 @@ export default function Programs() {
               note="Jumps and sprints BEFORE the lifting, never after. Warm up properly first — cold hamstrings and sprinting is how people tear something."
             />
 
+            <DayCard day="WED" name="Upper Size" focus="Chest, shoulders and arms — the Hemsworth day" detailTab="bulk" setTab={setTab}
+              exercises={[
+                ['Bench press (barbell or machine)', '3 × 6-10'],
+                ['Cable fly or pec deck', '2 × 12-15'],
+                ['Lateral raise', '4 × 12-20'],
+                ['Rear delt fly / reverse pec deck', '3 × 15'],
+                ['Overhead cable triceps extension', '3 × 10-12'],
+                ['Preacher or Bayesian cable curl', '3 × 10-12'],
+                ['+ Posture: chin tucks + wall slides', '2 × 10 · 2 × 10'],
+              ]}
+              note="About 45 minutes. No back work on Wednesday — Thursday's weighted pull-ups need you fresh. No legs either, so Saturday's game is unaffected. If you play padel or fight on Wednesday, move this day to Friday and keep it upper-only."
+            />
+
             <DayCard day="THU" name="Pull" focus="Back and biceps — the day that builds your back" detailTab="pull" setTab={setTab}
               exercises={[
                 ['Explosive pull-up', '3 × 3'],
@@ -305,6 +332,7 @@ export default function Programs() {
                 ['Face pull', '3 × 15'],
                 ['Incline DB curl', '3 × 10-12'],
                 ['Hammer curl', '2 × 12'],
+                ['Lateral raise (Hemsworth build)', '3 × 15-20'],
                 ['+ Posture: prone Y-T-W + chin tucks', '2 × 10 · 2 × 10'],
                 ['+ Ankle finisher', '5 min'],
               ]}
@@ -340,18 +368,18 @@ export default function Programs() {
 
             <Fold title="Fitting it around games" tag="Short version: keep legs 48 hours clear" items={[
               ['The one rule', 'No heavy legs and no sprinting within 48 hours before a game. That is why leg day is Tuesday and the rest of the week is upper body.'],
-              ['Saturday game', 'Mon Push · Tue Legs+Speed · Thu Pull · Sat game. Already sorted — this is the default above.'],
-              ['Sunday game', 'Shift it: Mon Legs+Speed · Tue Push · Thu Pull · Sun game.'],
+              ['Saturday game', 'Mon Push · Tue Legs+Speed · Wed Upper Size · Thu Pull · Sat game. Already sorted — this is the default above.'],
+              ['Sunday game', 'Shift it: Mon Legs+Speed · Tue Push · Wed Upper Size · Thu Pull · Sun game. Keep a day between Push and Upper Size if you can.'],
               ['Midweek game', 'Do legs the day after the game, never the day before. Push and Pull can go anywhere.'],
               ['Two games that week', 'Skip leg day entirely. Two matches is already more sprinting and cutting than any session would give you, and your ankle will thank you.'],
               ['If you only get one session', 'Make it Tuesday. It has the speed work, the heaviest lifting and the ankle rehab in one.'],
             ]} />
 
-            <Fold title="Why it is only three days" tag="And what to add if you want more" items={[
-              ['Three gym days plus football is four hard sessions', 'That is a full week for someone playing matches with an ankle still settling. More sessions is not more progress — more sessions you actually recover from is.'],
-              ['What it trades away', 'Legs get hit twice (Tuesday plus 90 minutes of running on Saturday), but chest, shoulders, back and arms get one hard session each. That is enough to keep building slowly. For faster size, the Lean Bulk tab adds a fourth day.'],
+            <Fold title="Why four days, and not more" tag="And the cut-back version for heavy weeks" items={[
+              ['Four gym days plus football is five hard sessions', 'That is the ceiling for someone playing matches with an ankle still settling. More sessions is not more progress — more sessions you actually recover from is.'],
+              ['Why the fourth day is upper body', 'Legs already get hit twice (Tuesday plus 90 minutes of running on Saturday). Chest, shoulders and arms are what the Hemsworth look is built on, so Wednesday gives them their second session — with no legs and no back, so Thursday and Saturday are unaffected.'],
               ['Six exercises is deliberate', 'Long sessions are the ones you skip. Six movements takes about 50 minutes and you will actually do it every week, which beats a perfect 12-exercise plan you abandon in a fortnight.'],
-              ['If you want a fourth day', 'Use the Upper Size day in the Lean Bulk tab: chest, shoulders and arms on Wednesday, with no legs and no back, so Thursday and Saturday are unaffected.'],
+              ['Heavy week? Drop Wednesday', 'Exams, two matches or poor sleep: go back to three days for that week. Wednesday is the first session to go, and the plan still works on three.'],
               ['If a session feels too easy', 'Add weight, not exercises. The programme stays the same for months; the numbers on it go up.'],
             ]} />
           </div>
@@ -364,7 +392,48 @@ export default function Programs() {
               'Stuck lifts are almost always food, not the programme. Football, padel and combat burn far more than the calorie number assumes — weigh in, and let the trend below tell you to eat more.',
               'Gain 0.1-0.35kg a week. Faster than that is mostly fat, and it shows on your face first.',
               'Log your best set on every main lift and beat it next time. Hit the top of the rep range, then add weight.',
-              'Add Wednesday\'s Upper Size day for this block. Chest, shoulders and arms then get trained twice a week instead of once.',
+              'For the Hemsworth build, Wednesday\'s Upper Size day is permanent. Chest, shoulders and arms get trained twice a week instead of once.',
+            ]} />
+            <div className="bg-gradient-to-br from-orange-500/15 to-[#111] border border-orange-400/40 rounded-2xl p-5" data-testid="hemsworth">
+              <p className="font-hud text-[10px] font-bold uppercase tracking-[0.3em] text-orange-300/80">Target</p>
+              <h3 className="font-black text-xl text-white mt-0.5">The Hemsworth build</h3>
+              <p className="text-gray-400 text-sm leading-relaxed mt-1">
+                Big round shoulders, a thick upper chest, arms and back that fill a T-shirt, and lean enough to show it — around
+                12-14%, not shredded. Athletic legs, not bodybuilder legs. On a 6ft 4 frame, the shoulders do most of the work:
+                wide delts make everything below them look smaller.
+              </p>
+              <div className="grid grid-cols-3 gap-2 mt-4 text-center">
+                {[['92-98kg', 'bodyweight, lean'], ['84-88cm', 'waist at navel'], ['41-43cm', 'arm, flexed']].map(([v, k]) => (
+                  <div key={k} className="rounded-xl bg-black/30 py-2.5">
+                    <p className="font-hud text-base font-bold text-orange-200">{v}</p>
+                    <p className="text-[10px] text-gray-500 leading-tight mt-0.5">{k}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="text-[11px] text-gray-500 mt-2">Rough targets for your height, not his published stats. The waist and the mirror matter more than the scale.</p>
+            </div>
+
+            <Block title="How you get there — what changes" items={[
+              ['Four days, permanently', 'The Wednesday Upper Size day below is no longer a bulk extra — it is part of the build. Chest, shoulders and arms twice a week is the difference between "trains" and "built".'],
+              ['Side delts three times a week', 'Lateral raises on Monday and Wednesday, plus 3 × 15-20 at the end of Thursday. Width is the single biggest part of this look, and side delts recover fast enough to train often. It adds about six minutes to Thursday.'],
+              ['Every lift has a standard', 'Each lift in the tracker below shows its Hemsworth standard and how close you are. They are rough natural targets for this look on your frame — beat your last session, and the percentage takes care of itself.'],
+              ['Lean bulk to about 92-95kg', 'Use the bulk check. If your waist climbs past 88cm before you get there, run a 4-6 week mini-cut, then carry on.'],
+              ['Sport stays', 'Football and padel keep the athletic look and your conditioning. You just eat for them — see the bulk check.'],
+            ]} />
+
+            <Block title="The honest timeline" items={[
+              ['What his build took', 'Years of training, a full-time trainer, a chef and a film schedule built around it. You are building the same look naturally, around uni and football, so it takes longer — and that is normal.'],
+              ['6 months', 'Visibly bigger shoulders and arms, around 4-6kg up, lifts clearly heavier. People start to notice.'],
+              ['1-2 years', 'Clearly built in a T-shirt. Most of the standards above 70%.'],
+              ['3-4 years', 'The full look on a 6ft 4 frame. Tall builds take longer to fill out — that is the frame, not a lack of progress.'],
+            ]} />
+
+            <Block title="Lock in — the weekly non-negotiables" items={[
+              ['Train Mon, Tue, Wed, Thu, play Saturday', 'Missed a day? Do it the next day. Never miss two in a row.'],
+              ['Log every main lift, weigh in 3-4 mornings', 'Two minutes a day. It is the only way to know whether you are progressing or just turning up.'],
+              ['Protein at every meal, 8 hours in bed, 8-10k steps', 'The three things that decide whether the work turns into muscle.'],
+              ['Sunday review, 5 minutes', 'Check the bulk-check verdict and any stalled lifts, take your progress photo in Physique, and make ONE change for the week. Then plan the week on Command.'],
+              ['Use Lock In for sessions', 'Hit Lock In on Command when you start a session. Gym time counts toward your daily locked-in minutes, so the streak reflects training too.'],
             ]} />
 
             <BulkCheck />
@@ -380,22 +449,10 @@ export default function Programs() {
               ['7. Too much sport fatigue on lifting days', 'A hard padel or combat session the night before a heavy day costs you reps. Keep the big sport sessions away from Tuesday\'s legs and the day before Monday\'s press.'],
             ]} />
 
-            <DayCard day="WED" name="Upper Size (bulk only)" focus="Chest, shoulders and arms — the second hit of the week" detailTab="push" setTab={setTab}
-              exercises={[
-                ['Bench press (barbell or machine)', '3 × 6-10'],
-                ['Cable fly or pec deck', '2 × 12-15'],
-                ['Lateral raise', '4 × 12-20'],
-                ['Rear delt fly / reverse pec deck', '3 × 15'],
-                ['Overhead cable triceps extension', '3 × 10-12'],
-                ['Preacher or Bayesian cable curl', '3 × 10-12'],
-                ['+ Posture: chin tucks + wall slides', '2 × 10 · 2 × 10'],
-              ]}
-              note="About 45 minutes. No back work on Wednesday — Thursday's weighted pull-ups need you fresh. No legs either, so Saturday's game is unaffected. If you play padel or fight on Wednesday, move this day to Friday and keep it upper-only."
-            />
 
             <Block title="The lean bulk, set up properly" items={[
               ['Calories', 'Start at the AI Plan number, plus 300-500 kcal on match days. After two weeks, let the bulk check adjust it in 150-200 kcal steps. The scale trend beats any calculator.'],
-              ['Protein', '1.6-2.2g per kg every day, split across 4 meals. Looks → Diet has the meal plan and the Sainsbury\'s prep recipes.'],
+              ['Protein', '1.6-2.2g per kg every day, split across 4 meals. Aura → Diet has the meal plan and the Sainsbury\'s prep recipes.'],
               ['Carbs around training', 'Rice, oats, potatoes and fruit before and after sessions and matches. Carbs are what let you add reps, and they are the easiest surplus calories to eat.'],
               ['Rate', '0.1-0.35kg a week, about 0.5-1.5kg a month. At 19 that is mostly muscle when you train hard. Faster than that is mostly fat.'],
               ['Length', 'Run it 4-6 months, then reassess. If your jawline has softened, do a 4-6 week mini-cut at 400-500 kcal under maintenance, keeping the same lifting. Then bulk again.'],
@@ -406,7 +463,7 @@ export default function Programs() {
               ['Start lean', 'Begin the bulk with a visible jawline (roughly 12-14% body fat). Bulking from a softer starting point puts you in the "puffy" zone within weeks.'],
               ['Watch your waist, not just the scale', 'Measure at the navel every two weeks in Physique. More than about 1cm a month means the surplus is too big — the bulk check flags it.'],
               ['Same photo every week', 'Same mirror, same light, first thing in the morning, in the Physique tab. A face slowly softening is invisible day to day, but obvious side by side.'],
-              ['Puffy is not the same as fat', 'A salty takeaway, big carb days and alcohol hold water in your face for 1-3 days. Judge the weekly trend, not one morning. Looks → Body & Habits has the debloat routine.'],
+              ['Puffy is not the same as fat', 'A salty takeaway, big carb days and alcohol hold water in your face for 1-3 days. Judge the weekly trend, not one morning. Aura → Body & Habits has the debloat routine.'],
               ['Keep steps at 8-10k', 'Bulking is not a licence to stop moving. Daily steps keep the surplus going to muscle and stop your appetite running the show.'],
               ['Posture', 'Holding your head forward hides your jaw at any body fat. Keep doing the posture finishers.'],
             ]} />
@@ -878,7 +935,7 @@ export default function Programs() {
               ['What forward head does', 'It pushes the soft tissue under your chin forward and opens the angle between your chin and neck, so the jaw blurs into the neck. You look softer and less defined even when you are lean.'],
               ['What fixing it does', 'Head back over the shoulders tightens the under-chin and shows the jawline — visible in photos within weeks, before any fat loss.'],
               ['Tongue up', 'Whole tongue resting on the roof of your mouth firms the under-chin further. Do it with every chin tuck.'],
-              ['The honest bit', 'Posture does not create bone; it reveals what is there. Getting to 10-14% body fat does the rest — see Looks → Blueprint and the hyoid section.'],
+              ['The honest bit', 'Posture does not create bone; it reveals what is there. Getting to 10-14% body fat does the rest — see Aura → Blueprint and the hyoid section.'],
             ]} />
             <Block title="The two patterns worth addressing" items={[
               ['Upper cross — forward head, rounded shoulders', 'Tight and overactive: chest, upper traps, deep chest muscles. Weak and lengthened: deep neck flexors, mid and lower traps, rhomboids, rear delts. This is the one that visibly changes your silhouette.'],

@@ -139,6 +139,7 @@ export function todaysSession(zone: Zone | null, date = new Date()): TodaySessio
   const plan: Record<number, { title: string; to: string }> = {
     1: { title: 'Push', to: '/programs?tab=push' },
     2: { title: 'Legs + Speed', to: '/programs?tab=legs' },
+    3: { title: 'Upper Size', to: '/programs?tab=bulk' },
     4: { title: 'Pull', to: '/programs?tab=pull' },
     6: { title: 'Football', to: '/football?tab=warmup' },
   };

@@ -25,6 +25,17 @@ export const THEMES = {
   deepsea: [colors.blue, colors.teal],      // Deep Sea — electric blue + teal
 };
 
+// Section skins: Gym is the Bat (steel + signal yellow), Mind is the Cave
+// (Bat-computer blue + silver), Looks is Aura (violet + pink). A page opts in
+// with data-skin="<id>" on its root (an attribute, not a class: Tailwind
+// drops class rules it cannot find written out in the source), which re-points the same variables
+// for everything inside it. src/lib/themes.ts can switch skins off.
+export const SKINS = {
+  bat: [colors.zinc, colors.yellow],
+  cave: [colors.sky, colors.slate],
+  aura: [colors.violet, colors.pink],
+};
+
 const rgb = hex => {
   const h = hex.replace('#', '');
   return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)).join(' ');
@@ -72,6 +83,7 @@ export default {
       const [a, g] = THEMES.arc;
       addBase({ ':root': vars(a, g) });
       for (const [id, [x, y]] of Object.entries(THEMES)) addBase({ [`html[data-theme="${id}"]`]: vars(x, y) });
+      for (const [id, [x, y]] of Object.entries(SKINS)) addBase({ [`[data-skin="${id}"]`]: vars(x, y) });
     }),
   ],
 };

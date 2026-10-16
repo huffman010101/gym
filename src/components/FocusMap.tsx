@@ -15,10 +15,10 @@ interface Goal { id: string; label: string; dests: Dest[] }
 const GOALS: Goal[] = [
   { id: 'size', label: 'Bigger & stronger', dests: [
     { to: '/programs?tab=plan', label: 'Gym → The Plan', why: 'The three sessions. Start here, every week.' },
-    { to: '/looksmax?tab=diet', label: 'Looks → Diet', why: 'Swappable meal plan with full recipes' },
-    { to: '/programs?tab=bulk', label: 'Gym → Lean Bulk', why: 'Lift tracker, weigh-ins, the fourth day, keeping your jawline' },
+    { to: '/looksmax?tab=diet', label: 'Aura → Diet', why: 'Swappable meal plan with full recipes' },
+    { to: '/programs?tab=bulk', label: 'Gym → Lean Bulk', why: 'The Hemsworth build: lift standards, weigh-ins, keeping your jawline' },
     { to: '/programs?tab=ai', label: 'Gym → AI Plan', why: 'Your calorie number' },
-    { to: '/programs?tab=food', label: 'Gym → Food Log', why: 'Hit the protein number' },
+    { to: '/programs?tab=food', label: 'Gym → Fuel Log', why: 'Hit the protein number' },
     { to: '/programs?tab=physique', label: 'Gym → Physique', why: 'Measurements and progress photos' },
   ] },
   { id: 'speed', label: 'Faster & explosive', dests: [
@@ -32,13 +32,13 @@ const GOALS: Goal[] = [
     { to: '/football?tab=warmup', label: 'Football → Warm-Up', why: 'Your ankle on match day' },
   ] },
   { id: 'looks', label: 'Look better', dests: [
-    { to: '/looksmax?tab=plan', label: 'Looks → ★ Blueprint', why: 'Everything for face, looks and hair, ranked, with the schedule' },
-    { to: '/looksmax?tab=scan', label: 'Looks → J.A.R.V.I.S. Scan', why: 'Every metric of your face, and a daily plan' },
-    { to: '/looksmax?tab=skin', label: 'Looks → Skin', why: 'The morning and night routine' },
-    { to: '/looksmax?tab=look', label: 'Looks → Face · Hair · Style', why: 'Jaw, neck, hyoid, colouring, fascia, symmetry, haircut, grooming, clothes' },
-    { to: '/looksmax?tab=diet', label: 'Looks → Diet', why: 'Meal plan, recipes, foods for skin' },
-    { to: '/looksmax?tab=techniques', label: 'Looks → Body & Habits', why: 'Body fat, debloat, sleep' },
-    { to: '/looksmax?tab=hormones', label: 'Looks → Hormones & Bone', why: 'Testosterone, morning wood, bone density, height' },
+    { to: '/looksmax?tab=plan', label: 'Aura → ★ Blueprint', why: 'Everything for face, looks and hair, ranked, with the schedule' },
+    { to: '/looksmax?tab=scan', label: 'Aura → J.A.R.V.I.S. Scan', why: 'Every metric of your face, and a daily plan' },
+    { to: '/looksmax?tab=skin', label: 'Aura → Skin', why: 'The morning and night routine' },
+    { to: '/looksmax?tab=look', label: 'Aura → Face · Hair · Style', why: 'Jaw, neck, hyoid, colouring, fascia, symmetry, haircut, grooming, clothes' },
+    { to: '/looksmax?tab=diet', label: 'Aura → Diet', why: 'Meal plan, recipes, foods for skin' },
+    { to: '/looksmax?tab=techniques', label: 'Aura → Body & Habits', why: 'Body fat, debloat, sleep' },
+    { to: '/looksmax?tab=hormones', label: 'Aura → Hormones & Bone', why: 'Testosterone, morning wood, bone density, height' },
   ] },
   { id: 'girls', label: 'Girls & confidence', dests: [
     { to: '/mind?tab=him', label: 'Mind → Start Here', why: 'Six pillars, the eight rules, actually changing, the 90 days' },

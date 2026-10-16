@@ -3,6 +3,9 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Brain, Flame, MessageCircle, Lock, Unlock, Sparkles, Mic2, Eye, ChevronDown, Heart, BookOpen, ListChecks, Compass, Moon } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import { SectionHeader, TabBar, OneThing } from '../components/Hud';
+import { CaveHero, AlfredCard, Stations, SkinBackdrop, skinsOn } from '../components/Skins';
+import { skin } from '../lib/themes';
+import { Monitor, Archive, FlaskConical, Users, Shield, Dumbbell, Clock, KeyRound } from 'lucide-react';
 import KnowYourself from '../components/KnowYourself';
 import MyNotes from '../components/MyNotes';
 import NinetyHard from '../components/NinetyHard';
@@ -31,6 +34,17 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'secret', label: '🔒 Game Plan' },
 ];
 
+// The Cave: each Mind tab is a piece of the cave's equipment.
+const STATIONS = [
+  { id: 'him' as Tab, name: 'Bat-Computer', label: 'Start Here', icon: Monitor },
+  { id: 'notes' as Tab, name: 'Archive', label: 'My Notes', icon: Archive },
+  { id: 'know' as Tab, name: 'The Lab', label: 'Know Yourself', icon: FlaskConical },
+  { id: 'social' as Tab, name: 'The Manor', label: 'People & Charisma', icon: Users },
+  { id: 'confidence' as Tab, name: 'Suit Vault', label: 'Confidence', icon: Shield },
+  { id: 'discipline' as Tab, name: 'Training Floor', label: 'Discipline', icon: Dumbbell },
+  { id: 'routine' as Tab, name: "Alfred's Clock", label: 'Morning & Night', icon: Clock },
+  { id: 'secret' as Tab, name: 'The Vault', label: 'Game Plan', icon: KeyRound },
+];
 
 function Tldr({ points }: { points: string[] }) {
   return <OneThing points={points} />;
@@ -208,12 +222,24 @@ export default function Mind() {
     try { localStorage.removeItem('gymforge_secret_unlocked'); } catch {}
   };
 
-  return (
-    <main className="min-h-screen bg-transparent bg-gradient-to-b from-pink-950/40 via-transparent to-transparent text-white pb-24">
-      <div className="max-w-2xl mx-auto px-5 pt-6">
-        <SectionHeader icon={Brain} title="Mind" subtitle="Start Here is the whole section on one screen. The other tabs are the detail." />
+  const cave = skinsOn();
 
-        <TabBar tabs={TABS} active={tab} onChange={setTab} />
+  return (
+    <main data-skin={skin('cave')} className={`min-h-screen bg-transparent text-white pb-24 ${cave ? '' : 'bg-gradient-to-b from-pink-950/40 via-transparent to-transparent'}`}>
+      {cave && <SkinBackdrop kind="cave" />}
+      <div className={`max-w-2xl mx-auto px-5 ${cave ? '' : 'pt-6'}`}>
+        {cave ? (
+          <>
+            <CaveHero title="MIND" subtitle="Every station in the cave is one part of the work. The Bat-Computer has the whole section on one screen." />
+            <div className="-mt-16 relative"><AlfredCard /></div>
+            <Stations items={STATIONS} active={tab} onChange={setTab} />
+          </>
+        ) : (
+          <>
+            <SectionHeader icon={Brain} title="Mind" subtitle="Start Here is the whole section on one screen. The other tabs are the detail." />
+            <TabBar tabs={TABS} active={tab} onChange={setTab} />
+          </>
+        )}
 
         {/* ============ START HERE — the whole section on one screen ============ */}
         {tab === 'him' && (

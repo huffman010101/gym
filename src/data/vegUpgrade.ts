@@ -1,5 +1,5 @@
 /*
- * Looks → Diet → Meal upgrader. A small rule engine that reads a meal the
+ * Aura → Diet → Meal upgrader. A small rule engine that reads a meal the
  * owner typed ("beef and rice") and suggests the veg and fruit to add, how
  * to add them in the same pan or plate, and what they do. Works offline;
  * the AI version in generators.ts goes further.

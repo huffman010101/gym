@@ -120,7 +120,7 @@ export const NOTE_GROUPS: NoteGroup[] = [
       ['Colours for brown eyes', 'Green, blue and warm yellow make brown eyes stand out.'],
       ['Profile picture', 'Real, high quality, clearly you, no AI. It is the first impression, so make it a good one.'],
       ['Neck holds', 'Chin tuck down to the chest, turn right, turn left, press the head back against your hand: 3 sets of 5-second holds each way. The full neck routine is in Looks.'],
-      ['Salt spray on the face', 'Some use a salt-water spray (2 tbsp salt in warm water) once or twice a week. It can dry oily skin out; it can also irritate. Stop if skin goes tight or red — your proper routine is in Looks → Skin.'],
+      ['Salt spray on the face', 'Some use a salt-water spray (2 tbsp salt in warm water) once or twice a week. It can dry oily skin out; it can also irritate. Stop if skin goes tight or red — your proper routine is in Aura → Skin.'],
       ['The after-drip', 'After peeing, press gently just behind your balls and stroke forward, then shake. It clears the last drop that otherwise ends up in your boxers.'],
     ],
   },

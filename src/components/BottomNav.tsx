@@ -5,7 +5,7 @@ const TABS = [
   { path: '/', icon: LayoutDashboard, label: 'Command' },
   { path: '/programs', icon: Dumbbell, label: 'Gym' },
   { path: '/combat', icon: Swords, label: 'Combat' },
-  { path: '/looksmax', icon: Sparkles, label: 'Looks' },
+  { path: '/looksmax', icon: Sparkles, label: 'Aura' },
   { path: '/mind', icon: Brain, label: 'Mind' },
 ];
 

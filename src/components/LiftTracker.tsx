@@ -12,18 +12,18 @@ import { ChevronDown, TrendingUp, AlertTriangle, Trash2, Plus } from 'lucide-rea
 const K = 'gymforge_lifts';
 type Entry = { d: string; kg: number; reps: number };
 type Log = Record<string, Entry[]>;
-interface Lift { id: string; name: string; day: string; lo: number; hi: number; step: number; unit: string; bw?: boolean }
+interface Lift { id: string; name: string; day: string; lo: number; hi: number; step: number; unit: string; bw?: boolean; goal: [number, number] }
 
 export const LIFTS: Lift[] = [
-  { id: 'incline', name: 'Incline DB press', day: 'Mon', lo: 8, hi: 10, step: 2, unit: 'kg per hand' },
-  { id: 'ohp', name: 'Seated DB shoulder press', day: 'Mon', lo: 8, hi: 10, step: 2, unit: 'kg per hand' },
-  { id: 'dips', name: 'Weighted dips', day: 'Mon', lo: 8, hi: 10, step: 2.5, unit: 'kg added', bw: true },
-  { id: 'trap', name: 'Trap bar deadlift', day: 'Tue', lo: 4, hi: 6, step: 5, unit: 'kg' },
-  { id: 'bss', name: 'Bulgarian split squat', day: 'Tue', lo: 8, hi: 10, step: 2, unit: 'kg per hand' },
-  { id: 'bench', name: 'Bench press', day: 'Wed', lo: 6, hi: 10, step: 2.5, unit: 'kg' },
-  { id: 'pullup', name: 'Weighted pull-up', day: 'Thu', lo: 6, hi: 8, step: 2.5, unit: 'kg added', bw: true },
-  { id: 'row', name: 'Chest-supported row', day: 'Thu', lo: 8, hi: 10, step: 2.5, unit: 'kg' },
-  { id: 'curl', name: 'Incline DB curl', day: 'Thu', lo: 10, hi: 12, step: 1, unit: 'kg per hand' },
+  { id: 'incline', name: 'Incline DB press', day: 'Mon', lo: 8, hi: 10, step: 2, unit: 'kg per hand', goal: [40, 8] },
+  { id: 'ohp', name: 'Seated DB shoulder press', day: 'Mon', lo: 8, hi: 10, step: 2, unit: 'kg per hand', goal: [34, 8] },
+  { id: 'dips', name: 'Weighted dips', day: 'Mon', lo: 8, hi: 10, step: 2.5, unit: 'kg added', bw: true, goal: [40, 8] },
+  { id: 'trap', name: 'Trap bar deadlift', day: 'Tue', lo: 4, hi: 6, step: 5, unit: 'kg', goal: [200, 5] },
+  { id: 'bss', name: 'Bulgarian split squat', day: 'Tue', lo: 8, hi: 10, step: 2, unit: 'kg per hand', goal: [32, 8] },
+  { id: 'bench', name: 'Bench press', day: 'Wed', lo: 6, hi: 10, step: 2.5, unit: 'kg', goal: [110, 6] },
+  { id: 'pullup', name: 'Weighted pull-up', day: 'Thu', lo: 6, hi: 8, step: 2.5, unit: 'kg added', bw: true, goal: [30, 6] },
+  { id: 'row', name: 'Chest-supported row', day: 'Thu', lo: 8, hi: 10, step: 2, unit: 'kg per hand', goal: [40, 8] },
+  { id: 'curl', name: 'Incline DB curl', day: 'Thu', lo: 10, hi: 12, step: 1, unit: 'kg per hand', goal: [18, 10] },
 ];
 
 const today = () => {
@@ -85,6 +85,7 @@ function Row({ l, hist, bw, onAdd, onDel }: { l: Lift; hist: Entry[]; bw: number
   const [kg, setKg] = useState('');
   const [reps, setReps] = useState('');
   const first = sorted[sorted.length - 1];
+  const goalPct = last ? Math.min(100, Math.round((e1rm(l, last, bw) / e1rm(l, { d: '', kg: l.goal[0], reps: l.goal[1] }, bw)) * 100)) : 0;
   const gain = last && first && last !== first ? e1rm(l, last, bw) - e1rm(l, first, bw) : 0;
 
   const submit = () => {
@@ -113,6 +114,10 @@ function Row({ l, hist, bw, onAdd, onDel }: { l: Lift; hist: Entry[]; bw: number
       {open && (
         <div className="px-3 pb-3 space-y-2.5">
           <p className="text-[11px] text-gray-500">Log your best set ({l.unit}). Hit {l.hi} reps and the next target adds {fmt(l.step)}kg.</p>
+          <div>
+            <div className="flex justify-between text-[11px]"><span className="text-gray-400">Hemsworth standard: <span className="text-orange-200 font-semibold">{fmt(l.goal[0])} × {l.goal[1]}</span></span><span className="text-gray-500">{last ? `${goalPct}%` : '—'}</span></div>
+            <div className="h-1.5 rounded-full bg-white/5 mt-1 overflow-hidden"><div className="h-full rounded-full bg-orange-400/80" style={{ width: `${goalPct}%` }} /></div>
+          </div>
           <div className="grid grid-cols-[1fr_1fr_auto] gap-2">
             <input inputMode="decimal" value={kg} onChange={e => setKg(e.target.value)} placeholder={last ? fmt(t?.kg ?? last.kg) : 'kg'} className={input} aria-label={`${l.name} weight`} />
             <input inputMode="numeric" value={reps} onChange={e => setReps(e.target.value)} onKeyDown={e => e.key === 'Enter' && submit()} placeholder={t ? String(t.reps) : 'reps'} className={input} aria-label={`${l.name} reps`} />
