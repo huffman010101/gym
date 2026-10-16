@@ -29,7 +29,7 @@ export default function BottomNav() {
             >
               {active && <span className="absolute inset-x-1 inset-y-0.5 rounded-xl bg-cyan-400/[0.07] border border-cyan-400/20" />}
               <Icon size={20} strokeWidth={active ? 2.3 : 1.5} className="relative"
-                style={active ? { filter: 'drop-shadow(0 0 7px rgba(34,211,238,0.8))' } : undefined} />
+                style={active ? { filter: 'drop-shadow(0 0 7px rgb(var(--a-400) / 0.8))' } : undefined} />
               <span className="relative font-hud text-[10px] font-bold uppercase tracking-[0.14em]">{label}</span>
             </Link>
           );

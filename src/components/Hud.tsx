@@ -16,7 +16,7 @@ export function SectionHeader({ icon: Icon, title, subtitle, back }: { icon: Luc
         <ChevronLeft size={14} /> {back?.label ?? 'Command'}
       </Link>
       <div className="flex items-center gap-3">
-        <div className="w-11 h-11 rounded-xl border border-cyan-400/30 bg-cyan-400/[0.07] flex items-center justify-center shadow-[0_0_18px_rgba(34,211,238,0.15)] flex-shrink-0">
+        <div className="w-11 h-11 rounded-xl border border-cyan-400/30 bg-cyan-400/[0.07] flex items-center justify-center shadow-[0_0_18px_rgb(var(--a-400)/0.15)] flex-shrink-0">
           <Icon size={21} className="text-cyan-300" />
         </div>
         <div className="min-w-0">
@@ -45,7 +45,7 @@ export function TabBar<T extends string>({ tabs, active, onChange }: { tabs: { i
         <button key={t.id} data-active={active === t.id} onClick={() => onChange(t.id)}
           className={`flex-shrink-0 px-3.5 py-2 rounded-lg font-hud text-[13px] font-bold uppercase tracking-wide border transition-all ${
             active === t.id
-              ? 'bg-cyan-400/15 border-cyan-300/60 text-cyan-50 shadow-[0_0_14px_rgba(34,211,238,0.2)]'
+              ? 'bg-cyan-400/15 border-cyan-300/60 text-cyan-50 shadow-[0_0_14px_rgb(var(--a-400)/0.2)]'
               : 'bg-white/[0.03] border-white/10 text-gray-400 hover:text-gray-200 hover:border-white/20'
           }`}>
           {t.label}

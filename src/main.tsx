@@ -8,7 +8,9 @@ import '@fontsource/orbitron/latin-700.css';
 import '@fontsource/orbitron/latin-900.css';
 import './index.css';
 import { startSync } from './lib/sync';
+import { startTheme } from './lib/themes';
 
+startTheme();
 startSync();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

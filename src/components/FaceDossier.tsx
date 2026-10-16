@@ -489,7 +489,7 @@ export default function FaceDossier() {
             <ol className="relative border-l border-cyan-400/25 ml-2 space-y-3">
               {dossier.daily.map((d, i) => (
                 <li key={i} className="pl-4 relative">
-                  <span className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
+                  <span className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-cyan-300 shadow-[0_0_8px_rgb(var(--a-400)/0.8)]" />
                   <p className="text-sm text-gray-100"><span className="font-orbitron text-[12px] text-cyan-200 mr-2">{d.time}</span>{d.action}</p>
                   {d.detail && <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">{d.detail}</p>}
                 </li>

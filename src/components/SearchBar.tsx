@@ -183,7 +183,7 @@ export default function SearchBar() {
 
   return (
     <div className="relative">
-      <div className="flex items-center gap-2.5 bg-[#111] border border-white/10 rounded-2xl px-4 py-3 focus-within:border-cyan-400/50 focus-within:shadow-[0_0_18px_rgba(34,211,238,0.12)] transition-colors">
+      <div className="flex items-center gap-2.5 bg-[#111] border border-white/10 rounded-2xl px-4 py-3 focus-within:border-cyan-400/50 focus-within:shadow-[0_0_18px_rgb(var(--a-400)/0.12)] transition-colors">
         <Search size={16} className="text-cyan-400/70 flex-shrink-0" />
         <input
           value={q}

@@ -35,25 +35,25 @@ export function ArcReactor({ size = 56 }: { size?: number }) {
     <svg width={size} height={size} viewBox="0 0 100 100" className="reactor" aria-hidden>
       <defs>
         <radialGradient id="rc-core" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#f0fdff" />
-          <stop offset="45%" stopColor="#67e8f9" />
-          <stop offset="100%" stopColor="#0e7490" stopOpacity="0" />
+          <stop offset="0%" style={{ stopColor: 'rgb(var(--a-50))' }} />
+          <stop offset="45%" style={{ stopColor: 'rgb(var(--a-300))' }} />
+          <stop offset="100%" style={{ stopColor: 'rgb(var(--a-700))', stopOpacity: 0 }} />
         </radialGradient>
       </defs>
-      <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(34,211,238,0.25)" strokeWidth="1.5" />
+      <circle cx="50" cy="50" r="46" fill="none" strokeWidth="1.5" style={{ stroke: 'rgb(var(--a-400) / 0.25)' }} />
       <g className="spin">
-        <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(34,211,238,0.7)" strokeWidth="2"
-          strokeDasharray="14 7" />
+        <circle cx="50" cy="50" r="40" fill="none" strokeWidth="2"
+          strokeDasharray="14 7" style={{ stroke: 'rgb(var(--a-400) / 0.7)' }} />
       </g>
       <g className="spin-rev">
         {Array.from({ length: 10 }).map((_, i) => (
           <rect key={i} x="47" y="17" width="6" height="11" rx="1.5"
-            fill="rgba(103,232,249,0.85)" transform={`rotate(${i * 36} 50 50)`} />
+            style={{ fill: 'rgb(var(--a-300) / 0.85)' }} transform={`rotate(${i * 36} 50 50)`} />
         ))}
       </g>
-      <circle cx="50" cy="50" r="24" fill="none" stroke="rgba(165,243,252,0.9)" strokeWidth="2" />
+      <circle cx="50" cy="50" r="24" fill="none" strokeWidth="2" style={{ stroke: 'rgb(var(--a-200) / 0.9)' }} />
       <circle cx="50" cy="50" r="20" fill="url(#rc-core)" />
-      <circle cx="50" cy="50" r="7" fill="#ecfeff" />
+      <circle cx="50" cy="50" r="7" style={{ fill: 'rgb(var(--a-50))' }} />
     </svg>
   );
 }
@@ -376,10 +376,10 @@ export default function JarvisHud() {
             <div className="flex flex-col items-center">
               <div className="relative w-[76px] h-[76px]">
                 <svg width="76" height="76" viewBox="0 0 76 76" className="-rotate-90">
-                  <circle cx="38" cy="38" r={R} fill="none" stroke="rgba(34,211,238,0.12)" strokeWidth="6" />
-                  <circle cx="38" cy="38" r={R} fill="none" stroke="rgb(34,211,238)" strokeWidth="6" strokeLinecap="round"
+                  <circle cx="38" cy="38" r={R} fill="none" strokeWidth="6" style={{ stroke: 'rgb(var(--a-400) / 0.12)' }} />
+                  <circle cx="38" cy="38" r={R} fill="none" strokeWidth="6" strokeLinecap="round"
                     strokeDasharray={C} strokeDashoffset={C - (C * pct) / 100}
-                    style={{ transition: 'stroke-dashoffset 1s ease', filter: 'drop-shadow(0 0 5px rgba(34,211,238,0.7))' }} />
+                    style={{ stroke: 'rgb(var(--a-400))', transition: 'stroke-dashoffset 1s ease', filter: 'drop-shadow(0 0 5px rgb(var(--a-400) / 0.7))' }} />
                 </svg>
                 <p className="absolute inset-0 flex flex-col items-center justify-center font-orbitron text-base text-cyan-100 leading-none">{lockedMins}<span className="text-[8px] font-hud tracking-wider text-gray-500 mt-0.5">/ {LOCK_TARGET} MIN</span></p>
               </div>
@@ -426,7 +426,7 @@ export default function JarvisHud() {
 
           {/* Lock in */}
           <button onClick={() => setLockOpen(true)}
-            className="mt-3 w-full rounded-xl py-3.5 font-hud font-bold uppercase tracking-[0.3em] text-base bg-cyan-400/15 border border-cyan-300/60 text-cyan-50 shadow-[0_0_24px_rgba(34,211,238,0.2)] hover:bg-cyan-400/25 inline-flex items-center justify-center gap-2.5 press">
+            className="mt-3 w-full rounded-xl py-3.5 font-hud font-bold uppercase tracking-[0.3em] text-base bg-cyan-400/15 border border-cyan-300/60 text-cyan-50 shadow-[0_0_24px_rgb(var(--a-400)/0.2)] hover:bg-cyan-400/25 inline-flex items-center justify-center gap-2.5 press">
             <Lock size={17} /> Lock in
           </button>
           <p className="text-center text-[11px] text-gray-500 mt-1.5">

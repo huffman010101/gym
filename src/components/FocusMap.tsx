@@ -111,7 +111,7 @@ export default function FocusMap() {
           <button key={g.id} onClick={() => pick(g.id)}
             className={`font-hud text-[12px] font-bold uppercase tracking-wide px-3 py-1.5 rounded-lg border transition-colors ${
               sel === g.id
-                ? 'bg-cyan-400/15 border-cyan-300/60 text-cyan-100 shadow-[0_0_14px_rgba(34,211,238,0.2)]'
+                ? 'bg-cyan-400/15 border-cyan-300/60 text-cyan-100 shadow-[0_0_14px_rgb(var(--a-400)/0.2)]'
                 : 'bg-white/[0.03] border-white/10 text-gray-400 hover:text-gray-200 hover:border-white/20'
             }`}>
             {g.label}

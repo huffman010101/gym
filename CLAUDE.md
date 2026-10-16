@@ -83,8 +83,12 @@ Vite + React 18 + TypeScript SPA, **HashRouter** (required for GitHub Pages), Ta
   duplicated per file rather than shared — match the host file's existing helpers. The page *frame* is
   shared: `SectionHeader`, `TabBar` and `OneThing` (the "If you only read one thing" box that opens
   every tab) live in `src/components/Hud.tsx`.
-- **One J.A.R.V.I.S. palette.** `tailwind.config.js` remaps pink/purple/sky/indigo/blue/teal/fuchsia/
-  violet to cyan and orange to gold, so old accent classes render in the theme. Red, rose, emerald,
+- **One J.A.R.V.I.S. palette, switchable.** `tailwind.config.js` remaps cyan/pink/purple/sky/indigo/blue/
+  teal/fuchsia/violet to an ACCENT palette and orange/yellow to a SECOND palette. Both are CSS variables
+  (`--a-50…950`, `--g-50…950`) generated per theme under `html[data-theme]`; `src/lib/themes.ts` names the
+  themes, `ThemePicker` (Home) switches them, and the choice is `gymforge_theme` (synced). Keep theme ids
+  in step between the two files. **Never hardcode cyan/gold hex or `rgba(34,211,238,…)`** — use
+  `rgb(var(--a-400) / 0.5)` (in SVG put it in `style`, not a presentation attribute). Red, rose, emerald,
   green and amber are left alone because they carry meaning (warning, good, caution, status).
 - Content is hardcoded arrays of `[title, description]` tuples passed to those helpers. Adding content
   means adding tuples, not new components.
@@ -154,7 +158,7 @@ silently destroys any content containing a stray `<`, e.g. "PED < 1".
 
 ### Offline / service worker
 
-`public/sw.js` (cache `gymforge-v62`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
+`public/sw.js` (cache `gymforge-v63`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
 asset list can only be known post-build — `scripts/inject-sw-precache.mjs` injects it into
 `dist/sw.js`. Any change to the build output pipeline needs that script to still run last.
 

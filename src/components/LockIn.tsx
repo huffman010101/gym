@@ -149,7 +149,7 @@ export default function LockIn({ onClose, onDone }: { onClose: () => void; onDon
             ))}
           </div>
           <button onClick={start}
-            className="mt-5 w-full rounded-xl py-3.5 font-hud font-bold uppercase tracking-[0.25em] text-base bg-cyan-400/20 border border-cyan-300/60 text-cyan-50 shadow-[0_0_24px_rgba(34,211,238,0.25)] inline-flex items-center justify-center gap-2 press">
+            className="mt-5 w-full rounded-xl py-3.5 font-hud font-bold uppercase tracking-[0.25em] text-base bg-cyan-400/20 border border-cyan-300/60 text-cyan-50 shadow-[0_0_24px_rgb(var(--a-400)/0.25)] inline-flex items-center justify-center gap-2 press">
             <Play size={16} /> Begin
           </button>
           <p className="text-[11px] text-gray-600 mt-3">The timer survives a locked screen or a reload.</p>
@@ -160,10 +160,10 @@ export default function LockIn({ onClose, onDone }: { onClose: () => void; onDon
           <p className="text-white text-lg font-semibold mt-1">{session.task}</p>
           <div className="relative mx-auto mt-6" style={{ width: 260, height: 260 }}>
             <svg width="260" height="260" viewBox="0 0 260 260" className="-rotate-90">
-              <circle cx="130" cy="130" r={R} fill="none" stroke="rgba(34,211,238,0.1)" strokeWidth="8" />
-              <circle cx="130" cy="130" r={R} fill="none" stroke="rgb(34,211,238)" strokeWidth="8" strokeLinecap="round"
+              <circle cx="130" cy="130" r={R} fill="none" strokeWidth="8" style={{ stroke: 'rgb(var(--a-400) / 0.1)' }} />
+              <circle cx="130" cy="130" r={R} fill="none" strokeWidth="8" strokeLinecap="round"
                 strokeDasharray={C} strokeDashoffset={C * (1 - pct)}
-                style={{ transition: 'stroke-dashoffset 1s linear', filter: 'drop-shadow(0 0 8px rgba(34,211,238,0.7))' }} />
+                style={{ stroke: 'rgb(var(--a-400))', transition: 'stroke-dashoffset 1s linear', filter: 'drop-shadow(0 0 8px rgb(var(--a-400) / 0.7))' }} />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <p className="font-orbitron text-5xl text-cyan-50 tabular-nums">{String(mm).padStart(2, '0')}:{String(ss).padStart(2, '0')}</p>

@@ -13,6 +13,7 @@ import DailyPlan from '../components/DailyPlan';
 import MindFocus from '../components/MindFocus';
 import DailyAffirmation from '../components/DailyAffirmation';
 import SyncPanel from '../components/SyncPanel';
+import ThemePicker from '../components/ThemePicker';
 
 /*
  * Home is J.A.R.V.I.S., the Mind protocol, your daily plan, and the way into every section.
@@ -67,6 +68,7 @@ export default function Home() {
       <section className="px-5 pb-5 max-w-4xl mx-auto">
         <DailyPlan />
         <div className="mt-3"><SyncPanel /></div>
+        <div className="mt-3"><ThemePicker /></div>
       </section>
 
       {/* J.A.R.V.I.S. daily check-in */}
