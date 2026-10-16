@@ -5,6 +5,7 @@ import { Search, ChevronRight } from 'lucide-react';
 interface Entry { label: string; section: string; path: string; keywords: string }
 
 const INDEX: Entry[] = [
+  { label: 'Combat — this session\'s focus (kickboxing)', section: 'Combat', path: '/combat?tab=focus', keywords: 'kickboxing class session focus work on today one thing training focus hands home check kicks jab cross hook roundhouse teep feints angles counter pace progression log' },
   { label: 'Know More — daily general knowledge', section: 'Knowledge', path: '/knowledge', keywords: 'general knowledge learn daily world affairs history tech business deals science economics facts interesting smart trivia geopolitics' },
   { label: 'The Feed (scroll & learn)', section: 'Feed', path: '/feed', keywords: 'feed scroll swipe cards learn tips knowledge fun interactive' },
   { label: 'J.A.R.V.I.S. Face Scan — every metric + daily plan', section: 'Aura', path: '/looksmax?tab=scan', keywords: 'ai face scan analysis dossier jarvis every metric daily plan routine haircut beard skin dermatologist patrick bateman follow up ask question spots tretinoin tret' },

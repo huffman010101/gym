@@ -68,6 +68,7 @@ const GOALS: Goal[] = [
     { to: '/uni?tab=career', label: 'Uni → Career', why: 'CV, tests, interviews' },
   ] },
   { id: 'fight', label: 'Fighting', dests: [
+    { to: '/combat?tab=focus', label: 'Combat → ★ This Session', why: 'One thing to work on in every kickboxing class' },
     { to: '/combat?tab=fundamentals', label: 'Combat → Fundamentals', why: 'Stance, base, clinch' },
     { to: '/combat?tab=striking', label: 'Combat → Striking', why: 'Punch power, kicks, defence, footwork, home sessions' },
     { to: '/combat?tab=drills', label: 'Combat → Drills', why: 'What to practise alone' },

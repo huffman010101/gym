@@ -120,6 +120,12 @@ day), Sat football, Sun rest. `todaysSession()` in whoop.ts and the `day` on eac
 it, so change all three together. Mobility and posture are ONE daily routine on the `posture` page
 (`?tab=mobility` aliases to it); the lifting days keep their own two-move posture finishers on top.
 
+### Combat
+
+Twelve pages in six tabs (same `GROUPS` pattern as Gym). The default tab is **★ This Session**
+(`FightFocus.tsx`): a 17-step kickboxing progression, one focus per class. Rating "nailed it" advances,
+anything else repeats; the log is `gymforge_fight_log`. Tuesday's session on Command links to it.
+
 ### Section skins
 
 Gym wears the Bat, Mind the Cave (with Alfred, and the tabs drawn as cave "stations"), and Looks is
@@ -173,7 +179,7 @@ silently destroys any content containing a stray `<`, e.g. "PED < 1".
 
 ### Offline / service worker
 
-`public/sw.js` (cache `gymforge-v65`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
+`public/sw.js` (cache `gymforge-v66`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
 asset list can only be known post-build — `scripts/inject-sw-precache.mjs` injects it into
 `dist/sw.js`. Any change to the build output pipeline needs that script to still run last.
 

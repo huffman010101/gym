@@ -4,22 +4,24 @@ import { ArrowLeft, Shield, Swords, Hand, AlertTriangle, Target, Users, Zap, Che
 import BottomNav from '../components/BottomNav';
 import { SectionHeader, TabBar, OneThing } from '../components/Hud';
 import { STRIKING, COMBAT_POWER, STREET_ESCAPES } from '../data/docNotes';
+import FightFocus from '../components/FightFocus';
 
-type Tab = 'fundamentals' | 'striking' | 'hips' | 'takedowns' | 'ground' | 'chokes' | 'drills' | 'arts' | 'strategy' | 'gym' | 'tough';
+type Tab = 'focus' | 'fundamentals' | 'striking' | 'hips' | 'takedowns' | 'ground' | 'chokes' | 'drills' | 'arts' | 'strategy' | 'gym' | 'tough';
 
-const TABS: { id: Tab; label: string }[] = [
-  { id: 'fundamentals', label: 'Fundamentals' },
-  { id: 'striking', label: 'Striking' },
-  { id: 'hips', label: 'Hips' },
-  { id: 'takedowns', label: 'Takedowns' },
-  { id: 'ground', label: 'Ground Game' },
-  { id: 'chokes', label: 'Submissions' },
-  { id: 'drills', label: 'Drills' },
-  { id: 'arts', label: 'The Arts' },
-  { id: 'strategy', label: 'Strategy' },
-  { id: 'gym', label: 'Strength & Power' },
-  { id: 'tough', label: 'Toughness' },
+// Twelve pages in six tabs: a group with several pages shows a second pill
+// switch. ?tab= still takes the page id, so old links land exactly.
+type Group = 'focus' | 'stand' | 'grapple' | 'drills' | 'iq' | 'body';
+const GROUPS: { id: Group; label: string; subs: { id: Tab; label: string }[] }[] = [
+  { id: 'focus', label: '★ This Session', subs: [{ id: 'focus', label: 'This Session' }] },
+  { id: 'stand', label: 'Striking', subs: [{ id: 'fundamentals', label: 'Stance & basics' }, { id: 'striking', label: 'Striking' }, { id: 'hips', label: 'Hips & power' }] },
+  { id: 'grapple', label: 'Grappling', subs: [{ id: 'takedowns', label: 'Takedowns' }, { id: 'ground', label: 'Ground' }, { id: 'chokes', label: 'Submissions' }] },
+  { id: 'drills', label: 'Drills', subs: [{ id: 'drills', label: 'Drills' }] },
+  { id: 'iq', label: 'Fight IQ', subs: [{ id: 'strategy', label: 'Strategy' }, { id: 'arts', label: 'The Arts' }] },
+  { id: 'body', label: 'Body', subs: [{ id: 'gym', label: 'Strength & Power' }, { id: 'tough', label: 'Toughness' }] },
 ];
+const TAB_IDS = GROUPS.flatMap(g => g.subs.map(x => x.id));
+const groupOf = (t: Tab) => GROUPS.find(g => g.subs.some(x => x.id === t))!;
+const resolveTab = (t: string | null): Tab | null => (t && (TAB_IDS as string[]).includes(t) ? (t as Tab) : null);
 
 
 function Tldr({ points }: { points: string[] }) {
@@ -124,33 +126,51 @@ function SectionTitle({ icon: Icon, title, sub }: { icon: typeof Shield; title: 
 
 export default function Combat() {
   const [params] = useSearchParams();
-  const [tab, setTab] = useState<Tab>(() => {
-    const t = params.get('tab');
-    return (['fundamentals', 'striking', 'hips', 'takedowns', 'ground', 'chokes', 'drills', 'arts', 'strategy', 'gym', 'tough'] as const).includes(t as Tab) ? (t as Tab) : 'fundamentals';
-  });
+  const [tab, setTab] = useState<Tab>(() => resolveTab(params.get('tab')) ?? 'focus');
   // Follow ?tab= changes while already on this page (links between its own
   // tabs), not just on first mount.
   useEffect(() => {
-    const t = params.get('tab');
-    if (t && (['fundamentals', 'striking', 'hips', 'takedowns', 'ground', 'chokes', 'drills', 'arts', 'strategy', 'gym', 'tough'] as const).includes(t as Tab)) setTab(t as Tab);
+    const t = resolveTab(params.get('tab'));
+    if (t) setTab(t);
   }, [params]);
+  const group = groupOf(tab);
+  // Reopening a group returns to the page you last had open in it.
+  const [lastSub, setLastSub] = useState<Partial<Record<Group, Tab>>>({});
+  useEffect(() => { setLastSub(m => ({ ...m, [groupOf(tab).id]: tab })); }, [tab]);
 
   return (
     <main className="min-h-screen bg-transparent bg-gradient-to-b from-red-950/40 via-transparent to-transparent text-white pb-24">
       <div className="max-w-2xl mx-auto px-5 pt-6">
-        <SectionHeader icon={Swords} title="Combat" subtitle="Striking · Grappling · Takedowns · Submissions · Fight IQ" />
+        <SectionHeader icon={Swords} title="Combat" subtitle="One focus per session · striking · grappling · fight IQ" />
 
-        <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl px-4 py-3 mt-4 flex items-start gap-2.5">
-          <AlertTriangle size={15} className="text-amber-400 flex-shrink-0 mt-0.5" />
-          <p className="text-xs text-amber-200/80 leading-relaxed">
-            These are training references. Learn them live at an MMA/BJJ/wrestling gym with a coach and willing partners —
-            technique only sticks with reps against resistance. Chokes can seriously injure: drill them slowly, tap early, never
-            practice on someone who hasn't agreed. Outside the gym, avoiding and de-escalating a fight is always the win.
-          </p>
-        </div>
+        <TabBar tabs={GROUPS} active={group.id} onChange={g => setTab(lastSub[g] ?? GROUPS.find(x => x.id === g)!.subs[0].id)} />
+        {group.subs.length > 1 && (
+          <div className="flex gap-1.5 -mt-2 mb-5 overflow-x-auto scrollbar-hide" role="tablist">
+            {group.subs.map(x => (
+              <button key={x.id} role="tab" aria-selected={tab === x.id} onClick={() => setTab(x.id)}
+                className={`flex-shrink-0 px-3 py-1.5 rounded-full text-[12px] font-semibold border transition-all ${tab === x.id
+                  ? 'bg-red-400/15 border-red-300/50 text-red-100'
+                  : 'bg-transparent border-white/10 text-gray-500 hover:text-gray-300'}`}>
+                {x.label}
+              </button>
+            ))}
+          </div>
+        )}
 
-
-        <TabBar tabs={TABS} active={tab} onChange={setTab} />
+        {/* ============ THIS SESSION ============ */}
+        {tab === 'focus' && (
+          <div className="fade-up space-y-3">
+            <OneThing points={[
+              'One thing per session. Say it before every round, check it after, and log it here. Nailed it moves you on; anything else repeats it.',
+              'Seventeen focuses in order — defence first, then offence, then fight IQ. One a week through kickboxing is about four months.',
+            ]} />
+            <FightFocus />
+            <p className="flex items-start gap-2 text-[11px] text-amber-200/70 leading-relaxed px-1">
+              <AlertTriangle size={12} className="text-amber-400 flex-shrink-0 mt-0.5" />
+              Learn the techniques in this section live with a coach and willing partners. Drill chokes slowly and tap early. Outside the gym, walking away is always the win.
+            </p>
+          </div>
+        )}
 
         {/* ============ FUNDAMENTALS ============ */}
         {tab === 'fundamentals' && (
