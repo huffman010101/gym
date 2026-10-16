@@ -570,6 +570,7 @@ export default function Mind() {
               'Stop outsourcing your worth: decide your standards before the moment, then act on them.',
               'Talk to yourself like a coach: second person, specific, never "I am an idiot".',
               'Rejection therapy: go and collect one "no" a day. The fear only dies through reps.',
+              'Earn it in the gym: last set to failure, beat one number every session. Every rep you wanted to quit is proof you can do hard things.',
             ]} />
 
             <GFold title="Rejection therapy — kill the fear" tag="Go looking for a no, every day, for 30 days" defaultOpen>
@@ -588,6 +589,20 @@ export default function Mind() {
                 ['What a no actually means', '"Not this, not now" — not "not you". She does not know you. A rejection from a stranger is a verdict on two seconds, not on your life.'],
                 ['After a no', 'Smile, walk away slowly, and start another conversation within sixty seconds. Rejection only sticks if you stop moving.'],
               ]} />
+            </GFold>
+
+            <GFold title="Earn it under the bar — push to failure, beat the logbook" tag="The confidence builder you already do four times a week" defaultOpen>
+              <GCallout title="Why it works" text="Confidence is evidence. Every set you finish when you wanted to quit, and every week the weight goes up, is proof you can do hard things. That proof carries over: the lad who stays under the bar for the last ugly rep is the same lad who walks over and says hello." />
+              <GPairs items={[
+                ['The last set goes to failure', 'On the last set of every isolation and machine exercise, keep going until a clean rep will not move — not when it burns, when it stops. On big barbell lifts stop one rep short unless you have a spotter or safety pins.'],
+                ['Beat one number every session', 'Before each lift, check the tracker in Gym → Lean Bulk and beat it: one more rep, or the smallest jump in weight. One beaten number per session is one piece of evidence.'],
+                ['When you want to stop, do one more', 'That urge to rack it is exactly the rep that builds the muscle and the mindset. Say "one more" and do it, then decide.'],
+                ['Go heavier than feels comfortable, once a week', 'Pick one lift and attempt the next jump even if you are not sure you have it. Missing is fine — set it up so you can fail safely (dumbbells, machines, a spotter).'],
+                ['Bank the wins', 'A new best goes in your evidence log that night — "trap bar 140 × 5, new best". On a flat day, read the list back. The tracker marks every new best for you.'],
+                ['Carry yourself like it matters', 'Walk in with a plan, no phone between sets, rack your weights, hold eye contact. How you behave in the gym is practice for everywhere else.'],
+                ['The honest limits', 'Failure on every set of everything wrecks recovery and stalls you — the last set is where it pays off. Never grind a rep while your form breaks down, and sharp pain is a stop, not a test of character.'],
+              ]} />
+              <Link to="/programs?tab=bulk" className="inline-block text-xs text-pink-300 hover:underline">Open the lift tracker →</Link>
             </GFold>
 
             <NoteFolds groups={CONFIDENCE_NOTES} />

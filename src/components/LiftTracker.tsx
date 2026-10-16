@@ -87,6 +87,8 @@ function Row({ l, hist, bw, onAdd, onDel }: { l: Lift; hist: Entry[]; bw: number
   const first = sorted[sorted.length - 1];
   const goalPct = last ? Math.min(100, Math.round((e1rm(l, last, bw) / e1rm(l, { d: '', kg: l.goal[0], reps: l.goal[1] }, bw)) * 100)) : 0;
   const gain = last && first && last !== first ? e1rm(l, last, bw) - e1rm(l, first, bw) : 0;
+  // A new best = the latest session beats every earlier one. Worth banking in the evidence log.
+  const newBest = sorted.length > 1 && e1rm(l, last, bw) > Math.max(...sorted.slice(1).map(e => e1rm(l, e, bw))) + 0.01;
 
   const submit = () => {
     const k = parseFloat(kg), r = parseInt(reps, 10);
@@ -103,7 +105,7 @@ function Row({ l, hist, bw, onAdd, onDel }: { l: Lift; hist: Entry[]; bw: number
         <span className="flex-1 min-w-0">
           <span className="block text-[13px] font-semibold text-gray-100 truncate">{l.name}</span>
           <span className="block text-[11px] text-gray-500">
-            {last ? <>Last {fmt(last.kg)} × {last.reps}</> : <>{l.lo}-{l.hi} reps · not logged yet</>}
+            {last ? <>Last {fmt(last.kg)} × {last.reps}{newBest && <span className="text-emerald-300 font-semibold"> · ★ new best</span>}</> : <>{l.lo}-{l.hi} reps · not logged yet</>}
             {t && <> · <span className={t.up ? 'text-emerald-300 font-semibold' : 'text-orange-200'}>Next {fmt(t.kg)} × {t.reps}{t.up ? ' ↑' : ''}</span></>}
           </span>
         </span>
