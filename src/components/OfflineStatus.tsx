@@ -16,7 +16,7 @@ import { WifiOff, CheckCircle2, AlertTriangle, RefreshCw } from 'lucide-react';
 
 type State = 'checking' | 'ready' | 'partial' | 'unsupported';
 
-export default function OfflineStatus({ compact = false }: { compact?: boolean }) {
+export default function OfflineStatus({ compact = false, alertOnly = false }: { compact?: boolean; alertOnly?: boolean }) {
   const [state, setState] = useState<State>('checking');
   const [files, setFiles] = useState(0);
   // The cache name is the build version (gymforge-vNN), so it answers "am I on the latest?".
@@ -38,7 +38,9 @@ export default function OfflineStatus({ compact = false }: { compact?: boolean }
     try {
       const reg = await navigator.serviceWorker.getRegistration();
       const keys = await caches.keys();
-      setVersion(keys.map(k => k.match(/gymforge-(v\d+)/)?.[1]).find(Boolean) ?? '');
+      // Highest cached release: right after an update both caches can exist briefly.
+      const nums = keys.map(k => +(k.match(/gymforge-v(\d+)/)?.[1] ?? 0)).filter(Boolean);
+      setVersion(nums.length ? `v${Math.max(...nums)}` : '');
       let count = 0;
       for (const k of keys) count += (await caches.open(k).then(c => c.keys())).length;
       setFiles(count);
@@ -81,13 +83,34 @@ export default function OfflineStatus({ compact = false }: { compact?: boolean }
   if (state === 'unsupported') return null;
 
   const ok = state === 'ready';
+  // The cache holds a newer release than the code running on screen: it has
+  // downloaded but needs one close-and-reopen to take over.
+  const running = __APP_VERSION__;
+  const newer = !!version && +version.slice(1) > +running.slice(1);
+
+  // On Command, outside Settings: say nothing unless something needs doing.
+  if (alertOnly) {
+    if (!newer && state !== 'partial') return null;
+    return (
+      <div className="flex items-start gap-2.5 rounded-2xl border border-amber-500/25 bg-amber-500/5 px-4 py-3" data-testid="offline-alert">
+        <AlertTriangle size={15} className="text-amber-400 flex-shrink-0 mt-0.5" />
+        <p className="text-xs text-amber-100/90 leading-relaxed">
+          {newer
+            ? `Update ${version} downloaded — close the app fully and reopen it to switch over.`
+            : 'Offline copy not ready yet. Stay on wifi a few seconds, then use Settings & help → Check for update.'}
+        </p>
+      </div>
+    );
+  }
 
   if (compact) return (
-    <div className="flex items-center gap-2.5 px-1" data-testid="offline-compact">
+    <div data-testid="offline-compact">
+      <div className="flex items-center gap-2.5 px-1">
       {ok ? <CheckCircle2 size={15} className="text-emerald-400 flex-shrink-0" /> : <AlertTriangle size={15} className="text-amber-400 flex-shrink-0" />}
       <p className="flex-1 min-w-0 text-xs text-gray-400">
         {state === 'checking' ? 'Checking offline copy…' : ok ? 'Works offline' : 'Offline copy not ready'}
-        {version && <span className="text-gray-500"> · build {version}</span>}
+        <span className="text-gray-500"> · build {running}</span>
+        {newer && <span className="text-amber-300"> · {version} downloaded, close and reopen</span>}
         {!online && <span className="text-gray-500"> · <WifiOff size={11} className="inline -mt-0.5" /> no signal</span>}
       </p>
       <button onClick={refresh} disabled={refreshing || !online}
@@ -95,6 +118,12 @@ export default function OfflineStatus({ compact = false }: { compact?: boolean }
         <RefreshCw size={12} className={refreshing ? 'animate-spin' : ''} />
         {refreshing ? 'Checking…' : 'Check for update'}
       </button>
+      </div>
+      {!isStandalone && (
+        <p className="text-[11px] text-gray-500 leading-relaxed mt-2 px-1">
+          On iPhone, add it to your Home Screen (Share → Add to Home Screen) and open it from there — Safari tabs lose the offline copy far sooner.
+        </p>
+      )}
     </div>
   );
 
