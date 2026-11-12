@@ -16,9 +16,11 @@ import { WifiOff, CheckCircle2, AlertTriangle, RefreshCw } from 'lucide-react';
 
 type State = 'checking' | 'ready' | 'partial' | 'unsupported';
 
-export default function OfflineStatus() {
+export default function OfflineStatus({ compact = false }: { compact?: boolean }) {
   const [state, setState] = useState<State>('checking');
   const [files, setFiles] = useState(0);
+  // The cache name is the build version (gymforge-vNN), so it answers "am I on the latest?".
+  const [version, setVersion] = useState('');
   const [online, setOnline] = useState(typeof navigator === 'undefined' ? true : navigator.onLine);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -36,6 +38,7 @@ export default function OfflineStatus() {
     try {
       const reg = await navigator.serviceWorker.getRegistration();
       const keys = await caches.keys();
+      setVersion(keys.map(k => k.match(/gymforge-(v\d+)/)?.[1]).find(Boolean) ?? '');
       let count = 0;
       for (const k of keys) count += (await caches.open(k).then(c => c.keys())).length;
       setFiles(count);
@@ -78,6 +81,22 @@ export default function OfflineStatus() {
   if (state === 'unsupported') return null;
 
   const ok = state === 'ready';
+
+  if (compact) return (
+    <div className="flex items-center gap-2.5 px-1" data-testid="offline-compact">
+      {ok ? <CheckCircle2 size={15} className="text-emerald-400 flex-shrink-0" /> : <AlertTriangle size={15} className="text-amber-400 flex-shrink-0" />}
+      <p className="flex-1 min-w-0 text-xs text-gray-400">
+        {state === 'checking' ? 'Checking offline copy…' : ok ? 'Works offline' : 'Offline copy not ready'}
+        {version && <span className="text-gray-500"> · build {version}</span>}
+        {!online && <span className="text-gray-500"> · <WifiOff size={11} className="inline -mt-0.5" /> no signal</span>}
+      </p>
+      <button onClick={refresh} disabled={refreshing || !online}
+        className="inline-flex items-center gap-1.5 text-[11px] font-semibold bg-white/8 text-gray-200 px-3 py-1.5 rounded-full disabled:opacity-40 flex-shrink-0">
+        <RefreshCw size={12} className={refreshing ? 'animate-spin' : ''} />
+        {refreshing ? 'Checking…' : 'Check for update'}
+      </button>
+    </div>
+  );
 
   return (
     <div className="max-w-6xl mx-auto px-6 pb-4">

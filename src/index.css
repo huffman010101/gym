@@ -430,3 +430,33 @@ html[data-look="modern"] .app-dock {
 }
 html[data-look="modern"] .app-dock > div:first-child { display: none; }
 html[data-look="modern"] .app-dock span { letter-spacing: 0.04em; }
+
+/* ---- Modern look: strip the HUD residue (shared Home/Jarvis markup) ----
+ * Everything here is scoped to the modern look, so Classic HUD is untouched. */
+html[data-look="modern"] .hud-frame::before,
+html[data-look="modern"] .hud-frame::after { display: none; }
+html[data-look="modern"] .hud-panel {
+  background: rgba(22, 24, 32, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 1.25rem;
+  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+html[data-look="modern"] .hud-text-cyan,
+html[data-look="modern"] .hud-text-gold { text-shadow: none; }
+html[data-look="modern"] .jv-sub { display: none; }
+/* Glows read as "HUD"; the modern look is flat and soft. */
+html[data-look="modern"] [class*="shadow-[0_0_"] { box-shadow: none; }
+/* Micro-labels: keep the caps, lose the wide letter-spacing. */
+html[data-look="modern"] [class*="tracking-[0."] { letter-spacing: 0.06em !important; }
+html[data-look="modern"] .tracking-widest, html[data-look="modern"] .tracking-wider { letter-spacing: 0.05em !important; }
+/* Readability: descriptions were too dim on near-black. */
+html[data-look="modern"] .text-gray-500 { color: #8b93a1; }
+html[data-look="modern"] .text-gray-600 { color: #6f7785; }
+html[data-look="modern"] .text-gray-700 { color: #5a6170; }
+/* Home section tiles: soft cards, normal-case titles. */
+html[data-look="modern"] .home-tile {
+  background: rgba(22, 24, 32, 0.72); border-color: rgba(255, 255, 255, 0.07); border-radius: 1.25rem;
+}
+html[data-look="modern"] .home-tile-title { text-transform: none; letter-spacing: -0.01em !important; font-size: 17px; }
+html[data-look="modern"] .home-tile-icon { border-radius: 0.9rem; }
+html[data-look="modern"] .home-more span { text-transform: none; letter-spacing: 0 !important; font-size: 11px; }
