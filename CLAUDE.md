@@ -64,6 +64,10 @@ assuming it will appear:
 mcp__github__actions_run_trigger  method=run_workflow  workflow_id=deploy.yml  ref=main
 ```
 
+**Start every session with `git checkout -B main origin/main`** and commit there. A fresh session checks
+out its own `claude/*` branch, whose history is unrelated to `main`; pushing "main" from it once silently
+deployed nothing. Never push the session branch to `main` — merge `main` into it instead if a hook needs it pushed.
+
 Runs regularly sit in `queued` for several minutes before `in_progress` — that is a slow runner, not a
 failure. Confirm `conclusion: success` before telling the user it is live.
 
@@ -130,7 +134,9 @@ it, so change all three together. Mobility and posture are ONE daily routine on 
   Jarvis sub-line `jv-sub`) and lifts dim grey text; Home tiles use `home-tile`/`home-tile-title`/`home-more`.
 - **Command (Home) order:** today first (Jarvis → affirmation → Mind focus → plan/week → check-in), then
   search + section tiles, then one collapsed **Settings & help** row (theme, sync, "where does everything
-  live", and `OfflineStatus compact`, which shows the build version and a Check for update button).
+  live", and `OfflineStatus compact`, which shows the running build (`__APP_VERSION__`, baked from sw.js's CACHE by
+  vite.config.ts) and a Check for update button). `OfflineStatus alertOnly` sits outside the fold and only renders
+  when the offline copy is broken or a newer release has downloaded and needs a close-and-reopen.
 - **Kitchen measures:** `src/lib/measures.ts` `withMeasure(line)` turns "250g Greek yoghurt" into
   "250g (≈ 8 heaped tbsp) Greek yoghurt". Wrap every rendered ingredient line in it (MealPlanner, Plan's
   AI meals, BulkMealPlan already do).
@@ -199,7 +205,7 @@ silently destroys any content containing a stray `<`, e.g. "PED < 1".
 
 ### Offline / service worker
 
-`public/sw.js` (cache `gymforge-v69`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
+`public/sw.js` (cache `gymforge-v70`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
 asset list can only be known post-build — `scripts/inject-sw-precache.mjs` injects it into
 `dist/sw.js`. Any change to the build output pipeline needs that script to still run last.
 

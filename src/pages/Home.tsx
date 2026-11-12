@@ -102,6 +102,7 @@ export default function Home() {
 
       {/* Settings and help — sync, theme, "where does X live", offline/update */}
       <section className="px-5 pb-5 max-w-4xl mx-auto">
+        <div className="mb-3 empty:hidden"><OfflineStatus alertOnly /></div>
         <button onClick={() => setSettingsOpen(o => !o)} aria-expanded={settingsOpen}
           className="w-full hud-panel flex items-center justify-between px-4 py-3" data-testid="settings-toggle">
           <span className="flex items-center gap-2 font-hud text-[12px] font-bold uppercase tracking-[0.2em] text-cyan-200">
