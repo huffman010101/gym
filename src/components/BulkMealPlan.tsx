@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { ChevronDown, Clock } from 'lucide-react';
 import { withMeasure } from '../lib/measures';
-import { TARGETS, BREAKFAST, LUNCH, DINNER, SNACKS, SHAKES, EXAMPLE_DAY, EXAMPLE_TOTAL, SHOPPING, type PlanItem } from '../data/bulkPlan';
+import { TARGETS, BREAKFAST, LUNCH, DINNER, SNACKS, SHAKES, WEEK, SPORT_EXTRA, PREP, COOKED, STORAGE, SHOPPING, type PlanItem } from '../data/bulkPlan';
 
 /* Gym → Lean Bulk → Meal plan: the 3,400 kcal plan, one section at a time. */
 
 const SECTIONS = [
-  { id: 'day', label: 'Example day' },
+  { id: 'week', label: 'The week' },
+  { id: 'prep', label: 'Meal prep' },
   { id: 'breakfast', label: 'Breakfast', items: BREAKFAST },
   { id: 'lunch', label: 'Lunch', items: LUNCH },
   { id: 'dinner', label: 'Dinner', items: DINNER },
@@ -58,9 +59,9 @@ function Item({ i }: { i: PlanItem }) {
 }
 
 export default function BulkMealPlan() {
-  const [sec, setSec] = useState<Sec>('day');
+  const [sec, setSec] = useState<Sec>('week');
+  const [openDay, setOpenDay] = useState<string | null>(null);
   const current = SECTIONS.find(s => s.id === sec)!;
-  let run = { kcal: 0, p: 0, c: 0, f: 0 };
 
   return (
     <div className="space-y-3" data-testid="bulk-meal-plan">
@@ -83,35 +84,61 @@ export default function BulkMealPlan() {
 
       {'items' in current && current.items.map(i => <Item key={i.id} i={i} />)}
 
-      {sec === 'day' && (
+      {sec === 'week' && (
         <>
-          <div className="bg-[#111] border border-white/8 rounded-2xl overflow-hidden">
+          <div className="bg-[#111] border border-white/8 rounded-2xl overflow-hidden" data-testid="week-table">
             <table className="w-full text-xs">
-              <thead><tr className="text-gray-500 text-left"><th className="px-3 py-2 font-semibold">Meal</th><th className="py-2 text-right">kcal</th><th className="py-2 text-right">P</th><th className="py-2 text-right">C</th><th className="py-2 pr-3 text-right">F</th></tr></thead>
+              <thead><tr className="text-gray-500 text-left"><th className="px-3 py-2 font-semibold">Day</th><th className="py-2 text-right">kcal</th><th className="py-2 text-right">Protein</th><th className="py-2 text-right">Carbs</th><th className="py-2 pr-3 text-right">Fat</th></tr></thead>
               <tbody className="divide-y divide-white/5">
-                {EXAMPLE_DAY.map(id => {
-                  const i = ALL.find(x => x.id === id)!;
-                  run = { kcal: run.kcal + i.kcal, p: run.p + i.p, c: run.c + i.c, f: run.f + i.f };
+                {WEEK.map(d => {
+                  const items = d.ids.map(id => ALL.find(x => x.id === id)!);
+                  const t = items.reduce((a, i) => ({ kcal: a.kcal + i.kcal, p: a.p + i.p, c: a.c + i.c, f: a.f + i.f }), { kcal: 0, p: 0, c: 0, f: 0 });
                   return (
-                    <tr key={id}>
-                      <td className="px-3 py-2 text-gray-200">{i.name}<span className="block text-[10px] text-gray-500">Running: {run.kcal.toLocaleString()} kcal · {run.p}g P</span></td>
-                      <td className="py-2 text-right text-gray-300">{i.kcal}</td><td className="py-2 text-right text-gray-300">{i.p}</td>
-                      <td className="py-2 text-right text-gray-300">{i.c}</td><td className="py-2 pr-3 text-right text-gray-300">{i.f}</td>
+                    <tr key={d.day} onClick={() => setOpenDay(openDay === d.day ? null : d.day)} className="cursor-pointer">
+                      <td className="px-3 py-2 text-gray-200 font-semibold">{d.day}<span className="block text-[10px] text-gray-500 font-normal">{d.training}</span></td>
+                      <td className="py-2 text-right text-gray-200">{t.kcal.toLocaleString()}</td><td className="py-2 text-right text-gray-300">{t.p}g</td>
+                      <td className="py-2 text-right text-gray-300">{t.c}g</td><td className="py-2 pr-3 text-right text-gray-300">{t.f}g</td>
                     </tr>
                   );
                 })}
-                <tr className="font-bold"><td className="px-3 py-2 text-orange-200">Total</td><td className="py-2 text-right text-orange-200">{EXAMPLE_TOTAL.kcal.toLocaleString()}</td><td className="py-2 text-right text-orange-200">{EXAMPLE_TOTAL.p}</td><td className="py-2 text-right text-orange-200">{EXAMPLE_TOTAL.c}</td><td className="py-2 pr-3 text-right text-orange-200">{EXAMPLE_TOTAL.f}</td></tr>
               </tbody>
             </table>
-            <p className="text-[11px] text-gray-500 px-3 py-2 border-t border-white/5">Fibre {EXAMPLE_TOTAL.fibre}g. Every target hit. Take 5g creatine with any meal.</p>
+            <p className="text-[11px] text-gray-500 px-3 py-2 border-t border-white/5">Every day hits 3,300–3,500 kcal, 170–190g protein, 70–90g fat and 30g+ fibre. Tap a day for its meals.</p>
           </div>
-          {EXAMPLE_DAY.map(id => <Item key={id} i={ALL.find(x => x.id === id)!} />)}
+          <p className="text-xs text-orange-200 bg-orange-500/10 rounded-xl px-3 py-2">{SPORT_EXTRA}</p>
+          {WEEK.filter(d => d.day === openDay).map(d => (
+            <div key={d.day} className="space-y-2">
+              <p className="font-hud text-[11px] font-bold uppercase tracking-[0.2em] text-orange-300/80 px-1">{d.day} · {d.training}</p>
+              {d.ids.map(id => <Item key={id} i={ALL.find(x => x.id === id)!} />)}
+            </div>
+          ))}
         </>
+      )}
+
+      {sec === 'prep' && (
+        <div className="space-y-3" data-testid="prep">
+          {PREP.map(p => (
+            <div key={p.when} className="bg-[#111] border border-white/8 rounded-2xl p-4">
+              <p className="font-black text-orange-300">{p.when} <span className="text-xs text-gray-500 font-normal">· {p.time}</span></p>
+              <div className="mt-2 space-y-2">
+                {p.steps.map(([t, d]) => <div key={t}><p className="text-sm font-semibold text-gray-100">{t}</p><p className="text-xs text-gray-400 leading-relaxed">{d}</p></div>)}
+              </div>
+            </div>
+          ))}
+          {[['Raw → cooked weights', COOKED], ['How long it keeps', STORAGE]].map(([title, rows]) => (
+            <div key={title as string} className="bg-[#111] border border-white/8 rounded-2xl p-4">
+              <p className="font-black text-gray-100 mb-2">{title as string}</p>
+              <div className="space-y-1.5">
+                {(rows as [string, string][]).map(([k, v]) => <p key={k} className="text-xs text-gray-400 leading-relaxed"><span className="text-gray-200 font-semibold">{k}: </span>{v}</p>)}
+              </div>
+            </div>
+          ))}
+        </div>
       )}
 
       {sec === 'shop' && (
         <div className="bg-[#111] border border-white/8 rounded-2xl p-4 space-y-3">
-          <p className="text-xs text-gray-500">The example day × 7.</p>
+          <p className="text-xs text-gray-500">Everything for the week above, in pack sizes.</p>
           {SHOPPING.map(([aisle, rows]) => (
             <div key={aisle}>
               <p className="font-hud text-[11px] font-bold uppercase tracking-[0.2em] text-orange-300/80 mb-1">{aisle}</p>
