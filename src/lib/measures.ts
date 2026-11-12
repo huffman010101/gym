@@ -33,6 +33,7 @@ const spoons = (tsp: number) => (n: number) => {
 // Order matters: specific foods before general ones.
 const RULES: Rule[] = [
   [/rice cake|ricecake/i, () => null],
+  [/pouch|microwave|cooked rice/i, () => null],
   [/(greek|yogh?urt|skyr|quark|cottage cheese)/i, (n) => (n > 330 ? per(260, 'mug')(n) : spoon(30, 'heaped tbsp')(n))],
   [/(peanut|almond|nut) butter/i, spoon(16, 'tbsp')],
   [/(honey|maple|syrup)/i, spoons(7)],

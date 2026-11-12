@@ -141,7 +141,12 @@ it, so change all three together. Mobility and posture are ONE daily routine on 
   "250g (≈ 8 heaped tbsp) Greek yoghurt". Wrap every rendered ingredient line in it (MealPlanner, Plan's
   AI meals, BulkMealPlan already do).
 - **Meal plan:** Gym → Lean Bulk → Meal plan (`?tab=meals`, `BulkMealPlan.tsx`, data in `bulkPlan.ts`):
-  the 3,400 kcal lean bulk with macros calculated from UK label values per 100g.
+  the 3,400 kcal lean bulk with macros calculated from UK label values per 100g. Default section is **The week**
+  (`WEEK`: 7 days built around the prep — chilli batch Mon–Wed, peri chicken Thu–Sat — totals summed by the page),
+  then **Meal prep** (`PREP`, raw→cooked `COOKED`, FSA `STORAGE`: cooked rice ≤24h, leftovers ≤2 days) and the
+  week's **Shopping**. Rice is a 250g microwave pouch (Tesco label 134 kcal/100g) — never batch-cooked; rump
+  steak uses the label 171 kcal/100g. Re-solve the week if any recipe changes: every day must stay within
+  3,300–3,500 kcal, 170–190g protein, 70–90g fat.
 - Cut on purpose (do not re-add): The Feed page (`/feed` redirects home — it only repeated tips found
   elsewhere), Combat's The Arts page (`?tab=arts` → Strategy), and the long mobility/posture/recovery
   explainer sections now covered by the daily routine.
@@ -205,7 +210,7 @@ silently destroys any content containing a stray `<`, e.g. "PED < 1".
 
 ### Offline / service worker
 
-`public/sw.js` (cache `gymforge-v70`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
+`public/sw.js` (cache `gymforge-v71`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
 asset list can only be known post-build — `scripts/inject-sw-precache.mjs` injects it into
 `dist/sw.js`. Any change to the build output pipeline needs that script to still run last.
 
