@@ -330,7 +330,7 @@ export default function JarvisHud() {
           <ArcReactor size={34} />
           <div className="leading-none">
             <p className="font-orbitron text-[13px] tracking-[0.3em] hud-text-cyan">J.A.R.V.I.S.</p>
-            <p className="font-hud text-[10px] uppercase tracking-[0.22em] text-gray-500 mt-1">GymForge // Wayne–Stark</p>
+            <p className="jv-sub font-hud text-[10px] uppercase tracking-[0.22em] text-gray-500 mt-1">GymForge // Wayne–Stark</p>
           </div>
         </div>
         <div className="text-right leading-none">

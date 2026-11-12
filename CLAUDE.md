@@ -126,6 +126,11 @@ it, so change all three together. Mobility and posture are ONE daily routine on 
   tabs, floating dock) or `hud` (the original grid). Set from `gymforge_look` in `startTheme()`; switch in
   ThemePicker. All modern styling is the `html[data-look="modern"]` block at the end of `index.css`, hooked on
   the classes `section-header`, `tabbar`, `onething` and `app-dock` — keep those classes on the shared frame.
+  The modern block also strips HUD residue (hud-frame corner brackets, glows, wide-tracked caps, the
+  Jarvis sub-line `jv-sub`) and lifts dim grey text; Home tiles use `home-tile`/`home-tile-title`/`home-more`.
+- **Command (Home) order:** today first (Jarvis → affirmation → Mind focus → plan/week → check-in), then
+  search + section tiles, then one collapsed **Settings & help** row (theme, sync, "where does everything
+  live", and `OfflineStatus compact`, which shows the build version and a Check for update button).
 - **Kitchen measures:** `src/lib/measures.ts` `withMeasure(line)` turns "250g Greek yoghurt" into
   "250g (≈ 8 heaped tbsp) Greek yoghurt". Wrap every rendered ingredient line in it (MealPlanner, Plan's
   AI meals, BulkMealPlan already do).
@@ -194,7 +199,7 @@ silently destroys any content containing a stray `<`, e.g. "PED < 1".
 
 ### Offline / service worker
 
-`public/sw.js` (cache `gymforge-v68`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
+`public/sw.js` (cache `gymforge-v69`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
 asset list can only be known post-build — `scripts/inject-sw-precache.mjs` injects it into
 `dist/sw.js`. Any change to the build output pipeline needs that script to still run last.
 

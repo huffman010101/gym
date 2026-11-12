@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState, type ReactNode } from 'react';
 import {
-  Dumbbell, Target, ChevronRight, ChevronDown, Zap, Trophy, Swords, Sparkles, Brain, GraduationCap, Flame, CircleDot, Youtube, Crosshair,
+  Dumbbell, Target, ChevronRight, ChevronDown, Trophy, Swords, Sparkles, Brain, GraduationCap, Flame, CircleDot, Youtube, Crosshair, Settings,
 } from 'lucide-react';
 import SearchBar from '../components/SearchBar';
 import AccountabilityBot from '../components/AccountabilityBot';
@@ -50,57 +50,49 @@ export default function Home() {
   const [focusOpen, setFocusOpen] = useState(() => {
     try { return !!localStorage.getItem('gymforge_focus'); } catch { return false; }
   });
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   return (
     <main className="min-h-screen bg-transparent text-white pb-24">
       <JarvisHud />
 
-      {/* Today's affirmation, then the Mind protocol */}
+      {/* Today first: the line to say, the Mind rep, the plan, the check-in */}
       <section className="px-5 pb-4 max-w-4xl mx-auto">
         <DailyAffirmation />
       </section>
       <section className="px-5 pb-5 max-w-4xl mx-auto">
         <MindFocus />
       </section>
-
-      {/* Today's plan and tomorrow's */}
       <section className="px-5 pb-5 max-w-4xl mx-auto">
         <DailyPlan />
-        <div className="mt-3"><SyncPanel /></div>
-        <div className="mt-3"><ThemePicker /></div>
       </section>
-
-      {/* J.A.R.V.I.S. daily check-in */}
       <section className="px-5 pb-5 max-w-4xl mx-auto">
         <AccountabilityBot />
       </section>
 
-      <section className="px-5 pb-5 max-w-4xl mx-auto">
-        <SearchBar />
-      </section>
-
-      {/* The sections */}
+      {/* Then everywhere else */}
       <section className="px-5 pb-5 max-w-4xl mx-auto">
         <HudLabel>Sections</HudLabel>
+        <div className="mb-3"><SearchBar /></div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {SECTIONS.map(({ to, icon: Icon, label, desc, color, border, bg }) => (
             <Link key={to} to={to}
-              className={`hud-frame bg-gradient-to-br ${bg} to-[#0b1017] border border-white/8 ${border} rounded-2xl p-4 transition-all hover:-translate-y-0.5 group press`}>
+              className={`home-tile hud-frame bg-gradient-to-br ${bg} to-[#0b1017] border border-white/8 ${border} rounded-2xl p-4 transition-all hover:-translate-y-0.5 group press`}>
               <div className="flex items-center justify-between mb-3">
-                <div className={`w-9 h-9 ${bg} rounded-xl flex items-center justify-center`}>
+                <div className={`home-tile-icon w-9 h-9 ${bg} rounded-xl flex items-center justify-center`}>
                   <Icon size={18} className={color} />
                 </div>
                 <ChevronRight size={15} className="text-gray-700 group-hover:text-gray-500 group-hover:translate-x-0.5 transition-all" />
               </div>
-              <p className="font-hud font-bold text-base uppercase tracking-wide mb-0.5">{label}</p>
+              <p className="home-tile-title font-hud font-bold text-base uppercase tracking-wide mb-0.5">{label}</p>
               <p className="text-gray-600 text-[11px] leading-snug">{desc}</p>
             </Link>
           ))}
         </div>
 
-        <div className="grid grid-cols-4 gap-2 mt-3">
+        <div className="grid grid-cols-3 gap-2 mt-3">
           {MORE.map(({ to, icon: Icon, label, color }) => (
-            <Link key={to} to={to} className="hud-panel flex flex-col items-center gap-1.5 py-3 hover:border-cyan-400/40 transition-colors press">
+            <Link key={to} to={to} className="home-more hud-panel flex flex-col items-center gap-1.5 py-3 hover:border-cyan-400/40 transition-colors press">
               <Icon size={17} className={color} />
               <span className="font-hud text-[10px] font-bold uppercase tracking-wide text-gray-300 text-center leading-tight">{label}</span>
             </Link>
@@ -108,19 +100,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Focus directory — tucked away until wanted */}
+      {/* Settings and help — sync, theme, "where does X live", offline/update */}
       <section className="px-5 pb-5 max-w-4xl mx-auto">
-        <button onClick={() => setFocusOpen(o => !o)}
-          className="w-full hud-panel flex items-center justify-between px-4 py-3">
+        <button onClick={() => setSettingsOpen(o => !o)} aria-expanded={settingsOpen}
+          className="w-full hud-panel flex items-center justify-between px-4 py-3" data-testid="settings-toggle">
           <span className="flex items-center gap-2 font-hud text-[12px] font-bold uppercase tracking-[0.2em] text-cyan-200">
-            <Crosshair size={14} /> Not sure where something lives?
+            <Settings size={14} /> Settings &amp; help
           </span>
-          <ChevronDown size={16} className={`text-cyan-300 transition-transform ${focusOpen ? 'rotate-180' : ''}`} />
+          <ChevronDown size={16} className={`text-cyan-300 transition-transform ${settingsOpen ? 'rotate-180' : ''}`} />
         </button>
-        {focusOpen && <div className="mt-3"><FocusMap /></div>}
+        {settingsOpen && (
+          <div className="mt-3 space-y-3 fade-up">
+            <ThemePicker />
+            <SyncPanel />
+            <button onClick={() => setFocusOpen(o => !o)}
+              className="w-full hud-panel flex items-center justify-between px-4 py-3">
+              <span className="flex items-center gap-2 font-hud text-[12px] font-bold uppercase tracking-[0.2em] text-cyan-200">
+                <Crosshair size={14} /> Where does everything live?
+              </span>
+              <ChevronDown size={16} className={`text-cyan-300 transition-transform ${focusOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {focusOpen && <FocusMap />}
+            <div className="hud-panel px-3 py-3"><OfflineStatus compact /></div>
+          </div>
+        )}
       </section>
-
-      <OfflineStatus />
 
       <footer className="border-t border-cyan-400/10 px-6 py-6 text-center text-gray-700 text-sm">
         <div className="flex items-center justify-center gap-2 font-hud uppercase tracking-[0.25em] text-[11px]">
