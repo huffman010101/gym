@@ -120,6 +120,21 @@ day), Sat football, Sun rest. `todaysSession()` in whoop.ts and the `day` on eac
 it, so change all three together. Mobility and posture are ONE daily routine on the `posture` page
 (`?tab=mobility` aliases to it); the lifting days keep their own two-move posture finishers on top.
 
+### Look, measures and the meal plan
+
+- **Look:** `html[data-look]` is `modern` (default: Space Grotesk + Inter via `@fontsource`, frosted cards, pill
+  tabs, floating dock) or `hud` (the original grid). Set from `gymforge_look` in `startTheme()`; switch in
+  ThemePicker. All modern styling is the `html[data-look="modern"]` block at the end of `index.css`, hooked on
+  the classes `section-header`, `tabbar`, `onething` and `app-dock` — keep those classes on the shared frame.
+- **Kitchen measures:** `src/lib/measures.ts` `withMeasure(line)` turns "250g Greek yoghurt" into
+  "250g (≈ 8 heaped tbsp) Greek yoghurt". Wrap every rendered ingredient line in it (MealPlanner, Plan's
+  AI meals, BulkMealPlan already do).
+- **Meal plan:** Gym → Lean Bulk → Meal plan (`?tab=meals`, `BulkMealPlan.tsx`, data in `bulkPlan.ts`):
+  the 3,400 kcal lean bulk with macros calculated from UK label values per 100g.
+- Cut on purpose (do not re-add): The Feed page (`/feed` redirects home — it only repeated tips found
+  elsewhere), Combat's The Arts page (`?tab=arts` → Strategy), and the long mobility/posture/recovery
+  explainer sections now covered by the daily routine.
+
 ### Combat
 
 Twelve pages in six tabs (same `GROUPS` pattern as Gym). The default tab is **★ This Session**
@@ -179,7 +194,7 @@ silently destroys any content containing a stray `<`, e.g. "PED < 1".
 
 ### Offline / service worker
 
-`public/sw.js` (cache `gymforge-v67`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
+`public/sw.js` (cache `gymforge-v68`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
 asset list can only be known post-build — `scripts/inject-sw-precache.mjs` injects it into
 `dist/sw.js`. Any change to the build output pipeline needs that script to still run last.
 

@@ -11,16 +11,16 @@ import type { LucideIcon } from 'lucide-react';
 
 export function SectionHeader({ icon: Icon, title, subtitle, back }: { icon: LucideIcon; title: string; subtitle?: string; back?: { to: string; label: string } }) {
   return (
-    <div className="mb-5">
+    <div className="mb-5 section-header">
       <Link to={back?.to ?? '/'} className="inline-flex items-center gap-1 font-hud text-[11px] font-bold uppercase tracking-[0.22em] text-cyan-400/70 hover:text-cyan-200 mb-4">
         <ChevronLeft size={14} /> {back?.label ?? 'Command'}
       </Link>
       <div className="flex items-center gap-3">
-        <div className="w-11 h-11 rounded-xl border border-cyan-400/30 bg-cyan-400/[0.07] flex items-center justify-center shadow-[0_0_18px_rgb(var(--a-400)/0.15)] flex-shrink-0">
+        <div className="sh-icon w-11 h-11 rounded-xl border border-cyan-400/30 bg-cyan-400/[0.07] flex items-center justify-center shadow-[0_0_18px_rgb(var(--a-400)/0.15)] flex-shrink-0">
           <Icon size={21} className="text-cyan-300" />
         </div>
         <div className="min-w-0">
-          <p className="font-hud text-[10px] uppercase tracking-[0.28em] text-gray-500 leading-none">J.A.R.V.I.S. // Section</p>
+          <p className="sh-kicker font-hud text-[10px] uppercase tracking-[0.28em] text-gray-500 leading-none">J.A.R.V.I.S. // Section</p>
           <h1 className="text-2xl font-black text-white leading-tight mt-1">{title}</h1>
           {subtitle && <p className="text-gray-500 text-xs mt-0.5">{subtitle}</p>}
         </div>
@@ -40,7 +40,7 @@ export function TabBar<T extends string>({ tabs, active, onChange }: { tabs: { i
     if (e.left < b.left || e.right > b.right) bar.current.scrollLeft += (e.left + e.width / 2) - (b.left + b.width / 2);
   }, [active]);
   return (
-    <div ref={bar} className="flex gap-1.5 overflow-x-auto scrollbar-hide mb-5 -mx-5 px-5 pb-1">
+    <div ref={bar} className="tabbar flex gap-1.5 overflow-x-auto scrollbar-hide mb-5 -mx-5 px-5 pb-1">
       {tabs.map(t => (
         <button key={t.id} data-active={active === t.id} onClick={() => onChange(t.id)}
           className={`flex-shrink-0 px-3.5 py-2 rounded-lg font-hud text-[13px] font-bold uppercase tracking-wide border transition-all ${
@@ -58,7 +58,7 @@ export function TabBar<T extends string>({ tabs, active, onChange }: { tabs: { i
 /* The top-of-tab summary. Every tab in the app opens with one. */
 export function OneThing({ points }: { points: ReactNode[] }) {
   return (
-    <div className="rounded-2xl border border-cyan-400/30 bg-gradient-to-br from-cyan-400/[0.08] to-transparent p-4">
+    <div className="onething rounded-2xl border border-cyan-400/30 bg-gradient-to-br from-cyan-400/[0.08] to-transparent p-4">
       <p className="font-hud text-[10px] font-bold uppercase tracking-[0.25em] text-cyan-300 mb-2">If you only read one thing</p>
       <ul className="space-y-1.5">
         {points.map((p, i) => (

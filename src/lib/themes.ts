@@ -52,8 +52,24 @@ export function skin(id: 'bat' | 'cave' | 'aura'): string | undefined {
   return skinsOn() ? id : undefined;
 }
 
-/** Apply the saved theme now, and again whenever sync pulls another device's choice. */
+/*
+ * Look: 'modern' (the default since the redesign — softer glass cards,
+ * Space Grotesk/Inter, a floating dock) or 'hud' (the original J.A.R.V.I.S.
+ * grid). Set as html[data-look]; all modern styling lives in index.css.
+ */
+const LOOK_KEY = 'gymforge_look';
+export type Look = 'modern' | 'hud';
+export function currentLook(): Look {
+  try { return localStorage.getItem(LOOK_KEY) === 'hud' ? 'hud' : 'modern'; } catch { return 'modern'; }
+}
+export function setLook(l: Look) {
+  try { localStorage.setItem(LOOK_KEY, l); } catch { /* quota */ }
+  document.documentElement.dataset.look = l;
+}
+
+/** Apply the saved theme and look now, and again whenever sync pulls another device's choice. */
 export function startTheme() {
-  applyTheme(currentTheme());
-  window.addEventListener('gymforge-synced', () => applyTheme(currentTheme()));
+  const apply = () => { applyTheme(currentTheme()); document.documentElement.dataset.look = currentLook(); };
+  apply();
+  window.addEventListener('gymforge-synced', apply);
 }

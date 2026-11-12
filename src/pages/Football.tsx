@@ -430,11 +430,6 @@ export default function Football() {
               ['Front-foot or drop — decide early', 'Ball played into feet = tight and aggressive. Ball over the top threat = drop early. In-between defending is how you get roasted.'],
               ['First pass out', 'Modern CBs launch attacks: break the first press line with a pass or a 10m carry. Composure on the ball doubles your value.'],
             ]} />
-            <Fold title="Goalkeeper (GK)" tag="Positioning saves more than reflexes" items={[
-              ['Set position at every shot', 'Feet set, weight forward, hands ready at hip height BEFORE they strike. Moving keepers get beaten at their feet.'],
-              ['Angles over acrobatics', 'Bisect the angle between ball and posts; a keeper in the right spot makes saves look easy. Top corners are conceded, everything else is positioning.'],
-              ['Command your box', 'Claim crosses with a loud early call, punch when crowded. Distribution: throw fast to feet, find the free fullback — you\'re the first playmaker.'],
-            ]} />
             {FOOTBALL_DEFENDING.map(g => <Fold key={g.title} title={g.title} tag={g.tag} items={g.items} />)}
           </div>
         )}

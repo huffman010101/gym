@@ -42,7 +42,6 @@ const SECTIONS = [
 
 const MORE = [
   { to: '/programs?tab=food', icon: Flame, label: 'Fuel Log', color: 'text-orange-300' },
-  { to: '/feed', icon: Zap, label: 'The Feed', color: 'text-purple-300' },
   { to: '/knowledge', icon: GraduationCap, label: 'Know More', color: 'text-sky-300' },
   { to: '/videonotes', icon: Youtube, label: 'Video Notes', color: 'text-red-300' },
 ];

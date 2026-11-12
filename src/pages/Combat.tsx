@@ -6,7 +6,7 @@ import { SectionHeader, TabBar, OneThing } from '../components/Hud';
 import { STRIKING, COMBAT_POWER, STREET_ESCAPES } from '../data/docNotes';
 import FightFocus from '../components/FightFocus';
 
-type Tab = 'focus' | 'fundamentals' | 'striking' | 'hips' | 'takedowns' | 'ground' | 'chokes' | 'drills' | 'arts' | 'strategy' | 'gym' | 'tough';
+type Tab = 'focus' | 'fundamentals' | 'striking' | 'hips' | 'takedowns' | 'ground' | 'chokes' | 'drills' | 'strategy' | 'gym' | 'tough';
 
 // Twelve pages in six tabs: a group with several pages shows a second pill
 // switch. ?tab= still takes the page id, so old links land exactly.
@@ -16,12 +16,13 @@ const GROUPS: { id: Group; label: string; subs: { id: Tab; label: string }[] }[]
   { id: 'stand', label: 'Striking', subs: [{ id: 'fundamentals', label: 'Stance & basics' }, { id: 'striking', label: 'Striking' }, { id: 'hips', label: 'Hips & power' }] },
   { id: 'grapple', label: 'Grappling', subs: [{ id: 'takedowns', label: 'Takedowns' }, { id: 'ground', label: 'Ground' }, { id: 'chokes', label: 'Submissions' }] },
   { id: 'drills', label: 'Drills', subs: [{ id: 'drills', label: 'Drills' }] },
-  { id: 'iq', label: 'Fight IQ', subs: [{ id: 'strategy', label: 'Strategy' }, { id: 'arts', label: 'The Arts' }] },
+  { id: 'iq', label: 'Fight IQ', subs: [{ id: 'strategy', label: 'Strategy' }] },
   { id: 'body', label: 'Body', subs: [{ id: 'gym', label: 'Strength & Power' }, { id: 'tough', label: 'Toughness' }] },
 ];
 const TAB_IDS = GROUPS.flatMap(g => g.subs.map(x => x.id));
 const groupOf = (t: Tab) => GROUPS.find(g => g.subs.some(x => x.id === t))!;
-const resolveTab = (t: string | null): Tab | null => (t && (TAB_IDS as string[]).includes(t) ? (t as Tab) : null);
+// The Arts page was cut; old links land on Strategy.
+const resolveTab = (t: string | null): Tab | null => (t === 'arts' ? 'strategy' : t && (TAB_IDS as string[]).includes(t) ? (t as Tab) : null);
 
 
 function Tldr({ points }: { points: string[] }) {
@@ -548,132 +549,7 @@ export default function Combat() {
               ['Timed hard sparring, planned in advance', 'Decide the intensity and the goal BEFORE the round starts, and agree it with your partner. "Rounds where nobody knows the intensity" is how injuries and unnecessary head trauma happen.'],
             ]} />
 
-            <Fold title="How to actually learn a new technique" tag="The sequence that makes it stick" items={[
-              ['1. Understand the mechanism', 'Why does it work — what does it take away, where does the force go? A technique you can explain is one you can adapt when it half-fails. One you only copied is one you abandon the first time it does not work.'],
-              ['2. Slow correct reps, ~50 of them', 'Deliberately slow, no resistance, checking each position. Speed at this stage just builds an error faster. Get corrected by a coach here, before it is habitual.'],
-              ['3. Add resistance in steps', '30% resistance, then 50%, then 70%. Each step will break the technique somewhere new — that is the point, and the break tells you exactly what to fix.'],
-              ['4. Live, in a constrained round', 'Positional sparring where you can only attempt that technique. Expect it to fail a lot at first.'],
-              ['5. Free sparring, unplanned', 'It is genuinely yours when it appears without you deciding to use it. That is typically hundreds of reps over weeks, not one session.'],
-              ['Two or three techniques at a time, not ten', 'Adding a new move every session is why people have a hundred half-techniques and no weapons. Pick a small number, drill them to the point of automation, then add. Depth beats breadth in every combat sport.'],
-            ]} />
 
-            <Block title="Structuring your own week of drills" items={[
-              ['Daily — 10 min solo ground movement', 'Shrimps, bridges, technical stand-ups. Costs nothing, needs no partner, and compounds.'],
-              ['3×/week — 15 min shadowboxing', 'Structured in rounds as above, filmed once a week.'],
-              ['3×/week — bag or pad work', 'One power round, one volume round, one defensive round minimum.'],
-              ['2-3×/week — partner drilling at the gym', 'Technique of the week, ramped through the resistance steps.'],
-              ['1-2×/week — positional sparring', 'Chosen deliberately around your worst position, which is the one you least want to pick.'],
-              ['1×/week — free sparring', 'Controlled, with a stated goal, and a hard stop. This is a test of your training, not the training itself.'],
-            ]} />
-          </div>
-        )}
-
-        {tab === 'arts' && (
-          <div className="fade-up stagger space-y-3">
-            <OneThing points={["Start with one grappling art and one striking art: BJJ or wrestling, plus boxing or Muay Thai.", "Pick the gym with the best coaches and live sparring, not the closest one."]} />
-            <SectionTitle icon={Swords} title="The martial arts, honestly" sub="What each one actually teaches, what it costs you, and where to start." />
-
-            <div className="bg-gradient-to-br from-red-500/12 to-[#111] border border-red-500/25 rounded-2xl p-5">
-              <h3 className="font-black text-red-300 mb-2">The one question that sorts every art</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Does the school practise against a <span className="text-gray-200 font-semibold">fully resisting opponent
-                who is genuinely trying to stop you</span>? Arts that spar or roll live — boxing, wrestling, BJJ, judo,
-                Muay Thai, sambo — produce skill that works under pressure, because it is tested every session. Arts that
-                practise only against compliant partners produce skill that has never been tested, and the gap only shows
-                up when it is too late to matter. That single question tells you more than any lineage, belt or history.
-              </p>
-            </div>
-
-            <SectionTitle icon={Users} title="The grappling arts" />
-
-            <Fold title="Brazilian Jiu-Jitsu (BJJ)" tag="Ground fighting, submissions, the great equaliser" items={[
-              ['What it teaches', 'Controlling and submitting someone on the ground using position, leverage and joint locks or chokes. The core claim — that a smaller trained person can control a larger untrained one on the ground — is genuinely true, and it is the closest thing to a cheat code that martial arts offers.'],
-              ['Gi vs no-gi', 'Gi uses the jacket for grips: slower, more technical, more control-based. No-gi is faster, closer to MMA, and grips rely on the body itself. Do both if you can; if you only want MMA, weight it toward no-gi, but the gi will make your details sharper.'],
-              ['What a first class is like', 'Warm-up, technique of the day drilled with a partner, then rolling (live sparring) at the end. You will be submitted repeatedly by smaller people and it will be humbling. That is the normal, correct experience and it is not a sign you are bad at it.'],
-              ['Grading and timeline', 'White, blue, purple, brown, black, with stripes in between. Blue belt typically takes 1-2 years of consistent training; black belt commonly takes 10 or more. It is one of the slowest grading systems in martial arts, deliberately.'],
-              ['The honest limitation', 'On its own it does not address strikes, and going to the ground with multiple opponents or on concrete is a bad idea. Superb art, incomplete self-defence system by itself — which is exactly why it is one half of MMA rather than all of it.'],
-              ['Gear and cost', 'A gi (£60-120) or rashguard and shorts for no-gi, plus a mouthguard. Typically £60-100/month in the UK. Trim your nails — it is the most common thing new people get told off for.'],
-            ]} />
-
-            <Fold title="Wrestling" tag="The highest-leverage base in MMA" items={[
-              ['What it teaches', 'Taking someone down, staying on top, and refusing to be taken down. It also builds a conditioning base and a mentality that transfers to everything else — wrestling rooms are famously the hardest training environments in sport.'],
-              ['Why it matters most in MMA', 'Wrestling decides WHERE the fight happens: standing or on the ground. Whoever controls that usually controls the fight. If you are choosing one grappling base purely to be good at MMA, wrestling is the answer.'],
-              ['Freestyle, Greco-Roman, folkstyle', 'Freestyle allows attacks on the legs. Greco-Roman is upper-body only — brilliant for clinch and throws, and the best possible training for MMA cage work. Folkstyle (mostly American) emphasises control and riding on top.'],
-              ['The catch in the UK', 'Wrestling clubs are far less common here than in the US or Eastern Europe. Look for MMA gyms with a dedicated wrestling coach, university clubs, or a judo/sambo club as a substitute. This scarcity is the single biggest practical obstacle to a British MMA career.'],
-              ['What a session is like', 'Hard. Long warm-ups, drilling entries hundreds of times, live goes. Expect to be exhausted and expect mat burn. The technical rate of return per hour is very high.'],
-              ['Gear', 'Wrestling shoes, a mouthguard, and headgear if you value your ears. Very cheap by martial arts standards.'],
-            ]} />
-
-            <Fold title="Judo" tag="Throws, grip fighting, and the most transferable clinch skill there is" items={[
-              ['What it teaches', 'Throwing someone using their balance and momentum, plus grip fighting, pins and some submissions. A well-timed judo throw is the most spectacular thing in martial arts and it works because it uses their movement rather than your strength.'],
-              ['Why it complements everything', 'Judo owns the clinch — exactly the range between striking and the ground where most real altercations and many MMA exchanges happen. Judo players also learn to fall properly (ukemi), which is a genuinely useful life skill.'],
-              ['Timeline and grading', 'Coloured belts to black; black belt typically 4-6 years. Widely available in the UK through a well-organised club system, and usually cheaper than BJJ or MMA gyms.'],
-              ['The adaptation needed for MMA', 'Competition judo relies heavily on gi grips that do not exist in MMA, and its rules discourage leg grabs. The throws still work, but the entries have to be rebuilt around body locks and underhooks rather than sleeve and lapel.'],
-              ['Physical cost', 'You will be thrown, repeatedly, from day one. Learn to breakfall properly before anything else, and be honest with your coach about any back or shoulder issues.'],
-            ]} />
-
-
-            <SectionTitle icon={Hand} title="The striking arts" />
-
-            <Fold title="Boxing" tag="The best hands in the world, and the most refined footwork" items={[
-              ['What it teaches', 'Punching, defensive head movement, footwork and distance management at a level no other art touches. Boxers hit harder and are far harder to hit than practitioners of arts that split their attention across more weapons.'],
-              ['Why it is the best striking starting point', 'Fastest route to being genuinely dangerous with your hands, and its footwork and distance sense transfer to everything. Most great MMA strikers have a boxing layer underneath whatever else they do.'],
-              ['The MMA adjustment', 'Boxing stance is narrower and more side-on than an MMA stance, which is fine for punching and terrible for defending takedowns and leg kicks. Learn boxing, then widen and square the stance for MMA — do not skip the adjustment.'],
-              ['What a session looks like', 'Shadowboxing, bag work, pads, technical sparring. A good boxing gym will not let you spar hard for weeks, and that is a sign of quality, not gatekeeping.'],
-              ['The cost, honestly', 'Head trauma. Boxing sparring means repeated head impacts, and that risk is cumulative. Control the dose deliberately — technical sparring, good headgear where appropriate, and never spar concussed.'],
-            ]} />
-
-            <Fold title="Muay Thai and kickboxing" tag="Eight limbs, and the best clinch in striking" items={[
-              ['What Muay Thai teaches', 'Punches, elbows, knees, kicks and the plum clinch. Shin conditioning, brutally effective low kicks, and a clinch game that no other striking art has. It is arguably the most complete stand-up striking system there is.'],
-              ['Why it fits MMA so well', 'Leg kicks, knees and clinch knees are all legal in MMA and all under-defended by pure boxers. The upright stance and heavy kicks do have to be adapted — a heavily loaded lead leg is a takedown invitation.'],
-              ['Kickboxing (Dutch style especially)', 'Punch-kick combination heavy, with less clinch and no elbows. Dutch-style kickboxing has some of the best combination striking in the world and is often more available locally than authentic Muay Thai.'],
-              ['What to expect early', 'Sore shins, and a lot of pad work. Shin conditioning is a slow adaptation through repeated moderate contact on pads and bags — not by hitting trees or bats, which is folklore that will just injure you.'],
-              ['Gear', 'Shin guards, gloves, mouthguard, and hand wraps. Around £100 to get started properly.'],
-            ]} />
-
-            <Fold title="Karate, Taekwondo and the traditional strikers" tag="Real skills, often oversold, occasionally underrated" items={[
-              ['What is genuinely good', 'Kyokushin karate spars hard with full-contact body shots and produces genuinely tough strikers. Point karate produces exceptional explosive distance closing — Lyoto Machida and Stephen Thompson made that work at the highest level of MMA. Taekwondo produces the best kicking speed and variety anywhere.'],
-              ['What is oversold', 'Styles where sparring is light point-tag or non-existent, where kata is the main content, or where the syllabus is built around grading fees. These produce fitness and discipline — real benefits — but not fighting skill, and it is worth being honest with yourself about which you are buying.'],
-              ['The distance question', 'Traditional strikers often excel at long range and struggle badly once someone closes in and clinches, because the ruleset never made them solve that problem. Anything you learn here needs a grappling layer added.'],
-              ['How to judge a specific club', 'Watch a class before joining. Is there live sparring against resistance? Do senior students get hit and have to adapt? Is the instructor willing to spar? Those answers matter more than the style name on the door.'],
-            ]} />
-
-            <Fold title="The self-defence question, and what to be sceptical of" tag="Said plainly, because this is where people get sold things" items={[
-              ['Arts that do not pressure-test', 'Aikido, wing chun and similar arts contain interesting principles but are typically practised with compliant partners, and their practitioners have not performed well when tested against resisting opponents. Train them if you enjoy them — just do not mistake them for a fighting skill you can rely on.'],
-              ['"Too deadly to spar"', 'This claim is always a red flag. Eye gouges and groin strikes are not a system, and every effective art has found a safe way to practise its techniques against resistance. If a school cannot pressure-test anything, it cannot verify anything.'],
-              ['Krav Maga and reality-based systems', 'Quality varies enormously. Good schools pressure-test drills against resisting partners and are genuinely useful; poor ones are choreography with aggressive branding. The live-resistance test sorts them.'],
-              ['McDojo warning signs', 'Long contracts, expensive mandatory gradings on a fixed schedule, black belts awarded to young children, no sparring, an instructor who never rolls or spars, and claims of unbeaten lineages.'],
-              ['What actually works for self-defence', 'Awareness, de-escalation and leaving. Then, if it is genuinely unavoidable: the ability to punch, to not be taken down, to get back to your feet, and the fitness to run. Boxing plus wrestling covers most of that. This is also stated in the Strategy tab, and it is worth repeating.'],
-              ['Weapons and multiple attackers change everything', 'No unarmed art solves those reliably. Anyone claiming otherwise is selling something. Distance and exit are the answer.'],
-            ]} />
-
-            <SectionTitle icon={Target} title="Choosing and starting" />
-
-            <Block title="What to train, in what order" items={[
-              ['If you want to do MMA', 'Wrestling or BJJ as your base, plus boxing or Muay Thai for striking, then MMA classes to integrate them. Two to three sessions a week of each is plenty at the start — the integration is a skill in itself and it is easy to become two separate half-fighters.'],
-              ['If you want one art only', 'BJJ for the deepest technical rabbit hole and the lowest injury rate; boxing for the fastest route to being genuinely dangerous; Muay Thai for the most complete striking; wrestling for the most transferable athleticism.'],
-              ['If you are starting from zero and unsure', 'Do a month of BJJ and a month of boxing, then pick the room you actually enjoyed. Consistency beats optimal selection by a wide margin — the best art is the one you will still be doing in three years.'],
-              ['Order within a session', 'Technical work while fresh, hard rounds later. Order within a week: hard sparring on a day you are recovered, not the day after heavy legs. The full scheduling logic is in Programs → The Plan.'],
-              ['How long until you are competent', 'Roughly 6-12 months of twice-weekly training before you stop feeling completely lost, 2-3 years before you are genuinely useful, and it never stops after that. Anyone promising faster is selling.'],
-              ['Do not gym-hop', 'One good coach for two years beats five gyms for four months each. Depth compounds; breadth at the start just produces confusion.'],
-            ]} />
-
-            <Block title="How to pick a gym — the checklist" items={[
-              ['Watch a class first', 'Any decent gym will let you. Look for live sparring, people of varied ages and sizes, and beginners being coached rather than punished.'],
-              ['Look at how sparring is run', 'Is intensity controlled and agreed? Are new people protected? A gym where beginners get beaten up is not tough, it is badly run, and it has a high injury rate and a revolving door.'],
-              ['Check the coach\'s actual record and lineage', 'For BJJ, who awarded their black belt. For boxing, who they have trained. Not because credentials are everything, but because the fraudulent end of this industry is large.'],
-              ['Cleanliness is a real safety issue', 'Mats cleaned daily, a no-training-with-skin-infections rule that is enforced. Ringworm and staph are common in badly run grappling gyms.'],
-              ['Trial before contract', 'Almost all good gyms offer a free or cheap trial week. Anyone demanding a 12-month commitment before you have trained once is telling you something.'],
-              ['The vibe test', 'You will spend hours in close physical contact with these people. If the room feels egotistical or unsafe on the trial, it will not improve once you have paid.'],
-            ]} />
-
-            <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
-              <p className="text-gray-400 text-xs leading-relaxed">
-                The technique tabs here are references for what you learn in those rooms, not a substitute for them.
-                Nothing on this page replaces a coach watching you move — particularly for throws and takedowns, where
-                the errors that matter are ones you cannot feel yourself.
-              </p>
-            </div>
           </div>
         )}
 

@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { withMeasure } from '../lib/measures';
 import { createPortal } from 'react-dom';
 import { ChefHat, Shuffle, Repeat, X, Clock, Flame, Beef, Sparkles, Loader2, AlertCircle, Search, Trash2, Leaf, Minus, Plus, Target } from 'lucide-react';
 import { MEALS, SLOT_LABEL, LOOKS_FOODS } from '../data/meals';
@@ -93,7 +94,7 @@ function RecipeView({ meal, scale = 1, onClose, onUse, onDelete }: { meal: Meal;
         {meal.looks && <p className="mt-3 text-xs text-emerald-200/90 bg-emerald-400/[0.06] border border-emerald-400/20 rounded-lg px-3 py-2"><Sparkles size={11} className="inline mr-1 -mt-0.5" />{meal.looks}</p>}
 
         <p className="font-hud text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 mt-4 mb-1.5">Ingredients{scale !== 1 && <span className="text-emerald-300"> · scaled ×{scale}</span>}</p>
-        <ul className="space-y-1">{meal.ingredients.map((x, i) => <li key={i} className="text-sm text-gray-300 flex gap-2"><span className="text-emerald-400">•</span>{scaleLine(x, scale)}</li>)}</ul>
+        <ul className="space-y-1">{meal.ingredients.map((x, i) => <li key={i} className="text-sm text-gray-300 flex gap-2"><span className="text-emerald-400">•</span>{withMeasure(scaleLine(x, scale))}</li>)}</ul>
         {scale !== 1 && <p className="text-[11px] text-gray-500 mt-1.5">Amounts are scaled to your portion. Season to taste and scale the "handful" items by eye; cooking times stay the same.</p>}
 
         <p className="font-hud text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 mt-4 mb-1.5">Method</p>

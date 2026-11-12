@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ChevronDown, ChevronRight, Dumbbell } from 'lucide-react';
 import LiftTracker from '../components/LiftTracker';
 import BulkCheck from '../components/BulkCheck';
+import BulkMealPlan from '../components/BulkMealPlan';
 import Plan from './Plan';
 import FoodLog from './FoodLog';
 import Physique from './Physique';
@@ -11,7 +12,7 @@ import { SectionHeader, TabBar, OneThing } from '../components/Hud';
 import { BatHero, SkinBackdrop, skinsOn } from '../components/Skins';
 import { skin } from '../lib/themes';
 
-type Tab = 'plan' | 'bulk' | 'push' | 'pull' | 'legs' | 'core' | 'recovery' | 'posture' | 'rules' | 'ai' | 'food' | 'physique';
+type Tab = 'plan' | 'bulk' | 'meals' | 'push' | 'pull' | 'legs' | 'core' | 'recovery' | 'posture' | 'rules' | 'ai' | 'food' | 'physique';
 
 // Thirteen pages grouped into seven tabs. The detailed id (`tab`) is still
 // what ?tab= links, DayCards and FocusMap use; a group with several pages
@@ -19,14 +20,14 @@ type Tab = 'plan' | 'bulk' | 'push' | 'pull' | 'legs' | 'core' | 'recovery' | 'p
 type Group = 'plan' | 'bulk' | 'sessions' | 'care' | 'ai' | 'food' | 'physique';
 const GROUPS: { id: Group; label: string; subs: { id: Tab; label: string }[] }[] = [
   { id: 'plan', label: '★ The Plan', subs: [{ id: 'plan', label: 'This week' }, { id: 'rules', label: 'How to run it' }] },
-  { id: 'bulk', label: 'Lean Bulk', subs: [{ id: 'bulk', label: 'Lean Bulk' }] },
+  { id: 'bulk', label: 'Lean Bulk', subs: [{ id: 'bulk', label: 'The build' }, { id: 'meals', label: 'Meal plan' }] },
   { id: 'sessions', label: 'Sessions', subs: [{ id: 'push', label: 'Push' }, { id: 'pull', label: 'Pull' }, { id: 'legs', label: 'Legs + Athletic' }, { id: 'core', label: 'Core & Abs' }] },
   { id: 'care', label: 'Mobility & Recovery', subs: [{ id: 'posture', label: 'Daily routine' }, { id: 'recovery', label: 'Recovery' }] },
   { id: 'ai', label: 'AI Plan', subs: [{ id: 'ai', label: 'AI Plan' }] },
   { id: 'food', label: 'Fuel Log', subs: [{ id: 'food', label: 'Fuel Log' }] },
   { id: 'physique', label: 'Physique', subs: [{ id: 'physique', label: 'Physique' }] },
 ];
-const TAB_IDS = ['plan', 'bulk', 'push', 'pull', 'legs', 'core', 'recovery', 'posture', 'rules', 'ai', 'food', 'physique'] as const;
+const TAB_IDS = ['plan', 'bulk', 'meals', 'push', 'pull', 'legs', 'core', 'recovery', 'posture', 'rules', 'ai', 'food', 'physique'] as const;
 // Mobility was merged into Posture as one daily routine; old links land there.
 function resolveTab(t: string | null): Tab | null {
   if (!t) return null;
@@ -434,13 +435,6 @@ export default function Programs() {
               <p className="text-[11px] text-gray-500 mt-2">Rough targets for your height, not his published stats. The waist and the mirror matter more than the scale.</p>
             </div>
 
-            <Block title="How you get there — what changes" items={[
-              ['Push, Pull, Legs, Shoulders & Arms', 'Your own split, ordered around kickboxing (see The Plan). Shoulders and arms twice a week is the difference between "trains" and "built".'],
-              ['Side delts three times a week', 'Lateral raises on Monday, then two kinds on Friday. Width is the single biggest part of this look, and side delts recover fast enough to train often.'],
-              ['Every lift has a standard', 'Each lift in the tracker below shows its Hemsworth standard and how close you are. They are rough natural targets for this look on your frame — beat your last session, and the percentage takes care of itself.'],
-              ['Lean bulk to about 92-95kg', 'Use the bulk check. If your waist climbs past 88cm before you get there, run a 4-6 week mini-cut, then carry on.'],
-              ['Sport stays', 'Kickboxing and football keep the athletic look and your conditioning. You just eat for them — see the calorie table below.'],
-            ]} />
 
             <Block title="The honest timeline" items={[
               ['What his build took', 'Years of training, a full-time trainer, a chef and a film schedule built around it. You are building the same look naturally, around uni and football, so it takes longer — and that is normal.'],
@@ -526,14 +520,10 @@ export default function Programs() {
               ['Posture', 'Holding your head forward hides your jaw at any body fat. Keep doing the posture finishers.'],
             ]} />
 
-            <Fold title="When to add weight — double progression" tag="The rule the tracker uses" items={[
-              ['The rule', 'Each lift has a rep range, e.g. 8-10. Keep the same weight and add a rep each session. When your best set reaches the top of the range, add the smallest jump and drop back to the bottom.'],
-              ['Smallest jumps', 'Dumbbells 2kg per hand, barbell lifts 2.5kg, trap bar 5kg, dips and pull-ups 2.5kg added. If the gym jumps more than that, add a rep at a time instead.'],
-              ['Log the best set', 'Log the heaviest set you did with clean form, not your warm-ups. Same depth, same pause, same range every time, or the number means nothing.'],
-              ['A bad day is not a stall', 'Bad sleep or a match the day before can cost you a rep. The tracker only flags a stall after three sessions over two weeks without a new best.'],
-            ]} />
           </div>
         )}
+
+        {tab === 'meals' && <div className="fade-up"><BulkMealPlan /></div>}
 
         {/* ===== AI PLAN, FOOD LOG, PHYSIQUE — merged into Gym ===== */}
         {tab === 'ai' && <div className="fade-up"><Plan embedded /></div>}
@@ -682,37 +672,8 @@ export default function Programs() {
               ['The pairing', 'Nordics for hamstrings, Copenhagens for groin. Between them they cover the two most common non-contact soft-tissue injuries in the sports you play, they need no equipment beyond a bench, and they take about six minutes.'],
               ['The honest limit', 'This lowers risk, it does not remove it, and it only works while you keep doing it — the benefit fades once you stop. Adherence, not the exercise, is the actual problem: most people who get injured knew about this and had stopped doing it weeks earlier.'],
             ]} />
-            <Fold title="Hip thrusts and everything else you could add" tag="What is actually worth a slot, and what is filler" items={[
-              ['Hip thrusts — not bullshit, just not needed here', 'They are a legitimate exercise: they load hip extension at the top range where a squat is easiest, they produce very high glute activation, and they cost almost nothing in spinal load. The overselling is the sprint claim — the research comparing hip thrusts to squats for sprint speed is genuinely mixed, with neither clearly better. So they are real, just not magic.'],
-              ['Why they are out of your programme', 'Hip extension is already covered three times on Wednesday: the trap bar, Bulgarian split squats and the sprints themselves. Adding a fourth is volume without new stimulus, and volume is the thing you asked to cut. Add them back only if your glutes become a visible weak point, or if a back issue ever stops you loading the trap bar.'],
-              ['Genuinely worth their slot', 'Trap bar deadlift, Bulgarian split squats, Nordics, Copenhagens, calf raises both straight and bent-knee, sprints and jumps. Every one is either the main driver of a quality you need or the cheapest insurance against an injury that would cost you months. Nothing on that list is there for looks.'],
-              ['Worth adding only for a specific reason', 'Leg press if leg SIZE becomes the goal again. Single-leg extensions if the quad on your sprained side is visibly weaker. Romanian deadlifts if hamstrings keep tightening after sprints. Hip thrusts if glutes lag. Hack squat if your lower back is the thing limiting your squatting. Each of these solves one named problem — if you cannot name the problem, you do not need the exercise.'],
-              ['Actual filler, for you', 'Banded glute kickbacks, abductor and adductor machines, BOSU and wobble-board work, "activation" circuits before lifting, and most of what appears in gym content designed to look novel. None of it is harmful; it just takes the slot of something that does more. The exception is the balance work in your ankle rehab, which has a real evidence base and a specific job.'],
-              ['The test before adding anything', 'What quality does this build, is that quality already covered on this day, and what am I removing to make room? If you cannot answer all three, the answer is no. That question is how this session went from twenty-five sets to sixteen.'],
-            ]} />
 
-            <Block title="Why one leg day, and what it costs" items={[
-              ['This day is deliberately short now', 'The trap bar replaced the squat, hip thrust and leg press as the single main lift — it loads the same posterior chain and quads in one movement, and cutting those three frees Saturday for rest, sport, or extra padel/football rather than a second gym session.'],
-              ['What lowering the volume costs you', 'Less leg size, honestly. About 11 lifting sets instead of 25 is enough to keep and slowly build strength alongside football, but it is not a hypertrophy programme for legs any more. That is the correct trade while an ankle is still settling and you want the athletic block done well — but it is a trade, not a free win.'],
-                            ['If you add single-leg extensions, this is why', 'Not for size. After an ankle sprain the quad on that side is almost always measurably weaker, and bilateral lifts hide that gap because the good leg quietly takes more. One leg at a time exposes it. Train the weaker side first, let it set the reps, and let the strong side match — that is how the gap closes rather than widens.'],
-              ['If you add RDLs, this is why', 'The trap bar is a squat-hinge hybrid: it loads the hamstrings, but not at long length. Hamstrings tear at long lengths during the swing phase of sprinting, which is the single most common non-contact injury in football. Two moderate sets chasing the stretch — not a max attempt — is the cheapest protection available for the exact thing you do most.'],
-              ['Rotate the squat back in every third week', 'Trap bar is the main lift because it is the best strength-per-unit-of-fatigue option on a day that also has sprints. But the squat pattern is worth keeping: every third week, swap the trap bar for back squats 4 x 5 at a load you can control. Same slot, same sets, no extra volume.'],
-              ['If you want the leg size back later', 'Add the fifteen-minute machine finisher to the Push day — leg press, leg curl, calves. High rep, low fatigue, and it does not touch this session or your ankle.'],
-              ['The one real trade-off: Nordic frequency', 'Research protocols that roughly halve hamstring injury rates use Nordics twice a week. Dropping to once a week is still valuable, just not quite as protective. With this day trimmed, the honest fix is a short Nordic-only set on a rest day — three sets, five minutes, no equipment — rather than reviving a second leg day. Hamstrings are the most commonly torn muscle in football and this is the cheapest insurance there is.'],
-              ['Will heavy legs make me slower? No', 'Strength is the foundation of power. What makes people slow is gaining weight while dropping the sprint and jump work that teaches the body to use it — which is exactly what the explosive block at the start of leg day exists to prevent.'],
-              ['Strength first, then convert it', 'A stronger leg can produce more force. The jumps and sprints that open this session train you to produce that force fast. Doing only one of the two is why people end up either strong and slow, or fast and fragile.'],
-              ['Do not chase a trap bar number at any cost', 'Once your trap bar pull is roughly 2x bodyweight, extra maximal strength returns less for sport than more speed work. Keep progressing, but never at the expense of the jumps and sprints.'],
-            ]} />
 
-            <Fold title="Isometrics — the quality nobody trains" tag="Two types, two completely different jobs" items={[
-              ['Overcoming isometrics — pushing against something immovable', 'Push or pull as hard as humanly possible against an object that will not move: a loaded bar set on safety pins at a fixed height, a wall, a doorframe, an immovable strap. 3-5 sets of 3-5 seconds at genuine maximum effort. This builds the ability to produce force FAST from a dead stop, which is exactly what a first step and a collision are.'],
-              ['Yielding isometrics — holding a position under load', 'Hold a hard position against gravity and resist it moving: a paused split squat at the bottom, a Copenhagen hold, a mid-range chin-up hold, a wall sit. 3 sets of 20-45 seconds. This builds tendon stiffness and the ability to hold a joint position under someone else pushing on it — the "immovable" feeling.'],
-              ['Why they are worth your time', 'You can produce more force isometrically than you can in any moving rep, with almost no eccentric component — which means high force with very little soreness or recovery cost. That combination is rare, and it is why they fit perfectly in a week that already has football and a heavy leg day in it.'],
-              ['The honest limitation', 'Strength gains from isometrics are strongest around the joint angle you train, and carry over less to angles you did not train. So pick positions that matter: the bottom of a squat, mid-range of a press, the position you actually get stuck in. Do not treat them as a replacement for lifting through a full range.'],
-              ['The four worth doing', 'Overcoming mid-thigh pull (drive a fixed bar upward — full-body force production). Split-squat hold at the bottom (single-leg strength in the position football puts you in). Wall-supported isometric press. Copenhagen hold for the groin, which is already in your Legs tab.'],
-              ['Where to put them', 'Overcoming isometrics go in the explosive block at the start of this session while you are fresh; yielding holds go at the very end when fatigue no longer matters. Twice a week if you also add a set on a rest day. Breathe out through the hold — when the fatigue does not matter. Breathe out through the hold — holding your breath through a maximal iso spikes blood pressure hard.'],
-              ['The cue that makes them work', 'Intent is everything. A 4-second push at 80% builds almost nothing; the same 4 seconds at genuine 100% builds a lot. If you can hold a conversation during it, you are not doing it properly.'],
-            ]} />
           </div>
         )}
 
@@ -794,15 +755,6 @@ export default function Programs() {
         {tab === 'recovery' && (
           <div className="fade-up stagger space-y-4">
             <OneThing points={["Sleep 8 hours, eat enough protein (1.6-2.2g per kg), and deload every 6-8 weeks.", "Your WHOOP recovery on the command screen tells you whether today is a push day or a back-off day."]} />
-            <div className="card-premium p-5">
-              <h3 className="font-bold mb-2">Recovery is the programme</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Training is the stimulus. Every bit of the actual adaptation — muscle, strength, speed, skill —
-                happens while you recover. At six sessions a week plus sport, recovery stops being optional
-                maintenance and becomes the thing that decides whether any of it works. Ranked below by how much
-                each actually matters.
-              </p>
-            </div>
 
             <div className="bg-gradient-to-br from-emerald-500/15 to-[#111] border border-emerald-500/30 rounded-2xl p-5">
               <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-emerald-300/70 mb-3">The big four — in order</p>
@@ -832,15 +784,6 @@ export default function Programs() {
               ['Do not train through sharp pain', 'Muscle soreness is fine to train around. Sharp, localised or joint pain is information — training through it turns a two-week problem into a three-month one.'],
             ]} />
 
-            <Fold title="What actually works — ranked honestly" tag="Most recovery products are not worth the money" items={[
-              ['Sleep, food, deloads', 'Roughly 90% of your recovery. Everything below is fine-tuning at the margins, and none of it compensates for getting these wrong.'],
-              ['Sauna — decent evidence', 'Regular heat exposure is associated with cardiovascular benefits and may aid recovery and heat adaptation. Pleasant, low risk, genuinely worth doing if it is available. Not a substitute for sleep.'],
-              ['Massage / foam rolling — real but short-lived', 'Reduces perceived soreness and briefly improves range of motion. The effect on actual tissue recovery is small. Worth it because feeling better makes you train better, not because it repairs muscle.'],
-              ['Cold water immersion — useful, with a big caveat', 'Good for reducing soreness and for recovering between events on the same day. BUT taken straight after lifting it appears to blunt the muscle-growth signal. Use it after football or a match, not after your hypertrophy sessions — or leave 4+ hours.'],
-              ['Compression garments, massage guns — mild', 'Small effects on perceived soreness, minimal on performance. Harmless, just do not expect much and do not pay a lot.'],
-              ['Static stretching after training — neutral', 'Does not reduce soreness meaningfully and does not prevent injury. Do it if you want mobility gains; do not do it expecting recovery.'],
-              ['Ice baths for everything, always', 'The most over-applied tool in the gym. Timing determines whether it helps or actively works against the training you just did.'],
-            ]} />
 
             <Block title="Reading your own fatigue" items={[
               ['Resting heart rate on waking', 'A consistent rise of 5-10 bpm over your normal for several days usually means accumulated fatigue or illness coming. Cheapest useful metric there is — check it before you get out of bed.'],
@@ -901,16 +844,6 @@ export default function Programs() {
               ['All day', 'Screen at eye level, phone up instead of head down, and a chin tuck every time you sit down. The routine undoes a day of hunching only if the day is not all hunching.'],
               ['See a physio if', 'It hurts, clicks with pain, you get pins and needles down the arm, or one side has not improved at all after six weeks.'],
             ]} />
-            <div className="card-premium p-5">
-              <h3 className="font-bold mb-2">Posture — what the evidence actually supports</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Straight answer first: the popular idea that bad posture directly causes back and neck pain is weaker
-                than it is usually presented — plenty of people with textbook-poor posture have no pain, and vice versa.
-                What the evidence does support is that specific strength and mobility work changes how you carry
-                yourself, how you look, and how resilient you are. So train it for appearance and performance, and
-                treat "it will fix your pain" as a maybe rather than a promise.
-              </p>
-            </div>
             <Fold title="The wall test — what yours is telling you" tag="Heels, bum, upper back and head against a wall" items={[
               ['How to do it', 'Heels about 5cm from the wall, bum and upper back touching, then try to rest the back of your head on the wall with your chin level — not tipped up. Take a side-on photo.'],
               ['Head will not reach without the chin lifting', 'Forward head posture. The head has drifted in front of the shoulders.'],
@@ -939,76 +872,6 @@ export default function Programs() {
               ['What fixing it does', 'Head back over the shoulders tightens the under-chin and shows the jawline — visible in photos within weeks, before any fat loss.'],
               ['Tongue up', 'Whole tongue resting on the roof of your mouth firms the under-chin further. Do it with every chin tuck.'],
               ['The honest bit', 'Posture does not create bone; it reveals what is there. Getting to 10-14% body fat does the rest — see Aura → Blueprint and the hyoid section.'],
-            ]} />
-            <Block title="The two patterns worth addressing" items={[
-              ['Upper cross — forward head, rounded shoulders', 'Tight and overactive: chest, upper traps, deep chest muscles. Weak and lengthened: deep neck flexors, mid and lower traps, rhomboids, rear delts. This is the one that visibly changes your silhouette.'],
-              ['Anterior pelvic tilt — arched lower back, stomach pushed forward', 'Tight hip flexors and lower back, weak glutes and abs. A small degree of tilt is completely normal — only worth addressing if it is pronounced.'],
-              ['The single most effective intervention', 'Strengthening the weak, lengthened muscles. Stretching the tight side alone reliably fails, because nothing is holding the new position. Strength is what holds posture; mobility just makes the position available.'],
-            ]} />
-            <Session
-              title="The full version"
-              tag="When you have more time — adds Y-T-W raises, dead hangs and the hip work"
-              block="Every one of these is included because it strengthens something weak rather than just stretching something tight. Attach it to the end of a session or do it at home."
-              exercises={[
-                { name: 'Chin tucks', sets: '3 × 10 (5s holds)', targets: 'Deep neck flexors', how: "Sit or stand tall. Draw the head straight back over the shoulders making a double chin — do not tip the chin down or up. Hold 5 seconds and release. Small, subtle movement; it should feel like a gentle effort at the front of the throat.", why: 'Strengthens the deep neck flexors, which are the muscles that actually hold your head back over your shoulders. The best-supported intervention for forward head posture.' },
-                { name: 'Prone Y-T-W raises', sets: '2 × 10 each', targets: 'Lower traps · mid traps · rhomboids · rear delts', how: "Lie face down on the floor or an incline bench. Y: arms overhead in a Y, thumbs up, lift. T: arms straight out to the sides, lift. W: elbows bent at your sides, squeeze back and down. No weight or 1-2kg maximum — this is endurance and control work.", why: 'Face down, light or no weight. Directly targets lower traps, mid traps and rhomboids — the muscles that hold your shoulder blades down and back.' },
-                { name: 'Wall slides', sets: '3 × 10', targets: 'Lower traps · serratus · thoracic mobility', how: "Back against a wall, feet slightly forward, lower back gently flattened. Forearms on the wall at shoulder height. Slide the arms overhead keeping wrists, elbows and back in contact. Only go as high as you can without the lower back arching off.", why: 'Back against a wall, arms sliding overhead keeping contact. Trains overhead shoulder mechanics and thoracic position at the same time.' },
-                { name: 'Thoracic extension over foam roller', sets: '2 × 8-10', targets: 'Thoracic spine mobility', how: "Roller across the mid back, hands supporting the head, knees bent. Extend backwards over the roller, breathe out at end range, then come up. Move the roller an inch at a time up and down the mid back — never do this on the lower back.", why: 'Roller under the mid back, extend over it. Most rounded-shoulder posture is partly a stiff upper back — this restores the extension your shoulders need.' },
-                { name: 'Dead hang', sets: '2 × 30s', targets: 'Lats · shoulders · grip · spinal decompression', how: "Hang from a bar with a full grip, arms straight, shoulders relaxed but not completely dead. Breathe and let gravity do the work. Build to 30-60 seconds. One of the simplest and highest-return daily habits.", why: 'Decompresses the spine, opens the shoulders and builds grip. One of the simplest high-return things you can do daily.' },
-                { name: 'Couch stretch (hip flexors)', sets: '2 × 45s/side', targets: 'Hip flexors · quads', how: "Back foot up on a couch or bench with the knee on the floor, front foot planted forward. Squeeze the glute of the back leg and tuck the pelvis under — that posterior tilt is what actually stretches the hip flexor. Stay tall, do not arch the lower back.", why: 'For anterior pelvic tilt. Pair it with glute work below — stretching alone will not hold the change.' },
-                { name: 'Glute bridge or hip thrust', sets: '3 × 12', targets: 'Glutes', how: "Bridge: on your back, feet planted, drive the hips up and squeeze the glutes hard at the top with the ribs down. Hold for a beat. Strong glutes pull the pelvis out of an anterior tilt — this is the fix that actually holds.", why: 'Strong glutes pull the pelvis back into neutral. This is the actual fix for anterior pelvic tilt, not the stretching.' },
-              ]}
-            />
-            <Block title="What is already doing the work in your programme" items={[
-              ['Face pulls (Pull day, 3 × 15-20)', 'Rear delts and external rotators — the highest-value posture exercise in the whole plan, and it is already in there.'],
-              ['Rear delt flies (Push day, 4 × 15-20)', 'Second weekly dose of exactly what rounded shoulders need.'],
-              ['Rows and pull-ups', 'Building your mid and upper back is itself posture training, and it does more for your silhouette than any stretch.'],
-              ['Suitcase carries (core rotation)', 'Trains you to stand tall and rigid under asymmetric load, which is posture under real-world demand.'],
-              ['Nordics and hip thrusts', 'Posterior chain strength directly opposes the tilted-forward pelvis pattern.'],
-            ]} />
-            <p className="font-hud text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 pt-2">Mobility — the detail</p>
-            <Fold title="Flexibility vs mobility — the difference that matters" tag="Why the routine is mostly strength through range" items={[
-              ['Flexibility', 'How far a joint can be moved passively — someone pushing your leg up.'],
-              ['Mobility', 'How far you can move it yourself, under control, with strength at the end of the range. Only this one shows up in a kick, a squat or a sprint.'],
-              ['So', 'Passive range you cannot control is not useful, which is why the routine is mostly strength through range rather than sitting in stretches.'],
-            ]} />
-            <Fold title="Why you feel tight — and why it is usually not short muscles" tag="This changes what you should do about it" items={[
-              ['Tightness is mostly a nervous-system setting', 'Short-term flexibility gains come from increased STRETCH TOLERANCE — your nervous system deciding the position is safe — not from muscle physically lengthening. This is why you can gain 20 degrees in one session and lose it by tomorrow, and why warm muscles stretch further.'],
-              ['"Tight" often means weak', 'A muscle with no strength at long lengths gets protectively guarded by your nervous system. Hamstrings that feel permanently tight are frequently hamstrings that are weak at end range. Stretching them feels good and changes little; loading them at length changes it properly.'],
-              ['Tight can also mean overworked or protective', 'A joint guarding an unstable neighbour will feel tight. Chronically tight hip flexors in someone who sits all day, or a stiff lower back doing the rotating that stiff hips refuse to do, are both examples. Chase the cause, not the sensation.'],
-              ['Real tissue change is possible but slow', 'Long-term, consistent loaded stretching does produce structural adaptation — added sarcomeres and altered tissue stiffness. That is a months-to-years process, not a session.'],
-              ['So the rule is', 'Use stretching to open a range, then immediately use strength to own it. Range you do not load, you do not keep.'],
-            ]} />
-            <Fold title="Mobility methods, and when each one is right" tag="Dynamic before training, static after, loaded for keeps" items={[
-              ['Dynamic mobility — BEFORE training', 'Controlled movement through a full range: leg swings, arm circles, 90/90 switches, walking lunges with a twist, cat-cow. 5-10 minutes. This raises tissue temperature and prepares the range you are about to use. This is the correct pre-session choice.'],
-              ['Static stretching — AFTER training, or its own session', '30-60 second holds, breathing out into the position, 5+ days a week for a range you actually want to change. Two or three times a week maintains; once a week does very little.'],
-              ['The pre-lifting caveat, stated accurately', 'Long static holds (60s+) immediately before maximal strength or sprint work cause a small, short-lived drop in force output. It is a modest effect and it clears within about ten minutes of warming up — so it is not a disaster, it is simply not the best use of those minutes. Dynamic before, static after.'],
-              ['Contract-relax (PNF) — the fastest way to add range', 'Get into a stretch, contract the stretched muscle against resistance for 5-10 seconds at moderate effort, relax and move deeper. Repeat 3-4 times. Reliably produces more range in one session than passive holding, and it is the technique most worth learning.'],
-              ['Loaded stretching — the version that lasts', 'Strength work through the fullest range you can control: deep front squats, Romanian deadlifts to a real stretch, deficit split squats, Cossack squats, full-range dumbbell pullovers, deep dips. This is how you convert borrowed range into range you own, and it doubles as your training.'],
-              ['End-range control drills', 'CARs (slow, maximal-effort circles at one joint), 90/90 hip lift-offs, and active straight-leg raises. Unimpressive-looking and they are what makes new range usable under speed and load.'],
-              ['Yoga — useful, not magic', 'A good class is consistent structured mobility plus breathing, and consistency is most of the battle. It is not a substitute for loading the range, and it will not fix a strength problem that presents as tightness.'],
-            ]} />
-            <Fold title="Priorities for what you actually train" tag="If you only fix three things, fix these" items={[
-              ['Ankles — first, given yours', 'Restricted dorsiflexion limits squat depth, changes how you land, and pushes load into the knee. It is also the joint you have already flagged as weak. Do the full progression in the Legs tab before adding range work on top — strength first, then range.'],
-              ['Hips — the highest return for you', 'Internal and external rotation drive kicking height, guard retention, squat depth and the hip turn behind a cross. 90/90 work and the couch stretch daily. The technical side of using that range is in Combat → Hips.'],
-              ['Thoracic spine — for punching and pressing', 'Rotation and extension. A stiff upper back caps your rotational power and forces the lower back to compensate. Two minutes of open-books daily is a genuinely disproportionate return.'],
-              ['Hamstrings and adductors — load them long', 'RDLs and Cossack squats do more for kicking range and groin durability than passive stretching, and they build the Copenhagen-style resilience that prevents the most annoying grappling injuries.'],
-              ['Shoulders — range under control', 'Overhead range matters for pressing and for surviving armbars and kimuras. Hangs, pass-throughs and controlled end-range work; avoid aggressive passive cranking, which is how shoulders get irritated.'],
-              ['Neck — mobility as well as strength', 'Slow controlled rotations through a full range, gently. Strength work is in Combat; range matters too, and stiff necks take strikes worse.'],
-            ]} />
-            <Fold title="Mobility — honest expectations and the myths" tag="Timelines, injury prevention, what stretching does not do" items={[
-              ['Timeline', 'Noticeable change in 2-4 weeks of near-daily work. Meaningful, durable change in 3-6 months. Splits or head-height kicks, if you want them, are a year-plus project from a stiff starting point — and entirely achievable.'],
-              ['Use it or lose it', 'Range is maintained by being used. Stop for a month and most of what you gained goes. Two or three short sessions a week maintains what daily work built.'],
-              ['Stretching does not meaningfully prevent injury', 'The evidence for static stretching as injury prevention is weak. What DOES reduce injury is strength at long muscle lengths — Nordics, Copenhagens, RDLs, full-range training. Stretch for the range you need; strengthen for the durability.'],
-              ['It does not reduce soreness much either', 'Stretching after training feels pleasant and has a small effect on DOMS at best. Sleep, food and easy movement do far more — that is in the Recovery tab.'],
-              ['Do not stretch a fresh injury or a hypermobile joint', 'Pulling on a strain makes it worse. And if you are already very flexible, more passive range is the last thing you need — your problem is control and strength, not length.'],
-              ['Pain is not the target', 'A strong stretch sensation, breathing normally, is right. Sharp, pinching or nerve-like sensation is not, and forcing it is how people damage hamstring tendons and hip labrums.'],
-            ]} />
-            <Fold title="What does not work (and what to ignore)" tag="Saves you time and money" items={[
-              ['Posture-correcting braces', 'They hold you in position passively, which means the muscles that should be doing the job do not have to. Evidence for lasting change is poor. Use strength instead.'],
-              ['Stretching alone', 'Feels productive, changes little on its own. Without strengthening the opposing muscles there is nothing to hold the new position once you stand up.'],
-              ['Thinking about it constantly', 'Consciously holding yourself upright is fatiguing and does not build the capacity to do it automatically. Train the muscles and it stops being a conscious effort.'],
-              ['One perfect posture', 'There is no single correct posture to hold all day. The best posture is genuinely the next one — moving regularly beats sitting rigidly in an idealised position.'],
             ]} />
           </div>
         )}

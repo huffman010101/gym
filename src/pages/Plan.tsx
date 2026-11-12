@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { withMeasure } from '../lib/measures';
 import { useNavigate } from 'react-router-dom';
 import { Dumbbell, Mic, MicOff, X, ChevronDown, ChevronUp, Loader2, RefreshCw, RotateCcw, SlidersHorizontal, Ban, Plus } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
@@ -474,7 +475,7 @@ export default function Plan({ embedded = false }: { embedded?: boolean }) {
                           <ul className="space-y-1.5">
                             {meal.ingredients.map((ing, ii) => (
                               <li key={ii} className="text-sm text-gray-400 flex items-start gap-2.5">
-                                <span className="w-1 h-1 rounded-full bg-orange-500/50 flex-shrink-0 mt-[7px]" />{ing}
+                                <span className="w-1 h-1 rounded-full bg-orange-500/50 flex-shrink-0 mt-[7px]" />{withMeasure(ing)}
                               </li>
                             ))}
                           </ul>

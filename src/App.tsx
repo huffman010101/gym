@@ -11,7 +11,6 @@ import Football from './pages/Football';
 import Padel from './pages/Padel';
 import Money from './pages/Money';
 import Uni from './pages/Uni';
-import Feed from './pages/Feed';
 import Knowledge from './pages/Knowledge';
 import CheatSheet from './pages/CheatSheet';
 import Backtest from './pages/Backtest';
@@ -96,7 +95,7 @@ export default function App() {
         <Route path="/padel" element={<Padel />} />
         <Route path="/money" element={<Money />} />
         <Route path="/uni" element={<Uni />} />
-        <Route path="/feed" element={<Feed />} />
+        <Route path="/feed" element={<Navigate to="/" replace />} />
         <Route path="/knowledge" element={<Knowledge />} />
         <Route path="/cheatsheet" element={<CheatSheet />} />
         <Route path="/backtest" element={<Backtest />} />

@@ -12,7 +12,7 @@ const TABS = [
 export default function BottomNav() {
   const { pathname } = useLocation();
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#04060a]/92 backdrop-blur border-t border-cyan-400/15"
+    <nav className="app-dock fixed bottom-0 left-0 right-0 z-50 bg-[#04060a]/92 backdrop-blur border-t border-cyan-400/15"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
       {/* reactor-line along the top edge */}
       <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent" />

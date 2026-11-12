@@ -351,29 +351,6 @@ export default function Mind() {
               <GCallout title="The honest bit" text="Nobody is admired by everyone, and chasing that is just approval-seeking with extra steps. Aim to be respected by the people you respect. Keep the standards, do the reps, and the reputation comes after — usually later than you want, then faster than you expect." />
             </GFold>
 
-            <div className="bg-[#111] border border-white/8 rounded-2xl p-5">
-              <h3 className="font-bold mb-3">Where everything lives</h3>
-              <div className="space-y-2">
-                {([
-                  ['notes', 'My Notes', 'Your own rules, three a day, and the affirmations'],
-                  ['know', 'Know Yourself', 'Values, standards, evidence log and your personal plan'],
-                  ['social', 'People & Charisma', 'Active listening, conversation, voice, humour, frame, going out'],
-                  ['confidence', 'Confidence', 'Rejection therapy, nerves, self-talk, approval detox'],
-                  ['discipline', 'Discipline', 'Dopamine, deep work, controlling emotions, the stoics'],
-                  ['routine', 'Morning & Night', 'The routines that make the rest easy'],
-                  ['secret', 'Game Plan', 'Girls, clubs, texting, dates'],
-                ] as [Tab, string, string][]).map(([id, label, desc]) => (
-                  <button key={id} onClick={() => { setTab(id); window.scrollTo(0, 0); }}
-                    className="w-full text-left flex items-center justify-between gap-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] px-3.5 py-2.5">
-                    <div className="min-w-0">
-                      <p className="text-sm font-semibold text-gray-200">{label}</p>
-                      <p className="text-[11px] text-gray-500">{desc}</p>
-                    </div>
-                    <ChevronDown size={15} className="-rotate-90 text-pink-400/70 flex-shrink-0" />
-                  </button>
-                ))}
-              </div>
-            </div>
           </div>
         )}
 
@@ -545,19 +522,6 @@ export default function Mind() {
               <Link to="/mind?tab=secret" className="block text-xs text-pink-300 hover:underline">Open the Game Plan — the warm-up, momentum rules, what to say and texting →</Link>
             </GFold>
 
-            <Collapsible title="Icons — steal one trait" tag="Pick one, study it for a month">
-              <div className="space-y-3 text-sm">
-                {[
-                  ['Daniel Craig\'s Bond', 'Composure. Economy of words and movement under pressure.'],
-                  ['David Beckham', 'Relentless grooming and soft-spoken humility despite everything.'],
-                  ['Ryan Reynolds', 'Quick wit that never punches down.'],
-                  ['Roger Federer', 'Grace in winning and losing.'],
-                  ['Cristiano Ronaldo', 'A work ethic nobody questions.'],
-                ].map(([n, t]) => (
-                  <p key={n} className="text-gray-400"><span className="font-semibold text-gray-200">{n}</span> — {t}</p>
-                ))}
-              </div>
-            </Collapsible>
           </div>
         )}
 

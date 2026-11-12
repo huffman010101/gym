@@ -17,6 +17,7 @@ const GOALS: Goal[] = [
     { to: '/programs?tab=plan', label: 'Gym → The Plan', why: 'Push, Pull, Legs, Shoulders around kickboxing. Start here, every week.' },
     { to: '/looksmax?tab=diet', label: 'Aura → Diet', why: 'Swappable meal plan with full recipes' },
     { to: '/programs?tab=bulk', label: 'Gym → Lean Bulk', why: 'The Hemsworth build: lift standards, weigh-ins, keeping your jawline' },
+    { to: '/programs?tab=meals', label: 'Gym → Meal plan', why: '3,400 kcal lean bulk: recipes and shopping list' },
     { to: '/programs?tab=ai', label: 'Gym → AI Plan', why: 'Your calorie number' },
     { to: '/programs?tab=food', label: 'Gym → Fuel Log', why: 'Hit the protein number' },
     { to: '/programs?tab=physique', label: 'Gym → Physique', why: 'Measurements and progress photos' },

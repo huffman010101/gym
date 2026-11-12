@@ -518,14 +518,6 @@ export default function Money() {
               ['Macro context matters too', 'Interest rates, inflation, and overall economic cycle affect nearly every asset class — a "great company" can still see its stock fall in a broad market downturn for reasons that have nothing to do with the business itself.'],
               ['Fundamentals vs technicals — use both', 'Fundamentals tell you WHAT might be worth buying; technicals/charts help with WHEN. Long-term investors lean fundamental; active traders lean technical — most serious market participants use a blend.'],
             ]} />
-            <Fold title="Asset Classes — what's actually out there" tag="Know the tool before you pick it up" items={[
-              ['Stocks/equities', 'Ownership slices of real companies. Historically the best long-term return of any major asset class, with volatility along the way. The default vehicle for long-term wealth building via index funds.'],
-              ['Bonds', 'Loans to governments or companies that pay fixed interest. Lower return, lower volatility than stocks — used to reduce portfolio risk as you get closer to needing the money, not as a primary growth engine in your 20s.'],
-              ['Forex (currency trading)', 'Trading one currency against another (e.g. GBP/USD). Extremely high liquidity but dominated by algorithmic institutions and often paired with heavy leverage at retail brokers — one of the hardest markets for beginners to have a genuine edge in.'],
-              ['Crypto', 'Highly volatile, 24/7 markets with far less regulation and far more scam density than traditional markets. Treat any allocation as high-risk speculation (a small, capped % of your investable money), never as your core plan.'],
-              ['Options', 'Contracts giving the right (not obligation) to buy/sell an asset at a set price by a set date. Powerful for hedging or income generation in experienced hands; a fast way to lose 100% of a position in inexperienced ones — this is genuinely advanced-tier, not a beginner tool.'],
-              ['ETFs (Exchange-Traded Funds)', 'A basket of assets (stocks, bonds, commodities) traded like a single stock. This is how most people should access diversification — including the index funds recommended throughout this app.'],
-            ]} />
             <Block title="Red Flags — Auto-Skip List" items={[
               ['Signals groups & copy-trading gurus', 'If their signals worked, they wouldn\'t need your £50/month. They earn from subscribers, not markets.'],
               ['Screenshots of profits', 'Demo accounts and cherry-picking. Audited track records or it didn\'t happen.'],

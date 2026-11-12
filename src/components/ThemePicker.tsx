@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, Palette, Check } from 'lucide-react';
-import { THEMES, currentTheme, setTheme, skinsOn, setSkins, type Theme } from '../lib/themes';
+import { THEMES, currentTheme, setTheme, skinsOn, setSkins, currentLook, setLook, type Theme, type Look } from '../lib/themes';
 
 /*
  * One slim row on Home that opens the colour schemes. Tapping a card
@@ -27,6 +27,7 @@ export default function ThemePicker() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(currentTheme);
   const [skins, setSkinsState] = useState(skinsOn);
+  const [look, setLookState] = useState<Look>(currentLook);
   const now = THEMES.find(t => t.id === active) ?? THEMES[0];
 
   return (
@@ -42,6 +43,15 @@ export default function ThemePicker() {
       </button>
       {open && (
         <div className="px-3 pb-3">
+          <div className="grid grid-cols-2 gap-2 mb-3" role="radiogroup" aria-label="Style">
+            {([['modern', 'Modern', 'Clean glass cards, new fonts'], ['hud', 'Classic HUD', 'The original J.A.R.V.I.S. grid']] as [Look, string, string][]).map(([id, name, line]) => (
+              <button key={id} role="radio" aria-checked={look === id} onClick={() => { setLook(id); setLookState(id); }}
+                className={`text-left rounded-xl border px-3 py-2.5 ${look === id ? 'border-cyan-300/60 bg-cyan-400/10' : 'border-white/8 bg-black/30'}`}>
+                <span className="block text-[13px] font-bold text-gray-100">{name}</span>
+                <span className="block text-[10px] text-gray-500">{line}</span>
+              </button>
+            ))}
+          </div>
           <p className="text-[11px] text-gray-500 px-1 mb-2">Tap to switch — it recolours the whole app straight away and syncs to your other devices. Red, green and amber always keep their meaning (warning, good, caution).</p>
           <div className="grid grid-cols-2 gap-2">
             {THEMES.map(t => (
