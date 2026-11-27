@@ -157,6 +157,13 @@ Twelve pages in six tabs (same `GROUPS` pattern as Gym). The default tab is **�
 (`FightFocus.tsx`): a 17-step kickboxing progression, one focus per class. Rating "nailed it" advances,
 anything else repeats; the log is `gymforge_fight_log`. Tuesday's session on Command links to it.
 
+### Mind → 🔒 Game Plan
+
+Password-locked (`gymforge_secret_unlocked`). Holds the dating content and an **In the bedroom** guide
+(`src/data/bedroom.ts`: consent, foreplay, hands, positions incl. pillow/height tips, lasting longer, aftercare,
+sexual health). It is deliberately NOT in the SearchBar index. Keep the consent framing and the hard no on
+choking/neck pressure — the owner once asked for that and it was declined (dangerous; no consent defence in UK law).
+
 ### Section skins
 
 Gym wears the Bat, Mind the Cave (with Alfred, and the tabs drawn as cave "stations"), and Looks is
@@ -210,7 +217,7 @@ silently destroys any content containing a stray `<`, e.g. "PED < 1".
 
 ### Offline / service worker
 
-`public/sw.js` (cache `gymforge-v71`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
+`public/sw.js` (cache `gymforge-v72`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
 asset list can only be known post-build — `scripts/inject-sw-precache.mjs` injects it into
 `dist/sw.js`. Any change to the build output pipeline needs that script to still run last.
 
