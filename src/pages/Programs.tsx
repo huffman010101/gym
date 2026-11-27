@@ -249,6 +249,7 @@ export default function Programs() {
               'Legs once a week is fine for this look — kickboxing and football train them too. Make that one session count: heavy, hard and never skipped.',
               'Shoulders and arms get hit twice a week (Push or Pull, then Friday). That is where the Hemsworth look comes from.',
               'Eat for the sport: kickboxing, matches and big nights out all need more food — the Lean Bulk tab has the numbers.',
+              'Every lifting day now has fight power built in: throws and explosive presses for punches, Cossack squats for kicks, carries and neck work for the clinch.',
             ]} />
             <div className="bg-gradient-to-br from-orange-500/15 to-[#111] border border-orange-500/30 rounded-2xl p-5">
               <h3 className="font-black text-orange-300 mb-2">Push, Pull, Legs, Shoulders — around your kickboxing</h3>
@@ -292,19 +293,39 @@ export default function Programs() {
               <ChevronRight size={16} className="text-orange-300 flex-shrink-0" />
             </button>
 
-            <DayCard day="MON" name="Push" focus="Chest, triceps and front delts" detailTab="push" setTab={setTab}
+            <div className="bg-[#111] border border-red-500/30 rounded-2xl p-4" data-testid="fight-power">
+              <p className="font-black text-red-300">Fight power — built into every lifting day</p>
+              <div className="mt-2 space-y-1.5">
+                {[
+                  ['Mon', 'Rotational shot-put throw + landmine punch press', 'punching power'],
+                  ['Wed', 'Jumps, sprints, trap bar + Cossack squat', 'kicks and leg drive'],
+                  ['Thu', 'Heavy farmer\'s carry + neck', 'clinch strength — moving people and taking shots'],
+                  ['Fri', 'Overhead slam + push press', 'floor-to-hand power'],
+                ].map(([d, what, why]) => (
+                  <p key={d} className="text-xs text-gray-300 leading-relaxed"><span className="font-bold text-red-300 w-8 inline-block">{d}</span>{what} <span className="text-gray-500">— {why}</span></p>
+                ))}
+              </div>
+              <p className="text-xs text-gray-400 leading-relaxed mt-2.5">
+                The rules: power work goes first, fresh; 3-5 reps, every one as fast as you can, full rest; stop the set the moment
+                speed drops. The honest bit: most punching power is technique and timing, which kickboxing builds. The gym raises
+                the ceiling — strength, speed, and the bulk itself (more mass behind the shot, harder to move).
+              </p>
+              <Link to="/combat?tab=gym" className="inline-flex items-center gap-1 text-xs text-red-300 mt-2">Why it works: Combat → Strength &amp; Power <ChevronRight size={12} /></Link>
+            </div>
+
+            <DayCard day="MON" name="Push" focus="Chest, triceps — and punching power" detailTab="push" setTab={setTab}
               exercises={[
-                ['Med ball chest pass', '3 × 5'],
+                ['Med ball rotational shot-put throw', '3 × 4/side'],
                 ['Incline DB press', '4 × 8-10'],
                 ['Bench press (barbell or machine)', '3 × 6-10'],
                 ['Weighted dips', '3 × 8-10'],
-                ['Cable fly or pec deck', '2 × 12-15'],
+                ['Landmine punch press', '3 × 6/side'],
                 ['Lateral raise', '3 × 12-15'],
                 ['Triceps pushdown', '3 × 12'],
                 ['+ Posture: band pull-aparts + doorway stretch', '2 × 15 · 2 × 30s'],
                 ['+ Ankle finisher', '5 min'],
               ]}
-              note="Chest gets its whole week here, so the two presses are both heavy. Shoulder pressing waits until Friday — doing it today as well would leave your front delts and triceps tired for both days. Pressing pulls the shoulders forward, so the pull-aparts and doorway stretch balance it out."
+              note="The throw and the landmine punch press are the fight work: fast, full rest, stop the set when speed drops. Throw from your stance — back foot drives, hip turns, then the arm, exactly like a cross. Chest gets its whole week here, so the two presses are both heavy. Shoulder pressing waits until Friday — doing it today as well would leave your front delts and triceps tired for both days. Pressing pulls the shoulders forward, so the pull-aparts and doorway stretch balance it out."
             />
 
             <DayCard day="TUE" name="Kickboxing" focus="Your class — this is your conditioning" detailTab="recovery" setTab={setTab}
@@ -323,39 +344,43 @@ export default function Programs() {
                 ['Acceleration sprints', '4 × 20m'],
                 ['Trap bar deadlift', '4 × 5'],
                 ['Bulgarian split squat', '3 × 8/leg'],
-                ['Leg extension', '2 × 12-15'],
+                ['Cossack squat', '2 × 8/side'],
                 ['Nordic hamstring curl', '2 × 5'],
                 ['Calf raises (straight + bent knee)', '2 × 15 each'],
                 ['+ Posture: couch stretch + glute bridge', '2 × 45s/side · 2 × 12'],
                 ['+ Ankle finisher', '5 min'],
               ]}
-              note="Once a week means this session has to be hard: last sets 1-2 reps from failure, beat the logbook every week. Jumps and sprints BEFORE the lifting, never after. The leg extension is new — quads get less from football than glutes and hamstrings do."
+              note="Once a week means this session has to be hard: last sets 1-2 reps from failure, beat the logbook every week. Jumps and sprints BEFORE the lifting, never after. The Cossack squat is for kicks: strength at the bottom of a wide stance, adductor strength and the hip range a head-height kick needs."
             />
 
-            <DayCard day="THU" name="Pull" focus="Back, biceps and rear delts" detailTab="pull" setTab={setTab}
+            <DayCard day="THU" name="Pull" focus="Back, biceps — and clinch strength" detailTab="pull" setTab={setTab}
               exercises={[
                 ['Explosive pull-up', '3 × 3'],
                 ['Weighted pull-up', '4 × 6-8'],
                 ['Chest-supported row', '4 × 8-10'],
                 ['Face pull', '3 × 15'],
                 ['Incline DB curl', '3 × 10-12'],
-                ['Hammer curl', '2 × 12'],
+                ['Heavy farmer\'s carry', '3 × 30m'],
+                ['+ Neck: plate or harness flexion + extension', '2 × 15 each'],
                 ['+ Posture: prone Y-T-W + chin tucks', '2 × 10 · 2 × 10'],
                 ['+ Ankle finisher', '5 min'],
               ]}
+              note="The carry and the neck work are the fight part. Heavy carries build the grip, traps and trunk that win the clinch and let you move people; a stronger neck helps you hold your head steady when you take a shot. Go heavy on the carry — it should be hard to finish 30m."
             />
 
-            <DayCard day="FRI" name="Shoulders & Arms" focus="The Hemsworth day — width and arms" detailTab="push" setTab={setTab}
+            <DayCard day="FRI" name="Shoulders & Arms" focus="The Hemsworth day — width, arms and power" detailTab="push" setTab={setTab}
               exercises={[
+                ['Med ball overhead slam', '3 × 5'],
+                ['Push press', '3 × 5'],
                 ['Seated DB shoulder press', '3 × 8-10'],
                 ['Lateral raise', '4 × 12-20'],
-                ['Cable lateral raise (lean-away)', '2 × 15/side'],
                 ['Rear delt fly / reverse pec deck', '3 × 15'],
                 ['Overhead cable triceps extension', '3 × 10-12'],
                 ['Preacher or Bayesian cable curl', '3 × 10-12'],
+                ['+ Neck: plate or harness flexion + extension', '2 × 15 each'],
                 ['+ Posture: chin tucks + wall slides', '2 × 10 · 2 × 10'],
               ]}
-              note="About 50 minutes. Side delts get three hits a week (Monday, Friday twice over) because width is the biggest part of the look and they recover fast. Upper body only, so Saturday's game is unaffected. Friday is also the most likely night out — train first, and see Lean Bulk for the clubbing rules."
+              note="About 55 minutes. Slams and push press first, fresh and fast — the push press drives the bar with your legs, the same floor-to-hand power a punch uses. Side delts get two hits a week (Monday and Friday) because width is the biggest part of the look and they recover fast. Upper body only, so Saturday's game is unaffected. Friday is also the most likely night out — train first, and see Lean Bulk for the clubbing rules."
             />
 
             <div className="bg-gradient-to-br from-amber-500/12 to-[#111] border border-amber-500/30 rounded-2xl overflow-hidden">
@@ -539,7 +564,8 @@ export default function Programs() {
               tag="Chest, shoulders, triceps · explosive first"
               block="Bodybuilding day: 6-12 reps, 1-2 reps left in the tank on most sets, 90-120s rest on compounds and 60s on isolation. Take the last set of each isolation exercise to genuine failure."
               exercises={[
-                { name: 'Med ball chest pass', sets: '3 × 5', targets: 'Chest · shoulders · triceps — power', how: "Half-kneeling or standing a metre from a wall, ball at your chest. Throw it into the wall as hard as you physically can, catch, reset. Half-kneeling takes the legs out so the upper body does the work.", why: 'The explosive movement of the day and the reason it goes first. Pressing heavy builds the capacity; throwing hard is what teaches you to use it fast — which is what shrugging someone off a ball actually is.' },
+                { name: 'Med ball rotational shot-put throw', sets: '3 × 4/side', targets: 'Hips · obliques · chest · triceps — punching power', how: "Side-on to a wall in your fighting stance, 3-5kg ball held at your rear shoulder like a shot-put. Drive off the back foot, turn the hip, then the shoulder, and throw it into the wall as hard as you can. Catch, reset, full rest. Both sides.", why: 'This is a cross with a ball: floor, hip, trunk, then arm, in that order. Throwing it as hard as you can, fresh, trains the speed and sequencing that make a punch hit hard — bench press builds the engine, this teaches you to use it.' },
+                { name: 'Landmine punch press', sets: '3 × 6/side', targets: 'Chest · shoulders · triceps · obliques — explosive pressing', how: "Bar in a landmine or wedged in a corner. Stand in your stance holding the end at your rear shoulder. Drive it up and out explosively with one arm, turning the hip like a cross. Moderate weight, every rep fast.", why: 'Single-arm, from your stance, with rotation — it builds pressing strength in the same line a straight punch travels, and it works the side of the trunk that transfers force from your legs.' },
                 { name: 'Incline DB press', sets: '4 × 8-10', targets: 'Upper chest · front delts · triceps', how: "Bench at 30 degrees — steeper turns it into a shoulder press. Dumbbells start at chest level with wrists stacked over elbows. Lower under control until you feel a stretch across the upper chest, then press up and slightly together without clanging them. Shoulder blades pulled back and down into the bench the whole set.", why: 'Upper chest first while you are freshest — it is the region that most decides how a chest looks in clothes, and the one that lags when you always start flat.' },
                 { name: 'Seated DB shoulder press', sets: '4 × 8-10', targets: 'Front and side delts · triceps · upper traps', how: "Back supported, dumbbells starting at ear height with elbows slightly in front of the body rather than flared straight out to the sides. Press up and slightly in until they nearly touch. Do not lock out and rest at the top — keep tension and come straight back down.", why: 'Overhead pressing for front delt mass and overhead strength. Seated removes leg drive so the delts do the work.' },
                 { name: 'Weighted dips', sets: '3 × 8-10', targets: 'Lower chest · triceps · front delts', how: "Lean the torso forward about 30 degrees to bias the chest — staying upright shifts it to triceps. Lower until your upper arms are roughly parallel to the floor, no deeper if your shoulders complain. Elbows tucked in, not flaring wide. Add weight via a dip belt.", why: 'Lower chest and triceps under a big stretch. Lean forward about 30 degrees to bias the chest rather than sitting upright.' },
@@ -569,7 +595,7 @@ export default function Programs() {
                 { name: 'Chest-supported row', sets: '4 × 8-10', targets: 'Mid back · lats · rear delts', how: "Lie face-down on a bench set to about 30-45 degrees with a dumbbell in each hand (or use a chest-pad T-bar or machine row). Let the shoulder blades stretch forward at the bottom, then drive the elbows back toward your hips and squeeze for a beat. Chest stays on the pad the whole time — no heaving.", why: 'All of the back thickness of a barbell row with none of the lower-back load. A bent-over row two days after heavy deadlifts is the classic way to overload the lower back; this removes it.' },
                 { name: 'Face pulls', sets: '3 × 15-20', targets: 'Rear delts · external rotators · mid and lower traps', how: "Rope set at roughly face height. Pull the rope apart and toward your forehead, finishing with hands beside your ears and elbows high. Externally rotate at the end so your knuckles face the ceiling. Light weight and a two-second squeeze beats heavy.", why: 'Rear delts and external rotators. This is both a posture exercise and the thing that keeps your shoulders healthy under all the pressing.' },
                 { name: 'Incline DB curl', sets: '3 × 10-12', targets: 'Biceps — long head, under stretch', how: "Bench at 45-60 degrees, arms hanging straight down behind the body line — that stretch is the whole point of the exercise. Curl without letting the elbows drift forward, squeeze at the top, lower slowly to a full stretch.", why: 'Incline puts the biceps long head on stretch, which is where the growth is. Biceps also assist every pull and underhook.' },
-                { name: 'Hammer curl', sets: '3 × 12', targets: 'Brachialis · brachioradialis · forearms', how: "Neutral grip, palms facing each other, held throughout. Elbows fixed at your sides, no swinging. Curl to shoulder height and lower under control. The brachialis sits under the biceps and pushes it up, adding visible arm thickness.", why: 'Brachialis and forearm — arm thickness plus the grip strength that decides clinch battles.' },
+                { name: 'Heavy farmer\'s carry', sets: '3 × 30m', targets: 'Grip · forearms · traps · trunk — clinch strength', how: "Heaviest dumbbells or handles you can walk 30m with — tall, shoulders back, short quick steps, no leaning. Rest 2 minutes. Add weight when 30m feels controlled.", why: 'Grip and a rigid trunk decide the clinch: holding someone, pushing them and not being moved. It also builds thick forearms and traps, so it replaces the hammer curl rather than adding time.' },
               ]}
             />
             <Block title="Pull day notes" items={[
@@ -626,6 +652,7 @@ export default function Programs() {
                 { name: 'Trap bar deadlift', sets: '4 × 5', targets: 'Glutes · hamstrings · quads · spinal erectors · grip', how: "Stand inside the bar, feet hip-width. Hips slightly higher than a squat but lower than an RDL, chest up, lats tight, arms straight. Push the floor away rather than pulling with the back — the bar should leave the ground with your hips and chest rising together. Reset your brace between reps rather than bouncing them off the floor.", why: 'Your main strength lift. It loads the whole posterior chain plus the quads in one movement, with far less spinal cost than a conventional pull and less technical demand than a heavy squat — which is exactly what you want on a day that also has sprints in it.' },
                 { name: 'Bulgarian split squat', sets: '3 × 8/leg', targets: 'Quads · glutes · adductors · balance', how: "Rear foot on a bench behind you, front foot far enough forward that your front shin stays near vertical. Drop straight down until the back knee is just off the floor. More forward lean hits glutes, more upright hits quads. The front leg does everything — the back leg is only balance.", why: 'Football happens on one leg. Single-leg strength transfers more directly to cutting, kicking and planting than any bilateral lift.' },
                 { name: 'Nordic hamstring curl', sets: '2 × 5', targets: 'Hamstrings — eccentric strength', how: "Kneel with your ankles anchored under something solid or held by a partner. Body straight from knees to head, squeeze the glutes. Lower yourself forward as slowly as you possibly can, resisting the whole way, then catch with your hands and push back up. Even lowering 20-30 degrees under control is a working rep at the start.", why: 'The single most evidence-backed hamstring injury prevention exercise there is. Now only once a week rather than twice, so the extra sets here make up part of the difference — see the note below.' },
+                { name: 'Cossack squat', sets: '2 × 8/side', targets: 'Adductors · glutes · quads — kick range and lateral power', how: "Wide stance, sit down into one hip with the other leg straight and toes up. Heel down, chest tall, go only as deep as you control. Bodyweight first, then hold a dumbbell at your chest.", why: 'Kicks need strength at the end of your hip range, and strong adductors protect against the groin strains kickboxing and football both cause. It replaces the leg extension in the plan.' },
                 { name: 'Standing calf raise', sets: '2 × 12-15', targets: 'Gastrocnemius', how: "Balls of the feet on a raised edge, knees straight. Drop the heels for a full stretch, pause a beat at the bottom, then drive up onto the toes and hold the top for a second. Straight knees are what target the gastroc rather than the soleus.", why: 'Stiff, springy ankles are free speed and protect against rolled ankles. Pause at the top, full stretch at the bottom.' },
                 { name: 'Seated calf raise', sets: '2 × 12-15', targets: 'Soleus', how: "Seated with the pad over the knees, balls of the feet on the platform. Knees bent to 90 degrees is what shifts the work from the gastroc to the soleus. Full stretch at the bottom, hard squeeze at the top, slow throughout.", why: 'Seated targets the soleus, which the standing version misses. The soleus takes enormous load in running.' },
               ]}
