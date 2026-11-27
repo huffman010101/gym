@@ -9,6 +9,7 @@ import { Monitor, Archive, FlaskConical, Users, Shield, Dumbbell, Clock, KeyRoun
 import KnowYourself from '../components/KnowYourself';
 import MyNotes from '../components/MyNotes';
 import NinetyHard from '../components/NinetyHard';
+import { BEDROOM, BEDROOM_FIX } from '../data/bedroom';
 import { PEOPLE_NOTES, CONFIDENCE_NOTES, LIFE_MAXING, DISCIPLINE_NOTES, MEDITATION_NOTES, GAME_NOTES, type NoteGroup } from '../data/docNotes';
 
 type Tab = 'him' | 'notes' | 'know' | 'social' | 'confidence' | 'discipline' | 'routine' | 'secret';
@@ -859,6 +860,17 @@ export default function Mind() {
               ['Slow is the skill', 'Build for longer than feels necessary, read her body, check in. Protection every time until exclusive and tested.'],
               ['After', 'Stay close, no phone-grab, make sure she gets home safe, and a warm text the next day.'],
             ]} />
+            <div className="bg-[#111] border border-pink-500/25 rounded-2xl p-4" data-testid="bedroom">
+              <p className="font-hud text-[11px] font-bold uppercase tracking-[0.2em] text-pink-300 mb-2">In the bedroom — the short version</p>
+              <ul className="space-y-1.5">
+                {BEDROOM_FIX.map(t => <li key={t} className="text-sm text-gray-200 leading-relaxed flex gap-2"><span className="text-pink-400 flex-shrink-0">▸</span>{t}</li>)}
+              </ul>
+            </div>
+            {BEDROOM.map(g => (
+              <GFold key={g.title} title={g.title} tag={g.tag}>
+                <GPairs items={g.items} />
+              </GFold>
+            ))}
             <Card icon={Compass} title="Getting a girlfriend" items={[
               ['You are choosing too', 'How she treats waiters, whether she asks about you, whether she flakes, how she talks about exes.'],
               ['Consistency is the courtship', 'A date a week, planned by you, getting deeper each time.'],
