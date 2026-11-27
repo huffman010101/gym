@@ -123,6 +123,10 @@ day — after kickboxing, 72h before Saturday's game), Thu Pull, Fri Shoulders &
 day), Sat football, Sun rest. `todaysSession()` in whoop.ts and the `day` on each LiftTracker lift mirror
 it, so change all three together. Mobility and posture are ONE daily routine on the `posture` page
 (`?tab=mobility` aliases to it); the lifting days keep their own two-move posture finishers on top.
+Fight power is built into the lifting days, not a separate session: Mon rotational med ball shot-put + landmine
+punch press, Wed Cossack squat (replaced leg extension), Thu heavy farmer's carry (replaced hammer curl) + neck,
+Fri overhead slam + push press first + neck. Power work always goes first, 3-5 fast reps, full rest. The theory
+lives in Combat → Strength & Power (`/combat?tab=gym`); The Plan links there rather than repeating it.
 
 ### Look, measures and the meal plan
 
@@ -217,7 +221,7 @@ silently destroys any content containing a stray `<`, e.g. "PED < 1".
 
 ### Offline / service worker
 
-`public/sw.js` (cache `gymforge-v72`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
+`public/sw.js` (cache `gymforge-v73`) precaches the app shell. **Bump `CACHE` on any release the user must actually receive** — devices pinned to an old build otherwise keep serving stale hashed JS, which has already caused one "you didn't fix it" round trip. Vite content-hashes filenames, so the
 asset list can only be known post-build — `scripts/inject-sw-precache.mjs` injects it into
 `dist/sw.js`. Any change to the build output pipeline needs that script to still run last.
 
